@@ -2,18 +2,8 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="page-content">
+<div class="page-content" id="app">
     <div class="container-fluid">
-
-        <div class="row">
-            <div id="app">
-                <home>
-                    Carregando
-                </home>
-            </div>
-        </div>
-
-
         <div class="row">
             <div class="col-xl-6">
                 <div class="chart-statistic-box">
@@ -72,54 +62,12 @@
             </div><!--.col-->
             <div class="col-xl-6">
                 <div class="row">
-                    <div class="col-sm-6">
-                        <article class="statistic-box red">
-                            <div>
-                                <div class="number">26</div>
-                                <div class="caption"><div>Open tickets</div></div>
-                                <div class="percent">
-                                    <div class="arrow up"></div>
-                                    <p>15%</p>
-                                </div>
-                            </div>
-                        </article>
-                    </div><!--.col-->
-                    <div class="col-sm-6">
-                        <article class="statistic-box purple">
-                            <div>
-                                <div class="number">12</div>
-                                <div class="caption"><div>Closes tickets</div></div>
-                                <div class="percent">
-                                    <div class="arrow down"></div>
-                                    <p>11%</p>
-                                </div>
-                            </div>
-                        </article>
-                    </div><!--.col-->
-                    <div class="col-sm-6">
-                        <article class="statistic-box yellow">
-                            <div>
-                                <div class="number">104</div>
-                                <div class="caption"><div>New clients</div></div>
-                                <div class="percent">
-                                    <div class="arrow down"></div>
-                                    <p>5%</p>
-                                </div>
-                            </div>
-                        </article>
-                    </div><!--.col-->
-                    <div class="col-sm-6">
-                        <article class="statistic-box green">
-                            <div>
-                                <div class="number">29</div>
-                                <div class="caption"><div>Here is an example of a long name</div></div>
-                                <div class="percent">
-                                    <div class="arrow up"></div>
-                                    <p>84%</p>
-                                </div>
-                            </div>
-                        </article>
-                    </div><!--.col-->
+                    
+                    <order-approved></order-approved>
+                    <order-canceled></order-canceled>
+                    <order-done></order-done>
+                    <order-pending></order-pending>
+    
                 </div><!--.row-->
             </div><!--.col-->
         </div><!--.row-->

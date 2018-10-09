@@ -13,12 +13,19 @@ window.Vue = require('vue');
  */
 
 
-import ExampleComponent from './components/Home'
+
+import OrderApproved from './../../shareds/statistics/box/OrderApproved'
+import OrderCanceled from './../../shareds/statistics/box/OrderCanceled'
+import OrderDone from './../../shareds/statistics/box/OrderDone'
+import OrderPending from './../../shareds/statistics/box/OrderPending'
 
 
 const app = new Vue({
     el: '#app',
     components: {
-        'home': ExampleComponent
+        'order-approved': OrderApproved,
+        'order-canceled': OrderCanceled,
+        'order-done': OrderDone,
+        'order-pending': OrderPending
     }
 });
