@@ -37,7 +37,9 @@
 
 	@include('layouts.default.tasks')
 
-	@include('layouts.default.scriptsbody')
+	@component('layouts.default.body_scripts')
+		@yield('scripts')
+	@endcomponent
 
 	<!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>

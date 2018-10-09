@@ -4,12 +4,22 @@
 @section('content')
 <div class="page-content">
     <div class="container-fluid">
+
+        <div class="row">
+            <div id="app">
+                <home>
+                    Carregando
+                </home>
+            </div>
+        </div>
+
+
         <div class="row">
             <div class="col-xl-6">
                 <div class="chart-statistic-box">
                     <div class="chart-txt">
                         <div class="chart-txt-top">
-                            <p><span class="unit">$</span><span class="number">1540</span></p>
+                            <p><span class="unit">$</span><span class="number">1541</span></p>
                             <p class="caption">Week income</p>
                         </div>
                         <table class="tbl-data">
@@ -474,4 +484,15 @@
         </div>
     </div><!--.container-fluid-->
 </div><!--.page-content-->
+@endsection
+
+@section('scripts')
+
+    <script src="/js/home.js"></script>
+    <script type="text/javascript" src="js/lib/jqueryui/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="js/lib/lobipanel/lobipanel.min.js"></script>
+    <script type="text/javascript" src="js/lib/match-height/jquery.matchHeight.min.js"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script src="/js/home-custom.js"></script>
+
 @endsection
