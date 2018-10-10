@@ -154,11 +154,11 @@ return [
         /*
          * Application Service Providers...
          */
-        App\Providers\AppServiceProvider::class,
-        App\Providers\AuthServiceProvider::class,
-        // App\Providers\BroadcastServiceProvider::class,
-        App\Providers\EventServiceProvider::class,
-        App\Providers\RouteServiceProvider::class,
+        VoceCrianca\Providers\AppServiceProvider::class,
+        VoceCrianca\Providers\AuthServiceProvider::class,
+        // VoceCrianca\Providers\BroadcastServiceProvider::class,
+        VoceCrianca\Providers\EventServiceProvider::class,
+        VoceCrianca\Providers\RouteServiceProvider::class,
 
     ],
 

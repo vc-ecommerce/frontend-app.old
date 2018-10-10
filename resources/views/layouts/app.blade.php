@@ -28,9 +28,6 @@
 <body class="with-side-menu control-panel control-panel-compact">
 
 	@include('layouts.default.header')
-
-	<div class="mobile-menu-left-overlay"></div>
-
 	@include('layouts.default.sidebar')
 
 	@yield('content')
@@ -42,6 +39,7 @@
 	@endcomponent
 
 	<!-- Scripts -->
+    <script src="{{ asset('js/app-components.js') }}"></script>
     <script src="{{ asset('js/app.js') }}"></script>
 
 </body>
