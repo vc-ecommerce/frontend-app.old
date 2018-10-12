@@ -37,7 +37,7 @@
                         <a href="#" class="mess-item">
                             <span class="avatar-preview avatar-preview-32"><img src="/img/photo-64-2.jpg"
                                                                                 alt=""></span>
-                            <span class="mess-item-name">Tim Collins</span>
+                            <span class="mess-item-name">{{ title }}</span>
                             <span class="mess-item-txt">Morgan was bothering about something!</span>
                         </a>
                         <a href="#" class="mess-item">
@@ -96,5 +96,20 @@
     </div>
 </template>
 <script>
-    export default {}
+    export default {
+
+        data: function() {
+            return {
+                title: '',
+            }
+        },
+
+        mounted() {
+
+            this.$store.commit('setItem', {data: 'Jovem Pan'});
+            this.title = this.$store.state.item.data;
+
+        }
+
+    }
 </script>

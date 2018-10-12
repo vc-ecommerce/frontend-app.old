@@ -22,7 +22,7 @@ import Contacts from './components/box-panel/Contacts'
 import SaleWeek from './components/statistics/chart/SaleWeek'
 
 const app = new Vue({
-    el: '#home',
+    el: '#content',
     components: {
     	'sale-week': SaleWeek,
         'order-approved': OrderApproved,
@@ -32,5 +32,8 @@ const app = new Vue({
         'order-recent': OrderRecent,
         'recent-comments': RecentComments,
         'contacts': Contacts,
+    },
+    mounted: function() {
+        document.getElementById('content').style.display='block';
     }
 });

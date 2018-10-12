@@ -21,7 +21,7 @@ mix.copyDirectory('resources/themes/startui/build/css', 'public/css')
     .copyDirectory('resources/themes/startui/build/js', 'public/js')
     .copyDirectory('resources/themes/startui/build/fonts', 'public/fonts')
 
-mix.js('resources/assets/js/components/app-components.js', 'public/js/app-components.js')
+mix.js('resources/assets/js/components/bootstrap.js', 'public/js/bootstrap.js')
 	.js('resources/assets/js/components/pages/home/custom.js', 'public/js/home-custom.js')
 	.js('resources/assets/js/components/pages/home/app.js', 'public/js/home.js')
 

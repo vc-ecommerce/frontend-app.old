@@ -26,11 +26,13 @@
     <link rel="stylesheet" href="css/main.css">
 </head>
 <body class="with-side-menu control-panel control-panel-compact">
-
+	
 	@include('layouts.default.header')
 	@include('layouts.default.sidebar')
-
-	@yield('content')
+	
+	<div id="content" style="display: none;">		
+		@yield('content')
+	</div>
 
 	@include('layouts.default.tasks')
 
@@ -39,7 +41,7 @@
 	@endcomponent
 
 	<!-- Scripts -->
-    <script src="{{ asset('js/app-components.js') }}"></script>
+    <script src="{{ asset('js/bootstrap.js') }}"></script>
     <script src="{{ asset('js/app.js') }}"></script>
 
 </body>

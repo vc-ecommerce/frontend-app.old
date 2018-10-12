@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="page-content" id="home">
+<div class="page-content">
     <div class="container-fluid">
         <div class="row">
             <div class="col-xl-6">
