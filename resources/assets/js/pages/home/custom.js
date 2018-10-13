@@ -1,16 +1,3 @@
-webpackJsonp([3],{
-
-/***/ 94:
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = __webpack_require__(95);
-
-
-/***/ }),
-
-/***/ 95:
-/***/ (function(module, exports) {
-
 $(document).ready(function () {
   $('.panel').each(function () {
     try {
@@ -19,10 +6,11 @@ $(document).ready(function () {
       }).on('dragged.lobiPanel', function (ev, lobiPanel) {
         $('.dahsboard-column').matchHeight();
       });
-    } catch (err) {}
+    } catch (err) {
+    }
   });
 
-  google.charts.load('current', { 'packages': ['corechart'] });
+  google.charts.load('current', {'packages': ['corechart']});
   google.charts.setOnLoadCallback(drawChart);
 
   function drawChart() {
@@ -30,8 +18,18 @@ $(document).ready(function () {
     dataTable.addColumn('string', 'Day');
     dataTable.addColumn('number', 'Values');
     // A column for custom tooltip content
-    dataTable.addColumn({ type: 'string', role: 'tooltip', 'p': { 'html': true } });
-    dataTable.addRows([['MON', 130, ' '], ['TUE', 130, '130'], ['WED', 180, '180'], ['THU', 175, '175'], ['FRI', 200, '200'], ['SAT', 170, '170'], ['SUN', 250, '250'], ['MON', 220, '220'], ['TUE', 220, ' ']]);
+    dataTable.addColumn({type: 'string', role: 'tooltip', 'p': {'html': true}});
+    dataTable.addRows([
+      ['MON', 130, ' '],
+      ['TUE', 130, '130'],
+      ['WED', 180, '180'],
+      ['THU', 175, '175'],
+      ['FRI', 200, '200'],
+      ['SAT', 170, '170'],
+      ['SUN', 250, '250'],
+      ['MON', 220, '220'],
+      ['TUE', 220, ' ']
+    ]);
 
     var options = {
       height: 314,
@@ -74,7 +72,7 @@ $(document).ready(function () {
       pointFillColor: '#f00',
       backgroundColor: {
         fill: '#008ffb',
-        strokeWidth: 0
+        strokeWidth: 0,
       },
       chartArea: {
         left: 0,
@@ -96,10 +94,7 @@ $(document).ready(function () {
 
   $(window).resize(function () {
     drawChart();
-    setTimeout(function () {}, 1000);
+    setTimeout(function () {
+    }, 1000);
   });
 });
-
-/***/ })
-
-},[94]);
