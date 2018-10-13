@@ -437,7 +437,7 @@ var __vue_template_functional__ = false
 /* styles */
 var __vue_styles__ = injectStyle
 /* scopeId */
-var __vue_scopeId__ = "data-v-8a42e088"
+var __vue_scopeId__ = "data-v-62b87726"
 /* moduleIdentifier (server only) */
 var __vue_module_identifier__ = null
 var Component = normalizeComponent(
@@ -448,7 +448,7 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "resources/assets/js/shareds/StatisticBoxHelper.vue"
+Component.options.__file = "resources/assets/js/components/layouts/StatisticBoxHelper.vue"
 
 /* hot reload */
 if (false) {(function () {
@@ -457,9 +457,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-8a42e088", Component.options)
+    hotAPI.createRecord("data-v-62b87726", Component.options)
   } else {
-    hotAPI.reload("data-v-8a42e088", Component.options)
+    hotAPI.reload("data-v-62b87726", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true
@@ -491,7 +491,7 @@ var __vue_template_functional__ = false
 /* styles */
 var __vue_styles__ = injectStyle
 /* scopeId */
-var __vue_scopeId__ = "data-v-ffea8eec"
+var __vue_scopeId__ = "data-v-f278be40"
 /* moduleIdentifier (server only) */
 var __vue_module_identifier__ = null
 var Component = normalizeComponent(
@@ -502,7 +502,7 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "resources/assets/js/shareds/BoxTypicalPanelHelper.vue"
+Component.options.__file = "resources/assets/js/components/layouts/BoxTypicalPanelHelper.vue"
 
 /* hot reload */
 if (false) {(function () {
@@ -511,9 +511,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-ffea8eec", Component.options)
+    hotAPI.createRecord("data-v-f278be40", Component.options)
   } else {
-    hotAPI.reload("data-v-ffea8eec", Component.options)
+    hotAPI.reload("data-v-f278be40", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true
@@ -808,8 +808,8 @@ module.exports = function listToStyles (parentId, list) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__shareds_StatisticBoxHelper__ = __webpack_require__(4);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__shareds_StatisticBoxHelper___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__shareds_StatisticBoxHelper__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_layouts_StatisticBoxHelper__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_layouts_StatisticBoxHelper___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__components_layouts_StatisticBoxHelper__);
 //
 //
 //
@@ -829,7 +829,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
-    'statistic': __WEBPACK_IMPORTED_MODULE_0__shareds_StatisticBoxHelper___default.a
+    'statistic': __WEBPACK_IMPORTED_MODULE_0__components_layouts_StatisticBoxHelper___default.a
   },
   props: [],
   mounted: function mounted() {},
@@ -852,13 +852,13 @@ var content = __webpack_require__(104);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(3)("66bfe1d0", content, false, {});
+var update = __webpack_require__(3)("33b97a15", content, false, {});
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
  if(!content.locals) {
-   module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-8a42e088\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./StatisticBoxHelper.vue", function() {
-     var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-8a42e088\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./StatisticBoxHelper.vue");
+   module.hot.accept("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-62b87726\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./StatisticBoxHelper.vue", function() {
+     var newContent = require("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-62b87726\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./StatisticBoxHelper.vue");
      if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
      update(newContent);
    });
@@ -876,7 +876,7 @@ exports = module.exports = __webpack_require__(2)(false);
 
 
 // module
-exports.push([module.i, "\n.statistic-box[data-v-8a42e088] {\n  color: #fff;\n}\n", ""]);
+exports.push([module.i, "\n.statistic-box[data-v-62b87726] {\n  color: #fff;\n}\n", ""]);
 
 // exports
 
@@ -942,7 +942,7 @@ module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-8a42e088", module.exports)
+    require("vue-hot-reload-api")      .rerender("data-v-62b87726", module.exports)
   }
 }
 
@@ -1071,8 +1071,8 @@ exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__shareds_StatisticBoxHelper__ = __webpack_require__(4);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__shareds_StatisticBoxHelper___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__shareds_StatisticBoxHelper__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_layouts_StatisticBoxHelper__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_layouts_StatisticBoxHelper___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__components_layouts_StatisticBoxHelper__);
 //
 //
 //
@@ -1092,7 +1092,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
-    'statistic': __WEBPACK_IMPORTED_MODULE_0__shareds_StatisticBoxHelper___default.a
+    'statistic': __WEBPACK_IMPORTED_MODULE_0__components_layouts_StatisticBoxHelper___default.a
   },
   props: [],
   mounted: function mounted() {},
@@ -1229,8 +1229,8 @@ exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__shareds_StatisticBoxHelper__ = __webpack_require__(4);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__shareds_StatisticBoxHelper___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__shareds_StatisticBoxHelper__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_layouts_StatisticBoxHelper__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_layouts_StatisticBoxHelper___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__components_layouts_StatisticBoxHelper__);
 //
 //
 //
@@ -1250,7 +1250,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
-    'statistic': __WEBPACK_IMPORTED_MODULE_0__shareds_StatisticBoxHelper___default.a
+    'statistic': __WEBPACK_IMPORTED_MODULE_0__components_layouts_StatisticBoxHelper___default.a
   },
   props: [],
   mounted: function mounted() {},
@@ -1387,8 +1387,8 @@ exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__shareds_StatisticBoxHelper__ = __webpack_require__(4);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__shareds_StatisticBoxHelper___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__shareds_StatisticBoxHelper__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_layouts_StatisticBoxHelper__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_layouts_StatisticBoxHelper___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__components_layouts_StatisticBoxHelper__);
 //
 //
 //
@@ -1408,7 +1408,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
-    'statistic': __WEBPACK_IMPORTED_MODULE_0__shareds_StatisticBoxHelper___default.a
+    'statistic': __WEBPACK_IMPORTED_MODULE_0__components_layouts_StatisticBoxHelper___default.a
   },
   props: [],
   mounted: function mounted() {},
@@ -1545,8 +1545,8 @@ exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__shareds_BoxTypicalPanelHelper__ = __webpack_require__(8);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__shareds_BoxTypicalPanelHelper___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__shareds_BoxTypicalPanelHelper__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_layouts_BoxTypicalPanelHelper__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_layouts_BoxTypicalPanelHelper___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__components_layouts_BoxTypicalPanelHelper__);
 //
 //
 //
@@ -1645,7 +1645,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
-    'box-panel': __WEBPACK_IMPORTED_MODULE_0__shareds_BoxTypicalPanelHelper___default.a
+    'box-panel': __WEBPACK_IMPORTED_MODULE_0__components_layouts_BoxTypicalPanelHelper___default.a
   },
   props: [],
   mounted: function mounted() {
@@ -1682,13 +1682,13 @@ var content = __webpack_require__(128);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(3)("54d139be", content, false, {});
+var update = __webpack_require__(3)("7a695497", content, false, {});
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
  if(!content.locals) {
-   module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-ffea8eec\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./BoxTypicalPanelHelper.vue", function() {
-     var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-ffea8eec\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./BoxTypicalPanelHelper.vue");
+   module.hot.accept("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-f278be40\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./BoxTypicalPanelHelper.vue", function() {
+     var newContent = require("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-f278be40\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./BoxTypicalPanelHelper.vue");
      if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
      update(newContent);
    });
@@ -1780,7 +1780,7 @@ module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-ffea8eec", module.exports)
+    require("vue-hot-reload-api")      .rerender("data-v-f278be40", module.exports)
   }
 }
 
@@ -2107,8 +2107,8 @@ exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__shareds_BoxTypicalPanelHelper__ = __webpack_require__(8);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__shareds_BoxTypicalPanelHelper___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__shareds_BoxTypicalPanelHelper__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_layouts_BoxTypicalPanelHelper__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_layouts_BoxTypicalPanelHelper___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__components_layouts_BoxTypicalPanelHelper__);
 //
 //
 //
@@ -2167,7 +2167,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
-    'box-panel': __WEBPACK_IMPORTED_MODULE_0__shareds_BoxTypicalPanelHelper___default.a
+    'box-panel': __WEBPACK_IMPORTED_MODULE_0__components_layouts_BoxTypicalPanelHelper___default.a
   },
   props: [],
   mounted: function mounted() {
@@ -2384,8 +2384,8 @@ exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__shareds_BoxTypicalPanelHelper__ = __webpack_require__(8);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__shareds_BoxTypicalPanelHelper___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__shareds_BoxTypicalPanelHelper__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_layouts_BoxTypicalPanelHelper__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_layouts_BoxTypicalPanelHelper___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__components_layouts_BoxTypicalPanelHelper__);
 //
 //
 //
@@ -2526,7 +2526,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
-    'box-panel': __WEBPACK_IMPORTED_MODULE_0__shareds_BoxTypicalPanelHelper___default.a
+    'box-panel': __WEBPACK_IMPORTED_MODULE_0__components_layouts_BoxTypicalPanelHelper___default.a
   },
   props: [],
   mounted: function mounted() {

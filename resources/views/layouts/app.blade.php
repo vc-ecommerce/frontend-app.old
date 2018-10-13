@@ -26,11 +26,11 @@
     <link rel="stylesheet" href="css/main.css">
 </head>
 <body class="with-side-menu control-panel control-panel-compact">
-	
+
 	@include('layouts.default.header')
 	@include('layouts.default.sidebar')
-	
-	<div id="content" style="display: none;">		
+
+	<div id="content" style="display: none;">
 		@yield('content')
 	</div>
 
@@ -41,8 +41,8 @@
 	@endcomponent
 
 	<!-- Scripts -->
-    <script src="{{ asset('js/bootstrap.js') }}"></script>
-    <script src="{{ asset('js/app.js') }}"></script>
+  <script src="{{ asset('js/app.js') }}"></script>
+  <script src="{{ asset('js/commons.js') }}"></script>
 
 </body>
 </html>

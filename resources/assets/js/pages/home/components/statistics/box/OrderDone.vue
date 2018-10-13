@@ -13,7 +13,7 @@
 
 <script>
 
-  import Statistic from './../../../../../shareds/StatisticBoxHelper'
+  import Statistic from './../../../../../components/layouts/StatisticBoxHelper'
 
   export default {
     components: {

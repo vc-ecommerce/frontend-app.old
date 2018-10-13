@@ -19,9 +19,9 @@ const mix = require('laravel-mix');
 mix.copyDirectory('resources/themes/startui/build/css', 'public/css')
     .copyDirectory('resources/themes/startui/build/img', 'public/img')
     .copyDirectory('resources/themes/startui/build/js', 'public/js')
-    .copyDirectory('resources/themes/startui/build/fonts', 'public/fonts')
+    .copyDirectory('resources/themes/startui/build/fonts', 'public/fonts');
 
-mix.js('resources/assets/js/bootstrap.js', 'public/js/bootstrap.js')
+mix.js('resources/assets/js/app.js', 'public/js/app.js')
 	.js('resources/assets/js/pages/home/custom.js', 'public/js/home-custom.js')
 	.js('resources/assets/js/pages/home/app.js', 'public/js/home.js')
 

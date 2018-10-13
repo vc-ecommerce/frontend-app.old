@@ -12,9 +12,9 @@ window.Vue = require('vue');
 
 import store from './stores/store';
 
-import SiteHeader from './shareds/header/SiteHeader';
-import SideMenuDefault from './shareds/sidebar/SideMenuDefault';
-import SideMenuPanelContainer from './shareds/sidebar/SideMenuPanelContainer';
+import SiteHeader from './components/layouts/header/SiteHeader';
+import SideMenuDefault from './components/layouts/sidebar/SideMenuDefault';
+import SideMenuPanelContainer from './components/layouts/sidebar/SideMenuPanelContainer';
 
 new Vue({
   el: '#site-header',

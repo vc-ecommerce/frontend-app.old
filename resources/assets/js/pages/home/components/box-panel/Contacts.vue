@@ -134,7 +134,7 @@
 </template>
 
 <script>
-  import BoxTypical from './../../../../shareds/BoxTypicalPanelHelper';
+  import BoxTypical from './../../../../components/layouts/BoxTypicalPanelHelper';
 
   export default {
     components: {
