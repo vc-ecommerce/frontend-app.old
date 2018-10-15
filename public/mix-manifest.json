@@ -1,6 +1,6 @@
 {
-    "/js/vue-app.js": "/js/vue-app.js",
     "/js/home.js": "/js/home.js",
+    "/js/vue-app.js": "/js/vue-app.js",
     "/js/vendor.js": "/js/vendor.js",
     "/js/home-custom.js": "/js/home-custom.js",
     "/js/manifest.js": "/js/manifest.js"

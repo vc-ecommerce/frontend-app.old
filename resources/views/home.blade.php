@@ -5,14 +5,14 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-xl-6">
-                <sale-week></sale-week>
+                <chart-sale-week></chart-sale-week>
             </div><!--.col-->
             <div class="col-xl-6">
                 <div class="row">
                     <order-approved></order-approved>
                     <order-canceled></order-canceled>
                     <order-done></order-done>
-                    <order-pending></order-pending>    
+                    <order-pending></order-pending>
                 </div><!--.row-->
             </div><!--.col-->
         </div><!--.row-->
@@ -25,7 +25,7 @@
                 <recent-comments></recent-comments>
             </div><!--.col-->
             <div class="col-xl-12 dahsboard-column">
-                <contacts></contacts>
+                <recent-contacts></recent-contacts>
             </div><!--.col-->
         </div>
     </div><!--.container-fluid-->

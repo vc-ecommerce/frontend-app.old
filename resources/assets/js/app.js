@@ -1,13 +1,4 @@
-axios = require('axios');
-
-window.Vue = require('vue');
-
-
-
-// //Vue.config.productionTip = false
-// Vue.prototype.$http = axios;
-// Vue.prototype.$urlAPI = 'http://api.vocecrianca.site/';
-
+require('./bootstrap')
 
 import store from './stores/store';
 
@@ -34,5 +25,14 @@ const appThree = new Vue({
   el: '#vue-sidebar-menu-right',
   components: {
     SidebarMenuRight,
-  }
+  },
+  created() {
+
+    this.$http.get(`${this.$urlAPI}admin/users/5bbe02eda2a093000d15bfd8`)
+      .then(res => {
+        console.log(res.data);
+      }).catch(function (error) {
+        console.log(error);
+      });
+  },
 });

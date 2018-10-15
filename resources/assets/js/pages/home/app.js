@@ -1,3 +1,5 @@
+require('./../../bootstrap')
+
 import ChartSaleWeek from './components/ChartSaleWeek'
 import OrderApproved from './components/OrderApproved'
 import OrderCanceled from './components/OrderCanceled'
@@ -5,7 +7,7 @@ import OrderDone from './components/OrderDone'
 import OrderPending from './components/OrderPending'
 import OrderRecent from './components/OrderRecent'
 import RecentComments from './components/RecentComments'
-import Contacts from './components/Contacts'
+import RecentContacts from './components/RecentContacts'
 
 const app = new Vue({
   el: '#content',
@@ -17,7 +19,7 @@ const app = new Vue({
     OrderPending,
     OrderRecent,
     RecentComments,
-    Contacts,
+    RecentContacts,
   },
   mounted: function () {
     document.getElementById('content').style.display = 'block';

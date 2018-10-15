@@ -163,7 +163,7 @@ import Article from "./../../../components/layouts/Article";
 import Grid from "./../../../components/layouts/Grid";
 
 export default {
-  name: 'Contacts',
+  name: 'RecentContacts',
   components: {
     Panel,
     Article,

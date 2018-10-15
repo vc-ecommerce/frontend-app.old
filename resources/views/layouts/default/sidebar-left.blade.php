@@ -1,3 +1,3 @@
 <div id="vue-sidebar-menu-left">
-	<SidebarMenuLeft />
+	<sidebar-menu-left />
 </div>
