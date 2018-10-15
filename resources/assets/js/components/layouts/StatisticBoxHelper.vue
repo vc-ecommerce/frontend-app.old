@@ -7,32 +7,31 @@
 </template>
 
 <script>
-  export default {
-    props: {
-      color: {
-        type: String
-      },
-      sizeColSM: {
-        type: Number,
-        default: 6
-      }
+export default {
+  props: {
+    color: {
+      type: String
     },
-    mounted() {
-    },
-    data() {
-      return {};
-    },
-    methods: {},
-    computed: {
-      defineSizeSM() {
-        return "col-sm-" + this.sizeColSM;
-      }
+    sizeColSM: {
+      type: Number,
+      default: 6
     }
-  };
+  },
+  mounted() {},
+  data() {
+    return {};
+  },
+  methods: {},
+  computed: {
+    defineSizeSM() {
+      return "col-sm-" + this.sizeColSM;
+    }
+  }
+};
 </script>
 
 <style scoped>
-  .statistic-box {
-    color: #fff;
-  }
+.statistic-box {
+  color: #fff;
+}
 </style>

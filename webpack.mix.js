@@ -16,12 +16,12 @@ const mix = require('laravel-mix');
 
 
 //mix.copy('resources/themes/startui/build/css/custom.css', 'public/css/custom.css');
-mix.copyDirectory('resources/themes/startui/build/css', 'public/css')
-    .copyDirectory('resources/themes/startui/build/img', 'public/img')
-    .copyDirectory('resources/themes/startui/build/js', 'public/js')
-    .copyDirectory('resources/themes/startui/build/fonts', 'public/fonts');
+mix.copyDirectory('resources/themes/startuiadmin/build/css', 'public/css')
+    .copyDirectory('resources/themes/startuiadmin/build/img', 'public/img')
+    .copyDirectory('resources/themes/startuiadmin/build/js', 'public/js')
+    .copyDirectory('resources/themes/startuiadmin/build/fonts', 'public/fonts');
 
-mix.js('resources/assets/js/app.js', 'public/js/app.js')
+mix.js('resources/assets/js/vue-app.js', 'public/js/vue-app.js')
 	.js('resources/assets/js/pages/home/custom.js', 'public/js/home-custom.js')
 	.js('resources/assets/js/pages/home/app.js', 'public/js/home.js')
 

@@ -15,17 +15,20 @@
   </div>
 </template>
 <script>
-  export default {
-    props: {
-      profile: {
-        type: String,
-        default: 'Perfil'
-      }
-    },
-    methods: {
-      switchProfile() {
-        return this.profile.split("").reverse().join("");
-      }
+export default {
+  props: {
+    profile: {
+      type: String,
+      default: "Perfil"
+    }
+  },
+  methods: {
+    switchProfile() {
+      return this.profile
+        .split("")
+        .reverse()
+        .join("");
     }
   }
+};
 </script>

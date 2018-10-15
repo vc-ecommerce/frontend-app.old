@@ -12,25 +12,21 @@
 </template>
 
 <script>
+import Statistic from "./../../../../../components/layouts/StatisticBoxHelper";
 
-  import Statistic from './../../../../../components/layouts/StatisticBoxHelper'
-
-  export default {
-    components: {
-      'statistic': Statistic
-    },
-    props: [],
-    mounted() {
-
-    },
-    data() {
-      return {}
-    },
-    methods: {},
-    computed: {}
-  }
+export default {
+  components: {
+    statistic: Statistic
+  },
+  props: [],
+  mounted() {},
+  data() {
+    return {};
+  },
+  methods: {},
+  computed: {}
+};
 </script>
 
 <style scoped>
-
 </style>

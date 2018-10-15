@@ -10,29 +10,30 @@
     <menu-up-plan></menu-up-plan>
   </span>
 </template>
+
 <script>
+import MenuSales from "./MenuSales";
+import MenuUser from "./MenuUser";
+import MenuHelp from "./MenuHelp";
+import MenuAdd from "./MenuAdd";
+import MenuProject from "./MenuProject";
+import MenuFormBuilder from "./MenuFormBuilder";
+import MenuSocialMedia from "./MenuSocialMedia";
+import MenuConfig from "./MenuConfig";
+import MenuUpPlan from "./MenuUpPlan";
 
-  import MenuSales from "./MenuSales";
-  import MenuUser from "./MenuUser";
-  import MenuHelp from "./MenuHelp";
-  import MenuAdd from "./MenuAdd";
-  import MenuProject from "./MenuProject";
-  import MenuFormBuilder from "./MenuFormBuilder";
-  import MenuSocialMedia from "./MenuSocialMedia";
-  import MenuConfig from "./MenuConfig";
-  import MenuUpPlan from "./MenuUpPlan";
-
-  export default {
-    components: {
-      "menu-sales": MenuSales,
-      "menu-user": MenuUser,
-      "menu-add": MenuAdd,
-      "menu-help": MenuHelp,
-      "menu-project": MenuProject,
-      "menu-form-builder": MenuFormBuilder,
-      "menu-social-media": MenuSocialMedia,
-      "menu-config": MenuConfig,
-      "menu-up-plan": MenuUpPlan
-    }
-  };
+export default {
+  name: "MenuHeader",
+  components: {
+    MenuSales,
+    MenuUser,
+    MenuAdd,
+    MenuHelp,
+    MenuProject,
+    MenuFormBuilder,
+    MenuSocialMedia,
+    MenuConfig,
+    MenuUpPlan
+  }
+};
 </script>

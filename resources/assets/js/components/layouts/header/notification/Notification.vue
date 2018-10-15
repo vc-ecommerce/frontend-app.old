@@ -1,17 +1,18 @@
 <template>
-    <span>
-        <notification-notif/>
-        <notification-messages/>
-    </span>
+  <span>
+    <notifications-notif></notifications-notif>
+    <notifications-messages></notifications-messages>
+  </span>
 </template>
 <script>
-  import NotificationsNotif from './NotificationsNotif';
-  import NotificationsMessages from './NotificationsMessages';
+import NotificationsNotif from "./NotificationsNotif";
+import NotificationsMessages from "./NotificationsMessages";
 
-  export default {
-    components: {
-      'notification-notif': NotificationsNotif,
-      'notification-messages': NotificationsMessages
-    }
+export default {
+  name: 'Notification',
+  components: {
+    NotificationsNotif,
+    NotificationsMessages,
   }
+};
 </script>

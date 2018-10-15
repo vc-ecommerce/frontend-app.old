@@ -15,7 +15,7 @@
         <div class="site-header-content-in">
           <div class="site-header-shown">
 
-            <notification-header></notification-header>
+            <notification></notification>
             <menu-user :profile="profile"></menu-user>
 
             <button type="button" class="burger-right">
@@ -44,25 +44,25 @@
   </header>
 </template>
 <script>
-  import Notification from "./notification/Notification";
-  import Menu from "./menu/Menu";
-  import MenuUser from "./menu/MenuUser";
-  import Logo from "./logo/Logo";
-  import FormSearch from "./form/FormSearch";
+import Notification from "./notification/Notification";
+import MenuHeader from "./menu/Menu";
+import MenuUser from "./menu/MenuUser";
+import LogoHeader from "./logo/Logo";
+import FormSearch from "./form/FormSearch";
 
-  export default {
-    data: function () {
-      return {
-        profile: "Meu Perfil"
-      };
-    },
-    components: {
-      "notification-header": Notification,
-      "menu-header": Menu,
-      "logo-header": Logo,
-      "form-search": FormSearch,
-      "menu-user": MenuUser
-    }
-  };
+export default {
+  data: function() {
+    return {
+      profile: "Meu Perfil"
+    };
+  },
+  components: {
+    Notification,
+    MenuHeader,
+    LogoHeader,
+    FormSearch,
+    MenuUser
+  }
+};
 </script>
 

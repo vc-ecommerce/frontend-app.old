@@ -9,6 +9,19 @@
     </form>
   </div>
 </template>
+
 <script>
-  export default {};
+export default {
+  name: "FormSearch",
+  props: [],
+  data() {
+    return {};
+  },
+  mounted() {},
+  methods: {},
+  computed: {}
+};
 </script>
+
+<style scoped>
+</style>

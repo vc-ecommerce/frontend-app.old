@@ -41,8 +41,8 @@
 	@endcomponent
 
 	<!-- Scripts -->
+  <script src="{{ asset('js/vue-app.js') }}"></script>
   <script src="{{ asset('js/app.js') }}"></script>
-  <script src="{{ asset('js/commons.js') }}"></script>
 
 </body>
 </html>

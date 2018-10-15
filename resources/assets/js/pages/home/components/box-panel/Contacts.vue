@@ -1,6 +1,30 @@
 <template>
-  <box-panel title="Contatos Recentes">
+  <Panel title="Contatos Recentes">
     <div class="contact-row-list">
+
+        <Article className="contact-row">
+
+          <div class="user-card-row">
+            <div class="tbl-row">
+              <div class="tbl-cell tbl-cell-photo">
+                <a href="#">
+                  <img src="img/photo-64-2.jpg" alt="">
+                </a>
+              </div>
+              <div class="tbl-cell">
+                <p class="user-card-row-name"><a href="#">Tim Collins</a></p>
+                <p class="user-card-row-mail"><a href="#">timcolins@mail.com</a></p>
+              </div>
+              <div class="tbl-cell tbl-cell-status">Director at Tony’s</div>
+            </div>
+          </div>
+
+        </Article>
+
+
+
+
+
       <article class="contact-row">
         <div class="user-card-row">
           <div class="tbl-row">
@@ -130,44 +154,43 @@
         </div>
       </article>
     </div>
-  </box-panel>
+  </Panel>
 </template>
 
 <script>
-  import BoxTypical from './../../../../components/layouts/BoxTypicalPanelHelper';
+import Panel from "./../../../../components/Panel";
+import Article from "./../../../../components/Article";
+import Grid from "./../../../../components/Grid";
 
-  export default {
-    components: {
-      'box-panel': BoxTypical
-    },
-    props: [],
-    mounted() {
-
-      $(document).ready(function () {
-
-        $('.panel').each(function () {
-          try {
-            $(this).lobiPanel({
+export default {
+  components: {
+    Panel,
+    Article,
+    Grid,
+  },
+  props: [],
+  mounted() {
+    $(document).ready(function() {
+      $(".panel").each(function() {
+        try {
+          $(this)
+            .lobiPanel({
               sortable: true
-            }).on('dragged.lobiPanel', function (ev, lobiPanel) {
-              $('.dahsboard-column').matchHeight();
+            })
+            .on("dragged.lobiPanel", function(ev, lobiPanel) {
+              $(".dahsboard-column").matchHeight();
             });
-          } catch (err) {
-          }
-        });
-
+        } catch (err) {}
       });
-
-    },
-    data() {
-      return {}
-    },
-    methods: {},
-    computed: {}
-  }
+    });
+  },
+  data() {
+    return {};
+  },
+  methods: {},
+  computed: {}
+};
 </script>
 
 <style scoped>
-
-
 </style>

@@ -54,23 +54,21 @@
   </div>
 </template>
 <script>
-  export default {
-    data: function () {
-      return {
-        total: 0
-      }
-    },
-    methods: {
-      // sempre que a pergunta mudar, essa função será executada
+export default {
+  name: 'NotificationsNotif',
+  data: function() {
+    return {
+      total: 0
+    };
+  },
+  methods: {
+    // sempre que a pergunta mudar, essa função será executada
 
-      time() {
-
-        setTimeout(() => {
-          this.total += 1
-        }, 10000)
-
-      }
+    time() {
+      setTimeout(() => {
+        this.total += 1;
+      }, 10000);
     }
-
   }
+}
 </script>

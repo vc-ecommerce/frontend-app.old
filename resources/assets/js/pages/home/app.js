@@ -23,14 +23,14 @@ import SaleWeek from './components/statistics/chart/SaleWeek'
 const app = new Vue({
   el: '#content',
   components: {
-    'sale-week': SaleWeek,
-    'order-approved': OrderApproved,
-    'order-canceled': OrderCanceled,
-    'order-done': OrderDone,
-    'order-pending': OrderPending,
-    'order-recent': OrderRecent,
-    'recent-comments': RecentComments,
-    'contacts': Contacts,
+    SaleWeek,
+    OrderApproved,
+    OrderCanceled,
+    OrderDone,
+    OrderPending,
+    OrderRecent,
+    RecentComments,
+    Contacts,
   },
   mounted: function () {
     document.getElementById('content').style.display = 'block';

@@ -99,20 +99,17 @@
   </div>
 </template>
 <script>
-  export default {
+export default {
+  name: "NotificationsMessages",
+  data: function() {
+    return {
+      title: ""
+    };
+  },
 
-    data: function () {
-      return {
-        title: '',
-      }
-    },
-
-    mounted() {
-
-      this.$store.commit('setItem', {data: 'Jovem Pan'});
-      this.title = this.$store.state.item.data;
-
-    }
-
+  mounted() {
+    this.$store.commit("setItem", { data: "Jovem Pan" });
+    this.title = this.$store.state.item.data;
   }
+};
 </script>
