@@ -13,15 +13,14 @@
 
 </template>
 
-
 <script>
 export default {
   name: "Panel",
-  props: [
-    "title"
-  ]
-}
+  props: {
+    title: {
+      type: String,
+      required: true
+    }
+  }
+};
 </script>
-
-<style scoped>
-</style>

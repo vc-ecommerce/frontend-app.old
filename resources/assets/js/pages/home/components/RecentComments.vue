@@ -50,27 +50,28 @@
 </template>
 
 <script>
-import Panel from "./../../../../components/Panel";
-import Table from "./../../../../components/Table";
+import Panel from "./../../../components/layouts/Panel";
+import Table from "./../../../components/layouts/Table";
 
 export default {
+  name: 'RecentComments',
   components: {
     Panel,
-    Table,
+    Table
   },
+  props: [],
   data() {
     return {
       headers: []
-    }
+    };
   },
-  props: [],
   mounted() {
     this.headers = [
-      {name: 'Status'},
-      {name: 'Assunto'},
-      {name: 'Departamento', position: 'center'},
-      {name: 'Data', position: 'center'},
+      { name: "Status" },
+      { name: "Assunto" },
+      { name: "Departamento", position: "center" },
+      { name: "Data", position: "center" }
     ];
-  },
+  }
 };
 </script>

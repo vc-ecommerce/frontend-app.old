@@ -1,23 +1,22 @@
-// window._ = require('lodash');
-// window.Popper = require('popper.js').default;
-
-// try {
-//     window.$ = window.jQuery = require('jquery');
-
-// } catch (e) {}
-
-window.axios = require('axios');
+axios = require('axios');
 
 window.Vue = require('vue');
+
+
+
+// //Vue.config.productionTip = false
+// Vue.prototype.$http = axios;
+// Vue.prototype.$urlAPI = 'http://api.vocecrianca.site/';
+
 
 import store from './stores/store';
 
 import SiteHeader from './components/layouts/header/SiteHeader';
-import SideMenuDefault from './components/layouts/sidebar/SideMenuDefault';
-import SideMenuPanelContainer from './components/layouts/sidebar/SideMenuPanelContainer';
+import SidebarMenuLeft from './components/layouts/sidebar/SidebarMenuLeft';
+import SidebarMenuRight from './components/layouts/sidebar/SidebarMenuRight';
 
 const appOne = new Vue({
-  el: '#site-header',
+  el: '#vue-site-header',
   store,
   components: {
     SiteHeader,
@@ -25,15 +24,15 @@ const appOne = new Vue({
 });
 
 const appTwo = new Vue({
-  el: '#side-menu-default',
+  el: '#vue-sidebar-menu-left',
   components: {
-    SideMenuDefault,
+    SidebarMenuLeft,
   }
 });
 
 const appThree = new Vue({
-  el: '#side-menu-panel-container',
+  el: '#vue-sidebar-menu-right',
   components: {
-    SideMenuPanelContainer,
+    SidebarMenuRight,
   }
 });

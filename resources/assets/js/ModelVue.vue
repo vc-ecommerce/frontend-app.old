@@ -3,17 +3,17 @@
 </template>
 
 <script>
-import Statistic from ".";
+import ComponentName from ".";
 
 export default {
   components: {
-    statistic: Statistic
+    ComponentName
   },
   props: [],
-  mounted() {},
   data() {
     return {};
   },
+  mounted() {},
   methods: {},
   computed: {}
 };

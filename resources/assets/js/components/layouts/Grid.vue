@@ -9,14 +9,13 @@ export default {
   props: {
     col: {
       type: Number,
-      default: 6
+      default: 12
     }
   },
   computed: {
     defineCol() {
-      return "col-sm-" + this.col;
+      return `col-sm-${this.col}`;
     }
   }
-
 };
 </script>

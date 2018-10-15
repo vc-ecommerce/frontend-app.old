@@ -2,7 +2,7 @@
   <header class="site-header">
     <div class="container-fluid">
 
-      <logo-header></logo-header>
+      <Logo />
 
       <button id="show-hide-sidebar-toggle" class="show-hide-sidebar">
         <span>toggle menu</span>
@@ -15,8 +15,9 @@
         <div class="site-header-content-in">
           <div class="site-header-shown">
 
-            <notification></notification>
-            <menu-user :profile="profile"></menu-user>
+            <Notification />
+
+            <MenuTopUser :profile="profile" />
 
             <button type="button" class="burger-right">
               <i class="font-icon-menu-addl"></i>
@@ -28,8 +29,7 @@
           <div class="site-header-collapsed">
             <div class="site-header-collapsed-in">
 
-              <menu-header></menu-header>
-              <form-search></form-search>
+              <FormSearch />
 
             </div>
             <!--.site-header-collapsed-in-->
@@ -45,23 +45,22 @@
 </template>
 <script>
 import Notification from "./notification/Notification";
-import MenuHeader from "./menu/Menu";
-import MenuUser from "./menu/MenuUser";
-import LogoHeader from "./logo/Logo";
-import FormSearch from "./form/FormSearch";
+import MenuTopUser from "./MenuTopUser";
+import Logo from "./Logo";
+import FormSearch from "./FormSearch";
 
 export default {
-  data: function() {
+  name: 'SiteHeader',
+  data() {
     return {
       profile: "Meu Perfil"
     };
   },
   components: {
     Notification,
-    MenuHeader,
-    LogoHeader,
+    Logo,
     FormSearch,
-    MenuUser
+    MenuTopUser
   }
 };
 </script>

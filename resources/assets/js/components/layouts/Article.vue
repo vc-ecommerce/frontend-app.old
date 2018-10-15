@@ -5,9 +5,8 @@
 </template>
 
 <script>
-
 export default {
-  name: 'Article',
+  name: "Article",
   props: {
     className: {
       type: String,
@@ -19,8 +18,8 @@ export default {
   },
   computed: {
     defineClass() {
-      return this.className +' '+ this.color || '';
+      return this.className + " " + this.color || "";
     }
-  },
-}
+  }
+};
 </script>

@@ -6,16 +6,12 @@
 </template>
 
 <script>
-
 export default {
-  name: 'Table',
+  name: "Table",
   props: {
     className: {
-      default: 'tbl-typical'
+      default: "tbl-typical"
     }
   }
-}
+};
 </script>
-
-<style scoped>
-</style>

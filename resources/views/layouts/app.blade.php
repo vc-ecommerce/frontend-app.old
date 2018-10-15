@@ -21,20 +21,20 @@
 	<link rel="stylesheet" href="css/separate/vendor/lobipanel.min.css">
 	<link rel="stylesheet" href="css/lib/jqueryui/jquery-ui.min.css">
 	<link rel="stylesheet" href="css/separate/pages/widgets.min.css">
-    <link rel="stylesheet" href="css/lib/font-awesome/font-awesome.min.css">
-    <link rel="stylesheet" href="css/lib/bootstrap/bootstrap.min.css">
-    <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/lib/font-awesome/font-awesome.min.css">
+  <link rel="stylesheet" href="css/lib/bootstrap/bootstrap.min.css">
+  <link rel="stylesheet" href="css/main.css">
 </head>
 <body class="with-side-menu control-panel control-panel-compact">
 
 	@include('layouts.default.header')
-	@include('layouts.default.sidebar')
+	@include('layouts.default.sidebar-left')
 
 	<div id="content" style="display: none;">
 		@yield('content')
 	</div>
 
-	@include('layouts.default.tasks')
+	@include('layouts.default.sidebar-right')
 
 	@component('layouts.default.body_scripts')
 		@yield('scripts')

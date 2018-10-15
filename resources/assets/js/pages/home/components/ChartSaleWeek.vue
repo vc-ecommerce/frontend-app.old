@@ -58,7 +58,7 @@
 
 <script>
 export default {
-  name: "sale-week",
+  name: "ChartSaleWeek",
   props: [],
   mounted() {
     $(document).ready(function() {
