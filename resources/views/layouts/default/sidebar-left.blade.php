@@ -15,117 +15,100 @@
           <span class="lbl">Catálago</span>
         </span>
         <ul>
-          <li>
-            <a href="index.html">
-            <span class="lbl">Default</span>
-            <span class="label label-custom label-pill label-danger">
-            new
+          <li><a href="#"><span class="lbl">Departamentos</span></a></li>
+          <li><a href="#"><span class="lbl">Produtos</span></a></li>
+          <li><a href="#"><span class="lbl">Tipos de assinatura</span></a></li>
+          <li><a href="#"><span class="lbl">Filtros</span></a></li>
+
+          <li class="grey with-sub">
+            <span>
+              <span class="lbl">Atributos</span>
             </span>
-            </a>
+            <ul>
+              <li><a href="#"><span class="lbl">Atributos</span></a></li>
+              <li><a href="#"><span class="lbl">Grupos de atributos</span></a></li>
+              </ul>
           </li>
-          <li>
-            <a href="dashboard-top-menu.html">
-            <span class="lbl">
-            Top menu
+
+          <li><a href="#"><span class="lbl">Opções</span></a></li>
+          <li><a href="#"><span class="lbl">Marcas</span></a></li>
+          <li><a href="#"><span class="lbl">Downloads</span></a></li>
+          <li><a href="#"><span class="lbl">Comentários</span></a></li>
+          <li><a href="#"><span class="lbl">Páginas de informações</span></a></li>
+
+        </ul>
+      </li>
+
+      <li class="grey with-sub">
+        <span>
+          <i class="fa fa-puzzle-piece"></i>
+          <span class="lbl">Extensões</span>
+        </span>
+        <ul>
+          <li><a href="#"><span class="lbl">Marketplace</span></a></li>
+          <li><a href="#"><span class="lbl">Extensões</span></a></li>
+        </ul>
+      </li>
+
+      <li class="grey with-sub">
+        <span>
+          <i class="fa fa-television"></i>
+          <span class="lbl">Design</span>
+        </span>
+        <ul>
+          <li><a href="#"><span class="lbl">Banners</span></a></li>
+        </ul>
+      </li>
+
+      <li class="grey with-sub">
+        <span>
+          <i class="fa fa-shopping-cart"></i>
+          <span class="lbl">Vendas</span>
+        </span>
+        <ul>
+          <li><a href="#"><span class="lbl">Pedidos</span></a></li>
+          <li><a href="#"><span class="lbl">Tipos de assinatura</span></a></li>
+          <li><a href="#"><span class="lbl">Devoluções</span></a></li>
+
+          <li class="grey with-sub">
+            <span>
+              <span class="lbl">Vale presentes</span>
             </span>
-            </a>
+            <ul>
+              <li><a href="#"><span class="lbl">Vale presentes</span></a></li>
+              <li><a href="#"><span class="lbl">Temas</span></a></li>
+            </ul>
           </li>
-          <li><a href="side-menu-compact-full.html"><span class="lbl">Compact menu</span></a></li>
-          <li><a href="dashboard-addl-menu.html"><span class="lbl">Submenu</span></a></li>
-          <li><a href="side-menu-avatar.html"><span class="lbl">Menu with avatar</span></a></li>
-          <li><a href="side-menu-avatar.html"><span class="lbl">Compact menu with avatar</span></a></li>
-          <li><a href="dark-menu.html"><span class="lbl">Dark menu</span></a></li>
-          <li><a href="dark-menu-blue.html"><span class="lbl">Blue dark menu</span></a></li>
-          <li><a href="dark-menu-green.html"><span class="lbl">Green dark menu</span></a></li>
-          <li><a href="dark-menu-green-compact.html"><span class="lbl">Green compact dark menu</span></a>
-          </li>
-          <li><a href="dark-menu-ultramarine.html"><span class="lbl">Ultramarine dark menu</span></a></li>
-          <li><a href="asphalt-menu.html"><span class="lbl">Asphalt top menu</span></a></li>
-          <li><a href="side-menu-big-icon.html"><span class="lbl">Big menu</span></a></li>
+
+
         </ul>
       </li>
 
-      <li class="brown with-sub">
+      <li class="grey with-sub">
         <span>
-        <i class="fa fa-puzzle-piece"></i>
-        <span class="lbl">Extensões</span>
+          <i class="fa fa-users"></i>
+          <span class="lbl">Clientes</span>
         </span>
         <ul>
-          <li><a href="theme-side-ebony-clay.html"><span class="lbl">Ebony Clay</span></a></li>
-          <li><a href="theme-side-madison-caribbean.html"><span class="lbl">Madison Caribbean</span></a>
-          </li>
-          <li><a href="theme-side-caesium-dark-caribbean.html"><span
-            class="lbl">Caesium Dark Caribbean</span></a></li>
-          <li><a href="theme-side-tin.html"><span class="lbl">Tin</span></a></li>
-          <li><a href="theme-side-litmus-blue.html"><span class="lbl">Litmus Blue</span></a></li>
-          <li><a href="theme-rebecca-purple.html"><span class="lbl">Rebecca Purple</span></a></li>
-          <li><a href="theme-picton-blue.html"><span class="lbl">Picton Blue</span></a></li>
-          <li><a href="theme-picton-blue-white-ebony.html"><span
-            class="lbl">Picton Blue White Ebony</span></a></li>
+          <li><a href="#"><span class="lbl">Clientes</span></a></li>
+          <li><a href="#"><span class="lbl">Tipos de clientes</span></a></li>
+          <li><a href="#"><span class="lbl">Aprovar clientes</span></a></li>
+          <li><a href="#"><span class="lbl">Personalizar cadastro</span></a></li>
         </ul>
       </li>
 
-      <li class="brown with-sub">
+      <li class="grey with-sub">
         <span>
-        <i class="fa fa-television"></i>
-        <span class="lbl">Design</span>
+          <i class="fa fa-share-alt"></i>
+          <span class="lbl">Marketing</span>
         </span>
         <ul>
-          <li><a href="theme-side-ebony-clay.html"><span class="lbl">Ebony Clay</span></a></li>
-          <li><a href="theme-side-madison-caribbean.html"><span class="lbl">Madison Caribbean</span></a>
-          </li>
-          <li><a href="theme-side-caesium-dark-caribbean.html"><span
-            class="lbl">Caesium Dark Caribbean</span></a></li>
-          <li><a href="theme-side-tin.html"><span class="lbl">Tin</span></a></li>
-          <li><a href="theme-side-litmus-blue.html"><span class="lbl">Litmus Blue</span></a></li>
-          <li><a href="theme-rebecca-purple.html"><span class="lbl">Rebecca Purple</span></a></li>
-          <li><a href="theme-picton-blue.html"><span class="lbl">Picton Blue</span></a></li>
-          <li><a href="theme-picton-blue-white-ebony.html"><span
-            class="lbl">Picton Blue White Ebony</span></a></li>
+          <li><a href="#"><span class="lbl">Marketing</span></a></li>
+          <li><a href="#"><span class="lbl">Cupons</span></a></li>
+          <li><a href="#"><span class="lbl">Informativo</span></a></li>
         </ul>
       </li>
 
-      <li class="purple with-sub">
-        <span>
-        <i class="fa fa-shopping-cart"></i>
-        <span class="lbl">Vendas</span>
-        </span>
-        <ul>
-          <li><a href="messenger.html"><span class="lbl">Messenger</span></a></li>
-          <li><a href="chat.html"><span class="lbl">Messages</span><span
-            class="label label-custom label-pill label-danger">8</span></a></li>
-          <li><a href="chat-write.html"><span class="lbl">Write Message</span></a></li>
-          <li><a href="chat-index.html"><span class="lbl">Select User</span></a></li>
-        </ul>
-      </li>
-
-      <li class="purple with-sub">
-        <span>
-        <i class="fa fa-user"></i>
-        <span class="lbl">Clientes</span>
-        </span>
-        <ul>
-          <li><a href="messenger.html"><span class="lbl">Messenger</span></a></li>
-          <li><a href="chat.html"><span class="lbl">Messages</span><span
-            class="label label-custom label-pill label-danger">8</span></a></li>
-          <li><a href="chat-write.html"><span class="lbl">Write Message</span></a></li>
-          <li><a href="chat-index.html"><span class="lbl">Select User</span></a></li>
-        </ul>
-      </li>
-
-      <li class="purple with-sub">
-        <span>
-        <i class="fa fa-share-alt"></i>
-        <span class="lbl">Marketing</span>
-        </span>
-        <ul>
-          <li><a href="messenger.html"><span class="lbl">Messenger</span></a></li>
-          <li><a href="chat.html"><span class="lbl">Messages</span><span
-            class="label label-custom label-pill label-danger">8</span></a></li>
-          <li><a href="chat-write.html"><span class="lbl">Write Message</span></a></li>
-          <li><a href="chat-index.html"><span class="lbl">Select User</span></a></li>
-        </ul>
-      </li>
 
       <li class="purple with-sub">
         <span>
@@ -133,11 +116,54 @@
         <span class="lbl">Configurações</span>
         </span>
         <ul>
-          <li><a href="messenger.html"><span class="lbl">Messenger</span></a></li>
-          <li><a href="chat.html"><span class="lbl">Messages</span><span
-            class="label label-custom label-pill label-danger">8</span></a></li>
-          <li><a href="chat-write.html"><span class="lbl">Write Message</span></a></li>
-          <li><a href="chat-index.html"><span class="lbl">Select User</span></a></li>
+          <li><a href="#"><span class="lbl">Gerenciar Lojas</span></a></li>
+
+
+          <li class="purple with-sub">
+            <span>
+            <span class="lbl">Gerenciar usuários</span>
+            </span>
+            <ul>
+              <li><a href="#"><span class="lbl">Gerenciar usuários</span></a></li>
+              <li><a href="#"><span class="lbl">Grupos de usuários</span></a></li>
+              <li><a href="#"><span class="lbl">API</span></a></li>
+            </ul>
+          </li>
+
+          <li class="purple with-sub">
+            <span>
+              <span class="lbl">Dados auxiliares</span>
+            </span>
+            <ul>
+              <li><a href="#"><span class="lbl">Situações de estoque</span></a></li>
+              <li><a href="#"><span class="lbl">Situações de pedidos</span></a></li>
+              <li class="purple with-sub">
+                <span>
+                  <span class="lbl">Devoluções</span>
+                </span>
+                <ul>
+                  <li><a href="#"><span class="lbl">Situações</span></a></li>
+                  <li><a href="#"><span class="lbl">Soluções</span></a></li>
+                  <li><a href="#"><span class="lbl">Motivos</span></a></li>
+                </ul>
+              </li>
+
+              <li><a href="#"><span class="lbl">Estados</span></a></li>
+              <li><a href="#"><span class="lbl">Municípios</span></a></li>
+            </ul>
+          </li>
+
+          <li class="purple with-sub">
+            <span>
+              <span class="lbl">Manutenção</span>
+            </span>
+            <ul>
+              <li><a href="#"><span class="lbl">Backup / Restaurar</span></a></li>
+              <li><a href="#"><span class="lbl">Log de erros</span></a></li>
+            </ul>
+          </li>
+
+
         </ul>
       </li>
 
@@ -147,11 +173,9 @@
         <span class="lbl">Relatórios</span>
         </span>
         <ul>
-          <li><a href="messenger.html"><span class="lbl">Messenger</span></a></li>
-          <li><a href="chat.html"><span class="lbl">Messages</span><span
-            class="label label-custom label-pill label-danger">8</span></a></li>
-          <li><a href="chat-write.html"><span class="lbl">Write Message</span></a></li>
-          <li><a href="chat-index.html"><span class="lbl">Select User</span></a></li>
+          <li><a href="#"><span class="lbl">Relatórios</span></a></li>
+          <li><a href="#"><span class="lbl">Usuários online</span></a></li>
+          <li><a href="#"><span class="lbl">Estatísticas</span></a></li>
         </ul>
       </li>
     </span>
