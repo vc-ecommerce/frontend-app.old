@@ -21,12 +21,12 @@
             <div class="col-xl-12 dahsboard-column">
                 <order-recent></order-recent>
             </div><!--.col-->
-            <div class="col-xl-12 dahsboard-column">
+            {{-- <div class="col-xl-12 dahsboard-column">
                 <recent-comments></recent-comments>
             </div><!--.col-->
             <div class="col-xl-12 dahsboard-column">
                 <recent-contacts></recent-contacts>
-            </div><!--.col-->
+            </div><!--.col--> --}}
         </div>
     </div><!--.container-fluid-->
 </div><!--.page-content-->

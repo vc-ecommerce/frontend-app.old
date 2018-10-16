@@ -1,5 +1,5 @@
 <template>
-  <Panel title="Pedidos Recentes">
+  <Panel title="Últimos pedidos">
     <Table>
 
       <template slot="tr-th">
@@ -109,10 +109,11 @@ export default {
   },
   mounted() {
     this.headers = [
-      { name: "Status" },
-      { name: "Clientes" },
-      { name: "Pedidos", position: "center" },
-      { name: "Data", position: "center" }
+      { name: "Situação" },
+      { name: "Cliente" },
+      { name: "Pedido Nº", position: "center" },
+      { name: "Data", position: "center" },
+
     ];
   }
 };
