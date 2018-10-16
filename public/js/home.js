@@ -2322,21 +2322,17 @@ var app = new Vue({
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
-function injectStyle (ssrContext) {
-  if (disposed) return
-  __webpack_require__(78)
-}
 var normalizeComponent = __webpack_require__(1)
 /* script */
 var __vue_script__ = __webpack_require__(80)
 /* template */
-var __vue_template__ = __webpack_require__(81)
+var __vue_template__ = __webpack_require__(135)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
-var __vue_styles__ = injectStyle
+var __vue_styles__ = null
 /* scopeId */
-var __vue_scopeId__ = "data-v-e212343a"
+var __vue_scopeId__ = null
 /* moduleIdentifier (server only) */
 var __vue_module_identifier__ = null
 var Component = normalizeComponent(
@@ -2369,46 +2365,8 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 78 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(79);
-if(typeof content === 'string') content = [[module.i, content, '']];
-if(content.locals) module.exports = content.locals;
-// add the styles to the DOM
-var update = __webpack_require__(4)("0197657c", content, false, {});
-// Hot Module Replacement
-if(false) {
- // When the styles change, update the <style> tags
- if(!content.locals) {
-   module.hot.accept("!!../../../../../../node_modules/css-loader/index.js!../../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-e212343a\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./ChartSaleWeek.vue", function() {
-     var newContent = require("!!../../../../../../node_modules/css-loader/index.js!../../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-e212343a\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./ChartSaleWeek.vue");
-     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-     update(newContent);
-   });
- }
- // When the module is disposed, remove the <style> tags
- module.hot.dispose(function() { update(); });
-}
-
-/***/ }),
-/* 79 */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(3)(false);
-// imports
-
-
-// module
-exports.push([module.i, "\n.sale-week[data-v-e212343a] {\n}\n", ""]);
-
-// exports
-
-
-/***/ }),
+/* 78 */,
+/* 79 */,
 /* 80 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -2476,92 +2434,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "ChartSaleWeek",
   props: [],
-  mounted: function mounted() {
-    $(document).ready(function () {
-      google.charts.load("current", { packages: ["corechart"] });
-      google.charts.setOnLoadCallback(drawChart);
-
-      function drawChart() {
-        var dataTable = new google.visualization.DataTable();
-        dataTable.addColumn("string", "Day");
-        dataTable.addColumn("number", "Values");
-        // A column for custom tooltip content
-        dataTable.addColumn({
-          type: "string",
-          role: "tooltip",
-          p: { html: true }
-        });
-        dataTable.addRows([["MON", 130, " "], ["TUE", 130, "130"], ["WED", 180, "180"], ["THU", 175, "175"], ["FRI", 200, "200"], ["SAT", 170, "170"], ["SUN", 250, "250"], ["MON", 220, "220"], ["TUE", 220, " "]]);
-
-        var options = {
-          height: 314,
-          legend: "none",
-          areaOpacity: 0.18,
-          axisTitlesPosition: "out",
-          hAxis: {
-            title: "",
-            textStyle: {
-              color: "#fff",
-              fontName: "Proxima Nova",
-              fontSize: 11,
-              bold: true,
-              italic: false
-            },
-            textPosition: "out"
-          },
-          vAxis: {
-            minValue: 0,
-            textPosition: "out",
-            textStyle: {
-              color: "#fff",
-              fontName: "Proxima Nova",
-              fontSize: 11,
-              bold: true,
-              italic: false
-            },
-            baselineColor: "#16b4fc",
-            ticks: [0, 25, 50, 75, 100, 125, 150, 175, 200, 225, 250, 275, 300, 325, 350],
-            gridlines: {
-              color: "#1ba0fc",
-              count: 15
-            }
-          },
-          lineWidth: 2,
-          colors: ["#fff"],
-          curveType: "function",
-          pointSize: 5,
-          pointShapeType: "circle",
-          pointFillColor: "#f00",
-          backgroundColor: {
-            fill: "#008ffb",
-            strokeWidth: 0
-          },
-          chartArea: {
-            left: 0,
-            top: 0,
-            width: "100%",
-            height: "100%"
-          },
-          fontSize: 11,
-          fontName: "Proxima Nova",
-          tooltip: {
-            trigger: "selection",
-            isHtml: true
-          }
-        };
-
-        var chart = new google.visualization.AreaChart(document.getElementById("chart_div"));
-        chart.draw(dataTable, options);
-      }
-
-      $(window).resize(function () {
-        drawChart();
-        setTimeout(function () {}, 1000);
-      });
-    });
-  },
   data: function data() {
-    return {};
+    return {
+      valor: 30015
+    };
   },
 
   methods: {},
@@ -2569,120 +2445,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 81 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _vm._m(0)
-}
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "chart-statistic-box" }, [
-      _c("div", { staticClass: "chart-txt" }, [
-        _c("div", { staticClass: "chart-txt-top" }, [
-          _c("p", [
-            _c("span", { staticClass: "unit" }, [_vm._v("$")]),
-            _c("span", { staticClass: "number" }, [_vm._v("1540")])
-          ]),
-          _vm._v(" "),
-          _c("p", { staticClass: "caption" }, [_vm._v("Vendas da Semana")])
-        ]),
-        _vm._v(" "),
-        _c("table", { staticClass: "tbl-data" }, [
-          _c("tr", [
-            _c("td", { staticClass: "price color-purple" }, [_vm._v("120$")]),
-            _vm._v(" "),
-            _c("td", [_vm._v("Orders")])
-          ]),
-          _vm._v(" "),
-          _c("tr", [
-            _c("td", { staticClass: "price color-yellow" }, [_vm._v("15$")]),
-            _vm._v(" "),
-            _c("td", [_vm._v("Investments")])
-          ]),
-          _vm._v(" "),
-          _c("tr", [
-            _c("td", { staticClass: "price color-lime" }, [_vm._v("55$")]),
-            _vm._v(" "),
-            _c("td", [_vm._v("Others")])
-          ])
-        ])
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "chart-container" }, [
-        _c("div", { staticClass: "chart-container-in" }, [
-          _c("div", { attrs: { id: "chart_div" } }),
-          _vm._v(" "),
-          _c("header", { staticClass: "chart-container-title" }, [
-            _vm._v("Income")
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "chart-container-x" }, [
-            _c("div", { staticClass: "item" }),
-            _vm._v(" "),
-            _c("div", { staticClass: "item" }, [_vm._v("tue")]),
-            _vm._v(" "),
-            _c("div", { staticClass: "item" }, [_vm._v("wed")]),
-            _vm._v(" "),
-            _c("div", { staticClass: "item" }, [_vm._v("thu")]),
-            _vm._v(" "),
-            _c("div", { staticClass: "item" }, [_vm._v("fri")]),
-            _vm._v(" "),
-            _c("div", { staticClass: "item" }, [_vm._v("sat")]),
-            _vm._v(" "),
-            _c("div", { staticClass: "item" }, [_vm._v("sun")]),
-            _vm._v(" "),
-            _c("div", { staticClass: "item" }, [_vm._v("mon")]),
-            _vm._v(" "),
-            _c("div", { staticClass: "item" })
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "chart-container-y" }, [
-            _c("div", { staticClass: "item" }, [_vm._v("300")]),
-            _vm._v(" "),
-            _c("div", { staticClass: "item" }),
-            _vm._v(" "),
-            _c("div", { staticClass: "item" }, [_vm._v("250")]),
-            _vm._v(" "),
-            _c("div", { staticClass: "item" }),
-            _vm._v(" "),
-            _c("div", { staticClass: "item" }, [_vm._v("200")]),
-            _vm._v(" "),
-            _c("div", { staticClass: "item" }),
-            _vm._v(" "),
-            _c("div", { staticClass: "item" }, [_vm._v("150")]),
-            _vm._v(" "),
-            _c("div", { staticClass: "item" }),
-            _vm._v(" "),
-            _c("div", { staticClass: "item" }, [_vm._v("100")]),
-            _vm._v(" "),
-            _c("div", { staticClass: "item" }),
-            _vm._v(" "),
-            _c("div", { staticClass: "item" }, [_vm._v("50")]),
-            _vm._v(" "),
-            _c("div", { staticClass: "item" })
-          ])
-        ])
-      ])
-    ])
-  }
-]
-render._withStripped = true
-module.exports = { render: render, staticRenderFns: staticRenderFns }
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-e212343a", module.exports)
-  }
-}
-
-/***/ }),
+/* 81 */,
 /* 82 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -4764,6 +4527,144 @@ if (false) {
   module.hot.accept()
   if (module.hot.data) {
     require("vue-hot-reload-api")      .rerender("data-v-65e56e98", module.exports)
+  }
+}
+
+/***/ }),
+/* 119 */,
+/* 120 */,
+/* 121 */,
+/* 122 */,
+/* 123 */,
+/* 124 */,
+/* 125 */,
+/* 126 */,
+/* 127 */,
+/* 128 */,
+/* 129 */,
+/* 130 */,
+/* 131 */,
+/* 132 */,
+/* 133 */,
+/* 134 */,
+/* 135 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "chart-statistic-box" }, [
+    _vm._m(0),
+    _vm._v(" "),
+    _c("div", { staticClass: "chart-container" }, [
+      _c("div", { staticClass: "chart-container-in" }, [
+        _c("div", { attrs: { id: "chart_div" } }),
+        _vm._v(" "),
+        _c("header", { staticClass: "chart-container-title" }, [
+          _vm._v("Vendas")
+        ]),
+        _vm._v(" "),
+        _vm._m(1),
+        _vm._v(" "),
+        _c("div", { staticClass: "chart-container-y" }, [
+          _c("div", { staticClass: "item" }, [_vm._v(_vm._s(_vm.valor))]),
+          _vm._v(" "),
+          _c("div", { staticClass: "item" }),
+          _vm._v(" "),
+          _c("div", { staticClass: "item" }, [_vm._v("250")]),
+          _vm._v(" "),
+          _c("div", { staticClass: "item" }),
+          _vm._v(" "),
+          _c("div", { staticClass: "item" }, [_vm._v("200")]),
+          _vm._v(" "),
+          _c("div", { staticClass: "item" }),
+          _vm._v(" "),
+          _c("div", { staticClass: "item" }, [_vm._v("150")]),
+          _vm._v(" "),
+          _c("div", { staticClass: "item" }),
+          _vm._v(" "),
+          _c("div", { staticClass: "item" }, [_vm._v("100")]),
+          _vm._v(" "),
+          _c("div", { staticClass: "item" }),
+          _vm._v(" "),
+          _c("div", { staticClass: "item" }, [_vm._v("50")]),
+          _vm._v(" "),
+          _c("div", { staticClass: "item" })
+        ])
+      ])
+    ])
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "chart-txt" }, [
+      _c("div", { staticClass: "chart-txt-top" }, [
+        _c("p", [
+          _c("span", { staticClass: "unit" }, [_vm._v("R$")]),
+          _c("span", { staticClass: "number" }, [_vm._v("1540,00")])
+        ]),
+        _vm._v(" "),
+        _c("p", { staticClass: "caption" }, [_vm._v("Vendas da Semana")])
+      ]),
+      _vm._v(" "),
+      _c("table", { staticClass: "tbl-data" }, [
+        _c("tr", [
+          _c("td", { staticClass: "price color-purple" }, [
+            _vm._v("R$ 1200.00")
+          ]),
+          _vm._v(" "),
+          _c("td", [_vm._v("Pedidos")])
+        ]),
+        _vm._v(" "),
+        _c("tr", [
+          _c("td", { staticClass: "price color-yellow" }, [_vm._v("R$ 15")]),
+          _vm._v(" "),
+          _c("td", [_vm._v("Investimentos")])
+        ]),
+        _vm._v(" "),
+        _c("tr", [
+          _c("td", { staticClass: "price color-lime" }, [_vm._v("R$ 55")]),
+          _vm._v(" "),
+          _c("td", [_vm._v("Outros")])
+        ])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "chart-container-x" }, [
+      _c("div", { staticClass: "item" }),
+      _vm._v(" "),
+      _c("div", { staticClass: "item" }, [_vm._v("ter")]),
+      _vm._v(" "),
+      _c("div", { staticClass: "item" }, [_vm._v("qua")]),
+      _vm._v(" "),
+      _c("div", { staticClass: "item" }, [_vm._v("qui")]),
+      _vm._v(" "),
+      _c("div", { staticClass: "item" }, [_vm._v("sex")]),
+      _vm._v(" "),
+      _c("div", { staticClass: "item" }, [_vm._v("sab")]),
+      _vm._v(" "),
+      _c("div", { staticClass: "item" }, [_vm._v("dom")]),
+      _vm._v(" "),
+      _c("div", { staticClass: "item" }, [_vm._v("seg")]),
+      _vm._v(" "),
+      _c("div", { staticClass: "item" })
+    ])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-e212343a", module.exports)
   }
 }
 

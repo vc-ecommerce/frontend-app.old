@@ -105,5 +105,14 @@ new Vue({
   el: '#side-menu-panel-container',
   components: {
     'side-menu-panel-container': SideMenuPanelContainer,
-  }
+  },
+  created() {
+    this.$http.get(`${this.$urlAPI}admin/users/5bbe02eda2a093000d15bfd8`)
+      .then(res => {
+        console.log(res.data);
+      }).catch(function (error) {
+        console.log(error);
+      });
+  },
+
 });

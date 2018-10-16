@@ -18,6 +18,9 @@ const appTwo = new Vue({
   el: '#vue-sidebar-menu-left',
   components: {
     SidebarMenuLeft,
+  },
+  mounted: function () {
+    document.getElementById('vue-sidebar-menu-left').style.display = 'block';
   }
 });
 
@@ -25,14 +28,5 @@ const appThree = new Vue({
   el: '#vue-sidebar-menu-right',
   components: {
     SidebarMenuRight,
-  },
-  created() {
-
-    this.$http.get(`${this.$urlAPI}admin/users/5bbe02eda2a093000d15bfd8`)
-      .then(res => {
-        console.log(res.data);
-      }).catch(function (error) {
-        console.log(error);
-      });
-  },
+  }
 });
