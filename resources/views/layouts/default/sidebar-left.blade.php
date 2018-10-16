@@ -19,16 +19,7 @@
           <li><a href="#"><span class="lbl">Produtos</span></a></li>
           <li><a href="#"><span class="lbl">Tipos de assinatura</span></a></li>
           <li><a href="#"><span class="lbl">Filtros</span></a></li>
-
-          <li class="grey with-sub">
-            <span>
-              <span class="lbl">Atributos</span>
-            </span>
-            <ul>
-              <li><a href="#"><span class="lbl">Atributos</span></a></li>
-              <li><a href="#"><span class="lbl">Grupos de atributos</span></a></li>
-              </ul>
-          </li>
+          <li><a href="{{ route('catalogs.attributes.index') }}"><span class="lbl">Atributos</span></a></li>
 
           <li><a href="#"><span class="lbl">Opções</span></a></li>
           <li><a href="#"><span class="lbl">Marcas</span></a></li>

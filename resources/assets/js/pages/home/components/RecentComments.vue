@@ -2,7 +2,7 @@
   <Panel title="Comentários Recentes">
     <Table>
 
-      <template slot="tr-th">
+      <template slot="thead">
         <tr>
           <th v-for="header in headers" :key="header.name" :align="header.position || ''">
             <div>{{ header.name }}</div>
@@ -10,7 +10,7 @@
         </tr>
       </template>
 
-      <template slot="tr-td">
+      <template slot="tbody">
         <tr>
           <td>
             <span class="label label-success">Open</span>

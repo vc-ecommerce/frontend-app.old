@@ -1,7 +1,11 @@
 <template>
   <table :class="className">
-    <slot name="tr-th"></slot>
-    <slot name="tr-td"></slot>
+    <thead>
+      <slot name="thead"></slot>
+    </thead>
+    <tbody>
+      <slot name="tbody"></slot>
+    </tbody>
   </table>
 </template>
 

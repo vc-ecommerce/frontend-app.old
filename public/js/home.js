@@ -3599,6 +3599,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "Table",
@@ -3617,12 +3621,11 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "table",
-    { class: _vm.className },
-    [_vm._t("tr-th"), _vm._v(" "), _vm._t("tr-td")],
-    2
-  )
+  return _c("table", { class: _vm.className }, [
+    _c("thead", [_vm._t("thead")], 2),
+    _vm._v(" "),
+    _c("tbody", [_vm._t("tbody")], 2)
+  ])
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -3649,7 +3652,7 @@ var render = function() {
       _c(
         "Table",
         [
-          _c("template", { slot: "tr-th" }, [
+          _c("template", { slot: "thead" }, [
             _c(
               "tr",
               _vm._l(_vm.headers, function(header) {
@@ -3662,7 +3665,7 @@ var render = function() {
             )
           ]),
           _vm._v(" "),
-          _c("template", { slot: "tr-td" }, [
+          _c("template", { slot: "tbody" }, [
             _c("tr", [
               _c("td", [
                 _c("span", { staticClass: "label label-primary" }, [
@@ -4036,7 +4039,7 @@ var render = function() {
       _c(
         "Table",
         [
-          _c("template", { slot: "tr-th" }, [
+          _c("template", { slot: "thead" }, [
             _c(
               "tr",
               _vm._l(_vm.headers, function(header) {
@@ -4049,7 +4052,7 @@ var render = function() {
             )
           ]),
           _vm._v(" "),
-          _c("template", { slot: "tr-td" }, [
+          _c("template", { slot: "tbody" }, [
             _c("tr", [
               _c("td", [
                 _c("span", { staticClass: "label label-success" }, [
