@@ -2,35 +2,33 @@
 
 @section('content')
 <div class="page-content">
-    <header class="section-header">
-        <div class="tbl">
-            <div class="tbl-row">
-                <div class="tbl-cell">
-                    <h3>Atributos</h3>
-                    <ol class="breadcrumb breadcrumb-simple">
-                        <li><a href="#">Painel</a></li>
-                        <li><a href="#">Catálagos</a></li>
-                        <li class="active">Atributos</li>
-                    </ol>
+
+    <div class="container-fluid">
+
+        <header class="section-header">
+            <div class="tbl">
+                <div class="tbl-row">
+                    <div class="tbl-cell">
+                        <h3>Atributos</h3>
+                        <ol class="breadcrumb breadcrumb-simple">
+                            <li><a href="#">Painel</a></li>
+                            <li><a href="#">Catálagos</a></li>
+                            <li class="active">Atributos</li>
+                        </ol>
+                    </div>
                 </div>
             </div>
-        </div>
-    </header>
-    <div class="container-fluid">
+        </header>
+
         <section class="box-typical">
             <header class="box-typical-header">
                 <div class="tbl-row">
                     <div class="tbl-cell tbl-cell-title">
                         <h3>05 Atributos</h3>
                     </div>
+
                     <div class="tbl-cell tbl-cell-action-bordered">
-                        <button type="button" class="action-btn"><i class="font-icon font-icon-pencil"></i></button>
-                    </div>
-                    <div class="tbl-cell tbl-cell-action-bordered">
-                        <button type="button" class="action-btn"><i class="font-icon font-icon-re"></i></button>
-                    </div>
-                    <div class="tbl-cell tbl-cell-action-bordered">
-                        <button type="button" class="action-btn"><i class="font-icon font-icon-trash"></i></button>
+                        <a href="#" class="btn btn-inline"><i class="glyphicon glyphicon-plus"></i> Criar novo</a>
                     </div>
                 </div>
             </header>
@@ -89,7 +87,6 @@
                                     </div>
                                 </td>
                             </tr>
-
                         </tbody>
                     </table>
                 </div>

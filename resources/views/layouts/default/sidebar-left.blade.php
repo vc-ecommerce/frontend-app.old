@@ -1,6 +1,6 @@
 <div id="vue-sidebar-menu-left" style="display:none">
   <sidebar-menu-left>
-    <span>
+    <template>
 
       <li class="grey with-sub">
         <a href="{{ route('dashboard') }}">
@@ -9,7 +9,7 @@
         </a>
       </li>
 
-      <li class="grey with-sub">
+      <li class="brown with-sub">
         <span>
           <i class="fa fa-tags"></i>
           <span class="lbl">Catálago</span>
@@ -30,7 +30,7 @@
         </ul>
       </li>
 
-      <li class="grey with-sub">
+      <li class="purple with-sub">
         <span>
           <i class="fa fa-puzzle-piece"></i>
           <span class="lbl">Extensões</span>
@@ -41,7 +41,7 @@
         </ul>
       </li>
 
-      <li class="grey with-sub">
+      <li class="red with-sub">
         <span>
           <i class="fa fa-television"></i>
           <span class="lbl">Design</span>
@@ -51,7 +51,7 @@
         </ul>
       </li>
 
-      <li class="grey with-sub">
+      <li class="gold with-sub">
         <span>
           <i class="fa fa-shopping-cart"></i>
           <span class="lbl">Vendas</span>
@@ -75,7 +75,7 @@
         </ul>
       </li>
 
-      <li class="grey with-sub">
+      <li class="blue with-sub">
         <span>
           <i class="fa fa-users"></i>
           <span class="lbl">Clientes</span>
@@ -88,7 +88,7 @@
         </ul>
       </li>
 
-      <li class="grey with-sub">
+      <li class="green with-sub">
         <span>
           <i class="fa fa-share-alt"></i>
           <span class="lbl">Marketing</span>
@@ -158,7 +158,7 @@
         </ul>
       </li>
 
-      <li class="purple with-sub">
+      <li class="blue-dirty with-sub">
         <span>
         <i class="fa fa-bar-chart-o"></i>
         <span class="lbl">Relatórios</span>
@@ -169,6 +169,6 @@
           <li><a href="#"><span class="lbl">Estatísticas</span></a></li>
         </ul>
       </li>
-    </span>
+    </template>
   </sidebar-menu-left>
 </div>
