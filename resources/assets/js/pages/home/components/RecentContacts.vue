@@ -2,6 +2,11 @@
   <Panel title="Contatos Recentes">
     <div class="contact-row-list">
 
+       <p v-for="notification in notifications">
+      {{notification}}
+    </p>
+    <button @click="addHey">Add Hey!</button>
+
       <Article className="contact-row">
 
         <div class="user-card-row">
@@ -174,9 +179,6 @@ export default {
     return {};
   },
   mounted() {
-  },
-  methods: {},
-  computed: {}
+  }
 };
 </script>
-

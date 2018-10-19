@@ -1,5 +1,6 @@
 <template>
   <Panel title="Últimos pedidos">
+
     <Table>
 
       <template slot="thead">
@@ -14,23 +15,24 @@
 
         <tr>
           <td>
-            <span class="label label-primary">Paid</span>
-            <span class="label label-success">Active</span>
+            <button @click="addHey">Add Hey!</button>
           </td>
           <td>John Doe</td>
           <td align="center">3435362</td>
           <td class="color-blue-grey" nowrap align="center"><span class="semibold">Today</span> 8:30</td>
         </tr>
-        <tr>
+
+
+        <tr v-for="notification in notifications">
           <td>
-            <span class="label label-primary">Paid</span>
+                  <span class="label label-primary">Paid</span>
             <span class="label label-success">Active</span>
           </td>
           <td>Thomas Bayer</td>
           <td align="center">3435362</td>
           <td class="color-blue-grey" nowrap align="center"><span class="semibold">Today</span> 16:30</td>
         </tr>
-        <tr>
+<!--         <tr>
           <td>
             <span class="label label-primary">Paid</span>
             <span class="label label-default">Inactive</span>
@@ -83,7 +85,7 @@
           <td>Alexandre Pome</td>
           <td align="center">3435362</td>
           <td class="color-blue-grey" nowrap align="center">23th May</td>
-        </tr>
+        </tr> -->
 
       </template>
     </Table>
@@ -94,6 +96,7 @@
 <script>
 import Panel from "./../../../components/layouts/Panel";
 import Table from "./../../../components/layouts/Table";
+import state from "./../../../stores/notifications/state";
 
 export default {
   name: 'OrderRecent',
@@ -113,8 +116,24 @@ export default {
       { name: "Cliente" },
       { name: "Pedido Nº", position: "center" },
       { name: "Data", position: "center" },
-
     ];
+  },
+
+  created() {
+    this.$store.registerModule("notifications", state);
+  },
+
+  computed: {
+    notifications() {
+      return this.$store.state.notifications;
+    }
+  },
+
+  methods: {
+    addHey() {
+      this.$store.commit("addNotification", "Hey!");
+    }
   }
+
 };
 </script>

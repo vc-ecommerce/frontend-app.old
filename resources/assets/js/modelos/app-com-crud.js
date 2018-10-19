@@ -1,3 +1,16 @@
+    const api = `${this.$urlAPI}/todos/2`
+      Vue.axios.get(api).then(response => {
+        this.data = response.data
+        console.log(this.data)
+      }).catch(error => {
+        this.errorMsg = 'No user or no location!'
+        this.data = []
+        console.log(error)
+      })
+
+
+
+
 // window._ = require('lodash');
 // window.Popper = require('popper.js').default;
 

@@ -1,5 +1,8 @@
 require('./../../bootstrap')
 
+
+import store from './../../stores';
+
 import ChartSaleWeek from './components/ChartSaleWeek'
 import OrderApproved from './components/OrderApproved'
 import OrderCanceled from './components/OrderCanceled'
@@ -11,6 +14,7 @@ import RecentContacts from './components/RecentContacts'
 
 const app = new Vue({
   el: '#content',
+  store,
   components: {
     ChartSaleWeek,
     OrderApproved,

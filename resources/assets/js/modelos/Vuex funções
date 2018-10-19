@@ -1,0 +1,11 @@
+mounted() {
+    this.$store.commit("setTeste", { data: "Jovem Pan" });
+    this.title = this.$store.state.teste.item.data;
+
+
+    this.$store.commit("setItem", { data: "Roupa infantil" });
+    this.title = this.$store.state.carrinho.item.data;
+
+    console.log(this.title);
+
+  }
