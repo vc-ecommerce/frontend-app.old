@@ -6,6 +6,4 @@ import VueAxios from 'vue-axios';
 Vue.use(VueAxios, axios);
 
 //Vue.config.productionTip = false
-Vue.prototype.$urlAPI = 'https://jsonplaceholder.typicode.com';
-//Vue.prototype.$urlAPI = 'http://api.vocecrianca.site/v1/';
-
+Vue.prototype.$urlApi = 'http://api.vocecrianca.site/v1';

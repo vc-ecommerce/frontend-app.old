@@ -39,22 +39,22 @@ class RouteServiceProvider extends ServiceProvider
         $this->mapWebRoutes();
         $this->mapCatalogsRoutes();
 
-        //
     }
 
     protected function mapWebRoutes()
     {
         Route::middleware('web')
-             ->namespace($this->namespace)
-             ->group(base_path('routes/web.php'));
+            ->namespace($this->namespace)
+            ->group(base_path('routes/web.php'));
     }
 
     protected function mapCatalogsRoutes()
     {
         Route::prefix('catalogs')
-             ->as('catalogs.')
-             ->middleware('web')
-             ->namespace($this->namespace)
-             ->group(base_path('routes/catalogs.php'));
+            ->as('catalogs.')
+            ->middleware('web')
+            ->namespace($this->namespace)
+            ->group(base_path('routes/catalogs.php'));
     }
+
 }

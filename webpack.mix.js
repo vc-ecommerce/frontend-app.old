@@ -23,6 +23,7 @@ mix.copyDirectory('resources/themes/startuiadmin/build/css', 'public/css')
 
 mix.js('resources/assets/js/app.js', 'public/js/vue-app.js')
 	.js('resources/assets/js/pages/home/custom.js', 'public/js/home-custom.js')
-	.js('resources/assets/js/pages/home/app.js', 'public/js/home.js')
+	.js('resources/assets/js/pages/home/home.js', 'public/js/home.js')
+  .js('resources/assets/js/pages/auth/auth.js', 'public/js/auth.js')
 
 mix.extract(['vue']);
