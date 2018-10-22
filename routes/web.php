@@ -3,7 +3,11 @@ $this->name('auth')->resource('login', 'Auth\LoginController')->only([
     'index'
 ]);
 
-$this->name('auth')->resource('reset-password', 'Auth\ResetPasswordController')->only([
+$this->name('auth')->resource('password/reset', 'Auth\ResetPasswordController')->only([
+    'index'
+]);
+
+$this->name('auth')->resource('password/forgot', 'Auth\ForgotPasswordController')->only([
     'index'
 ]);
 

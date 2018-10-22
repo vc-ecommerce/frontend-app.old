@@ -34,7 +34,7 @@
 </template>
 <script>
 export default {
-  name: "LoginUser",
+  name: "ResetPassword",
   props: ["image", "urlreset"],
   data() {
     return {
@@ -112,6 +112,10 @@ export default {
 .showError {
   animation: treme 0.1s;
   animation-iteration-count: 3;
+}
+
+.sign-title {
+  font-weight: bold;
 }
 
 @keyframes treme {

@@ -8,6 +8,6 @@ class ResetPasswordController extends Controller
 {
     public function index()
     {
-        # code...
+        return view('pages.auth.reset');
     }
 }
