@@ -1,11 +1,11 @@
 @extends('layouts.auth')
 
 @section('title')
-    Fazer login
+  Fazer login
 @endsection
 
 @section('content')
-  <login-user></login-user>
+  <login-user image="/img/avatar-sign.png" urlreset="/reset-password.html"></login-user>
 @endsection
 
 @section('scripts')

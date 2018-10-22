@@ -1,16 +1,16 @@
 //https://alligator.io/vuejs/vuex-dynamic-modules/
 
-import { urlApi } from './../../urlAPI';
-
 const state = {
-  data: '',
-  email: '',
-  errorMsg: ''
+  user: sessionStorage.getItem('user') ? JSON.parse(sessionStorage.getItem('user')) : null,
 }
 
 const getters = {
-  getTitle: state => {
-    return state.data.title;
+  getToken: state => {
+    return state.user.HTTP_Authorization;
+  },
+
+  getUser: state => {
+    return state.user;
   }
 }
 
@@ -20,22 +20,8 @@ const actions = {
 
 const mutations = {
 
-  makeLogin(state, obj) {
-
-    const api = `${urlApi}/todos/2`
-
-    Vue.axios.get(api).then(response => {
-
-      return response.data;
-      //state.data = response.data
-      //console.log(state.data)
-    }).catch(error => {
-      state.errorMsg = 'No user or no location!'
-      state.data = []
-      console.log(error)
-    })
-
-    // console.log(urlApi);
+  setUser(state, obj) {
+    state.user = obj
   }
 
 }

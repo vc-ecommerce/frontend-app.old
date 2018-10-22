@@ -109,8 +109,8 @@ export default {
 
   mounted() {
 
-    this.$store.commit("addNotificacao", { nome: "Jovem Pan" });
-    this.title = this.$store.getters.getNome;
+    //this.$store.commit("addNotificacao", { nome: "Jovem Pan" });
+    //this.title = this.$store.getters.getNome;
 
 
     console.log(this.title);

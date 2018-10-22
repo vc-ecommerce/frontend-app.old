@@ -2,66 +2,147 @@
   <form class="sign-box" @submit.prevent="submitForm">
 
     <div class="sign-avatar">
-        <img src="/img/avatar-sign.png" alt="">
+      <img :src="image" alt="">
     </div>
-    <header class="sign-title">Login</header>
+
+    <header v-if="status" class="sign-title red showError">Email e ou senha inválidos</header>
+    <header v-else-if="loading" class="sign-title gray">Aguarde!!!</header>
+    <header v-else-if="ok" class="sign-title green">Redirecinando...</header>
+    <header v-else class="sign-title">Login</header>
+
     <div class="form-group">
-        <input type="email" required class="form-control" v-model="email" placeholder="Entre com seu email"/>
+      <input type="email" required class="form-control" v-model="email" placeholder="Entre com seu email"/>
     </div>
+
     <div class="form-group">
-        <input type="password" required minlength="6" class="form-control" v-model="password"  placeholder="Digite a senha"/>
+      <input type="password" required minlength="6" class="form-control" v-model="password"  placeholder="Digite a senha"/>
     </div>
+
     <div class="form-group">
-        <div class="checkbox float-left">
-            <input type="checkbox" id="signed-in"/>
-            <label for="signed-in">Mantenha-me conectado</label>
-        </div>
-        <div class="float-right reset">
-            <a href="reset-password.html">Recuperar Senha</a>
-        </div>
+      <!-- <div class="checkbox float-left">
+          <input type="checkbox" id="signed-in"/>
+          <label for="signed-in">Mantenha-me conectado</label>
+      </div> -->
+      <div class="float-right reset">
+        <a :href="urlreset">Recuperar Senha</a>
+      </div>
     </div>
 
     <button type="submit" class="btn btn-rounded">Efetuar Login</button>
 
   </form>
 </template>
-
 <script>
-//import state from '../../../stores/authorizations/state'
-
 export default {
   name: "LoginUser",
-  props: ["urlPassword"],
+  props: ["image", "urlreset"],
   data() {
     return {
       email: "",
-      password: ""
+      password: "",
+      data: "",
+      token: "",
+      status: false,
+      loading: false,
+      ok: false
     };
   },
   methods: {
+    showError(code) {
+      if (code === 401) {
+        this.status = true;
+        setTimeout(() => {
+          this.status = false;
+        }, 5000);
+      }
+    },
+    redirectUser() {
+      window.location = "/";
+    },
+    activeSession(data) {
+      let token = document.head.querySelector('meta[name="csrf-token"]');
+
+      Vue.axios
+        .post(
+          "/token",
+          {
+            token: token.content,
+            data
+          },
+          {
+            headers: {
+              "X-CSRF-TOKEN": token.content
+            }
+          }
+        )
+        .then(response => {
+          this.loading = false;
+          this.redirectUser();
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
+
     submitForm() {
-      let data = {
-        email: this.email,
-        password: this.password
-      };
 
+      this.loading = true;
       const api = `${this.$urlApi}/auth/login`;
-
       Vue.axios
         .post(api, {
           email: this.email,
           password: this.password
         })
         .then(response => {
-          console.log(response.data);
+          this.ok = true;
+          sessionStorage.setItem("user", JSON.stringify(response.data));
+          this.$store.commit("setUser", response.data);
+          this.activeSession(response.data.HTTP_Data);
         })
         .catch(error => {
-          console.log(error);
+          this.loading = false;
+          this.showError(error.response.status);
         });
     }
   }
 };
 </script>
 
+<style scoped>
+.showError {
+  animation: treme 0.1s;
+  animation-iteration-count: 3;
+}
+
+@keyframes treme {
+  0% {
+    margin-left: 0;
+  }
+  25% {
+    margin-left: 5px;
+  }
+  50% {
+    margin-left: 0;
+  }
+  75% {
+    margin-left: -5px;
+  }
+  100% {
+    margin-left: 0;
+  }
+}
+
+.red {
+  color: #fa424a;
+}
+
+.green {
+  color: #46c35f;
+}
+
+.gray{
+  color:  #808080;
+}
+</style>
 
 

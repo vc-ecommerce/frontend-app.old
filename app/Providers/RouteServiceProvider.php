@@ -52,7 +52,7 @@ class RouteServiceProvider extends ServiceProvider
     {
         Route::prefix('catalogs')
             ->as('catalogs.')
-            ->middleware('web')
+            ->middleware(['web', 'check.token'])
             ->namespace($this->namespace)
             ->group(base_path('routes/catalogs.php'));
     }
