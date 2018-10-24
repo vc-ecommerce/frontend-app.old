@@ -1,21 +1,13 @@
 <?php
-$this->name('auth')->resource('login', 'Auth\LoginController')->only([
-    'index'
-]);
+$this->name('auth.login')->get('/login', 'Auth\LoginController@index');
 
-$this->name('auth')->resource('password/reset', 'Auth\ResetPasswordController')->only([
-    'index'
-]);
+$this->name('auth.reset')->get('/password/reset', 'Auth\ResetPasswordController@index');
 
-$this->name('auth')->resource('password/forgot', 'Auth\ForgotPasswordController')->only([
-    'index'
-]);
+$this->name('auth.forgot')->get('/password/forgot/{token?}', 'Auth\ForgotPasswordController@index');
 
-$this->name('auth')->resource('token', 'Auth\TokenController')->only([
-    'store'
-]);
-
+$this->name('auth.token')->post('/token', 'Auth\TokenController@store');
 
 Route::name('dashboard')->get('/', function () {
     return view('home');
 })->middleware('check.token');
+

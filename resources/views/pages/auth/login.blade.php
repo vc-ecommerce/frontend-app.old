@@ -5,7 +5,7 @@
 @endsection
 
 @section('content')
-  <login-user image="/img/avatar-sign.png" urlreset="{{ route('auth.reset.index') }}"></login-user>
+  <login-user image="/img/avatar-sign.png" urlreset="{{ route('auth.reset') }}"></login-user>
 @endsection
 
 @section('scripts')

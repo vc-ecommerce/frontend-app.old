@@ -3,13 +3,14 @@
 namespace VoceCrianca\Http\Controllers\Auth;
 
 use VoceCrianca\Http\Controllers\Controller;
-use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
+use Illuminate\Http\Request;
 
 class ForgotPasswordController extends Controller
 {
 
-    public function index()
+    public function index(Request $request)
     {
-        return view('pages.auth.forgot');
+        $token = $request->route('token');
+        return view('pages.auth.forgot', compact('token'));
     }
 }

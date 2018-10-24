@@ -5,7 +5,7 @@ webpackJsonp([2],[
 "use strict";
 
 
-var bind = __webpack_require__(3);
+var bind = __webpack_require__(5);
 var isBuffer = __webpack_require__(14);
 
 /*global toString:true*/
@@ -441,10 +441,10 @@ function getDefaultAdapter() {
   var adapter;
   if (typeof XMLHttpRequest !== 'undefined') {
     // For browsers use XHR adapter
-    adapter = __webpack_require__(4);
+    adapter = __webpack_require__(6);
   } else if (typeof process !== 'undefined') {
     // For node use HTTP adapter
-    adapter = __webpack_require__(4);
+    adapter = __webpack_require__(6);
   }
   return adapter;
 }
@@ -523,274 +523,6 @@ module.exports = defaults;
 
 /***/ }),
 /* 3 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-module.exports = function bind(fn, thisArg) {
-  return function wrap() {
-    var args = new Array(arguments.length);
-    for (var i = 0; i < args.length; i++) {
-      args[i] = arguments[i];
-    }
-    return fn.apply(thisArg, args);
-  };
-};
-
-
-/***/ }),
-/* 4 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var utils = __webpack_require__(0);
-var settle = __webpack_require__(17);
-var buildURL = __webpack_require__(19);
-var parseHeaders = __webpack_require__(20);
-var isURLSameOrigin = __webpack_require__(21);
-var createError = __webpack_require__(5);
-var btoa = (typeof window !== 'undefined' && window.btoa && window.btoa.bind(window)) || __webpack_require__(22);
-
-module.exports = function xhrAdapter(config) {
-  return new Promise(function dispatchXhrRequest(resolve, reject) {
-    var requestData = config.data;
-    var requestHeaders = config.headers;
-
-    if (utils.isFormData(requestData)) {
-      delete requestHeaders['Content-Type']; // Let the browser set it
-    }
-
-    var request = new XMLHttpRequest();
-    var loadEvent = 'onreadystatechange';
-    var xDomain = false;
-
-    // For IE 8/9 CORS support
-    // Only supports POST and GET calls and doesn't returns the response headers.
-    // DON'T do this for testing b/c XMLHttpRequest is mocked, not XDomainRequest.
-    if ("development" !== 'test' &&
-        typeof window !== 'undefined' &&
-        window.XDomainRequest && !('withCredentials' in request) &&
-        !isURLSameOrigin(config.url)) {
-      request = new window.XDomainRequest();
-      loadEvent = 'onload';
-      xDomain = true;
-      request.onprogress = function handleProgress() {};
-      request.ontimeout = function handleTimeout() {};
-    }
-
-    // HTTP basic authentication
-    if (config.auth) {
-      var username = config.auth.username || '';
-      var password = config.auth.password || '';
-      requestHeaders.Authorization = 'Basic ' + btoa(username + ':' + password);
-    }
-
-    request.open(config.method.toUpperCase(), buildURL(config.url, config.params, config.paramsSerializer), true);
-
-    // Set the request timeout in MS
-    request.timeout = config.timeout;
-
-    // Listen for ready state
-    request[loadEvent] = function handleLoad() {
-      if (!request || (request.readyState !== 4 && !xDomain)) {
-        return;
-      }
-
-      // The request errored out and we didn't get a response, this will be
-      // handled by onerror instead
-      // With one exception: request that using file: protocol, most browsers
-      // will return status as 0 even though it's a successful request
-      if (request.status === 0 && !(request.responseURL && request.responseURL.indexOf('file:') === 0)) {
-        return;
-      }
-
-      // Prepare the response
-      var responseHeaders = 'getAllResponseHeaders' in request ? parseHeaders(request.getAllResponseHeaders()) : null;
-      var responseData = !config.responseType || config.responseType === 'text' ? request.responseText : request.response;
-      var response = {
-        data: responseData,
-        // IE sends 1223 instead of 204 (https://github.com/axios/axios/issues/201)
-        status: request.status === 1223 ? 204 : request.status,
-        statusText: request.status === 1223 ? 'No Content' : request.statusText,
-        headers: responseHeaders,
-        config: config,
-        request: request
-      };
-
-      settle(resolve, reject, response);
-
-      // Clean up request
-      request = null;
-    };
-
-    // Handle low level network errors
-    request.onerror = function handleError() {
-      // Real errors are hidden from us by the browser
-      // onerror should only fire if it's a network error
-      reject(createError('Network Error', config, null, request));
-
-      // Clean up request
-      request = null;
-    };
-
-    // Handle timeout
-    request.ontimeout = function handleTimeout() {
-      reject(createError('timeout of ' + config.timeout + 'ms exceeded', config, 'ECONNABORTED',
-        request));
-
-      // Clean up request
-      request = null;
-    };
-
-    // Add xsrf header
-    // This is only done if running in a standard browser environment.
-    // Specifically not if we're in a web worker, or react-native.
-    if (utils.isStandardBrowserEnv()) {
-      var cookies = __webpack_require__(23);
-
-      // Add xsrf header
-      var xsrfValue = (config.withCredentials || isURLSameOrigin(config.url)) && config.xsrfCookieName ?
-          cookies.read(config.xsrfCookieName) :
-          undefined;
-
-      if (xsrfValue) {
-        requestHeaders[config.xsrfHeaderName] = xsrfValue;
-      }
-    }
-
-    // Add headers to the request
-    if ('setRequestHeader' in request) {
-      utils.forEach(requestHeaders, function setRequestHeader(val, key) {
-        if (typeof requestData === 'undefined' && key.toLowerCase() === 'content-type') {
-          // Remove Content-Type if data is undefined
-          delete requestHeaders[key];
-        } else {
-          // Otherwise add header to the request
-          request.setRequestHeader(key, val);
-        }
-      });
-    }
-
-    // Add withCredentials to request if needed
-    if (config.withCredentials) {
-      request.withCredentials = true;
-    }
-
-    // Add responseType to request if needed
-    if (config.responseType) {
-      try {
-        request.responseType = config.responseType;
-      } catch (e) {
-        // Expected DOMException thrown by browsers not compatible XMLHttpRequest Level 2.
-        // But, this can be suppressed for 'json' type as it can be parsed by default 'transformResponse' function.
-        if (config.responseType !== 'json') {
-          throw e;
-        }
-      }
-    }
-
-    // Handle progress if needed
-    if (typeof config.onDownloadProgress === 'function') {
-      request.addEventListener('progress', config.onDownloadProgress);
-    }
-
-    // Not all browsers support upload events
-    if (typeof config.onUploadProgress === 'function' && request.upload) {
-      request.upload.addEventListener('progress', config.onUploadProgress);
-    }
-
-    if (config.cancelToken) {
-      // Handle cancellation
-      config.cancelToken.promise.then(function onCanceled(cancel) {
-        if (!request) {
-          return;
-        }
-
-        request.abort();
-        reject(cancel);
-        // Clean up request
-        request = null;
-      });
-    }
-
-    if (requestData === undefined) {
-      requestData = null;
-    }
-
-    // Send the request
-    request.send(requestData);
-  });
-};
-
-
-/***/ }),
-/* 5 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var enhanceError = __webpack_require__(18);
-
-/**
- * Create an Error with the specified message, config, error code, request and response.
- *
- * @param {string} message The error message.
- * @param {Object} config The config.
- * @param {string} [code] The error code (for example, 'ECONNABORTED').
- * @param {Object} [request] The request.
- * @param {Object} [response] The response.
- * @returns {Error} The created error.
- */
-module.exports = function createError(message, config, code, request, response) {
-  var error = new Error(message);
-  return enhanceError(error, config, code, request, response);
-};
-
-
-/***/ }),
-/* 6 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-module.exports = function isCancel(value) {
-  return !!(value && value.__CANCEL__);
-};
-
-
-/***/ }),
-/* 7 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-/**
- * A `Cancel` is an object that is thrown when an operation is canceled.
- *
- * @class
- * @param {string=} message The message.
- */
-function Cancel(message) {
-  this.message = message;
-}
-
-Cancel.prototype.toString = function toString() {
-  return 'Cancel' + (this.message ? ': ' + this.message : '');
-};
-
-Cancel.prototype.__CANCEL__ = true;
-
-module.exports = Cancel;
-
-
-/***/ }),
-/* 8 */
 /***/ (function(module, exports) {
 
 /*
@@ -872,7 +604,7 @@ function toComment(sourceMap) {
 
 
 /***/ }),
-/* 9 */
+/* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /*
@@ -1100,6 +832,274 @@ function applyToTag (styleElement, obj) {
 
 
 /***/ }),
+/* 5 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+module.exports = function bind(fn, thisArg) {
+  return function wrap() {
+    var args = new Array(arguments.length);
+    for (var i = 0; i < args.length; i++) {
+      args[i] = arguments[i];
+    }
+    return fn.apply(thisArg, args);
+  };
+};
+
+
+/***/ }),
+/* 6 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var utils = __webpack_require__(0);
+var settle = __webpack_require__(17);
+var buildURL = __webpack_require__(19);
+var parseHeaders = __webpack_require__(20);
+var isURLSameOrigin = __webpack_require__(21);
+var createError = __webpack_require__(7);
+var btoa = (typeof window !== 'undefined' && window.btoa && window.btoa.bind(window)) || __webpack_require__(22);
+
+module.exports = function xhrAdapter(config) {
+  return new Promise(function dispatchXhrRequest(resolve, reject) {
+    var requestData = config.data;
+    var requestHeaders = config.headers;
+
+    if (utils.isFormData(requestData)) {
+      delete requestHeaders['Content-Type']; // Let the browser set it
+    }
+
+    var request = new XMLHttpRequest();
+    var loadEvent = 'onreadystatechange';
+    var xDomain = false;
+
+    // For IE 8/9 CORS support
+    // Only supports POST and GET calls and doesn't returns the response headers.
+    // DON'T do this for testing b/c XMLHttpRequest is mocked, not XDomainRequest.
+    if ("development" !== 'test' &&
+        typeof window !== 'undefined' &&
+        window.XDomainRequest && !('withCredentials' in request) &&
+        !isURLSameOrigin(config.url)) {
+      request = new window.XDomainRequest();
+      loadEvent = 'onload';
+      xDomain = true;
+      request.onprogress = function handleProgress() {};
+      request.ontimeout = function handleTimeout() {};
+    }
+
+    // HTTP basic authentication
+    if (config.auth) {
+      var username = config.auth.username || '';
+      var password = config.auth.password || '';
+      requestHeaders.Authorization = 'Basic ' + btoa(username + ':' + password);
+    }
+
+    request.open(config.method.toUpperCase(), buildURL(config.url, config.params, config.paramsSerializer), true);
+
+    // Set the request timeout in MS
+    request.timeout = config.timeout;
+
+    // Listen for ready state
+    request[loadEvent] = function handleLoad() {
+      if (!request || (request.readyState !== 4 && !xDomain)) {
+        return;
+      }
+
+      // The request errored out and we didn't get a response, this will be
+      // handled by onerror instead
+      // With one exception: request that using file: protocol, most browsers
+      // will return status as 0 even though it's a successful request
+      if (request.status === 0 && !(request.responseURL && request.responseURL.indexOf('file:') === 0)) {
+        return;
+      }
+
+      // Prepare the response
+      var responseHeaders = 'getAllResponseHeaders' in request ? parseHeaders(request.getAllResponseHeaders()) : null;
+      var responseData = !config.responseType || config.responseType === 'text' ? request.responseText : request.response;
+      var response = {
+        data: responseData,
+        // IE sends 1223 instead of 204 (https://github.com/axios/axios/issues/201)
+        status: request.status === 1223 ? 204 : request.status,
+        statusText: request.status === 1223 ? 'No Content' : request.statusText,
+        headers: responseHeaders,
+        config: config,
+        request: request
+      };
+
+      settle(resolve, reject, response);
+
+      // Clean up request
+      request = null;
+    };
+
+    // Handle low level network errors
+    request.onerror = function handleError() {
+      // Real errors are hidden from us by the browser
+      // onerror should only fire if it's a network error
+      reject(createError('Network Error', config, null, request));
+
+      // Clean up request
+      request = null;
+    };
+
+    // Handle timeout
+    request.ontimeout = function handleTimeout() {
+      reject(createError('timeout of ' + config.timeout + 'ms exceeded', config, 'ECONNABORTED',
+        request));
+
+      // Clean up request
+      request = null;
+    };
+
+    // Add xsrf header
+    // This is only done if running in a standard browser environment.
+    // Specifically not if we're in a web worker, or react-native.
+    if (utils.isStandardBrowserEnv()) {
+      var cookies = __webpack_require__(23);
+
+      // Add xsrf header
+      var xsrfValue = (config.withCredentials || isURLSameOrigin(config.url)) && config.xsrfCookieName ?
+          cookies.read(config.xsrfCookieName) :
+          undefined;
+
+      if (xsrfValue) {
+        requestHeaders[config.xsrfHeaderName] = xsrfValue;
+      }
+    }
+
+    // Add headers to the request
+    if ('setRequestHeader' in request) {
+      utils.forEach(requestHeaders, function setRequestHeader(val, key) {
+        if (typeof requestData === 'undefined' && key.toLowerCase() === 'content-type') {
+          // Remove Content-Type if data is undefined
+          delete requestHeaders[key];
+        } else {
+          // Otherwise add header to the request
+          request.setRequestHeader(key, val);
+        }
+      });
+    }
+
+    // Add withCredentials to request if needed
+    if (config.withCredentials) {
+      request.withCredentials = true;
+    }
+
+    // Add responseType to request if needed
+    if (config.responseType) {
+      try {
+        request.responseType = config.responseType;
+      } catch (e) {
+        // Expected DOMException thrown by browsers not compatible XMLHttpRequest Level 2.
+        // But, this can be suppressed for 'json' type as it can be parsed by default 'transformResponse' function.
+        if (config.responseType !== 'json') {
+          throw e;
+        }
+      }
+    }
+
+    // Handle progress if needed
+    if (typeof config.onDownloadProgress === 'function') {
+      request.addEventListener('progress', config.onDownloadProgress);
+    }
+
+    // Not all browsers support upload events
+    if (typeof config.onUploadProgress === 'function' && request.upload) {
+      request.upload.addEventListener('progress', config.onUploadProgress);
+    }
+
+    if (config.cancelToken) {
+      // Handle cancellation
+      config.cancelToken.promise.then(function onCanceled(cancel) {
+        if (!request) {
+          return;
+        }
+
+        request.abort();
+        reject(cancel);
+        // Clean up request
+        request = null;
+      });
+    }
+
+    if (requestData === undefined) {
+      requestData = null;
+    }
+
+    // Send the request
+    request.send(requestData);
+  });
+};
+
+
+/***/ }),
+/* 7 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var enhanceError = __webpack_require__(18);
+
+/**
+ * Create an Error with the specified message, config, error code, request and response.
+ *
+ * @param {string} message The error message.
+ * @param {Object} config The config.
+ * @param {string} [code] The error code (for example, 'ECONNABORTED').
+ * @param {Object} [request] The request.
+ * @param {Object} [response] The response.
+ * @returns {Error} The created error.
+ */
+module.exports = function createError(message, config, code, request, response) {
+  var error = new Error(message);
+  return enhanceError(error, config, code, request, response);
+};
+
+
+/***/ }),
+/* 8 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+module.exports = function isCancel(value) {
+  return !!(value && value.__CANCEL__);
+};
+
+
+/***/ }),
+/* 9 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+/**
+ * A `Cancel` is an object that is thrown when an operation is canceled.
+ *
+ * @class
+ * @param {string=} message The message.
+ */
+function Cancel(message) {
+  this.message = message;
+}
+
+Cancel.prototype.toString = function toString() {
+  return 'Cancel' + (this.message ? ': ' + this.message : '');
+};
+
+Cancel.prototype.__CANCEL__ = true;
+
+module.exports = Cancel;
+
+
+/***/ }),
 /* 10 */,
 /* 11 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
@@ -1134,7 +1134,7 @@ module.exports = __webpack_require__(13);
 
 
 var utils = __webpack_require__(0);
-var bind = __webpack_require__(3);
+var bind = __webpack_require__(5);
 var Axios = __webpack_require__(15);
 var defaults = __webpack_require__(2);
 
@@ -1169,9 +1169,9 @@ axios.create = function create(instanceConfig) {
 };
 
 // Expose Cancel & CancelToken
-axios.Cancel = __webpack_require__(7);
+axios.Cancel = __webpack_require__(9);
 axios.CancelToken = __webpack_require__(29);
-axios.isCancel = __webpack_require__(6);
+axios.isCancel = __webpack_require__(8);
 
 // Expose all/spread
 axios.all = function all(promises) {
@@ -1324,7 +1324,7 @@ module.exports = function normalizeHeaderName(headers, normalizedName) {
 "use strict";
 
 
-var createError = __webpack_require__(5);
+var createError = __webpack_require__(7);
 
 /**
  * Resolve or reject a Promise based on response status.
@@ -1757,7 +1757,7 @@ module.exports = InterceptorManager;
 
 var utils = __webpack_require__(0);
 var transformData = __webpack_require__(26);
-var isCancel = __webpack_require__(6);
+var isCancel = __webpack_require__(8);
 var defaults = __webpack_require__(2);
 var isAbsoluteURL = __webpack_require__(27);
 var combineURLs = __webpack_require__(28);
@@ -1917,7 +1917,7 @@ module.exports = function combineURLs(baseURL, relativeURL) {
 "use strict";
 
 
-var Cancel = __webpack_require__(7);
+var Cancel = __webpack_require__(9);
 
 /**
  * A `CancelToken` is an object that can be used to request cancellation of an operation.
@@ -3153,9 +3153,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__stores__ = __webpack_require__(32);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_LoginUser__ = __webpack_require__(124);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_LoginUser___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__components_LoginUser__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_ResetPassword__ = __webpack_require__(130);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_ResetPassword__ = __webpack_require__(129);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_ResetPassword___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__components_ResetPassword__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__components_ForgotPassword__ = __webpack_require__(135);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__components_ForgotPassword__ = __webpack_require__(134);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__components_ForgotPassword___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__components_ForgotPassword__);
 __webpack_require__(11);
 
@@ -3237,7 +3237,7 @@ var content = __webpack_require__(126);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(9)("462c20da", content, false, {});
+var update = __webpack_require__(4)("462c20da", content, false, {});
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
@@ -3256,7 +3256,7 @@ if(false) {
 /* 126 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(8)(false);
+exports = module.exports = __webpack_require__(3)(false);
 // imports
 
 
@@ -3498,20 +3498,19 @@ if (false) {
 }
 
 /***/ }),
-/* 129 */,
-/* 130 */
+/* 129 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
-  __webpack_require__(131)
+  __webpack_require__(130)
 }
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(133)
+var __vue_script__ = __webpack_require__(132)
 /* template */
-var __vue_template__ = __webpack_require__(134)
+var __vue_template__ = __webpack_require__(133)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -3550,17 +3549,17 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 131 */
+/* 130 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(132);
+var content = __webpack_require__(131);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(9)("66103e8a", content, false, {});
+var update = __webpack_require__(4)("66103e8a", content, false, {});
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
@@ -3576,21 +3575,21 @@ if(false) {
 }
 
 /***/ }),
-/* 132 */
+/* 131 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(8)(false);
+exports = module.exports = __webpack_require__(3)(false);
 // imports
 
 
 // module
-exports.push([module.i, "\n.sign-title[data-v-b0cc392a] {\n  font-weight: bold;\n}\n.showError[data-v-b0cc392a] {\n  animation: treme-data-v-b0cc392a 0.1s;\n  animation-iteration-count: 3;\n}\n@keyframes treme-data-v-b0cc392a {\n0% {\n    margin-left: 0;\n}\n25% {\n    margin-left: 5px;\n}\n50% {\n    margin-left: 0;\n}\n75% {\n    margin-left: -5px;\n}\n100% {\n    margin-left: 0;\n}\n}\n.red[data-v-b0cc392a] {\n  color: #fa424a;\n}\n.green[data-v-b0cc392a] {\n  color: #46c35f;\n}\n.gray[data-v-b0cc392a]{\n  color:  #808080;\n}\n", ""]);
+exports.push([module.i, "\n.sign-title[data-v-b0cc392a] {\n  font-weight: bold;\n}\n.showError[data-v-b0cc392a] {\n  animation: treme-data-v-b0cc392a 0.1s;\n  animation-iteration-count: 3;\n}\n@keyframes treme-data-v-b0cc392a {\n0% {\n    margin-left: 0;\n}\n25% {\n    margin-left: 5px;\n}\n50% {\n    margin-left: 0;\n}\n75% {\n    margin-left: -5px;\n}\n100% {\n    margin-left: 0;\n}\n}\n.red[data-v-b0cc392a] {\n  color: #fa424a;\n}\n.green[data-v-b0cc392a] {\n  color: #46c35f;\n}\n.gray[data-v-b0cc392a] {\n  color: #808080;\n}\n", ""]);
 
 // exports
 
 
 /***/ }),
-/* 133 */
+/* 132 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -3620,10 +3619,19 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "ResetPassword",
-  props: ["urllogin"],
+  props: [],
   data: function data() {
     return {
       email: "",
@@ -3649,13 +3657,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     submitForm: function submitForm() {
       var _this2 = this;
 
-      //this.loading = true;
-      this.ok = true;
+      this.loading = true;
       var api = this.$urlApi + "/auth/reset";
       Vue.axios.post(api, {
         email: this.email
       }).then(function (response) {
         _this2.ok = true;
+        _this2.loading = false;
         console.log(response.data);
       }).catch(function (error) {
         _this2.loading = false;
@@ -3666,7 +3674,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 134 */
+/* 133 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -3685,13 +3693,25 @@ var render = function() {
       }
     },
     [
+      _c("header", { staticClass: "sign-title" }, [
+        _vm._v("Redefinição de senha")
+      ]),
+      _vm._v(" "),
       _vm.status
         ? _c("header", { staticClass: "sign-title red showError" }, [
-            _vm._v("Email não encontrado")
+            _c(
+              "div",
+              {
+                staticClass:
+                  "alert alert-error alert-fill alert-close alert-dismissible fade show",
+                attrs: { role: "alert" }
+              },
+              [_vm._v("\n      Email não encontrado!\n    ")]
+            )
           ])
         : _vm.loading
-          ? _c("header", { staticClass: "sign-title gray" }, [
-              _vm._v("Aguarde!!!")
+          ? _c("header", { staticClass: "sign-title red" }, [
+              _vm._v("\n    Aguarde enviando...\n  ")
             ])
           : _vm.ok
             ? _c("header", [
@@ -3709,11 +3729,15 @@ var render = function() {
                   ]
                 )
               ])
-            : _c("header", { staticClass: "sign-title" }, [
-                _vm._v("Redifinição de senha")
+            : _c("div", { staticClass: "form-group" }, [
+                _vm._v(
+                  "\n    Digite seu e-mail de cadastro abaixo e clique em enviar. "
+                ),
+                _c("br"),
+                _vm._v(
+                  "\n    Nós lhe enviaremos um e-mail com link para recadastrar sua senha.\n  "
+                )
               ]),
-      _vm._v(" "),
-      _vm._m(0),
       _vm._v(" "),
       _c("div", { staticClass: "form-group" }, [
         _c("input", {
@@ -3729,7 +3753,7 @@ var render = function() {
           attrs: {
             type: "email",
             required: "",
-            placeholder: "Entre com seu email"
+            placeholder: "Endereço de email"
           },
           domProps: { value: _vm.email },
           on: {
@@ -3751,20 +3775,7 @@ var render = function() {
     ]
   )
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "form-group" }, [
-      _vm._v("\n    Digite seu e-mail de cadastro abaixo e clique em enviar. "),
-      _c("br"),
-      _vm._v(
-        "\n    Nós lhe enviaremos um e-mail com link para recadastrar sua senha.\n  "
-      )
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
@@ -3775,17 +3786,17 @@ if (false) {
 }
 
 /***/ }),
-/* 135 */
+/* 134 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
-  __webpack_require__(136)
+  __webpack_require__(135)
 }
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(138)
+var __vue_script__ = __webpack_require__(137)
 /* template */
 var __vue_template__ = __webpack_require__(139)
 /* template functional */
@@ -3826,17 +3837,17 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 136 */
+/* 135 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(137);
+var content = __webpack_require__(136);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(9)("2e12266e", content, false, {});
+var update = __webpack_require__(4)("2e12266e", content, false, {});
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
@@ -3852,95 +3863,225 @@ if(false) {
 }
 
 /***/ }),
-/* 137 */
+/* 136 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(8)(false);
+exports = module.exports = __webpack_require__(3)(false);
 // imports
 
 
 // module
-exports.push([module.i, "\n.sign-title[data-v-c467da66] {\n  font-weight: bold;\n}\n.showError[data-v-c467da66] {\n  animation: treme-data-v-c467da66 0.1s;\n  animation-iteration-count: 3;\n}\n@keyframes treme-data-v-c467da66 {\n0% {\n    margin-left: 0;\n}\n25% {\n    margin-left: 5px;\n}\n50% {\n    margin-left: 0;\n}\n75% {\n    margin-left: -5px;\n}\n100% {\n    margin-left: 0;\n}\n}\n.red[data-v-c467da66] {\n  color: #fa424a;\n}\n.green[data-v-c467da66] {\n  color: #46c35f;\n}\n.gray[data-v-c467da66]{\n  color:  #808080;\n}\n", ""]);
+exports.push([module.i, "\n.sign-title[data-v-c467da66] {\n  font-weight: bold;\n}\n.showError[data-v-c467da66] {\n  animation: treme-data-v-c467da66 0.1s;\n  animation-iteration-count: 3;\n}\n@keyframes treme-data-v-c467da66 {\n0% {\n    margin-left: 0;\n}\n25% {\n    margin-left: 5px;\n}\n50% {\n    margin-left: 0;\n}\n75% {\n    margin-left: -5px;\n}\n100% {\n    margin-left: 0;\n}\n}\n.red[data-v-c467da66] {\n  color: #fa424a;\n}\n.green[data-v-c467da66] {\n  color: #46c35f;\n}\n.gray[data-v-c467da66] {\n  color: #808080;\n}\n.sign-box a[data-v-c467da66] {\n    text-decoration: none;\n    color: #f3ecca;\n    border-bottom: solid 1px transparent;\n}\n", ""]);
 
 // exports
 
+
+/***/ }),
+/* 137 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__helpers_forcePassword__ = __webpack_require__(138);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  name: "ForgotPassword",
+  props: ["token", "urllogin"],
+  data: function data() {
+    return {
+      password: "",
+      confirme: "",
+      passwordNotEquals: false,
+      passwordInvalid: false,
+      status: false,
+      loading: false,
+      userId: "",
+      tokenOk: false,
+      updateOk: false
+    };
+  },
+  mounted: function mounted() {
+    var _this = this;
+
+    var api = this.$urlApi + "/auth/forgot/check/token";
+    Vue.axios.post(api, {
+      token: this.token
+    }).then(function (response) {
+      if (response.data) {
+        _this.tokenOk = true;
+        _this.userId = response.data;
+      }
+    }).catch(function (error) {
+      _this.tokenOk = false;
+      _this.showError(error.response.status);
+    });
+  },
+
+  methods: {
+    checkAlert: function checkAlert() {
+      if (this.passwordInvalid === true) {
+        this.passwordInvalid = false;
+      }
+    },
+    showError: function showError(code) {
+      var _this2 = this;
+
+      if (code === 401) {
+        this.status = true;
+        setTimeout(function () {
+          _this2.status = false;
+        }, 5000);
+      }
+    },
+    isPasswordValid: function isPasswordValid() {
+      var _this3 = this;
+
+      if (this.password !== this.confirme) {
+        this.passwordNotEquals = true;
+        setTimeout(function () {
+          _this3.passwordNotEquals = false;
+        }, 6000);
+        return false;
+      }
+      return true;
+    },
+    sendData: function sendData() {
+      var _this4 = this;
+
+      this.loading = true;
+      var api = this.$urlApi + "/auth/forgot";
+      Vue.axios.post(api, {
+        user_id: this.userId,
+        token: this.token,
+        password: this.password
+      }).then(function (response) {
+        if (response.data === "update_password") {
+          _this4.loading = false;
+          _this4.updateOk = true;
+          _this4.password = "";
+          _this4.confirme = "";
+        }
+      }).catch(function (error) {
+        _this4.loading = false;
+        _this4.showError(error.response.status);
+      });
+    },
+    submitForm: function submitForm() {
+
+      if (!this.isPasswordValid()) {
+        return;
+      }
+
+      if (Object(__WEBPACK_IMPORTED_MODULE_0__helpers_forcePassword__["a" /* default */])(this.password) < 50) {
+        this.passwordInvalid = true;
+        return;
+      }
+
+      if (this.tokenOk === false) {
+        return;
+      }
+
+      if (this.userId !== "") {
+        this.sendData();
+      }
+    }
+  }
+});
 
 /***/ }),
 /* 138 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
+/* harmony export (immutable) */ __webpack_exports__["a"] = forcePassword;
+function forcePassword(password) {
 
-/* harmony default export */ __webpack_exports__["default"] = ({
-  name: "ForgotPassword",
-  props: ["urllogin"],
-  data: function data() {
-    return {
-      email: "",
-      password: "",
-      confirme: "",
-      data: "",
-      token: "",
-      status: false,
-      loading: false,
-      ok: false
-    };
-  },
+  var force = 0;
 
-  methods: {
-    showError: function showError(code) {
-      var _this = this;
+  var regLettersMa = /[A-Z]/;
+  var regLettersMi = /[a-z]/;
+  var regNumber = /[0-9]/;
+  var regEspecial = /[!@#$%&*?]/;
 
-      if (code === 401) {
-        this.status = true;
-        setTimeout(function () {
-          _this.status = false;
-        }, 5000);
-      }
-    },
-    submitForm: function submitForm() {
-      var _this2 = this;
+  var size = false;
+  var sizeM = false;
+  var lettersMa = false;
+  var lettersMi = false;
+  var number = false;
+  var especial = false;
 
-      this.loading = true;
-      var api = this.$urlApi + "/auth/forgot";
-      Vue.axios.post(api, {
-        email: this.email
-      }).then(function (response) {
-        _this2.ok = true;
-        console.log(response.data);
-      }).catch(function (error) {
-        _this2.loading = false;
-        _this2.showError(error.response.status);
-      });
-    }
-  }
-});
+  //    console.clear();
+  //    console.log('password: '+password);
+
+  if (password.length >= 6) size = true;
+  if (password.length >= 10) sizeM = true;
+  if (regLettersMa.exec(password)) lettersMa = true;
+  if (regLettersMi.exec(password)) lettersMi = true;
+  if (regNumber.exec(password)) number = true;
+  if (regEspecial.exec(password)) especial = true;
+
+  if (size) force += 10;
+  if (sizeM) force += 10;
+  if (lettersMa) force += 10;
+  if (lettersMi) force += 10;
+  if (lettersMa && lettersMi) force += 20;
+  if (number) force += 20;
+  if (especial) force += 20;
+
+  //console.log('força: '+force);
+  return force;
+}
 
 /***/ }),
 /* 139 */
@@ -3962,49 +4103,37 @@ var render = function() {
       }
     },
     [
-      _vm.status
-        ? _c("header", { staticClass: "sign-title red showError" }, [
-            _vm._v("Email não encontrado")
-          ])
-        : _vm.loading
-          ? _c("header", { staticClass: "sign-title gray" }, [
-              _vm._v("Aguarde!!!")
-            ])
-          : _vm.ok
-            ? _c("header", { staticClass: "sign-title green" }, [
-                _vm._v("Redirecinando...")
-              ])
-            : _c("header", { staticClass: "sign-title" }, [
-                _vm._v("Redefinir senha")
-              ]),
+      _c("header", { staticClass: "sign-title" }, [_vm._v("Redefinir Senha")]),
       _vm._v(" "),
-      _c("div", { staticClass: "form-group" }, [
-        _c("input", {
-          directives: [
-            {
-              name: "model",
-              rawName: "v-model",
-              value: _vm.email,
-              expression: "email"
-            }
-          ],
-          staticClass: "form-control",
-          attrs: {
-            type: "email",
-            required: "",
-            placeholder: "Entre com seu email"
-          },
-          domProps: { value: _vm.email },
-          on: {
-            input: function($event) {
-              if ($event.target.composing) {
-                return
-              }
-              _vm.email = $event.target.value
-            }
-          }
-        })
-      ]),
+      !_vm.tokenOk ? _c("header", [_vm._m(0)]) : _vm._e(),
+      _vm._v(" "),
+      _vm.passwordNotEquals
+        ? _c("header", { staticClass: "sign-title red showError" }, [_vm._m(1)])
+        : _vm.loading
+          ? _c("header", { staticClass: "sign-title red" }, [
+              _vm._v("Aguarde enviando...")
+            ])
+          : _vm.passwordInvalid
+            ? _c("header", [_vm._m(2)])
+            : _vm.updateOk
+              ? _c("header", [
+                  _c(
+                    "div",
+                    {
+                      staticClass:
+                        "alert alert-success alert-fill alert-close alert-dismissible fade show",
+                      attrs: { role: "alert" }
+                    },
+                    [
+                      _vm._v("\n      Senha alterada com sucesso! "),
+                      _c("br"),
+                      _c("a", { attrs: { href: _vm.urllogin } }, [
+                        _vm._v("Clique aqui para fazer login")
+                      ])
+                    ]
+                  )
+                ])
+              : _vm._e(),
       _vm._v(" "),
       _c("div", { staticClass: "form-group" }, [
         _c("input", {
@@ -4025,6 +4154,7 @@ var render = function() {
           },
           domProps: { value: _vm.password },
           on: {
+            click: _vm.checkAlert,
             input: function($event) {
               if ($event.target.composing) {
                 return
@@ -4054,6 +4184,7 @@ var render = function() {
           },
           domProps: { value: _vm.confirme },
           on: {
+            click: _vm.checkAlert,
             input: function($event) {
               if ($event.target.composing) {
                 return
@@ -4066,13 +4197,81 @@ var render = function() {
       _vm._v(" "),
       _c(
         "button",
-        { staticClass: "btn btn-rounded", attrs: { type: "submit" } },
+        {
+          staticClass: "btn btn-rounded",
+          attrs: { type: "submit", disabled: _vm.passwordInvalid }
+        },
         [_vm._v("Redefinir senha agora")]
       )
     ]
   )
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      {
+        staticClass:
+          "alert alert-warning alert-icon alert-close alert-dismissible fade show",
+        attrs: { role: "alert" }
+      },
+      [
+        _c("i", { staticClass: "font-icon font-icon-warning" }),
+        _vm._v("\n      Token inválido ou expirado!!!\n    ")
+      ]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      {
+        staticClass:
+          "alert alert-warning alert-icon alert-close alert-dismissible fade show",
+        attrs: { role: "alert" }
+      },
+      [
+        _c("i", { staticClass: "font-icon font-icon-warning" }),
+        _vm._v("\n      Senhas não são iguais !\n    ")
+      ]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      {
+        staticClass:
+          "alert alert-danger alert-fill alert-close alert-dismissible fade show __web-inspector-hide-shortcut__",
+        attrs: { role: "alert" }
+      },
+      [
+        _c(
+          "button",
+          {
+            staticClass: "close",
+            attrs: {
+              type: "button",
+              "data-dismiss": "alert",
+              "aria-label": "Close"
+            }
+          },
+          [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
+        ),
+        _vm._v(" "),
+        _c("strong", [_vm._v("Atenção:")]),
+        _vm._v(" Senha administrativa fraca, tente outra mais forte.\n    ")
+      ]
+    )
+  }
+]
 render._withStripped = true
 module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {

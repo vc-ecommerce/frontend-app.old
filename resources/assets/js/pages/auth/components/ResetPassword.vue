@@ -1,22 +1,31 @@
 <template>
   <form class="sign-box" @submit.prevent="submitForm">
 
-    <header v-if="status" class="sign-title red showError">Email não encontrado</header>
-    <header v-else-if="loading" class="sign-title gray">Aguarde!!!</header>
+    <header class="sign-title">Redefinição de senha</header>
+
+    <header v-if="status" class="sign-title red showError">
+      <div class="alert alert-error alert-fill alert-close alert-dismissible fade show" role="alert">
+        Email não encontrado!
+      </div>
+    </header>
+
+    <header v-else-if="loading" class="sign-title red">
+      Aguarde enviando...
+    </header>
+
     <header v-else-if="ok">
       <div class="alert alert-success alert-fill alert-close alert-dismissible fade show" role="alert">
         O link para redefinição de senha foi enviado para o seu e-mail!
       </div>
     </header>
-    <header v-else class="sign-title">Redifinição de senha</header>
 
-    <div class="form-group">
+    <div v-else class="form-group">
       Digite seu e-mail de cadastro abaixo e clique em enviar. <br />
       Nós lhe enviaremos um e-mail com link para recadastrar sua senha.
     </div>
 
     <div class="form-group">
-      <input type="email" required class="form-control" v-model="email" placeholder="Entre com seu email"/>
+      <input type="email" required class="form-control" v-model="email" placeholder="Endereço de email"/>
     </div>
 
     <button type="submit" class="btn btn-rounded">Enviar</button>
@@ -26,7 +35,7 @@
 <script>
 export default {
   name: "ResetPassword",
-  props: ["urllogin"],
+  props: [],
   data() {
     return {
       email: "",
@@ -47,17 +56,16 @@ export default {
       }
     },
     submitForm() {
-
-      //this.loading = true;
-                this.ok = true;
+      this.loading = true;
       const api = `${this.$urlApi}/auth/reset`;
       Vue.axios
         .post(api, {
-          email: this.email,
+          email: this.email
         })
         .then(response => {
           this.ok = true;
-          console.log(response.data)
+          this.loading = false;
+          console.log(response.data);
         })
         .catch(error => {
           this.loading = false;
@@ -69,7 +77,6 @@ export default {
 </script>
 
 <style scoped>
-
 .sign-title {
   font-weight: bold;
 }
@@ -105,9 +112,7 @@ export default {
   color: #46c35f;
 }
 
-.gray{
-  color:  #808080;
+.gray {
+  color: #808080;
 }
 </style>
-
-

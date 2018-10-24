@@ -16,7 +16,7 @@ class CheckToken
     public function handle($request, Closure $next)
     {
         if (!session('token')){
-            return redirect()->route('auth.login.index');
+            return redirect()->route('auth.login');
         }
         return $next($request);
     }

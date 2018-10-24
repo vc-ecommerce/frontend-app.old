@@ -1,11 +1,11 @@
 @extends('layouts.auth')
 
 @section('title')
-    Redefinir senha
+    Redefinir Senha
 @endsection
 
 @section('content')
-    <forgot-password urllogin="{{ route('auth.login.index') }}"></forgot-password>
+    <forgot-password token="{{ $token }}" urllogin="{{ route('auth.login') }}"></forgot-password>
 @endsection
 
 @section('scripts')
