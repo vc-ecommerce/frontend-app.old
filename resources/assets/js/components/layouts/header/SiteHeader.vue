@@ -17,7 +17,7 @@
 
             <Notification />
 
-            <MenuTopUser :profile="profile" />
+            <MenuTopUser />
 
             <button type="button" class="burger-right">
               <i class="font-icon-menu-addl"></i>
@@ -53,8 +53,8 @@ export default {
   name: 'SiteHeader',
   data() {
     return {
-      profile: "Meu Perfil"
-    };
+
+    }
   },
   components: {
     Notification,

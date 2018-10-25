@@ -2994,12 +2994,15 @@ var state = {
 };
 
 var getters = {
+
   getToken: function getToken(state) {
     return state.user.HTTP_Authorization;
   },
-
   getUser: function getUser(state) {
     return state.user;
+  },
+  getUserName: function getUserName(state) {
+    return state.user.HTTP_Data.name;
   }
 };
 
@@ -3261,7 +3264,7 @@ exports = module.exports = __webpack_require__(3)(false);
 
 
 // module
-exports.push([module.i, "\n.showError[data-v-ae829e96] {\n  animation: treme-data-v-ae829e96 0.1s;\n  animation-iteration-count: 3;\n}\n.sign-title[data-v-ae829e96] {\n  font-weight: bold;\n}\n@keyframes treme-data-v-ae829e96 {\n0% {\n    margin-left: 0;\n}\n25% {\n    margin-left: 5px;\n}\n50% {\n    margin-left: 0;\n}\n75% {\n    margin-left: -5px;\n}\n100% {\n    margin-left: 0;\n}\n}\n.red[data-v-ae829e96] {\n  color: #fa424a;\n}\n.green[data-v-ae829e96] {\n  color: #46c35f;\n}\n.gray[data-v-ae829e96]{\n  color:  #808080;\n}\n", ""]);
+exports.push([module.i, "\n.showError[data-v-ae829e96] {\n  animation: treme-data-v-ae829e96 0.1s;\n  animation-iteration-count: 3;\n}\n.sign-title[data-v-ae829e96] {\n  font-weight: bold;\n}\n@keyframes treme-data-v-ae829e96 {\n0% {\n    margin-left: 0;\n}\n25% {\n    margin-left: 5px;\n}\n50% {\n    margin-left: 0;\n}\n75% {\n    margin-left: -5px;\n}\n100% {\n    margin-left: 0;\n}\n}\n.red[data-v-ae829e96] {\n  color: #fa424a;\n}\n.green[data-v-ae829e96] {\n  color: #46c35f;\n}\n.gray[data-v-ae829e96] {\n  color: #808080;\n}\n", ""]);
 
 // exports
 
@@ -3373,6 +3376,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         _this3.showError(error.response.status);
       });
     }
+  },
+  mounted: function mounted() {
+    // Remove saved data from sessionStorage
+    sessionStorage.removeItem("user");
+    // Remove all saved data from sessionStorage
+    sessionStorage.clear();
   }
 });
 

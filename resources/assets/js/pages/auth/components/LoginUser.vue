@@ -83,9 +83,7 @@ export default {
           console.log(error);
         });
     },
-
     submitForm() {
-
       this.loading = true;
       const api = `${this.$urlApi}/auth/login`;
       Vue.axios
@@ -104,6 +102,12 @@ export default {
           this.showError(error.response.status);
         });
     }
+  },
+  mounted() {
+    // Remove saved data from sessionStorage
+    sessionStorage.removeItem("user");
+    // Remove all saved data from sessionStorage
+    sessionStorage.clear();
   }
 };
 </script>
@@ -144,9 +148,7 @@ export default {
   color: #46c35f;
 }
 
-.gray{
-  color:  #808080;
+.gray {
+  color: #808080;
 }
 </style>
-
-

@@ -5,12 +5,15 @@ const state = {
 }
 
 const getters = {
+
   getToken: state => {
     return state.user.HTTP_Authorization;
   },
-
   getUser: state => {
     return state.user;
+  },
+  getUserName: state => {
+    return state.user.HTTP_Data.name;
   }
 }
 

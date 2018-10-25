@@ -2994,12 +2994,15 @@ var state = {
 };
 
 var getters = {
+
   getToken: function getToken(state) {
     return state.user.HTTP_Authorization;
   },
-
   getUser: function getUser(state) {
     return state.user;
+  },
+  getUserName: function getUserName(state) {
+    return state.user.HTTP_Data.name;
   }
 };
 
@@ -3096,10 +3099,6 @@ var appOne = new Vue({
     if (!user) {
       window.location = "/login";
     }
-  },
-  created: function created() {
-    var token = document.head.querySelector('meta[name="csrf-token"]');
-    console.log(token.content);
   }
 });
 
@@ -3237,9 +3236,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'SiteHeader',
   data: function data() {
-    return {
-      profile: "Meu Perfil"
-    };
+    return {};
   },
 
   components: {
@@ -3318,7 +3315,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  name: 'Notification',
+  name: "Notification",
   components: {
     NotificationsNotif: __WEBPACK_IMPORTED_MODULE_0__NotificationsNotif___default.a,
     NotificationsMessages: __WEBPACK_IMPORTED_MODULE_1__NotificationsMessages___default.a
@@ -3744,28 +3741,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "NotificationsMessages",
   data: function data() {
-    return {
-      title: ""
-    };
+    return {};
   },
-
-  mounted: function mounted() {
-
-    //this.$store.commit("addNotificacao", { nome: "Jovem Pan" });
-    //this.title = this.$store.getters.getNome;
-
-
-    console.log(this.title);
-
-    // this.$store.commit("setTeste", { data: "Jovem Pan" });
-    // this.title = this.$store.state.teste.item.data;
-
-
-    // this.$store.commit("setItem", { data: "Roupa infantil" });
-    // this.title = this.$store.state.carrinho.item.data;
-
-    // console.log(this.title);
-  }
+  mounted: function mounted() {}
 });
 
 /***/ }),
@@ -3776,55 +3754,7 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "dropdown dropdown-notification messages" }, [
-    _vm._m(0),
-    _vm._v(" "),
-    _c(
-      "div",
-      {
-        staticClass: "dropdown-menu dropdown-menu-right dropdown-menu-messages",
-        attrs: { "aria-labelledby": "dd-messages" }
-      },
-      [
-        _vm._m(1),
-        _vm._v(" "),
-        _c("div", { staticClass: "tab-content" }, [
-          _c(
-            "div",
-            {
-              staticClass: "tab-pane active",
-              attrs: { id: "tab-incoming", role: "tabpanel" }
-            },
-            [
-              _c("div", { staticClass: "dropdown-menu-messages-list" }, [
-                _c("a", { staticClass: "mess-item", attrs: { href: "#" } }, [
-                  _vm._m(2),
-                  _vm._v(" "),
-                  _c("span", { staticClass: "mess-item-name" }, [
-                    _vm._v(_vm._s(_vm.title))
-                  ]),
-                  _vm._v(" "),
-                  _c("span", { staticClass: "mess-item-txt" }, [
-                    _vm._v("Morgan was bothering about something!")
-                  ])
-                ]),
-                _vm._v(" "),
-                _vm._m(3),
-                _vm._v(" "),
-                _vm._m(4),
-                _vm._v(" "),
-                _vm._m(5)
-              ])
-            ]
-          ),
-          _vm._v(" "),
-          _vm._m(6)
-        ]),
-        _vm._v(" "),
-        _vm._m(7)
-      ]
-    )
-  ])
+  return _vm._m(0)
 }
 var staticRenderFns = [
   function() {
@@ -3832,207 +3762,302 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c(
-      "a",
-      {
-        staticClass: "header-alarm dropdown-toggle active",
-        attrs: {
-          href: "#",
-          id: "dd-messages",
-          "data-toggle": "dropdown",
-          "aria-haspopup": "true",
-          "aria-expanded": "false"
-        }
-      },
-      [_c("i", { staticClass: "font-icon-mail" })]
-    )
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "dropdown-menu-messages-header" }, [
-      _c("ul", { staticClass: "nav", attrs: { role: "tablist" } }, [
-        _c("li", { staticClass: "nav-item" }, [
-          _c(
-            "a",
-            {
-              staticClass: "nav-link active",
-              attrs: {
-                "data-toggle": "tab",
-                href: "#tab-incoming",
-                role: "tab"
-              }
-            },
-            [
-              _vm._v("\n            Inbox\n            "),
-              _c("span", { staticClass: "label label-pill label-danger" }, [
-                _vm._v("8")
-              ])
-            ]
-          )
-        ]),
-        _vm._v(" "),
-        _c("li", { staticClass: "nav-item" }, [
-          _c(
-            "a",
-            {
-              staticClass: "nav-link",
-              attrs: {
-                "data-toggle": "tab",
-                href: "#tab-outgoing",
-                role: "tab"
-              }
-            },
-            [_vm._v("Outbox")]
-          )
-        ])
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("span", { staticClass: "avatar-preview avatar-preview-32" }, [
-      _c("img", { attrs: { src: "/img/photo-64-2.jpg", alt: "" } })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("a", { staticClass: "mess-item", attrs: { href: "#" } }, [
-      _c("span", { staticClass: "avatar-preview avatar-preview-32" }, [
-        _c("img", { attrs: { src: "/img/avatar-2-64.png", alt: "" } })
-      ]),
-      _vm._v(" "),
-      _c("span", { staticClass: "mess-item-name" }, [
-        _vm._v("Christian Burton")
-      ]),
-      _vm._v(" "),
-      _c("span", { staticClass: "mess-item-txt" }, [
-        _vm._v(
-          "Morgan was bothering about something! Morgan was bothering about something."
-        )
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("a", { staticClass: "mess-item", attrs: { href: "#" } }, [
-      _c("span", { staticClass: "avatar-preview avatar-preview-32" }, [
-        _c("img", { attrs: { src: "/img/photo-64-2.jpg", alt: "" } })
-      ]),
-      _vm._v(" "),
-      _c("span", { staticClass: "mess-item-name" }, [_vm._v("Tim Collins")]),
-      _vm._v(" "),
-      _c("span", { staticClass: "mess-item-txt" }, [
-        _vm._v("Morgan was bothering about something!")
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("a", { staticClass: "mess-item", attrs: { href: "#" } }, [
-      _c("span", { staticClass: "avatar-preview avatar-preview-32" }, [
-        _c("img", { attrs: { src: "/img/avatar-2-64.png", alt: "" } })
-      ]),
-      _vm._v(" "),
-      _c("span", { staticClass: "mess-item-name" }, [
-        _vm._v("Christian Burton")
-      ]),
-      _vm._v(" "),
-      _c("span", { staticClass: "mess-item-txt" }, [
-        _vm._v("Morgan was bothering about something...")
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
       "div",
-      {
-        staticClass: "tab-pane",
-        attrs: { id: "tab-outgoing", role: "tabpanel" }
-      },
+      { staticClass: "dropdown dropdown-notification messages" },
       [
-        _c("div", { staticClass: "dropdown-menu-messages-list" }, [
-          _c("a", { staticClass: "mess-item", attrs: { href: "#" } }, [
-            _c("span", { staticClass: "avatar-preview avatar-preview-32" }, [
-              _c("img", { attrs: { src: "/img/avatar-2-64.png", alt: "" } })
+        _c(
+          "a",
+          {
+            staticClass: "header-alarm dropdown-toggle active",
+            attrs: {
+              href: "#",
+              id: "dd-messages",
+              "data-toggle": "dropdown",
+              "aria-haspopup": "true",
+              "aria-expanded": "false"
+            }
+          },
+          [_c("i", { staticClass: "font-icon-mail" })]
+        ),
+        _vm._v(" "),
+        _c(
+          "div",
+          {
+            staticClass:
+              "dropdown-menu dropdown-menu-right dropdown-menu-messages",
+            attrs: { "aria-labelledby": "dd-messages" }
+          },
+          [
+            _c("div", { staticClass: "dropdown-menu-messages-header" }, [
+              _c("ul", { staticClass: "nav", attrs: { role: "tablist" } }, [
+                _c("li", { staticClass: "nav-item" }, [
+                  _c(
+                    "a",
+                    {
+                      staticClass: "nav-link active",
+                      attrs: {
+                        "data-toggle": "tab",
+                        href: "#tab-incoming",
+                        role: "tab"
+                      }
+                    },
+                    [
+                      _vm._v("\n            Inbox\n            "),
+                      _c(
+                        "span",
+                        { staticClass: "label label-pill label-danger" },
+                        [_vm._v("8")]
+                      )
+                    ]
+                  )
+                ]),
+                _vm._v(" "),
+                _c("li", { staticClass: "nav-item" }, [
+                  _c(
+                    "a",
+                    {
+                      staticClass: "nav-link",
+                      attrs: {
+                        "data-toggle": "tab",
+                        href: "#tab-outgoing",
+                        role: "tab"
+                      }
+                    },
+                    [_vm._v("Outbox")]
+                  )
+                ])
+              ])
             ]),
             _vm._v(" "),
-            _c("span", { staticClass: "mess-item-name" }, [
-              _vm._v("Christian Burton")
-            ]),
-            _vm._v(" "),
-            _c("span", { staticClass: "mess-item-txt" }, [
-              _vm._v(
-                "Morgan was bothering about something! Morgan was bothering about something..."
+            _c("div", { staticClass: "tab-content" }, [
+              _c(
+                "div",
+                {
+                  staticClass: "tab-pane active",
+                  attrs: { id: "tab-incoming", role: "tabpanel" }
+                },
+                [
+                  _c("div", { staticClass: "dropdown-menu-messages-list" }, [
+                    _c(
+                      "a",
+                      { staticClass: "mess-item", attrs: { href: "#" } },
+                      [
+                        _c(
+                          "span",
+                          { staticClass: "avatar-preview avatar-preview-32" },
+                          [
+                            _c("img", {
+                              attrs: { src: "/img/photo-64-2.jpg", alt: "" }
+                            })
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _c("span", { staticClass: "mess-item-name" }, [
+                          _vm._v("Christian Burton 2")
+                        ]),
+                        _vm._v(" "),
+                        _c("span", { staticClass: "mess-item-txt" }, [
+                          _vm._v("Morgan was bothering about something!")
+                        ])
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "a",
+                      { staticClass: "mess-item", attrs: { href: "#" } },
+                      [
+                        _c(
+                          "span",
+                          { staticClass: "avatar-preview avatar-preview-32" },
+                          [
+                            _c("img", {
+                              attrs: { src: "/img/avatar-2-64.png", alt: "" }
+                            })
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _c("span", { staticClass: "mess-item-name" }, [
+                          _vm._v("Christian Burton")
+                        ]),
+                        _vm._v(" "),
+                        _c("span", { staticClass: "mess-item-txt" }, [
+                          _vm._v(
+                            "Morgan was bothering about something! Morgan was bothering about something."
+                          )
+                        ])
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "a",
+                      { staticClass: "mess-item", attrs: { href: "#" } },
+                      [
+                        _c(
+                          "span",
+                          { staticClass: "avatar-preview avatar-preview-32" },
+                          [
+                            _c("img", {
+                              attrs: { src: "/img/photo-64-2.jpg", alt: "" }
+                            })
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _c("span", { staticClass: "mess-item-name" }, [
+                          _vm._v("Tim Collins")
+                        ]),
+                        _vm._v(" "),
+                        _c("span", { staticClass: "mess-item-txt" }, [
+                          _vm._v("Morgan was bothering about something!")
+                        ])
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "a",
+                      { staticClass: "mess-item", attrs: { href: "#" } },
+                      [
+                        _c(
+                          "span",
+                          { staticClass: "avatar-preview avatar-preview-32" },
+                          [
+                            _c("img", {
+                              attrs: { src: "/img/avatar-2-64.png", alt: "" }
+                            })
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _c("span", { staticClass: "mess-item-name" }, [
+                          _vm._v("Christian Burton")
+                        ]),
+                        _vm._v(" "),
+                        _c("span", { staticClass: "mess-item-txt" }, [
+                          _vm._v("Morgan was bothering about something...")
+                        ])
+                      ]
+                    )
+                  ])
+                ]
+              ),
+              _vm._v(" "),
+              _c(
+                "div",
+                {
+                  staticClass: "tab-pane",
+                  attrs: { id: "tab-outgoing", role: "tabpanel" }
+                },
+                [
+                  _c("div", { staticClass: "dropdown-menu-messages-list" }, [
+                    _c(
+                      "a",
+                      { staticClass: "mess-item", attrs: { href: "#" } },
+                      [
+                        _c(
+                          "span",
+                          { staticClass: "avatar-preview avatar-preview-32" },
+                          [
+                            _c("img", {
+                              attrs: { src: "/img/avatar-2-64.png", alt: "" }
+                            })
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _c("span", { staticClass: "mess-item-name" }, [
+                          _vm._v("Christian Burton")
+                        ]),
+                        _vm._v(" "),
+                        _c("span", { staticClass: "mess-item-txt" }, [
+                          _vm._v(
+                            "Morgan was bothering about something! Morgan was bothering about something..."
+                          )
+                        ])
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "a",
+                      { staticClass: "mess-item", attrs: { href: "#" } },
+                      [
+                        _c(
+                          "span",
+                          { staticClass: "avatar-preview avatar-preview-32" },
+                          [
+                            _c("img", {
+                              attrs: { src: "/img/photo-64-2.jpg", alt: "" }
+                            })
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _c("span", { staticClass: "mess-item-name" }, [
+                          _vm._v("Tim Collins")
+                        ]),
+                        _vm._v(" "),
+                        _c("span", { staticClass: "mess-item-txt" }, [
+                          _vm._v(
+                            "Morgan was bothering about something! Morgan was bothering about something."
+                          )
+                        ])
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "a",
+                      { staticClass: "mess-item", attrs: { href: "#" } },
+                      [
+                        _c(
+                          "span",
+                          { staticClass: "avatar-preview avatar-preview-32" },
+                          [
+                            _c("img", {
+                              attrs: { src: "/img/avatar-2-64.png", alt: "" }
+                            })
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _c("span", { staticClass: "mess-item-name" }, [
+                          _vm._v("Christian Burtons")
+                        ]),
+                        _vm._v(" "),
+                        _c("span", { staticClass: "mess-item-txt" }, [
+                          _vm._v("Morgan was bothering about something!")
+                        ])
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "a",
+                      { staticClass: "mess-item", attrs: { href: "#" } },
+                      [
+                        _c(
+                          "span",
+                          { staticClass: "avatar-preview avatar-preview-32" },
+                          [
+                            _c("img", {
+                              attrs: { src: "/img/photo-64-2.jpg", alt: "" }
+                            })
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _c("span", { staticClass: "mess-item-name" }, [
+                          _vm._v("Tim Collins")
+                        ]),
+                        _vm._v(" "),
+                        _c("span", { staticClass: "mess-item-txt" }, [
+                          _vm._v("Morgan was bothering about something!")
+                        ])
+                      ]
+                    )
+                  ])
+                ]
               )
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "dropdown-menu-notif-more" }, [
+              _c("a", { attrs: { href: "#" } }, [_vm._v("See more")])
             ])
-          ]),
-          _vm._v(" "),
-          _c("a", { staticClass: "mess-item", attrs: { href: "#" } }, [
-            _c("span", { staticClass: "avatar-preview avatar-preview-32" }, [
-              _c("img", { attrs: { src: "/img/photo-64-2.jpg", alt: "" } })
-            ]),
-            _vm._v(" "),
-            _c("span", { staticClass: "mess-item-name" }, [
-              _vm._v("Tim Collins")
-            ]),
-            _vm._v(" "),
-            _c("span", { staticClass: "mess-item-txt" }, [
-              _vm._v(
-                "Morgan was bothering about something! Morgan was bothering about something."
-              )
-            ])
-          ]),
-          _vm._v(" "),
-          _c("a", { staticClass: "mess-item", attrs: { href: "#" } }, [
-            _c("span", { staticClass: "avatar-preview avatar-preview-32" }, [
-              _c("img", { attrs: { src: "/img/avatar-2-64.png", alt: "" } })
-            ]),
-            _vm._v(" "),
-            _c("span", { staticClass: "mess-item-name" }, [
-              _vm._v("Christian Burtons")
-            ]),
-            _vm._v(" "),
-            _c("span", { staticClass: "mess-item-txt" }, [
-              _vm._v("Morgan was bothering about something!")
-            ])
-          ]),
-          _vm._v(" "),
-          _c("a", { staticClass: "mess-item", attrs: { href: "#" } }, [
-            _c("span", { staticClass: "avatar-preview avatar-preview-32" }, [
-              _c("img", { attrs: { src: "/img/photo-64-2.jpg", alt: "" } })
-            ]),
-            _vm._v(" "),
-            _c("span", { staticClass: "mess-item-name" }, [
-              _vm._v("Tim Collins")
-            ]),
-            _vm._v(" "),
-            _c("span", { staticClass: "mess-item-txt" }, [
-              _vm._v("Morgan was bothering about something!")
-            ])
-          ])
-        ])
+          ]
+        )
       ]
     )
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "dropdown-menu-notif-more" }, [
-      _c("a", { attrs: { href: "#" } }, [_vm._v("See more")])
-    ])
   }
 ]
 render._withStripped = true
@@ -4150,16 +4175,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "MenuTopUser",
-  props: {
-    profile: {
-      type: String,
-      default: "Perfil"
-    }
-  },
-  methods: {
-    switchProfile: function switchProfile() {
-      return this.profile.split("").reverse().join("");
-    }
+  props: [],
+  data: function data() {
+    return {
+      userName: this.$store.getters.getUserName
+    };
   }
 });
 
@@ -4183,7 +4203,7 @@ var render = function() {
       [
         _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
           _c("span", { staticClass: "font-icon glyphicon glyphicon-user" }),
-          _vm._v("\n        " + _vm._s(_vm.switchProfile()) + "\n    ")
+          _vm._v("\n      " + _vm._s(_vm.userName) + "\n    ")
         ]),
         _vm._v(" "),
         _vm._m(1),
@@ -4223,7 +4243,7 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
       _c("span", { staticClass: "font-icon glyphicon glyphicon-cog" }),
-      _vm._v("\n      Settings\n    ")
+      _vm._v("\n      Configurações\n    ")
     ])
   },
   function() {
@@ -4234,17 +4254,21 @@ var staticRenderFns = [
       _c("span", {
         staticClass: "font-icon glyphicon glyphicon-question-sign"
       }),
-      _vm._v("\n      Help\n    ")
+      _vm._v("\n      Ajuda\n    ")
     ])
   },
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
-      _c("span", { staticClass: "font-icon glyphicon glyphicon-log-out" }),
-      _vm._v("\n      Logout\n    ")
-    ])
+    return _c(
+      "a",
+      { staticClass: "dropdown-item", attrs: { href: "/logout" } },
+      [
+        _c("span", { staticClass: "font-icon glyphicon glyphicon-log-out" }),
+        _vm._v("\n      Sair\n    ")
+      ]
+    )
   }
 ]
 render._withStripped = true
@@ -4549,7 +4573,7 @@ var render = function() {
               [
                 _c("Notification"),
                 _vm._v(" "),
-                _c("MenuTopUser", { attrs: { profile: _vm.profile } }),
+                _c("MenuTopUser"),
                 _vm._v(" "),
                 _vm._m(2)
               ],

@@ -2994,12 +2994,15 @@ var state = {
 };
 
 var getters = {
+
   getToken: function getToken(state) {
     return state.user.HTTP_Authorization;
   },
-
   getUser: function getUser(state) {
     return state.user;
+  },
+  getUserName: function getUserName(state) {
+    return state.user.HTTP_Data.name;
   }
 };
 

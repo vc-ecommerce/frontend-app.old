@@ -6,20 +6,20 @@
     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dd-user-menu">
       <a class="dropdown-item" href="#">
         <span class="font-icon glyphicon glyphicon-user"></span>
-          {{ switchProfile() }}
+        {{ userName }}
       </a>
       <a class="dropdown-item" href="#">
         <span class="font-icon glyphicon glyphicon-cog"></span>
-        Settings
+        Configurações
       </a>
       <a class="dropdown-item" href="#">
         <span class="font-icon glyphicon glyphicon-question-sign"></span>
-        Help
+        Ajuda
       </a>
       <div class="dropdown-divider"></div>
-      <a class="dropdown-item" href="#">
+      <a class="dropdown-item" href="/logout">
         <span class="font-icon glyphicon glyphicon-log-out"></span>
-        Logout
+        Sair
       </a>
     </div>
   </div>
@@ -27,19 +27,11 @@
 <script>
 export default {
   name: "MenuTopUser",
-  props: {
-    profile: {
-      type: String,
-      default: "Perfil"
-    }
-  },
-  methods: {
-    switchProfile() {
-      return this.profile
-        .split("")
-        .reverse()
-        .join("");
+  props: [],
+  data() {
+    return {
+      userName: this.$store.getters.getUserName
     }
   }
-};
+}
 </script>

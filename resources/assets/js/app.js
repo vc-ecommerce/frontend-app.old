@@ -17,12 +17,7 @@ const appOne = new Vue({
     if (!user) {
       window.location = "/login";
     }
-  },
-  created() {
-    let token = document.head.querySelector('meta[name="csrf-token"]');
-    console.log(token.content);
-  },
-
+  }
 });
 
 const appTwo = new Vue({

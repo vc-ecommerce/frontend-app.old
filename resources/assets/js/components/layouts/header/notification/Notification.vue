@@ -9,10 +9,10 @@ import NotificationsNotif from "./NotificationsNotif";
 import NotificationsMessages from "./NotificationsMessages";
 
 export default {
-  name: 'Notification',
+  name: "Notification",
   components: {
     NotificationsNotif,
-    NotificationsMessages,
+    NotificationsMessages
   }
-};
+}
 </script>

@@ -37,7 +37,7 @@
             <a href="#" class="mess-item">
                             <span class="avatar-preview avatar-preview-32"><img src="/img/photo-64-2.jpg"
                                                                                 alt=""></span>
-              <span class="mess-item-name">{{ title }}</span>
+              <span class="mess-item-name">Christian Burton 2</span>
               <span class="mess-item-txt">Morgan was bothering about something!</span>
             </a>
             <a href="#" class="mess-item">
@@ -102,28 +102,8 @@
 export default {
   name: "NotificationsMessages",
   data: function() {
-    return {
-      title: ""
-    };
+    return {};
   },
-
-  mounted() {
-
-    //this.$store.commit("addNotificacao", { nome: "Jovem Pan" });
-    //this.title = this.$store.getters.getNome;
-
-
-    console.log(this.title);
-
-    // this.$store.commit("setTeste", { data: "Jovem Pan" });
-    // this.title = this.$store.state.teste.item.data;
-
-
-    // this.$store.commit("setItem", { data: "Roupa infantil" });
-    // this.title = this.$store.state.carrinho.item.data;
-
-    // console.log(this.title);
-
-  }
-};
+  mounted() {}
+}
 </script>

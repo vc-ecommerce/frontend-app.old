@@ -134,7 +134,6 @@ export default {
     },
     submitForm() {
 
-
       if (!this.isPasswordValid()) {
         return;
       }
@@ -147,7 +146,6 @@ export default {
       if (this.tokenOk === false) {
         return;
       }
-
 
       if (this.userId !== "") {
         this.sendData();
