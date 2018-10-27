@@ -46,7 +46,7 @@
                     <div class="tabledit-toolbar btn-toolbar" style="text-align: left;">
                         <div class="btn-group btn-group-sm" style="float: none;">
 
-                          <UserEditModal :dataUser="user.name"/>
+                          <UserEditModal :dataItem="user"/>
 
                           <button type="button" @click.prevent="alertRemove(user.name, user._id)" class="tabledit-delete-button btn btn-sm btn-danger" style="float: none;">
                             <span class="glyphicon glyphicon-trash"></span>

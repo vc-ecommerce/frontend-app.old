@@ -1,15 +1,15 @@
 <template>
   <span>
 
-    <button type="button" v-if="showButton" :class="showButtonCss"
-      data-toggle="modal" :data-target="!sizeModal ? '#myModal' : '.bd-example-modal-'+ sizeModal">
-      <i :class="classIcon"></i> {{ titleLink || '' }}
-    </button>
-
-    <a v-else href="javascript:void(0)" :class="showButtonCss"
+    <a v-if="showType =='href'" v-on:click="fillDataStore()" href="javascript:void(0)" :class="showTypeClassName"
       data-toggle="modal" :data-target="!sizeModal ? '#myModal' : '.bd-example-modal-'+ sizeModal">
       <i :class="classIcon"></i> {{ titleLink || '' }}
     </a>
+
+    <button v-else type="button" v-on:click="fillDataStore()" :class="showTypeClassName"
+      data-toggle="modal" :data-target="!sizeModal ? '#myModal' : '.bd-example-modal-'+ sizeModal">
+      <i :class="classIcon"></i> {{ titleLink || '' }}
+    </button>
 
     <div id="myModal" :class="!sizeModal ? 'modal fade' : 'modal fade bd-example-modal-'+ sizeModal" tabindex="-1" role="dialog">
       <div :class="!sizeModal ? 'modal-dialog' : 'modal-dialog modal-'+ sizeModal">
@@ -40,8 +40,11 @@
 export default {
   name: "Modal",
   props: {
-    showButton: false,
-    showButtonCss: {
+    showType: {
+      type: String,
+      default: 'button'
+    },
+    showTypeClassName: {
       default: 'btn btn-inline'
     },
     sizeModal: {
@@ -64,6 +67,15 @@ export default {
       type: String,
       default: "Salvar",
       require: true
+    },
+    dataItem: {
+      type: Object,
+      require: false
+    }
+  },
+  methods:{
+    fillDataStore:function(){
+      this.$store.commit('setItem',this.dataItem);
     }
   }
 };

@@ -1,6 +1,5 @@
 <template>
   <Modal
-    :showButton=true
     titleLink="Criar"
     classIcon="glyphicon glyphicon-plus"
     titleModal="Criar Novo Usuário"

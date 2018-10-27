@@ -3678,8 +3678,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "Modal",
   props: {
-    showButton: false,
-    showButtonCss: {
+    showType: {
+      type: String,
+      default: 'button'
+    },
+    showTypeClassName: {
       default: 'btn btn-inline'
     },
     sizeModal: {
@@ -3702,6 +3705,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       type: String,
       default: "Salvar",
       require: true
+    },
+    dataItem: {
+      type: Object,
+      require: false
+    }
+  },
+  methods: {
+    fillDataStore: function fillDataStore() {
+      this.$store.commit('setItem', this.dataItem);
     }
   }
 });
@@ -3715,17 +3727,22 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("span", [
-    _vm.showButton
+    _vm.showType == "href"
       ? _c(
-          "button",
+          "a",
           {
-            class: _vm.showButtonCss,
+            class: _vm.showTypeClassName,
             attrs: {
-              type: "button",
+              href: "javascript:void(0)",
               "data-toggle": "modal",
               "data-target": !_vm.sizeModal
                 ? "#myModal"
                 : ".bd-example-modal-" + _vm.sizeModal
+            },
+            on: {
+              click: function($event) {
+                _vm.fillDataStore()
+              }
             }
           },
           [
@@ -3734,15 +3751,20 @@ var render = function() {
           ]
         )
       : _c(
-          "a",
+          "button",
           {
-            class: _vm.showButtonCss,
+            class: _vm.showTypeClassName,
             attrs: {
-              href: "javascript:void(0)",
+              type: "button",
               "data-toggle": "modal",
               "data-target": !_vm.sizeModal
                 ? "#myModal"
                 : ".bd-example-modal-" + _vm.sizeModal
+            },
+            on: {
+              click: function($event) {
+                _vm.fillDataStore()
+              }
             }
           },
           [
@@ -4165,7 +4187,7 @@ var render = function() {
                                 },
                                 [
                                   _c("UserEditModal", {
-                                    attrs: { dataUser: user.name }
+                                    attrs: { dataItem: user }
                                   }),
                                   _vm._v(" "),
                                   _c(
@@ -4362,7 +4384,7 @@ exports = module.exports = __webpack_require__(3)(false);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -4377,7 +4399,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_layouts_Table___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__components_layouts_Table__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_layouts_Modal__ = __webpack_require__(147);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_layouts_Modal___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__components_layouts_Modal__);
-//
 //
 //
 //
@@ -4417,7 +4438,6 @@ var render = function() {
     "Modal",
     {
       attrs: {
-        showButton: true,
         titleLink: "Criar",
         classIcon: "glyphicon glyphicon-plus",
         titleModal: "Criar Novo Usuário",
@@ -4523,7 +4543,7 @@ exports = module.exports = __webpack_require__(3)(false);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -4552,6 +4572,29 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -4561,10 +4604,17 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     Table: __WEBPACK_IMPORTED_MODULE_0__components_layouts_Table___default.a,
     Modal: __WEBPACK_IMPORTED_MODULE_1__components_layouts_Modal___default.a
   },
-  props: ['dataUser'],
+  props: ['dataItem'],
   data: function data() {
     return {};
+  },
+
+  computed: {
+    teste: function teste() {
+      console.log(this.$store.getters.getItem);
+    }
   }
+
 });
 
 /***/ }),
@@ -4579,15 +4629,117 @@ var render = function() {
     "Modal",
     {
       attrs: {
-        showButton: true,
         sizeModal: "lg",
-        showButtonCss: "tabledit-edit-button btn btn-sm btn-default",
+        showTypeClassName: "tabledit-edit-button btn btn-sm btn-default",
         classIcon: "glyphicon glyphicon-pencil",
         titleModal: "Editar dados de Usuário",
-        btnSave: "Salvar"
+        btnSave: "Salvar",
+        dataItem: _vm.dataItem
       }
     },
-    [_vm._v("\n\n    " + _vm._s(_vm.dataUser) + "\n\n  ")]
+    [
+      _c("div", { staticClass: "row" }, [
+        _c("div", { staticClass: "col-lg-4" }, [
+          _c("fieldset", { staticClass: "form-group" }, [
+            _c(
+              "label",
+              {
+                staticClass: "form-label semibold",
+                attrs: { for: "exampleInput" }
+              },
+              [_vm._v("First Name")]
+            ),
+            _vm._v(" "),
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.$store.getters.getItem.name,
+                  expression: "$store.getters.getItem.name"
+                }
+              ],
+              staticClass: "form-control",
+              attrs: { type: "text", placeholder: "First Name" },
+              domProps: { value: _vm.$store.getters.getItem.name },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.$set(
+                    _vm.$store.getters.getItem,
+                    "name",
+                    $event.target.value
+                  )
+                }
+              }
+            }),
+            _vm._v(" "),
+            _c("small", { staticClass: "text-muted" }, [
+              _vm._v("We'll never share your email with anyone else.")
+            ])
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "col-lg-4" }, [
+          _c("fieldset", { staticClass: "form-group" }, [
+            _c(
+              "label",
+              {
+                staticClass: "form-label",
+                attrs: { for: "exampleInputEmail1" }
+              },
+              [_vm._v("Email address")]
+            ),
+            _vm._v(" "),
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.$store.getters.getItem.email,
+                  expression: "$store.getters.getItem.email"
+                }
+              ],
+              staticClass: "form-control",
+              attrs: { type: "email", placeholder: "Enter email" },
+              domProps: { value: _vm.$store.getters.getItem.email },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.$set(
+                    _vm.$store.getters.getItem,
+                    "email",
+                    $event.target.value
+                  )
+                }
+              }
+            })
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "col-lg-4" }, [
+          _c("fieldset", { staticClass: "form-group" }, [
+            _c(
+              "label",
+              {
+                staticClass: "form-label",
+                attrs: { for: "exampleInputPassword1" }
+              },
+              [_vm._v("Password")]
+            ),
+            _vm._v(" "),
+            _c("input", {
+              staticClass: "form-control",
+              attrs: { type: "password", placeholder: "Password" }
+            })
+          ])
+        ])
+      ])
+    ]
   )
 }
 var staticRenderFns = []
