@@ -1,8 +1,6 @@
 <template>
   <div>
 
-
-
     <section class="box-typical">
 
       <header class="box-typical-header">
@@ -14,7 +12,7 @@
 
             <div class="tbl-cell tbl-cell-action-bordered">
 
-                <Modal />
+              <UserCreateModal />
 
             </div>
         </div>
@@ -47,9 +45,9 @@
                 <td style="white-space: nowrap; width: 1%;">
                     <div class="tabledit-toolbar btn-toolbar" style="text-align: left;">
                         <div class="btn-group btn-group-sm" style="float: none;">
-                          <button type="button" class="tabledit-edit-button btn btn-sm btn-default" style="float: none;">
-                            <span class="glyphicon glyphicon-pencil"></span>
-                          </button>
+
+                          <UserEditModal :dataUser="user.name"/>
+
                           <button type="button" @click.prevent="alertRemove(user.name, user._id)" class="tabledit-delete-button btn btn-sm btn-danger" style="float: none;">
                             <span class="glyphicon glyphicon-trash"></span>
                           </button>
@@ -77,13 +75,16 @@
 </template>
 <script>
 import Table from "./../../../../components/layouts/Table";
-import Modal from "./../../../../components/layouts/Modal";
+import UserCreateModal from "./modal/UserCreateModal";
+import UserEditModal from "./modal/UserEditModal";
+
 import Pagination from "./../../../../components/paginations/Pagination";
 export default {
   name: "UserList",
   components: {
     Table,
-    Modal,
+    UserCreateModal,
+    UserEditModal,
     Pagination
   },
   props: [],
