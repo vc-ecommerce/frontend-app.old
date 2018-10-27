@@ -32,7 +32,28 @@ const appTwo = new Vue({
 
 const appThree = new Vue({
   el: '#vue-sidebar-menu-right',
+  store,
   components: {
     SidebarMenuRight,
+  },
+  mounted() {
+    document.getElementById('content').style.display = 'block';
+
+    // const api = `${this.$urlApi}/admin/users/5bd0fd3ba2a09300115d2486`;
+    // Vue.axios
+    //   .get(api,
+    //     {
+    //       headers: {
+    //         authorization: "Bearer " + this.$store.getters.getToken
+    //       }
+    //     })
+    //   .then(response => {
+    //     console.log(response.data)
+    //   })
+    //   .catch(error => {
+    //     console.log(error.response)
+    //   });
+
   }
+
 });

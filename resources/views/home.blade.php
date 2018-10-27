@@ -1,35 +1,32 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="page-content">
-    <div class="container-fluid">
+<div class="row">
+    <div class="col-xl-6">
+        <chart-sale-week></chart-sale-week>
+    </div><!--.col-->
+    <div class="col-xl-6">
         <div class="row">
-            <div class="col-xl-6">
-                <chart-sale-week></chart-sale-week>
-            </div><!--.col-->
-            <div class="col-xl-6">
-                <div class="row">
-                    <order-approved></order-approved>
-                    <order-canceled></order-canceled>
-                    <order-done></order-done>
-                    <order-pending></order-pending>
-                </div><!--.row-->
-            </div><!--.col-->
+            <order-approved></order-approved>
+            <order-canceled></order-canceled>
+            <order-done></order-done>
+            <order-pending></order-pending>
         </div><!--.row-->
+    </div><!--.col-->
+</div><!--.row-->
 
-        <div class="row">
-            <div class="col-xl-12 dahsboard-column">
-                <order-recent></order-recent>
-            </div><!--.col-->
-            {{-- <div class="col-xl-12 dahsboard-column">
-                <recent-comments></recent-comments>
-            </div><!--.col-->
-            <div class="col-xl-12 dahsboard-column">
-                <recent-contacts></recent-contacts>
-            </div><!--.col--> --}}
-        </div>
-    </div><!--.container-fluid-->
-</div><!--.page-content-->
+<div class="row">
+    <div class="col-xl-12 dahsboard-column">
+        <order-recent></order-recent>
+    </div><!--.col-->
+    {{-- <div class="col-xl-12 dahsboard-column">
+        <recent-comments></recent-comments>
+    </div><!--.col-->
+    <div class="col-xl-12 dahsboard-column">
+        <recent-contacts></recent-contacts>
+    </div><!--.col--> --}}
+</div>
+
 @endsection
 
 @section('scripts')

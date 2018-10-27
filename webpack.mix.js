@@ -25,5 +25,6 @@ mix.js('resources/assets/js/app.js', 'public/js/vue-app.js')
 	.js('resources/assets/js/pages/home/custom.js', 'public/js/home-custom.js')
 	.js('resources/assets/js/pages/home/home.js', 'public/js/home.js')
   .js('resources/assets/js/pages/auth/auth.js', 'public/js/auth.js')
+  .js('resources/assets/js/pages/settings/users.js', 'public/js/users.js')
 
 mix.extract(['vue']);

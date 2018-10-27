@@ -66,8 +66,7 @@ export default {
         .post(
           "/token",
           {
-            token: token.content,
-            data
+            token: token.content
           },
           {
             headers: {
@@ -93,7 +92,8 @@ export default {
         })
         .then(response => {
           this.ok = true;
-          sessionStorage.setItem("user", JSON.stringify(response.data));
+          sessionStorage.setItem("token", JSON.stringify(response.data.HTTP_Authorization));
+          sessionStorage.setItem("user", JSON.stringify(response.data.HTTP_Data));
           this.$store.commit("setUser", response.data);
           this.activeSession(response.data.HTTP_Data);
         })
@@ -105,6 +105,7 @@ export default {
   },
   mounted() {
     // Remove saved data from sessionStorage
+    sessionStorage.removeItem("token");
     sessionStorage.removeItem("user");
     // Remove all saved data from sessionStorage
     sessionStorage.clear();

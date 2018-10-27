@@ -31,8 +31,13 @@
 	@include('layouts.default.header')
 	@include('layouts.default.sidebar-left')
 
-	<div id="content" style="display: none;">
-		@yield('content')
+    <div id="content" style="display: none;">
+        <div class="page-content">
+            <div class="container-fluid">
+                @yield('content')
+            </div>
+            <!--.container-fluid-->
+        </div>
 	</div>
 
 	@include('layouts.default.sidebar-right')

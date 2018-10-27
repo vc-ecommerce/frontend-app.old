@@ -1,11 +1,11 @@
 <?php
 
-namespace VoceCrianca\Http\Controllers\Catalogs;
+namespace VoceCrianca\Http\Controllers\Settings\Users;
 
 use Illuminate\Http\Request;
 use VoceCrianca\Http\Controllers\Controller;
 
-class AttributeController extends Controller
+class UserController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,7 +14,7 @@ class AttributeController extends Controller
      */
     public function index()
     {
-        return view('pages.catalogs.attributes.index');
+        return view('pages.settings.users.index');
     }
 
     /**

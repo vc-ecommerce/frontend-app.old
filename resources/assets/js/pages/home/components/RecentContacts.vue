@@ -2,7 +2,7 @@
   <Panel title="Contatos Recentes">
     <div class="contact-row-list">
 
-       <p v-for="notification in notifications">
+       <p v-for="notification in notifications" v-bind:key="notification.id">
       {{notification}}
     </p>
     <button @click="addHey">Add Hey!</button>

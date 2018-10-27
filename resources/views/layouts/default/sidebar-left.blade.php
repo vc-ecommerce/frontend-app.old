@@ -114,7 +114,7 @@
             <span class="lbl">Gerenciar usuários</span>
             </span>
             <ul>
-              <li><a href="#"><span class="lbl">Gerenciar usuários</span></a></li>
+              <li><a href="{{ route('settings.users.index') }}"><span class="lbl">Gerenciar usuários</span></a></li>
               <li><a href="#"><span class="lbl">Grupos de usuários</span></a></li>
               <li><a href="#"><span class="lbl">API</span></a></li>
             </ul>

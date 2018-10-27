@@ -1,5 +1,5 @@
 <template>
-  <table :class="className">
+  <table :id="elementId" :class="className">
     <thead>
       <slot name="thead"></slot>
     </thead>
@@ -15,7 +15,8 @@ export default {
   props: {
     className: {
       default: "tbl-typical"
-    }
+    },
+    elementId:""
   }
 };
 </script>

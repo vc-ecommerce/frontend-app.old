@@ -24,8 +24,5 @@ const app = new Vue({
     OrderRecent,
     RecentComments,
     RecentContacts,
-  },
-  mounted: function () {
-    document.getElementById('content').style.display = 'block';
   }
 });

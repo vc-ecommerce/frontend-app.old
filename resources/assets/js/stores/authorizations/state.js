@@ -1,24 +1,21 @@
 //https://alligator.io/vuejs/vuex-dynamic-modules/
 
 const state = {
-  user: sessionStorage.getItem('user') ? JSON.parse(sessionStorage.getItem('user')) : null,
+  token: sessionStorage.getItem('token') ? JSON.parse(sessionStorage.getItem('token')) : null,
+  user:  sessionStorage.getItem('user') ? JSON.parse(sessionStorage.getItem('user')) : null,
 }
 
 const getters = {
 
   getToken: state => {
-    return state.user.HTTP_Authorization;
+    return state.token;
   },
   getUser: state => {
     return state.user;
   },
   getUserName: state => {
-    return state.user.HTTP_Data.name;
+    return state.user.name;
   }
-}
-
-const actions = {
-
 }
 
 const mutations = {
@@ -32,6 +29,5 @@ const mutations = {
 export default {
   state,
   getters,
-  actions,
   mutations
 }

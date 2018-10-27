@@ -38,6 +38,7 @@ class RouteServiceProvider extends ServiceProvider
 
         $this->mapWebRoutes();
         $this->mapCatalogsRoutes();
+        $this->mapSettingsRoutes();
 
     }
 
@@ -55,6 +56,15 @@ class RouteServiceProvider extends ServiceProvider
             ->middleware(['web', 'check.token'])
             ->namespace($this->namespace)
             ->group(base_path('routes/catalogs.php'));
+    }
+
+    protected function mapSettingsRoutes()
+    {
+        Route::prefix('settings')
+            ->as('settings.')
+            ->middleware(['web'])
+            ->namespace($this->namespace)
+            ->group(base_path('routes/settings.php'));
     }
 
 }
