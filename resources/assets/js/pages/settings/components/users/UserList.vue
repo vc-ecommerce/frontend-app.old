@@ -1,5 +1,8 @@
 <template>
   <div>
+
+
+
     <section class="box-typical">
 
       <header class="box-typical-header">
@@ -10,7 +13,9 @@
             </div>
 
             <div class="tbl-cell tbl-cell-action-bordered">
-                <a href="#" class="btn btn-inline"><i class="glyphicon glyphicon-plus"></i> Criar novo</a>
+
+                <Modal />
+
             </div>
         </div>
       </header>
@@ -41,7 +46,14 @@
                 </td>
                 <td style="white-space: nowrap; width: 1%;">
                     <div class="tabledit-toolbar btn-toolbar" style="text-align: left;">
-                        <div class="btn-group btn-group-sm" style="float: none;"><button type="button" class="tabledit-edit-button btn btn-sm btn-default" style="float: none;"><span class="glyphicon glyphicon-pencil"></span></button><button type="button" class="tabledit-delete-button btn btn-sm btn-default" style="float: none;"><span class="glyphicon glyphicon-trash"></span></button></div>
+                        <div class="btn-group btn-group-sm" style="float: none;">
+                          <button type="button" class="tabledit-edit-button btn btn-sm btn-default" style="float: none;">
+                            <span class="glyphicon glyphicon-pencil"></span>
+                          </button>
+                          <button type="button" @click.prevent="alertRemove(user.name, user._id)" class="tabledit-delete-button btn btn-sm btn-danger" style="float: none;">
+                            <span class="glyphicon glyphicon-trash"></span>
+                          </button>
+                        </div>
                         <button type="button" class="tabledit-save-button btn btn-sm btn-success" style="display: none; float: none;">Save</button>
                         <button type="button" class="tabledit-confirm-button btn btn-sm btn-danger" style="display: none; float: none;">Confirm</button>
                         <button type="button" class="tabledit-restore-button btn btn-sm btn-warning" style="display: none; float: none;">Restore</button>
@@ -65,11 +77,13 @@
 </template>
 <script>
 import Table from "./../../../../components/layouts/Table";
+import Modal from "./../../../../components/layouts/Modal";
 import Pagination from "./../../../../components/paginations/Pagination";
 export default {
   name: "UserList",
   components: {
     Table,
+    Modal,
     Pagination
   },
   props: [],
@@ -89,7 +103,50 @@ export default {
   mounted() {
     this.getUsers()
   },
+  computed: {
+
+  },
   methods: {
+
+    alertRemove(name, id) {
+
+      swal({
+        title: "Deseja realmente excluir?",
+        text: name,
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonClass: "btn-danger",
+        confirmButtonText: "Sim!",
+        cancelButtonText: "Cancelar",
+        closeOnConfirm: false,
+        closeOnCancel: false
+      },
+      function(isConfirm) {
+        if (isConfirm) {
+
+          console.log('Removido')
+
+          swal({
+            title: "Removido",
+            text: "Dados foram remvidos com sucesso",
+            type: "success",
+            confirmButtonClass: "btn-success"
+          });
+        } else {
+
+          console.log('Cancelado')
+
+          swal({
+            title: "Cancelado",
+            text: "Pedido cancelado com sucesso.",
+            type: "error",
+            confirmButtonClass: "btn-danger"
+          });
+        }
+      });
+
+
+    },
 
     getUsers() {
 
@@ -110,7 +167,8 @@ export default {
         .catch(error => {
           console.log(error.response)
         })
-    }
+    },
+
   }
 };
 </script>

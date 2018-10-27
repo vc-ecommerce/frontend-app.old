@@ -3372,7 +3372,7 @@ exports = module.exports = __webpack_require__(8)(false);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -3385,8 +3385,10 @@ exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_layouts_Table__ = __webpack_require__(41);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_layouts_Table___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__components_layouts_Table__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_paginations_Pagination__ = __webpack_require__(149);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_paginations_Pagination___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__components_paginations_Pagination__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_layouts_Modal__ = __webpack_require__(155);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_layouts_Modal___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__components_layouts_Modal__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_paginations_Pagination__ = __webpack_require__(149);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_paginations_Pagination___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__components_paginations_Pagination__);
 //
 //
 //
@@ -3452,6 +3454,19 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 
 
 
@@ -3459,7 +3474,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   name: "UserList",
   components: {
     Table: __WEBPACK_IMPORTED_MODULE_0__components_layouts_Table___default.a,
-    Pagination: __WEBPACK_IMPORTED_MODULE_1__components_paginations_Pagination___default.a
+    Modal: __WEBPACK_IMPORTED_MODULE_1__components_layouts_Modal___default.a,
+    Pagination: __WEBPACK_IMPORTED_MODULE_2__components_paginations_Pagination___default.a
   },
   props: [],
   data: function data() {
@@ -3479,7 +3495,44 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     this.getUsers();
   },
 
+  computed: {},
   methods: {
+    alertRemove: function alertRemove(name, id) {
+
+      swal({
+        title: "Deseja realmente excluir?",
+        text: name,
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonClass: "btn-danger",
+        confirmButtonText: "Sim!",
+        cancelButtonText: "Cancelar",
+        closeOnConfirm: false,
+        closeOnCancel: false
+      }, function (isConfirm) {
+        if (isConfirm) {
+
+          console.log('Removido');
+
+          swal({
+            title: "Removido",
+            text: "Dados foram remvidos com sucesso",
+            type: "success",
+            confirmButtonClass: "btn-success"
+          });
+        } else {
+
+          console.log('Cancelado');
+
+          swal({
+            title: "Cancelado",
+            text: "Pedido cancelado com sucesso.",
+            type: "error",
+            confirmButtonClass: "btn-danger"
+          });
+        }
+      });
+    },
     getUsers: function getUsers() {
       var _this = this;
 
@@ -3518,7 +3571,12 @@ var render = function() {
               : _c("h3", [_vm._v(_vm._s(_vm.total) + " Usuários")])
           ]),
           _vm._v(" "),
-          _vm._m(0)
+          _c(
+            "div",
+            { staticClass: "tbl-cell tbl-cell-action-bordered" },
+            [_c("Modal")],
+            1
+          )
         ])
       ]),
       _vm._v(" "),
@@ -3612,13 +3670,20 @@ var render = function() {
                                       })
                                     ]
                                   ),
+                                  _vm._v(" "),
                                   _c(
                                     "button",
                                     {
                                       staticClass:
-                                        "tabledit-delete-button btn btn-sm btn-default",
+                                        "tabledit-delete-button btn btn-sm btn-danger",
                                       staticStyle: { float: "none" },
-                                      attrs: { type: "button" }
+                                      attrs: { type: "button" },
+                                      on: {
+                                        click: function($event) {
+                                          $event.preventDefault()
+                                          _vm.alertRemove(user.name, user._id)
+                                        }
+                                      }
                                     },
                                     [
                                       _c("span", {
@@ -3702,19 +3767,7 @@ var render = function() {
     )
   ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "tbl-cell tbl-cell-action-bordered" }, [
-      _c("a", { staticClass: "btn btn-inline", attrs: { href: "#" } }, [
-        _c("i", { staticClass: "glyphicon glyphicon-plus" }),
-        _vm._v(" Criar novo")
-      ])
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
@@ -3981,6 +4034,222 @@ if (false) {
   module.hot.accept()
   if (module.hot.data) {
     require("vue-hot-reload-api")      .rerender("data-v-3f881b72", module.exports)
+  }
+}
+
+/***/ }),
+/* 155 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(1)
+/* script */
+var __vue_script__ = __webpack_require__(156)
+/* template */
+var __vue_template__ = __webpack_require__(157)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/layouts/Modal.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-2a7d6900", Component.options)
+  } else {
+    hotAPI.reload("data-v-2a7d6900", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 156 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  name: "Modal",
+  props: []
+});
+
+/***/ }),
+/* 157 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _vm._m(0)
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("span", [
+      _c(
+        "a",
+        {
+          staticClass: "btn btn-inline",
+          attrs: {
+            href: "javascript:void(0)",
+            "data-toggle": "modal",
+            "data-target": ".bd-example-modal-lg"
+          }
+        },
+        [
+          _c("i", { staticClass: "glyphicon glyphicon-plus" }),
+          _vm._v(" Criar novo")
+        ]
+      ),
+      _vm._v(" "),
+      _c(
+        "button",
+        {
+          staticClass: "btn btn-inline btn-primary",
+          attrs: {
+            "data-toggle": "modal",
+            "data-target": ".bd-example-modal-lg"
+          }
+        },
+        [_c("i", { staticClass: "glyphicon glyphicon-plus" }), _vm._v(" Criar")]
+      ),
+      _vm._v(" "),
+      _c(
+        "div",
+        {
+          staticClass: "modal fade bd-example-modal-lg",
+          attrs: {
+            tabindex: "-1",
+            role: "dialog",
+            "aria-labelledby": "myLargeModalLabel",
+            "aria-hidden": "true"
+          }
+        },
+        [
+          _c("div", { staticClass: "modal-dialog modal-lg" }, [
+            _c("div", { staticClass: "modal-content" }, [
+              _c("div", { staticClass: "modal-header" }, [
+                _c(
+                  "button",
+                  {
+                    staticClass: "modal-close",
+                    attrs: {
+                      type: "button",
+                      "data-dismiss": "modal",
+                      "aria-label": "Close"
+                    }
+                  },
+                  [_c("i", { staticClass: "font-icon-close-2" })]
+                ),
+                _vm._v(" "),
+                _c(
+                  "h4",
+                  { staticClass: "modal-title", attrs: { id: "myModalLabel" } },
+                  [_vm._v("Modal title")]
+                )
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "modal-body" }, [
+                _vm._v("\n          ...\n        ")
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "modal-footer" }, [
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-rounded btn-default",
+                    attrs: { type: "button", "data-dismiss": "modal" }
+                  },
+                  [_vm._v("Close")]
+                ),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-rounded btn-primary",
+                    attrs: { type: "button" }
+                  },
+                  [_vm._v("Save changes")]
+                )
+              ])
+            ])
+          ])
+        ]
+      )
+    ])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-2a7d6900", module.exports)
   }
 }
 
