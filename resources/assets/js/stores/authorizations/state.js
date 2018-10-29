@@ -15,24 +15,6 @@ const getters = {
   },
   getUserName: state => {
     return state.user.name;
-  },
-  getRoles: state => {
-
-    let roles = state.user.roles
-
-    let newRoles = roles.filter(function (role) {
-      delete role['_id'];
-      delete role['default'];
-      delete role['privileges'];
-      delete role['updated_at'];
-      delete role['created_at'];
-
-      return role
-
-    });
-
-    return newRoles
-
   }
 }
 

@@ -29,7 +29,7 @@
 
     <div class="row" style="margin-top:20px">
       <div class="checkbox-toggle" v-for="(role, index) in roles" :key="role.id" style="margin-left:20px">
-        <input type="checkbox" v-model="user.roles" :id="'check-toggle-'+ index" :value="role">
+        <input type="checkbox" v-model="roleUser" :id="'check-toggle-'+ index" :value="role">
         <label :for="'check-toggle-'+ index">{{role.description}}</label>
       </div>
     </div>
@@ -45,11 +45,16 @@
 //https://stackoverflow.com/questions/50648407/checkbox-array-in-vue-js
 
 //https://stackoverflow.com/questions/49663539/why-error-in-render-typeerror-cannot-read-property-filter-of-undefined-ret?noredirect=1&lq=1
+// https://stackoverflow.com/questions/47460765/vuex-vue-warn-computed-property-username-was-assigned-to-but-it-has-no-set
+
 
 import Table from "./../../../../../components/layouts/Table";
 import Modal from "./../../../../../components/layouts/Modal";
 
 import filterRoles from "./../../../../../helpers/filterRoles";
+
+
+
 
 export default {
   name: "UserEditModal",
@@ -66,19 +71,25 @@ export default {
       },
     };
   },
+
+ // https://stackoverflow.com/questions/47460765/vuex-vue-warn-computed-property-username-was-assigned-to-but-it-has-no-set
   computed: {
-    filterEvent() {
-      this.user = this.$store.getters.getItem;
-      return filterRoles(this.user.roles);
-    }
+
+    roleUser : {
+      get () {
+        return filterRoles( this.$store.getters.getItem.roles )
+      },
+      set (value) {
+        this.$store.commit('updateRoleUser', value)
+      }
+    },
+
   },
   mounted() {
     this.getRoles();
   },
   methods: {
-    sendForm() {
-      console.log(this.user)
-    },
+
     getRoles() {
       const api = `${this.$urlApi}/admin/roles`;
       Vue.axios
@@ -93,7 +104,11 @@ export default {
         .catch(error => {
           console.log(error.response);
         });
-    }
+    },
+
+    sendForm() {
+      console.log(this.$store.getters.getItem)
+    },
   }
 };
 </script>

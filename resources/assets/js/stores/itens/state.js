@@ -13,7 +13,11 @@ const mutations = {
 
   setItem(state, obj) {
     state.item = obj
-  }
+  },
+
+  updateRoleUser (state, roles) {
+    state.item.roles = roles
+  },
 
 }
 

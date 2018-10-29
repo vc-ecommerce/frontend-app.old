@@ -3007,22 +3007,6 @@ var getters = {
   },
   getUserName: function getUserName(state) {
     return state.user.name;
-  },
-  getRoles: function getRoles(state) {
-
-    var roles = state.user.roles;
-
-    var newRoles = roles.filter(function (role) {
-      delete role['_id'];
-      delete role['default'];
-      delete role['privileges'];
-      delete role['updated_at'];
-      delete role['created_at'];
-
-      return role;
-    });
-
-    return newRoles;
   }
 };
 
@@ -3057,6 +3041,9 @@ var getters = {
 var mutations = {
   setItem: function setItem(state, obj) {
     state.item = obj;
+  },
+  updateRoleUser: function updateRoleUser(state, roles) {
+    state.item.roles = roles;
   }
 };
 

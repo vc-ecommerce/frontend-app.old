@@ -3007,22 +3007,6 @@ var getters = {
   },
   getUserName: function getUserName(state) {
     return state.user.name;
-  },
-  getRoles: function getRoles(state) {
-
-    var roles = state.user.roles;
-
-    var newRoles = roles.filter(function (role) {
-      delete role['_id'];
-      delete role['default'];
-      delete role['privileges'];
-      delete role['updated_at'];
-      delete role['created_at'];
-
-      return role;
-    });
-
-    return newRoles;
   }
 };
 
@@ -3057,6 +3041,9 @@ var getters = {
 var mutations = {
   setItem: function setItem(state, obj) {
     state.item = obj;
+  },
+  updateRoleUser: function updateRoleUser(state, roles) {
+    state.item.roles = roles;
   }
 };
 
@@ -4148,6 +4135,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //https://stackoverflow.com/questions/50648407/checkbox-array-in-vue-js
 
 //https://stackoverflow.com/questions/49663539/why-error-in-render-typeerror-cannot-read-property-filter-of-undefined-ret?noredirect=1&lq=1
+// https://stackoverflow.com/questions/47460765/vuex-vue-warn-computed-property-username-was-assigned-to-but-it-has-no-set
+
 
 
 
@@ -4170,20 +4159,25 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     };
   },
 
+
+  // https://stackoverflow.com/questions/47460765/vuex-vue-warn-computed-property-username-was-assigned-to-but-it-has-no-set
   computed: {
-    filterEvent: function filterEvent() {
-      this.user = this.$store.getters.getItem;
-      return Object(__WEBPACK_IMPORTED_MODULE_2__helpers_filterRoles__["a" /* default */])(this.user.roles);
+
+    roleUser: {
+      get: function get() {
+        return Object(__WEBPACK_IMPORTED_MODULE_2__helpers_filterRoles__["a" /* default */])(this.$store.getters.getItem.roles);
+      },
+      set: function set(value) {
+        this.$store.commit('updateRoleUser', value);
+      }
     }
+
   },
   mounted: function mounted() {
     this.getRoles();
   },
 
   methods: {
-    sendForm: function sendForm() {
-      console.log(this.user);
-    },
     getRoles: function getRoles() {
       var _this = this;
 
@@ -4197,6 +4191,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       }).catch(function (error) {
         console.log(error.response);
       });
+    },
+    sendForm: function sendForm() {
+      console.log(this.$store.getters.getItem);
     }
   }
 });
@@ -4359,38 +4356,35 @@ var render = function() {
                   {
                     name: "model",
                     rawName: "v-model",
-                    value: _vm.user.roles,
-                    expression: "user.roles"
+                    value: _vm.roleUser,
+                    expression: "roleUser"
                   }
                 ],
                 attrs: { type: "checkbox", id: "check-toggle-" + index },
                 domProps: {
                   value: role,
-                  checked: Array.isArray(_vm.user.roles)
-                    ? _vm._i(_vm.user.roles, role) > -1
-                    : _vm.user.roles
+                  checked: Array.isArray(_vm.roleUser)
+                    ? _vm._i(_vm.roleUser, role) > -1
+                    : _vm.roleUser
                 },
                 on: {
                   change: function($event) {
-                    var $$a = _vm.user.roles,
+                    var $$a = _vm.roleUser,
                       $$el = $event.target,
                       $$c = $$el.checked ? true : false
                     if (Array.isArray($$a)) {
                       var $$v = role,
                         $$i = _vm._i($$a, $$v)
                       if ($$el.checked) {
-                        $$i < 0 &&
-                          _vm.$set(_vm.user, "roles", $$a.concat([$$v]))
+                        $$i < 0 && (_vm.roleUser = $$a.concat([$$v]))
                       } else {
                         $$i > -1 &&
-                          _vm.$set(
-                            _vm.user,
-                            "roles",
-                            $$a.slice(0, $$i).concat($$a.slice($$i + 1))
-                          )
+                          (_vm.roleUser = $$a
+                            .slice(0, $$i)
+                            .concat($$a.slice($$i + 1)))
                       }
                     } else {
-                      _vm.$set(_vm.user, "roles", $$c)
+                      _vm.roleUser = $$c
                     }
                   }
                 }
