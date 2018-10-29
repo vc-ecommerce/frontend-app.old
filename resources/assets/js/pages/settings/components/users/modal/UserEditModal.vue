@@ -4,14 +4,13 @@
     showTypeClassName="tabledit-edit-button btn btn-sm btn-default"
     classIcon="glyphicon glyphicon-pencil"
     titleModal="Editar dados de Usuário"
-    btnSave="Salvar" :dataItem="dataItem">
+    btnSave="Salvar" :dataItem="dataItem" @submit="sendForm()">
 
     <div class="row">
       <div class="col-lg-4">
         <fieldset class="form-group">
           <label class="form-label semibold" for="exampleInput">Nome</label>
           <input type="text" class="form-control" v-model="$store.getters.getItem.name" placeholder="Nome">
-          <small class="text-muted">ID: {{ $store.getters.getItem._id }}</small>
         </fieldset>
       </div>
       <div class="col-lg-4">
@@ -30,10 +29,14 @@
 
     <div class="row" style="margin-top:20px">
       <div class="checkbox-toggle" v-for="(role, index) in roles" :key="role.id" style="margin-left:20px">
-        <input type="checkbox" v-model="filterEvent" :id="'check-toggle-'+ index" :value="role">
+        <input type="checkbox" v-model="user.roles" :id="'check-toggle-'+ index" :value="role">
         <label :for="'check-toggle-'+ index">{{role.description}}</label>
       </div>
     </div>
+
+
+    <p>User's selected roels</p>
+    {{user.roles}}
 
   </Modal>
 
@@ -57,18 +60,25 @@ export default {
   props: ["dataItem"],
   data() {
     return {
-      roles: []
+      roles: [],
+      user: {
+        roles: []
+      },
     };
   },
   computed: {
     filterEvent() {
-      return filterRoles(this.$store.getters.getItem.roles);
+      this.user = this.$store.getters.getItem;
+      return filterRoles(this.user.roles);
     }
   },
   mounted() {
     this.getRoles();
   },
   methods: {
+    sendForm() {
+      console.log(this.user)
+    },
     getRoles() {
       const api = `${this.$urlApi}/admin/roles`;
       Vue.axios
