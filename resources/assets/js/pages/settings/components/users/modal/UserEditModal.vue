@@ -7,6 +7,7 @@
     btnSave="Salvar" :dataItem="dataItem" @submit="sendForm()">
 
     <div class="row">
+
       <div class="col-lg-4">
         <fieldset class="form-group">
           <label class="form-label semibold" for="exampleInput">Nome</label>
@@ -27,34 +28,24 @@
       </div>
     </div><!--.row-->
 
-    <div class="row" style="margin-top:20px">
-      <div class="checkbox-toggle" v-for="(role, index) in roles" :key="role.id" style="margin-left:20px">
-        <input type="checkbox" v-model="roleUser" :id="'check-toggle-'+ index" :value="role">
-        <label :for="'check-toggle-'+ index">{{role.description}}</label>
-      </div>
+    <div class="row" style="margin:10px 0 10px 0">
+        <label class="form-label semibold">Funções do usuário</label>
     </div>
 
-
-    <p>User's selected roels</p>
-    {{user.roles}}
+    <div class="row">
+        <div class="checkbox-toggle" v-for="(role, index) in roles" :key="role.id" style="margin-left:20px">
+          <input type="checkbox" v-model="roleUser" :id="'check-toggle-'+ index" :value="role">
+          <label :for="'check-toggle-'+ index">{{role.description}}</label>
+        </div>
+    </div>
 
   </Modal>
 
 </template>
 <script>
-//https://stackoverflow.com/questions/50648407/checkbox-array-in-vue-js
-
-//https://stackoverflow.com/questions/49663539/why-error-in-render-typeerror-cannot-read-property-filter-of-undefined-ret?noredirect=1&lq=1
-// https://stackoverflow.com/questions/47460765/vuex-vue-warn-computed-property-username-was-assigned-to-but-it-has-no-set
-
-
 import Table from "./../../../../../components/layouts/Table";
 import Modal from "./../../../../../components/layouts/Modal";
-
 import filterRoles from "./../../../../../helpers/filterRoles";
-
-
-
 
 export default {
   name: "UserEditModal",
@@ -65,31 +56,23 @@ export default {
   props: ["dataItem"],
   data() {
     return {
-      roles: [],
-      user: {
-        roles: []
-      },
+      roles: []
     };
   },
-
- // https://stackoverflow.com/questions/47460765/vuex-vue-warn-computed-property-username-was-assigned-to-but-it-has-no-set
   computed: {
-
-    roleUser : {
-      get () {
-        return filterRoles( this.$store.getters.getItem.roles )
+    roleUser: {
+      get() {
+        return filterRoles(this.$store.getters.getItem.roles);
       },
-      set (value) {
-        this.$store.commit('updateRoleUser', value)
+      set(value) {
+        this.$store.commit("updateRoleUser", value);
       }
-    },
-
+    }
   },
   mounted() {
     this.getRoles();
   },
   methods: {
-
     getRoles() {
       const api = `${this.$urlApi}/admin/roles`;
       Vue.axios
@@ -107,8 +90,8 @@ export default {
     },
 
     sendForm() {
-      console.log(this.$store.getters.getItem)
-    },
+      console.log(this.$store.getters.getItem);
+    }
   }
 };
 </script>

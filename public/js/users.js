@@ -4131,13 +4131,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-
-//https://stackoverflow.com/questions/50648407/checkbox-array-in-vue-js
-
-//https://stackoverflow.com/questions/49663539/why-error-in-render-typeerror-cannot-read-property-filter-of-undefined-ret?noredirect=1&lq=1
-// https://stackoverflow.com/questions/47460765/vuex-vue-warn-computed-property-username-was-assigned-to-but-it-has-no-set
-
-
+//
 
 
 
@@ -4152,26 +4146,19 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   props: ["dataItem"],
   data: function data() {
     return {
-      roles: [],
-      user: {
-        roles: []
-      }
+      roles: []
     };
   },
 
-
-  // https://stackoverflow.com/questions/47460765/vuex-vue-warn-computed-property-username-was-assigned-to-but-it-has-no-set
   computed: {
-
     roleUser: {
       get: function get() {
         return Object(__WEBPACK_IMPORTED_MODULE_2__helpers_filterRoles__["a" /* default */])(this.$store.getters.getItem.roles);
       },
       set: function set(value) {
-        this.$store.commit('updateRoleUser', value);
+        this.$store.commit("updateRoleUser", value);
       }
     }
-
   },
   mounted: function mounted() {
     this.getRoles();
@@ -4341,7 +4328,17 @@ var render = function() {
       _vm._v(" "),
       _c(
         "div",
-        { staticClass: "row", staticStyle: { "margin-top": "20px" } },
+        { staticClass: "row", staticStyle: { margin: "10px 0 10px 0" } },
+        [
+          _c("label", { staticClass: "form-label semibold" }, [
+            _vm._v("Funções do usuário")
+          ])
+        ]
+      ),
+      _vm._v(" "),
+      _c(
+        "div",
+        { staticClass: "row" },
         _vm._l(_vm.roles, function(role, index) {
           return _c(
             "div",
@@ -4396,10 +4393,7 @@ var render = function() {
             ]
           )
         })
-      ),
-      _vm._v(" "),
-      _c("p", [_vm._v("User's selected roels")]),
-      _vm._v("\n  " + _vm._s(_vm.user.roles) + "\n\n")
+      )
     ]
   )
 }
