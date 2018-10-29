@@ -48,7 +48,7 @@
 
                           <UserEditModal :dataItem="user"/>
 
-                          <button type="button" @click.prevent="alertRemove(user.name, user._id)" class="tabledit-delete-button btn btn-sm btn-danger" style="float: none;">
+                          <button type="button" @click.prevent="alertRemove(user.name, user._id)" class="tabledit-delete-button btn btn-sm btn-danger" style="float: none; margin-left:2px">
                             <span class="glyphicon glyphicon-trash"></span>
                           </button>
                         </div>
