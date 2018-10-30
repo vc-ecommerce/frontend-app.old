@@ -102,56 +102,49 @@ export default {
     };
   },
   mounted() {
-    this.getUsers()
+    this.getUsers();
   },
-  computed: {
-
-  },
+  computed: {},
   methods: {
-
     alertRemove(name, id) {
+      swal(
+        {
+          title: "Deseja realmente excluir?",
+          text: name,
+          type: "warning",
+          showCancelButton: true,
+          confirmButtonClass: "btn-danger",
+          confirmButtonText: "Sim!",
+          cancelButtonText: "Cancelar",
+          closeOnConfirm: false,
+          closeOnCancel: false
+        },
+        function(isConfirm) {
+          if (isConfirm) {
+            console.log("Removido");
 
-      swal({
-        title: "Deseja realmente excluir?",
-        text: name,
-        type: "warning",
-        showCancelButton: true,
-        confirmButtonClass: "btn-danger",
-        confirmButtonText: "Sim!",
-        cancelButtonText: "Cancelar",
-        closeOnConfirm: false,
-        closeOnCancel: false
-      },
-      function(isConfirm) {
-        if (isConfirm) {
+            swal({
+              title: "Removido",
+              text: "Dados foram remvidos com sucesso",
+              type: "success",
+              confirmButtonClass: "btn-success"
+            });
+          } else {
+            console.log("Cancelado");
 
-          console.log('Removido')
-
-          swal({
-            title: "Removido",
-            text: "Dados foram remvidos com sucesso",
-            type: "success",
-            confirmButtonClass: "btn-success"
-          });
-        } else {
-
-          console.log('Cancelado')
-
-          swal({
-            title: "Cancelado",
-            text: "Pedido cancelado com sucesso.",
-            type: "error",
-            confirmButtonClass: "btn-danger"
-          });
+            swal({
+              title: "Cancelado",
+              text: "Pedido cancelado com sucesso.",
+              type: "error",
+              confirmButtonClass: "btn-danger"
+            });
+          }
         }
-      });
-
-
+      );
     },
 
     getUsers() {
-
-      const api = `${this.$urlApi}/admin/users?page=${this.users.current_page}`
+      const api = `${this.$urlApi}/admin/users?page=${this.users.current_page}`;
       Vue.axios
         .get(api, {
           headers: {
@@ -159,17 +152,14 @@ export default {
           }
         })
         .then(response => {
-
           this.users = response.data;
-          this.total = response.data.total
+          this.total = response.data.total;
           //console.log(this.users)
-
         })
         .catch(error => {
-          console.log(error.response)
-        })
-    },
-
+          console.log(error.response);
+        });
+    }
   }
 };
 </script>

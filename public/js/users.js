@@ -3449,7 +3449,7 @@ exports = module.exports = __webpack_require__(3)(false);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -3578,7 +3578,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   computed: {},
   methods: {
     alertRemove: function alertRemove(name, id) {
-
       swal({
         title: "Deseja realmente excluir?",
         text: name,
@@ -3591,8 +3590,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         closeOnCancel: false
       }, function (isConfirm) {
         if (isConfirm) {
-
-          console.log('Removido');
+          console.log("Removido");
 
           swal({
             title: "Removido",
@@ -3601,8 +3599,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             confirmButtonClass: "btn-success"
           });
         } else {
-
-          console.log('Cancelado');
+          console.log("Cancelado");
 
           swal({
             title: "Cancelado",
@@ -3622,7 +3619,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
           authorization: "Bearer " + this.$store.getters.getToken
         }
       }).then(function (response) {
-
         _this.users = response.data;
         _this.total = response.data.total;
         //console.log(this.users)
@@ -4132,6 +4128,32 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -4146,6 +4168,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   props: ["dataItem"],
   data: function data() {
     return {
+      status: false,
+      error: false,
       roles: []
     };
   },
@@ -4176,11 +4200,35 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       }).then(function (response) {
         _this.roles = Object(__WEBPACK_IMPORTED_MODULE_2__helpers_filterRoles__["a" /* default */])(response.data.data);
       }).catch(function (error) {
-        console.log(error.response);
+        _this.error = JSON.parse(error.response.data.error);
       });
     },
     sendForm: function sendForm() {
-      console.log(this.$store.getters.getItem);
+      var _this2 = this;
+
+      var data = this.$store.getters.getItem;
+
+      this.status = "Enviando...";
+
+      var api = this.$urlApi + "/admin/users/" + data._id;
+      Vue.axios.put(api, {
+        name: data.name,
+        email: data.email,
+        roles: data.roles
+      }, {
+        headers: {
+          authorization: "Bearer " + this.$store.getters.getToken
+        }
+      }).then(function (response) {
+        _this2.users = response.data;
+        _this2.total = response.data.total;
+
+        _this2.status = "Dados do usuário alterados com sucesso.";
+        //console.log(this.users)
+      }).catch(function (error) {
+        _this2.status = false;
+        _this2.error = JSON.parse(error.response.data.error);
+      });
     }
   }
 });
@@ -4228,6 +4276,66 @@ var render = function() {
       }
     },
     [
+      _vm.status
+        ? _c("div", { staticClass: "row" }, [
+            _c("div", { staticClass: "col-lg-12" }, [
+              _c(
+                "div",
+                {
+                  staticClass:
+                    "alert alert-success alert-fill alert-close alert-dismissible fade show",
+                  attrs: { role: "alert" }
+                },
+                [
+                  _c("button", {
+                    staticClass: "close",
+                    attrs: {
+                      type: "button",
+                      "data-dismiss": "alert",
+                      "aria-label": "Close"
+                    }
+                  }),
+                  _vm._v("\n        " + _vm._s(_vm.status) + "\n      ")
+                ]
+              )
+            ])
+          ])
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.error
+        ? _c("div", { staticClass: "row" }, [
+            _c("div", { staticClass: "col-lg-12" }, [
+              _c(
+                "div",
+                {
+                  staticClass:
+                    "alert alert-danger alert-fill alert-close alert-dismissible fade show",
+                  attrs: { role: "alert" }
+                },
+                [
+                  _c("button", {
+                    staticClass: "close",
+                    attrs: {
+                      type: "button",
+                      "data-dismiss": "alert",
+                      "aria-label": "Close"
+                    }
+                  }),
+                  _vm._v(" "),
+                  _c(
+                    "dl",
+                    _vm._l(_vm.error, function(err) {
+                      return _c("dt", { key: err.id }, [
+                        _vm._v("\n            " + _vm._s(err) + "\n          ")
+                      ])
+                    })
+                  )
+                ]
+              )
+            ])
+          ])
+        : _vm._e(),
+      _vm._v(" "),
       _c("div", { staticClass: "row" }, [
         _c("div", { staticClass: "col-lg-4" }, [
           _c("fieldset", { staticClass: "form-group" }, [
@@ -4250,7 +4358,7 @@ var render = function() {
                 }
               ],
               staticClass: "form-control",
-              attrs: { type: "text", placeholder: "Nome" },
+              attrs: { type: "text", required: "", placeholder: "Nome" },
               domProps: { value: _vm.$store.getters.getItem.name },
               on: {
                 input: function($event) {
@@ -4289,7 +4397,7 @@ var render = function() {
                 }
               ],
               staticClass: "form-control",
-              attrs: { type: "email", placeholder: "E-mail" },
+              attrs: { type: "email", required: "", placeholder: "E-mail" },
               domProps: { value: _vm.$store.getters.getItem.email },
               on: {
                 input: function($event) {
@@ -4348,6 +4456,10 @@ var render = function() {
               staticStyle: { "margin-left": "20px" }
             },
             [
+              _c("span", {
+                class: (index = index + Math.floor(Math.random() * 1000 + 1))
+              }),
+              _vm._v(" "),
               _c("input", {
                 directives: [
                   {
