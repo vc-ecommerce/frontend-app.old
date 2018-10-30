@@ -3707,7 +3707,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       }).then(function (response) {
         _this2.ok = true;
         _this2.loading = false;
-        console.log(response.data);
+        //console.log(response.data);
       }).catch(function (error) {
         _this2.loading = false;
         _this2.showError(error.response.status);

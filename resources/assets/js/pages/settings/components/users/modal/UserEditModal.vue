@@ -6,57 +6,57 @@
     titleModal="Editar dados de Usuário"
     btnSave="Salvar" :dataItem="dataItem" @submit="sendForm()">
 
-    <div v-if="status" class="row">
-      <div class="col-lg-12">
-        <div class="alert alert-success alert-fill alert-close alert-dismissible fade show" role="alert">
-          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-          </button>
-          {{ status }}
-        </div>
-      </div>
+    <div v-if="status && error === false" class="row">
+      <Alert className="alert alert-success alert-fill alert-close alert-dismissible fade show">
+         {{ status }}
+      </Alert>
     </div>
 
-    <div v-if="error" class="row">
-      <div class="col-lg-12">
-        <div class="alert alert-danger alert-fill alert-close alert-dismissible fade show" role="alert">
-          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-          </button>
+    <div v-if="passwordInvalid" class="row">
+      <Alert className="alert alert-danger alert-fill alert-close alert-dismissible fade show">
+        <strong>Atenção:</strong> Senha administrativa fraca, tente outra mais forte.
+      </Alert>
+    </div>
 
-          <dl>
-            <dt v-for="err in error" :key="err.id">
-              {{ err }}
-            </dt>
-          </dl>
-
-        </div>
-      </div>
+    <div v-if="error && status === false" class="row">
+      <Alert className="alert alert-danger alert-fill alert-close alert-dismissible fade show">
+        <dl>
+          <dt v-for="err in error" :key="err.id">
+            {{ err }}
+          </dt>
+        </dl>
+      </Alert>
     </div>
 
     <div class="row">
 
       <div class="col-lg-4">
         <fieldset class="form-group">
-          <label class="form-label semibold" for="exampleInput">Nome</label>
+          <label class="form-label semibold" for="inputName">Nome</label>
           <input type="text" required class="form-control" v-model="$store.getters.getItem.name" placeholder="Nome">
         </fieldset>
       </div>
+
       <div class="col-lg-4">
         <fieldset class="form-group">
-          <label class="form-label" for="exampleInputEmail1">Email</label>
+          <label class="form-label" for="inputEmail">Email</label>
           <input type="email" required class="form-control" placeholder="E-mail" v-model="$store.getters.getItem.email">
         </fieldset>
       </div>
+
       <div class="col-lg-4">
         <fieldset class="form-group">
-          <label class="form-label" for="exampleInputPassword1">Senha</label>
-          <input type="password" class="form-control" placeholder="Senha">
+          <label class="form-label" for="inputPassword">Senha</label>
+          <input type="password" class="form-control" minlength="6" v-model="password" placeholder="Senha">
         </fieldset>
       </div>
+
     </div><!--.row-->
 
     <div class="row" style="margin:10px 0 10px 0">
         <label class="form-label semibold">Funções do usuário</label>
     </div>
+
     <div class="row">
         <div class="checkbox-toggle" v-for="(role, index) in roles" :key="role.id" style="margin-left:20px">
           <span :class="index = index + Math.floor((Math.random() * 1000) + 1)"></span>
@@ -71,20 +71,25 @@
 <script>
 import Table from "./../../../../../components/layouts/Table";
 import Modal from "./../../../../../components/layouts/Modal";
+import Alert from "./../../../../../components/layouts/Alert";
 import filterRoles from "./../../../../../helpers/filterRoles";
+import forcePassword from "./../../../../../helpers/forcePassword";
 
 export default {
   name: "UserEditModal",
   components: {
     Table,
-    Modal
+    Modal,
+    Alert
   },
   props: ["dataItem"],
   data() {
     return {
       status: false,
       error: false,
-      roles: []
+      roles: [],
+      password: "",
+      passwordInvalid: false
     };
   },
   computed: {
@@ -120,6 +125,16 @@ export default {
     sendForm() {
       let data = this.$store.getters.getItem;
 
+      if (forcePassword(this.password) < 50) {
+        this.passwordInvalid = true;
+
+        setTimeout(() => {
+          this.passwordInvalid = false;
+        }, 5000);
+
+        return;
+      }
+
       this.status = "Enviando...";
 
       const api = `${this.$urlApi}/admin/users/${data._id}`;
@@ -129,6 +144,7 @@ export default {
           {
             name: data.name,
             email: data.email,
+            password: this.password,
             roles: data.roles
           },
           {
@@ -138,9 +154,9 @@ export default {
           }
         )
         .then(response => {
+          this.error = false;
           this.users = response.data;
           this.total = response.data.total;
-
           this.status = "Dados do usuário alterados com sucesso.";
           //console.log(this.users)
         })
@@ -148,6 +164,11 @@ export default {
           this.status = false;
           this.error = JSON.parse(error.response.data.error);
         });
+
+      setTimeout(() => {
+        this.status = false;
+        this.error = false;
+      }, 5000);
     }
   }
 };

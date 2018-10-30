@@ -3332,7 +3332,50 @@ module.exports = Component.exports
 /* 137 */,
 /* 138 */,
 /* 139 */,
-/* 140 */,
+/* 140 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (immutable) */ __webpack_exports__["a"] = forcePassword;
+function forcePassword(password) {
+
+  var force = 0;
+
+  var regLettersMa = /[A-Z]/;
+  var regLettersMi = /[a-z]/;
+  var regNumber = /[0-9]/;
+  var regEspecial = /[!@#$%&*?]/;
+
+  var size = false;
+  var sizeM = false;
+  var lettersMa = false;
+  var lettersMi = false;
+  var number = false;
+  var especial = false;
+
+  //    console.clear();
+  //    console.log('password: '+password);
+
+  if (password.length >= 6) size = true;
+  if (password.length >= 10) sizeM = true;
+  if (regLettersMa.exec(password)) lettersMa = true;
+  if (regLettersMi.exec(password)) lettersMi = true;
+  if (regNumber.exec(password)) number = true;
+  if (regEspecial.exec(password)) especial = true;
+
+  if (size) force += 10;
+  if (sizeM) force += 10;
+  if (lettersMa) force += 10;
+  if (lettersMi) force += 10;
+  if (lettersMa && lettersMi) force += 20;
+  if (number) force += 20;
+  if (especial) force += 20;
+
+  //console.log('força: '+force);
+  return force;
+}
+
+/***/ }),
 /* 141 */,
 /* 142 */
 /***/ (function(module, exports, __webpack_require__) {
@@ -4083,7 +4126,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_layouts_Table___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__components_layouts_Table__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_layouts_Modal__ = __webpack_require__(45);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_layouts_Modal___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__components_layouts_Modal__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__helpers_filterRoles__ = __webpack_require__(157);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_layouts_Alert__ = __webpack_require__(164);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_layouts_Alert___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__components_layouts_Alert__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__helpers_filterRoles__ = __webpack_require__(157);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__helpers_forcePassword__ = __webpack_require__(140);
 //
 //
 //
@@ -4154,6 +4200,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+
+
 
 
 
@@ -4163,21 +4211,24 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   name: "UserEditModal",
   components: {
     Table: __WEBPACK_IMPORTED_MODULE_0__components_layouts_Table___default.a,
-    Modal: __WEBPACK_IMPORTED_MODULE_1__components_layouts_Modal___default.a
+    Modal: __WEBPACK_IMPORTED_MODULE_1__components_layouts_Modal___default.a,
+    Alert: __WEBPACK_IMPORTED_MODULE_2__components_layouts_Alert___default.a
   },
   props: ["dataItem"],
   data: function data() {
     return {
       status: false,
       error: false,
-      roles: []
+      roles: [],
+      password: "",
+      passwordInvalid: false
     };
   },
 
   computed: {
     roleUser: {
       get: function get() {
-        return Object(__WEBPACK_IMPORTED_MODULE_2__helpers_filterRoles__["a" /* default */])(this.$store.getters.getItem.roles);
+        return Object(__WEBPACK_IMPORTED_MODULE_3__helpers_filterRoles__["a" /* default */])(this.$store.getters.getItem.roles);
       },
       set: function set(value) {
         this.$store.commit("updateRoleUser", value);
@@ -4198,7 +4249,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
           authorization: "Bearer " + this.$store.getters.getToken
         }
       }).then(function (response) {
-        _this.roles = Object(__WEBPACK_IMPORTED_MODULE_2__helpers_filterRoles__["a" /* default */])(response.data.data);
+        _this.roles = Object(__WEBPACK_IMPORTED_MODULE_3__helpers_filterRoles__["a" /* default */])(response.data.data);
       }).catch(function (error) {
         _this.error = JSON.parse(error.response.data.error);
       });
@@ -4208,27 +4259,43 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
       var data = this.$store.getters.getItem;
 
+      if (Object(__WEBPACK_IMPORTED_MODULE_4__helpers_forcePassword__["a" /* default */])(this.password) < 50) {
+        this.passwordInvalid = true;
+
+        setTimeout(function () {
+          _this2.passwordInvalid = false;
+        }, 5000);
+
+        return;
+      }
+
       this.status = "Enviando...";
 
       var api = this.$urlApi + "/admin/users/" + data._id;
       Vue.axios.put(api, {
         name: data.name,
         email: data.email,
+        password: this.password,
         roles: data.roles
       }, {
         headers: {
           authorization: "Bearer " + this.$store.getters.getToken
         }
       }).then(function (response) {
+        _this2.error = false;
         _this2.users = response.data;
         _this2.total = response.data.total;
-
         _this2.status = "Dados do usuário alterados com sucesso.";
         //console.log(this.users)
       }).catch(function (error) {
         _this2.status = false;
         _this2.error = JSON.parse(error.response.data.error);
       });
+
+      setTimeout(function () {
+        _this2.status = false;
+        _this2.error = false;
+      }, 5000);
     }
   }
 });
@@ -4276,64 +4343,78 @@ var render = function() {
       }
     },
     [
-      _vm.status
-        ? _c("div", { staticClass: "row" }, [
-            _c("div", { staticClass: "col-lg-12" }, [
+      _vm.status && _vm.error === false
+        ? _c(
+            "div",
+            { staticClass: "row" },
+            [
               _c(
-                "div",
+                "Alert",
                 {
-                  staticClass:
-                    "alert alert-success alert-fill alert-close alert-dismissible fade show",
-                  attrs: { role: "alert" }
+                  attrs: {
+                    className:
+                      "alert alert-success alert-fill alert-close alert-dismissible fade show"
+                  }
                 },
-                [
-                  _c("button", {
-                    staticClass: "close",
-                    attrs: {
-                      type: "button",
-                      "data-dismiss": "alert",
-                      "aria-label": "Close"
-                    }
-                  }),
-                  _vm._v("\n        " + _vm._s(_vm.status) + "\n      ")
-                ]
+                [_vm._v("\n       " + _vm._s(_vm.status) + "\n    ")]
               )
-            ])
-          ])
+            ],
+            1
+          )
         : _vm._e(),
       _vm._v(" "),
-      _vm.error
-        ? _c("div", { staticClass: "row" }, [
-            _c("div", { staticClass: "col-lg-12" }, [
+      _vm.passwordInvalid
+        ? _c(
+            "div",
+            { staticClass: "row" },
+            [
               _c(
-                "div",
+                "Alert",
                 {
-                  staticClass:
-                    "alert alert-danger alert-fill alert-close alert-dismissible fade show",
-                  attrs: { role: "alert" }
+                  attrs: {
+                    className:
+                      "alert alert-danger alert-fill alert-close alert-dismissible fade show"
+                  }
                 },
                 [
-                  _c("button", {
-                    staticClass: "close",
-                    attrs: {
-                      type: "button",
-                      "data-dismiss": "alert",
-                      "aria-label": "Close"
-                    }
-                  }),
-                  _vm._v(" "),
+                  _c("strong", [_vm._v("Atenção:")]),
+                  _vm._v(
+                    " Senha administrativa fraca, tente outra mais forte.\n    "
+                  )
+                ]
+              )
+            ],
+            1
+          )
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.error && _vm.status === false
+        ? _c(
+            "div",
+            { staticClass: "row" },
+            [
+              _c(
+                "Alert",
+                {
+                  attrs: {
+                    className:
+                      "alert alert-danger alert-fill alert-close alert-dismissible fade show"
+                  }
+                },
+                [
                   _c(
                     "dl",
                     _vm._l(_vm.error, function(err) {
                       return _c("dt", { key: err.id }, [
-                        _vm._v("\n            " + _vm._s(err) + "\n          ")
+                        _vm._v("\n          " + _vm._s(err) + "\n        ")
                       ])
                     })
                   )
                 ]
               )
-            ])
-          ])
+            ],
+            1
+          )
         : _vm._e(),
       _vm._v(" "),
       _c("div", { staticClass: "row" }, [
@@ -4343,7 +4424,7 @@ var render = function() {
               "label",
               {
                 staticClass: "form-label semibold",
-                attrs: { for: "exampleInput" }
+                attrs: { for: "inputName" }
               },
               [_vm._v("Nome")]
             ),
@@ -4380,10 +4461,7 @@ var render = function() {
           _c("fieldset", { staticClass: "form-group" }, [
             _c(
               "label",
-              {
-                staticClass: "form-label",
-                attrs: { for: "exampleInputEmail1" }
-              },
+              { staticClass: "form-label", attrs: { for: "inputEmail" } },
               [_vm._v("Email")]
             ),
             _vm._v(" "),
@@ -4419,16 +4497,30 @@ var render = function() {
           _c("fieldset", { staticClass: "form-group" }, [
             _c(
               "label",
-              {
-                staticClass: "form-label",
-                attrs: { for: "exampleInputPassword1" }
-              },
+              { staticClass: "form-label", attrs: { for: "inputPassword" } },
               [_vm._v("Senha")]
             ),
             _vm._v(" "),
             _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.password,
+                  expression: "password"
+                }
+              ],
               staticClass: "form-control",
-              attrs: { type: "password", placeholder: "Senha" }
+              attrs: { type: "password", minlength: "6", placeholder: "Senha" },
+              domProps: { value: _vm.password },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.password = $event.target.value
+                }
+              }
             })
           ])
         ])
@@ -4961,6 +5053,128 @@ if (false) {
   module.hot.accept()
   if (module.hot.data) {
     require("vue-hot-reload-api")      .rerender("data-v-ad00064c", module.exports)
+  }
+}
+
+/***/ }),
+/* 163 */,
+/* 164 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(1)
+/* script */
+var __vue_script__ = __webpack_require__(165)
+/* template */
+var __vue_template__ = __webpack_require__(166)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/layouts/Alert.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-1241eaaf", Component.options)
+  } else {
+    hotAPI.reload("data-v-1241eaaf", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 165 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  name: "Alert",
+  props: {
+    col: {
+      type: Number,
+      default: 12
+    },
+    className: {
+      type: String,
+      required: true
+    }
+  },
+  computed: {
+    defineCol: function defineCol() {
+      return "col-lg-" + this.col;
+    }
+  }
+});
+
+/***/ }),
+/* 166 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { class: _vm.defineCol }, [
+    _c(
+      "div",
+      { class: _vm.className, attrs: { role: "alert" } },
+      [
+        _c("button", {
+          staticClass: "close",
+          attrs: {
+            type: "button",
+            "data-dismiss": "alert",
+            "aria-label": "Close"
+          }
+        }),
+        _vm._v(" "),
+        _vm._t("default")
+      ],
+      2
+    )
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-1241eaaf", module.exports)
   }
 }
 

@@ -65,7 +65,7 @@ export default {
         .then(response => {
           this.ok = true;
           this.loading = false;
-          console.log(response.data);
+          //console.log(response.data);
         })
         .catch(error => {
           this.loading = false;
