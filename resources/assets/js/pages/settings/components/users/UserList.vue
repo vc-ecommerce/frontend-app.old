@@ -114,7 +114,7 @@ export default {
   methods: {
     changeStatus(user) {
       let status, titleQuestion, titleResp, textResp;
-      const method = this;
+      const parent = this;
 
       status = !Boolean(user.active);
 
@@ -138,25 +138,41 @@ export default {
         },
         function(isConfirm) {
           if (isConfirm) {
-            if (status === true) {
-              titleResp = "Ativado";
-              textResp = "ativado";
-            } else {
-              titleResp = "Desativado";
-              textResp = "desativado";
-            }
 
-            swal({
-              title: titleResp,
-              text: `Usuário ${textResp} com sucesso.`,
-              type: "success",
-              confirmButtonClass: "btn-success"
+            let result = parent.sendDataActive(user);
+            result.then(function(value) {
+
+              // Faça algo com o valor aqui dentro.
+              // Se precisar dele em outro lugar, chame uma função
+              // e passe adiante. Não tente atribuir seu valor a uma
+              // variável de fora e acessar lá embaixo, não vai funcionar.
+              // (exceto em certos casos com frameworks reativos)
+
+              if (value == true) {
+                if (status === true) {
+                  titleResp = "Ativado";
+                  textResp = "ativado";
+                } else {
+                  titleResp = "Desativado";
+                  textResp = "desativado";
+                }
+
+                swal({
+                  title: titleResp,
+                  text: `Usuário ${textResp} com sucesso.`,
+                  type: "success",
+                  confirmButtonClass: "btn-success"
+                });
+              } else {
+                swal({
+                  title: "Erro",
+                  text: "Houve um erro na socilitação do pedido.",
+                  type: "error",
+                  confirmButtonClass: "btn-danger"
+                });
+              }
             });
-
-            method.sendDataActive(user);
           } else {
-            console.log("Cancelado");
-
             swal({
               title: "Cancelado",
               text: "Pedido cancelado com sucesso.",
@@ -170,14 +186,16 @@ export default {
 
     sendDataActive(user) {
       let status = !Boolean(user.active);
+      let result = false;
 
       const api = `${this.$urlApi}/admin/users/${user._id}`;
-      Vue.axios
+
+      return Vue.axios
         .put(
           api,
           {
             active: status,
-            local: 'user-edit-status',
+            local: "user-edit-status"
           },
           {
             headers: {
@@ -186,11 +204,14 @@ export default {
           }
         )
         .then(response => {
-          user.active = !user.active;
-          console.log(response.data);
+          if (Boolean(response.data) === true) {
+            user.active = !user.active;
+            return true;
+          }
+          return false;
         })
         .catch(error => {
-          console.log(error.response);
+          return false;
         });
     },
 
@@ -209,8 +230,6 @@ export default {
         },
         function(isConfirm) {
           if (isConfirm) {
-            console.log("Removido");
-
             swal({
               title: "Removido",
               text: "Dados foram removidos com sucesso",
@@ -218,8 +237,6 @@ export default {
               confirmButtonClass: "btn-success"
             });
           } else {
-            console.log("Cancelado");
-
             swal({
               title: "Cancelado",
               text: "Pedido cancelado com sucesso.",
@@ -245,7 +262,7 @@ export default {
           //console.log(this.users)
         })
         .catch(error => {
-          console.log(error.response);
+          // console.log(error.response);
         });
     }
   }
