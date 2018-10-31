@@ -173,7 +173,7 @@ export default {
             name: data.name,
             email: data.email,
             active: data.active,
-            local: "admin",
+            local: 'user-edit',
             password: this.password,
             roles: data.roles
           },

@@ -1,5 +1,5 @@
 <template>
-  <form class="sign-box" @submit.prevent="submitForm">
+  <form class="sign-box" id="sign-box" style="display: none" @submit.prevent="submitForm">
 
     <header class="sign-title">Redefinir Senha</header>
 
@@ -47,8 +47,7 @@
   </form>
 </template>
 <script>
-
-import forcePassword from './../../../helpers/forcePassword'
+import forcePassword from "./../../../helpers/forcePassword";
 
 export default {
   name: "ForgotPassword",
@@ -67,30 +66,15 @@ export default {
     };
   },
   mounted() {
-    const api = `${this.$urlApi}/auth/forgot/check/token`;
-    Vue.axios
-      .post(api, {
-        token: this.token
-      })
-      .then(response => {
-        if (response.data) {
-          this.tokenOk = true;
-          this.userId = response.data;
-        }
-      })
-      .catch(error => {
-        this.tokenOk = false;
-        this.showError(error.response.status);
-      });
+    this.checkToken();
+    document.getElementById("sign-box").style.display = "block";
   },
   methods: {
-
     checkAlert() {
-      if(this.passwordInvalid === true) {
-        this.passwordInvalid=false
+      if (this.passwordInvalid === true) {
+        this.passwordInvalid = false;
       }
     },
-
     showError(code) {
       if (code === 401) {
         this.status = true;
@@ -109,8 +93,24 @@ export default {
       }
       return true;
     },
+    checkToken() {
+      const api = `${this.$urlApi}/auth/forgot/check/token`;
+      Vue.axios
+        .post(api, {
+          token: this.token
+        })
+        .then(response => {
+          if (response.data) {
+            this.tokenOk = true;
+            this.userId = response.data;
+          }
+        })
+        .catch(error => {
+          this.tokenOk = false;
+          this.showError(error.response.status);
+        });
+    },
     sendData() {
-
       this.loading = true;
       const api = `${this.$urlApi}/auth/forgot`;
       Vue.axios
@@ -123,8 +123,8 @@ export default {
           if (response.data === "update_password") {
             this.loading = false;
             this.updateOk = true;
-            this.password="";
-            this.confirme="";
+            this.password = "";
+            this.confirme = "";
           }
         })
         .catch(error => {
@@ -133,13 +133,12 @@ export default {
         });
     },
     submitForm() {
-
       if (!this.isPasswordValid()) {
         return;
       }
 
-      if(forcePassword(this.password) < 50) {
-        this.passwordInvalid = true
+      if (forcePassword(this.password) < 50) {
+        this.passwordInvalid = true;
         return;
       }
 
@@ -196,8 +195,8 @@ export default {
 }
 
 .sign-box a {
-    text-decoration: none;
-    color: #f3ecca;
-    border-bottom: solid 1px transparent;
+  text-decoration: none;
+  color: #f3ecca;
+  border-bottom: solid 1px transparent;
 }
 </style>

@@ -3496,7 +3496,7 @@ exports = module.exports = __webpack_require__(3)(false);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -3515,6 +3515,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__modal_UserEditModal___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__modal_UserEditModal__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__components_paginations_Pagination__ = __webpack_require__(162);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__components_paginations_Pagination___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__components_paginations_Pagination__);
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -3624,10 +3630,83 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
   computed: {},
   methods: {
-    alertRemove: function alertRemove(name, id) {
+    changeStatus: function changeStatus(user) {
+      var status = void 0,
+          titleQuestion = void 0,
+          titleResp = void 0,
+          textResp = void 0;
+      var method = this;
+
+      status = !Boolean(user.active);
+
+      if (status === true) {
+        titleQuestion = "ativar";
+      } else {
+        titleQuestion = "desativar";
+      }
+
+      swal({
+        title: "Deseja realmente " + titleQuestion + " o usu\xE1rio?",
+        text: user.name,
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonClass: "btn-danger",
+        confirmButtonText: "Sim!",
+        cancelButtonText: "Cancelar",
+        closeOnConfirm: false,
+        closeOnCancel: false
+      }, function (isConfirm) {
+        if (isConfirm) {
+          if (status === true) {
+            titleResp = "Ativado";
+            textResp = "ativado";
+          } else {
+            titleResp = "Desativado";
+            textResp = "desativado";
+          }
+
+          swal({
+            title: titleResp,
+            text: "Usu\xE1rio " + textResp + " com sucesso.",
+            type: "success",
+            confirmButtonClass: "btn-success"
+          });
+
+          method.sendDataActive(user);
+        } else {
+          console.log("Cancelado");
+
+          swal({
+            title: "Cancelado",
+            text: "Pedido cancelado com sucesso.",
+            type: "error",
+            confirmButtonClass: "btn-danger"
+          });
+        }
+      });
+    },
+    sendDataActive: function sendDataActive(user) {
+      var status = !Boolean(user.active);
+
+      var api = this.$urlApi + "/admin/users/" + user._id;
+      Vue.axios.put(api, {
+        active: status,
+        local: 'user-edit-status'
+      }, {
+        headers: {
+          authorization: "Bearer " + this.$store.getters.getToken
+        }
+      }).then(function (response) {
+        user.active = !user.active;
+        console.log(response.data);
+      }).catch(function (error) {
+        console.log(error.response);
+      });
+    },
+    alertRemove: function alertRemove(user) {
       swal({
         title: "Deseja realmente excluir?",
-        text: name,
+        text: user.name + " -  " + user._id,
         type: "warning",
         showCancelButton: true,
         confirmButtonClass: "btn-danger",
@@ -3641,7 +3720,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
           swal({
             title: "Removido",
-            text: "Dados foram remvidos com sucesso",
+            text: "Dados foram removidos com sucesso",
             type: "success",
             confirmButtonClass: "btn-success"
           });
@@ -4305,7 +4384,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         name: data.name,
         email: data.email,
         active: data.active,
-        local: "admin",
+        local: 'user-edit',
         password: this.password,
         roles: data.roles
       }, {
@@ -5112,8 +5191,6 @@ var render = function() {
                         _vm._v(
                           "\n                  " +
                             _vm._s(user.name) +
-                            " " +
-                            _vm._s(user.active) +
                             "\n                  "
                         ),
                         _c("br"),
@@ -5152,6 +5229,36 @@ var render = function() {
                                   staticStyle: { float: "none" }
                                 },
                                 [
+                                  _c(
+                                    "button",
+                                    {
+                                      staticClass:
+                                        "tabledit-delete-button btn btn-sm",
+                                      staticStyle: {
+                                        float: "none",
+                                        "margin-right": "2px"
+                                      },
+                                      attrs: { type: "button" },
+                                      on: {
+                                        click: function($event) {
+                                          $event.preventDefault()
+                                          _vm.changeStatus(user)
+                                        }
+                                      }
+                                    },
+                                    [
+                                      user.active
+                                        ? _c("span", {
+                                            staticClass:
+                                              "glyphicon glyphicon-eye-open"
+                                          })
+                                        : _c("span", {
+                                            staticClass:
+                                              "glyphicon glyphicon-eye-close"
+                                          })
+                                    ]
+                                  ),
+                                  _vm._v(" "),
                                   _c("UserEditModal", {
                                     attrs: { dataItem: user }
                                   }),
@@ -5169,7 +5276,7 @@ var render = function() {
                                       on: {
                                         click: function($event) {
                                           $event.preventDefault()
-                                          _vm.alertRemove(user.name, user._id)
+                                          _vm.alertRemove(user)
                                         }
                                       }
                                     },

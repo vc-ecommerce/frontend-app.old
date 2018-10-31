@@ -33,7 +33,7 @@
             <template slot="tbody">
               <tr v-for="user in users.data" :key="user._id">
                 <td class="tabledit-view-mode">
-                    {{ user.name }} {{ user.active }}
+                    {{ user.name }}
                     <br>
                     <small>
 
@@ -46,11 +46,17 @@
                     <div class="tabledit-toolbar btn-toolbar" style="text-align: left;">
                         <div class="btn-group btn-group-sm" style="float: none;">
 
+                          <button type="button" @click.prevent="changeStatus(user)" class="tabledit-delete-button btn btn-sm" style="float: none; margin-right:2px">
+                            <span v-if="user.active" class="glyphicon glyphicon-eye-open"></span>
+                            <span v-else class="glyphicon glyphicon-eye-close"></span>
+                          </button>
+
                           <UserEditModal :dataItem="user"/>
 
-                          <button type="button" @click.prevent="alertRemove(user.name, user._id)" class="tabledit-delete-button btn btn-sm btn-danger" style="float: none; margin-left:2px">
+                          <button type="button" @click.prevent="alertRemove(user)" class="tabledit-delete-button btn btn-sm btn-danger" style="float: none; margin-left:2px">
                             <span class="glyphicon glyphicon-trash"></span>
                           </button>
+
                         </div>
                         <button type="button" class="tabledit-save-button btn btn-sm btn-success" style="display: none; float: none;">Save</button>
                         <button type="button" class="tabledit-confirm-button btn btn-sm btn-danger" style="display: none; float: none;">Confirm</button>
@@ -106,11 +112,93 @@ export default {
   },
   computed: {},
   methods: {
-    alertRemove(name, id) {
+    changeStatus(user) {
+      let status, titleQuestion, titleResp, textResp;
+      const method = this;
+
+      status = !Boolean(user.active);
+
+      if (status === true) {
+        titleQuestion = "ativar";
+      } else {
+        titleQuestion = "desativar";
+      }
+
+      swal(
+        {
+          title: `Deseja realmente ${titleQuestion} o usuário?`,
+          text: user.name,
+          type: "warning",
+          showCancelButton: true,
+          confirmButtonClass: "btn-danger",
+          confirmButtonText: "Sim!",
+          cancelButtonText: "Cancelar",
+          closeOnConfirm: false,
+          closeOnCancel: false
+        },
+        function(isConfirm) {
+          if (isConfirm) {
+            if (status === true) {
+              titleResp = "Ativado";
+              textResp = "ativado";
+            } else {
+              titleResp = "Desativado";
+              textResp = "desativado";
+            }
+
+            swal({
+              title: titleResp,
+              text: `Usuário ${textResp} com sucesso.`,
+              type: "success",
+              confirmButtonClass: "btn-success"
+            });
+
+            method.sendDataActive(user);
+          } else {
+            console.log("Cancelado");
+
+            swal({
+              title: "Cancelado",
+              text: "Pedido cancelado com sucesso.",
+              type: "error",
+              confirmButtonClass: "btn-danger"
+            });
+          }
+        }
+      );
+    },
+
+    sendDataActive(user) {
+      let status = !Boolean(user.active);
+
+      const api = `${this.$urlApi}/admin/users/${user._id}`;
+      Vue.axios
+        .put(
+          api,
+          {
+            active: status,
+            local: 'user-edit-status',
+          },
+          {
+            headers: {
+              authorization: "Bearer " + this.$store.getters.getToken
+            }
+          }
+        )
+        .then(response => {
+          user.active = !user.active;
+          console.log(response.data);
+        })
+        .catch(error => {
+          console.log(error.response);
+        });
+    },
+
+    alertRemove(user) {
       swal(
         {
           title: "Deseja realmente excluir?",
-          text: name,
+          text: `${user.name} -  ${user._id}`,
           type: "warning",
           showCancelButton: true,
           confirmButtonClass: "btn-danger",
@@ -125,7 +213,7 @@ export default {
 
             swal({
               title: "Removido",
-              text: "Dados foram remvidos com sucesso",
+              text: "Dados foram removidos com sucesso",
               type: "success",
               confirmButtonClass: "btn-success"
             });

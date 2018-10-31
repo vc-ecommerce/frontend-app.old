@@ -3968,7 +3968,7 @@ exports = module.exports = __webpack_require__(3)(false);
 
 
 // module
-exports.push([module.i, "\n.sign-title[data-v-c467da66] {\n  font-weight: bold;\n}\n.showError[data-v-c467da66] {\n  animation: treme-data-v-c467da66 0.1s;\n  animation-iteration-count: 3;\n}\n@keyframes treme-data-v-c467da66 {\n0% {\n    margin-left: 0;\n}\n25% {\n    margin-left: 5px;\n}\n50% {\n    margin-left: 0;\n}\n75% {\n    margin-left: -5px;\n}\n100% {\n    margin-left: 0;\n}\n}\n.red[data-v-c467da66] {\n  color: #fa424a;\n}\n.green[data-v-c467da66] {\n  color: #46c35f;\n}\n.gray[data-v-c467da66] {\n  color: #808080;\n}\n.sign-box a[data-v-c467da66] {\n    text-decoration: none;\n    color: #f3ecca;\n    border-bottom: solid 1px transparent;\n}\n", ""]);
+exports.push([module.i, "\n.sign-title[data-v-c467da66] {\n  font-weight: bold;\n}\n.showError[data-v-c467da66] {\n  animation: treme-data-v-c467da66 0.1s;\n  animation-iteration-count: 3;\n}\n@keyframes treme-data-v-c467da66 {\n0% {\n    margin-left: 0;\n}\n25% {\n    margin-left: 5px;\n}\n50% {\n    margin-left: 0;\n}\n75% {\n    margin-left: -5px;\n}\n100% {\n    margin-left: 0;\n}\n}\n.red[data-v-c467da66] {\n  color: #fa424a;\n}\n.green[data-v-c467da66] {\n  color: #46c35f;\n}\n.gray[data-v-c467da66] {\n  color: #808080;\n}\n.sign-box a[data-v-c467da66] {\n  text-decoration: none;\n  color: #f3ecca;\n  border-bottom: solid 1px transparent;\n}\n", ""]);
 
 // exports
 
@@ -4031,7 +4031,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 
-
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "ForgotPassword",
   props: ["token", "urllogin"],
@@ -4049,20 +4048,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     };
   },
   mounted: function mounted() {
-    var _this = this;
-
-    var api = this.$urlApi + "/auth/forgot/check/token";
-    Vue.axios.post(api, {
-      token: this.token
-    }).then(function (response) {
-      if (response.data) {
-        _this.tokenOk = true;
-        _this.userId = response.data;
-      }
-    }).catch(function (error) {
-      _this.tokenOk = false;
-      _this.showError(error.response.status);
-    });
+    this.checkToken();
+    document.getElementById("sign-box").style.display = "block";
   },
 
   methods: {
@@ -4072,26 +4059,42 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       }
     },
     showError: function showError(code) {
-      var _this2 = this;
+      var _this = this;
 
       if (code === 401) {
         this.status = true;
         setTimeout(function () {
-          _this2.status = false;
+          _this.status = false;
         }, 5000);
       }
     },
     isPasswordValid: function isPasswordValid() {
-      var _this3 = this;
+      var _this2 = this;
 
       if (this.password !== this.confirme) {
         this.passwordNotEquals = true;
         setTimeout(function () {
-          _this3.passwordNotEquals = false;
+          _this2.passwordNotEquals = false;
         }, 6000);
         return false;
       }
       return true;
+    },
+    checkToken: function checkToken() {
+      var _this3 = this;
+
+      var api = this.$urlApi + "/auth/forgot/check/token";
+      Vue.axios.post(api, {
+        token: this.token
+      }).then(function (response) {
+        if (response.data) {
+          _this3.tokenOk = true;
+          _this3.userId = response.data;
+        }
+      }).catch(function (error) {
+        _this3.tokenOk = false;
+        _this3.showError(error.response.status);
+      });
     },
     sendData: function sendData() {
       var _this4 = this;
@@ -4115,7 +4118,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       });
     },
     submitForm: function submitForm() {
-
       if (!this.isPasswordValid()) {
         return;
       }
@@ -4148,6 +4150,8 @@ var render = function() {
     "form",
     {
       staticClass: "sign-box",
+      staticStyle: { display: "none" },
+      attrs: { id: "sign-box" },
       on: {
         submit: function($event) {
           $event.preventDefault()
