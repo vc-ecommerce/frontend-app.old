@@ -7,3 +7,5 @@ Vue.use(VueAxios, axios);
 
 //Vue.config.productionTip = false
 Vue.prototype.$urlApi = 'http://api.vocecrianca.site/v1';
+
+//https://jsoneditoronline.org/

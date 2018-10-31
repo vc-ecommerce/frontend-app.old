@@ -1120,6 +1120,8 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_1_vue_axios___default.a, __WEBPACK_IMPORTED_MO
 //Vue.config.productionTip = false
 Vue.prototype.$urlApi = 'http://api.vocecrianca.site/v1';
 
+//https://jsoneditoronline.org/
+
 /***/ }),
 /* 12 */
 /***/ (function(module, exports, __webpack_require__) {
@@ -3032,7 +3034,6 @@ var state = {
 };
 
 var getters = {
-
   getItem: function getItem(state) {
     return state.item;
   }
@@ -3044,6 +3045,9 @@ var mutations = {
   },
   updateRoleUser: function updateRoleUser(state, roles) {
     state.item.roles = roles;
+  },
+  updateActiveUser: function updateActiveUser(state, active) {
+    state.item.active = active;
   }
 };
 
@@ -3095,7 +3099,50 @@ module.exports = function listToStyles (parentId, list) {
 /* 42 */,
 /* 43 */,
 /* 44 */,
-/* 45 */,
+/* 45 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (immutable) */ __webpack_exports__["a"] = forcePassword;
+function forcePassword(password) {
+
+  var force = 0;
+
+  var regLettersMa = /[A-Z]/;
+  var regLettersMi = /[a-z]/;
+  var regNumber = /[0-9]/;
+  var regEspecial = /[!@#$%&*?]/;
+
+  var size = false;
+  var sizeM = false;
+  var lettersMa = false;
+  var lettersMi = false;
+  var number = false;
+  var especial = false;
+
+  //    console.clear();
+  //    console.log('password: '+password);
+
+  if (password.length >= 6) size = true;
+  if (password.length >= 10) sizeM = true;
+  if (regLettersMa.exec(password)) lettersMa = true;
+  if (regLettersMi.exec(password)) lettersMi = true;
+  if (regNumber.exec(password)) number = true;
+  if (regEspecial.exec(password)) especial = true;
+
+  if (size) force += 10;
+  if (sizeM) force += 10;
+  if (lettersMa) force += 10;
+  if (lettersMi) force += 10;
+  if (lettersMa && lettersMi) force += 20;
+  if (number) force += 20;
+  if (especial) force += 20;
+
+  //console.log('força: '+force);
+  return force;
+}
+
+/***/ }),
 /* 46 */,
 /* 47 */,
 /* 48 */,
@@ -3174,24 +3221,25 @@ module.exports = function listToStyles (parentId, list) {
 /* 121 */,
 /* 122 */,
 /* 123 */,
-/* 124 */
+/* 124 */,
+/* 125 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(125);
+module.exports = __webpack_require__(126);
 
 
 /***/ }),
-/* 125 */
+/* 126 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__stores__ = __webpack_require__(32);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_LoginUser__ = __webpack_require__(126);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_LoginUser__ = __webpack_require__(127);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_LoginUser___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__components_LoginUser__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_ResetPassword__ = __webpack_require__(131);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_ResetPassword__ = __webpack_require__(132);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_ResetPassword___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__components_ResetPassword__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__components_ForgotPassword__ = __webpack_require__(136);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__components_ForgotPassword__ = __webpack_require__(137);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__components_ForgotPassword___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__components_ForgotPassword__);
 __webpack_require__(11);
 
@@ -3212,19 +3260,19 @@ var app = new Vue({
 });
 
 /***/ }),
-/* 126 */
+/* 127 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
-  __webpack_require__(127)
+  __webpack_require__(128)
 }
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(129)
+var __vue_script__ = __webpack_require__(130)
 /* template */
-var __vue_template__ = __webpack_require__(130)
+var __vue_template__ = __webpack_require__(131)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -3263,13 +3311,13 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 127 */
+/* 128 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(128);
+var content = __webpack_require__(129);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
@@ -3289,7 +3337,7 @@ if(false) {
 }
 
 /***/ }),
-/* 128 */
+/* 129 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(3)(false);
@@ -3303,11 +3351,12 @@ exports.push([module.i, "\n.showError[data-v-ae829e96] {\n  animation: treme-dat
 
 
 /***/ }),
-/* 129 */
+/* 130 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
 //
 //
 //
@@ -3352,6 +3401,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       password: "",
       data: "",
       token: "",
+      account_inactive: false,
       status: false,
       loading: false,
       ok: false
@@ -3366,6 +3416,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         this.status = true;
         setTimeout(function () {
           _this.status = false;
+          _this.account_inactive = false;
         }, 5000);
       }
     },
@@ -3400,12 +3451,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         password: this.password
       }).then(function (response) {
         _this3.ok = true;
+        _this3.status = false;
         sessionStorage.setItem("token", JSON.stringify(response.data.HTTP_Authorization));
         sessionStorage.setItem("user", JSON.stringify(response.data.HTTP_Data));
         _this3.$store.commit("setUser", response.data);
         _this3.activeSession(response.data.HTTP_Data);
       }).catch(function (error) {
         _this3.loading = false;
+
+        if (error.response.data.error = "account_inactive") {
+          _this3.account_inactive = 'account_inactive';
+        }
+
         _this3.showError(error.response.status);
       });
     }
@@ -3420,7 +3477,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 130 */
+/* 131 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -3443,19 +3500,23 @@ var render = function() {
         _c("img", { attrs: { src: _vm.image, alt: "" } })
       ]),
       _vm._v(" "),
-      _vm.status
+      _vm.account_inactive === "account_inactive"
         ? _c("header", { staticClass: "sign-title red showError" }, [
-            _vm._v("Email e ou senha inválidos")
+            _vm._v("Você ainda não confirmou seu email.")
           ])
-        : _vm.loading
-          ? _c("header", { staticClass: "sign-title gray" }, [
-              _vm._v("Aguarde!!!")
+        : _vm.status
+          ? _c("header", { staticClass: "sign-title red showError" }, [
+              _vm._v("Email e ou senha inválidos")
             ])
-          : _vm.ok
-            ? _c("header", { staticClass: "sign-title green" }, [
-                _vm._v("Redirecinando...")
+          : _vm.loading
+            ? _c("header", { staticClass: "sign-title gray" }, [
+                _vm._v("Aguarde!!!")
               ])
-            : _c("header", { staticClass: "sign-title" }, [_vm._v("Login")]),
+            : _vm.ok
+              ? _c("header", { staticClass: "sign-title green" }, [
+                  _vm._v("Redirecinando...")
+                ])
+              : _c("header", { staticClass: "sign-title" }, [_vm._v("Login")]),
       _vm._v(" "),
       _c("div", { staticClass: "form-group" }, [
         _c("input", {
@@ -3541,19 +3602,19 @@ if (false) {
 }
 
 /***/ }),
-/* 131 */
+/* 132 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
-  __webpack_require__(132)
+  __webpack_require__(133)
 }
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(134)
+var __vue_script__ = __webpack_require__(135)
 /* template */
-var __vue_template__ = __webpack_require__(135)
+var __vue_template__ = __webpack_require__(136)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -3592,13 +3653,13 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 132 */
+/* 133 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(133);
+var content = __webpack_require__(134);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
@@ -3618,7 +3679,7 @@ if(false) {
 }
 
 /***/ }),
-/* 133 */
+/* 134 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(3)(false);
@@ -3632,7 +3693,7 @@ exports.push([module.i, "\n.sign-title[data-v-b0cc392a] {\n  font-weight: bold;\
 
 
 /***/ }),
-/* 134 */
+/* 135 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -3717,7 +3778,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 135 */
+/* 136 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -3829,17 +3890,17 @@ if (false) {
 }
 
 /***/ }),
-/* 136 */
+/* 137 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
-  __webpack_require__(137)
+  __webpack_require__(138)
 }
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(139)
+var __vue_script__ = __webpack_require__(140)
 /* template */
 var __vue_template__ = __webpack_require__(141)
 /* template functional */
@@ -3880,13 +3941,13 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 137 */
+/* 138 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(138);
+var content = __webpack_require__(139);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
@@ -3906,7 +3967,7 @@ if(false) {
 }
 
 /***/ }),
-/* 138 */
+/* 139 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(3)(false);
@@ -3920,12 +3981,12 @@ exports.push([module.i, "\n.sign-title[data-v-c467da66] {\n  font-weight: bold;\
 
 
 /***/ }),
-/* 139 */
+/* 140 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__helpers_forcePassword__ = __webpack_require__(140);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__helpers_forcePassword__ = __webpack_require__(45);
 //
 //
 //
@@ -4081,50 +4142,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     }
   }
 });
-
-/***/ }),
-/* 140 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (immutable) */ __webpack_exports__["a"] = forcePassword;
-function forcePassword(password) {
-
-  var force = 0;
-
-  var regLettersMa = /[A-Z]/;
-  var regLettersMi = /[a-z]/;
-  var regNumber = /[0-9]/;
-  var regEspecial = /[!@#$%&*?]/;
-
-  var size = false;
-  var sizeM = false;
-  var lettersMa = false;
-  var lettersMi = false;
-  var number = false;
-  var especial = false;
-
-  //    console.clear();
-  //    console.log('password: '+password);
-
-  if (password.length >= 6) size = true;
-  if (password.length >= 10) sizeM = true;
-  if (regLettersMa.exec(password)) lettersMa = true;
-  if (regLettersMi.exec(password)) lettersMi = true;
-  if (regNumber.exec(password)) number = true;
-  if (regEspecial.exec(password)) especial = true;
-
-  if (size) force += 10;
-  if (sizeM) force += 10;
-  if (lettersMa) force += 10;
-  if (lettersMi) force += 10;
-  if (lettersMa && lettersMi) force += 20;
-  if (number) force += 20;
-  if (especial) force += 20;
-
-  //console.log('força: '+force);
-  return force;
-}
 
 /***/ }),
 /* 141 */
@@ -4325,4 +4342,4 @@ if (false) {
 }
 
 /***/ })
-],[124]);
+],[125]);

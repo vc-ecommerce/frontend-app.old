@@ -33,7 +33,7 @@
             <template slot="tbody">
               <tr v-for="user in users.data" :key="user._id">
                 <td class="tabledit-view-mode">
-                    {{ user.name }}
+                    {{ user.name }} {{ user.active }}
                     <br>
                     <small>
 

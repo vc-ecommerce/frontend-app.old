@@ -5,7 +5,8 @@
       <img :src="image" alt="">
     </div>
 
-    <header v-if="status" class="sign-title red showError">Email e ou senha inválidos</header>
+    <header v-if="account_inactive ==='account_inactive'" class="sign-title red showError">Você ainda não confirmou seu email.</header>
+    <header v-else-if="status" class="sign-title red showError">Email e ou senha inválidos</header>
     <header v-else-if="loading" class="sign-title gray">Aguarde!!!</header>
     <header v-else-if="ok" class="sign-title green">Redirecinando...</header>
     <header v-else class="sign-title">Login</header>
@@ -42,6 +43,7 @@ export default {
       password: "",
       data: "",
       token: "",
+      account_inactive: false,
       status: false,
       loading: false,
       ok: false
@@ -53,6 +55,7 @@ export default {
         this.status = true;
         setTimeout(() => {
           this.status = false;
+          this.account_inactive = false;
         }, 5000);
       }
     },
@@ -92,6 +95,7 @@ export default {
         })
         .then(response => {
           this.ok = true;
+          this.status = false;
           sessionStorage.setItem("token", JSON.stringify(response.data.HTTP_Authorization));
           sessionStorage.setItem("user", JSON.stringify(response.data.HTTP_Data));
           this.$store.commit("setUser", response.data);
@@ -99,6 +103,11 @@ export default {
         })
         .catch(error => {
           this.loading = false;
+
+          if (error.response.data.error="account_inactive") {
+            this.account_inactive = 'account_inactive'
+          }
+
           this.showError(error.response.status);
         });
     }

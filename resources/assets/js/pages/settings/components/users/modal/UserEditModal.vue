@@ -30,21 +30,35 @@
 
     <div class="row">
 
-      <div class="col-lg-4">
+      <div class="col-lg-6">
         <fieldset class="form-group">
           <label class="form-label semibold" for="inputName">Nome</label>
           <input type="text" required class="form-control" v-model="$store.getters.getItem.name" placeholder="Nome">
         </fieldset>
       </div>
 
-      <div class="col-lg-4">
+      <div class="col-lg-6">
         <fieldset class="form-group">
           <label class="form-label" for="inputEmail">Email</label>
           <input type="email" required class="form-control" placeholder="E-mail" v-model="$store.getters.getItem.email">
         </fieldset>
       </div>
 
-      <div class="col-lg-4">
+    </div><!--.row-->
+
+    <div class="row">
+
+      <div class="col-lg-6">
+        <fieldset class="form-group">
+          <label class="form-label" for="inputPassword">Status</label>
+          <select class="form-control" v-model="selectedOption">
+            <option disabled value="">Escolha um item</option>
+            <option v-for="option in options" :key="option.id" :value="option.value">{{ option.text }}</option>
+          </select>
+        </fieldset>
+      </div>
+
+      <div class="col-lg-6">
         <fieldset class="form-group">
           <label class="form-label" for="inputPassword">Senha</label>
           <input type="password" class="form-control" minlength="6" v-model="password" placeholder="Senha">
@@ -88,7 +102,11 @@ export default {
       status: false,
       error: false,
       roles: [],
-      password: "",
+      password: '',
+      options: [
+        { text: "Ativo", value: true },
+        { text: "Desativado", value: false }
+      ],
       passwordInvalid: false
     };
   },
@@ -99,6 +117,14 @@ export default {
       },
       set(value) {
         this.$store.commit("updateRoleUser", value);
+      }
+    },
+    selectedOption: {
+      get() {
+        return Boolean(this.$store.getters.getItem.active);
+      },
+      set(value) {
+        this.$store.commit("updateActiveUser", Boolean(value));
       }
     }
   },
@@ -125,14 +151,16 @@ export default {
     sendForm() {
       let data = this.$store.getters.getItem;
 
-      if (forcePassword(this.password) < 50) {
-        this.passwordInvalid = true;
+      if (this.password !== "") {
+        if (forcePassword(this.password) < 50) {
+          this.passwordInvalid = true;
 
-        setTimeout(() => {
-          this.passwordInvalid = false;
-        }, 5000);
+          setTimeout(() => {
+            this.passwordInvalid = false;
+          }, 5000);
 
-        return;
+          return;
+        }
       }
 
       this.status = "Enviando...";
@@ -144,6 +172,8 @@ export default {
           {
             name: data.name,
             email: data.email,
+            active: data.active,
+            local: "admin",
             password: this.password,
             roles: data.roles
           },
@@ -154,11 +184,11 @@ export default {
           }
         )
         .then(response => {
+          this.password = "";
           this.error = false;
           this.users = response.data;
           this.total = response.data.total;
           this.status = "Dados do usuário alterados com sucesso.";
-          //console.log(this.users)
         })
         .catch(error => {
           this.status = false;

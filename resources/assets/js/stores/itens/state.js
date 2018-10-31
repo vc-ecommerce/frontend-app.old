@@ -3,7 +3,6 @@ const state = {
 }
 
 const getters = {
-
   getItem: state => {
     return state.item;
   }
@@ -17,6 +16,10 @@ const mutations = {
 
   updateRoleUser (state, roles) {
     state.item.roles = roles
+  },
+
+  updateActiveUser (state, active) {
+    state.item.active = active
   },
 
 }
