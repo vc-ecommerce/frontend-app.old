@@ -3616,6 +3616,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         if (isConfirm) {
           var result = parent.sendDataActive(user);
           result.then(function (value) {
+
+            user.active = !user.active;
             // Faça algo com o valor aqui dentro.
             // Se precisar dele em outro lugar, chame uma função
             // e passe adiante. Não tente atribuir seu valor a uma
@@ -3673,7 +3675,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         }
       }).then(function (response) {
         if (Boolean(response.data) === true) {
-          user.active = !user.active;
           return true;
         }
         return false;
@@ -3682,10 +3683,30 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         return false;
       });
     },
-    alertRemove: function alertRemove(user) {
+    sendDataRemove: function sendDataRemove(user) {
+      var _this2 = this;
+
+      var api = this.$urlApi + "/admin/users/" + user._id;
+
+      return Vue.axios.delete(api, {
+        headers: {
+          authorization: "Bearer " + this.$store.getters.getToken
+        }
+      }).then(function (response) {
+        if (Boolean(response.data) === true) {
+          return true;
+        }
+        return false;
+      }).catch(function (error) {
+        _this2.$eventHub.$emit("eventError", { data: error.response });
+        return false;
+      });
+    },
+    removeData: function removeData(user) {
+      var parent = this;
       swal({
         title: "Deseja realmente excluir?",
-        text: user.name + " -  " + user._id,
+        text: "" + user.name,
         type: "warning",
         showCancelButton: true,
         confirmButtonClass: "btn-danger",
@@ -3695,11 +3716,28 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         closeOnCancel: false
       }, function (isConfirm) {
         if (isConfirm) {
-          swal({
-            title: "Removido",
-            text: "Dados foram removidos com sucesso",
-            type: "success",
-            confirmButtonClass: "btn-success"
+          var result = parent.sendDataRemove(user);
+          result.then(function (value) {
+            if (value == true) {
+
+              var index = parent.users.data.indexOf(user);
+              parent.users.data.splice(index, 1);
+              parent.total = parent.total - 1;
+
+              swal({
+                title: "Removido",
+                text: "Dados foram removidos com sucesso",
+                type: "success",
+                confirmButtonClass: "btn-success"
+              });
+            } else {
+              swal({
+                title: "Erro",
+                text: "Houve um erro na socilitação do pedido.",
+                type: "error",
+                confirmButtonClass: "btn-danger"
+              });
+            }
           });
         } else {
           swal({
@@ -3712,7 +3750,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       });
     },
     getUsers: function getUsers() {
-      var _this2 = this;
+      var _this3 = this;
 
       var api = this.$urlApi + "/admin/users?page=" + this.users.current_page;
       Vue.axios.get(api, {
@@ -3720,11 +3758,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
           authorization: "Bearer " + this.$store.getters.getToken
         }
       }).then(function (response) {
-        _this2.users = response.data;
-        _this2.total = response.data.total;
+        _this3.users = response.data;
+        _this3.total = response.data.total;
       }).catch(function (error) {
         //console.log(error.response);
-        _this2.$eventHub.$emit("eventError", { data: error.response });
+        _this3.$eventHub.$emit("eventError", { data: error.response });
       });
     }
   }
@@ -5164,8 +5202,8 @@ var render = function() {
                 _c(
                   "template",
                   { slot: "tbody" },
-                  _vm._l(_vm.users.data, function(user) {
-                    return _c("tr", { key: user._id }, [
+                  _vm._l(_vm.users.data, function(user, index) {
+                    return _c("tr", { key: index }, [
                       _c("td", { staticClass: "tabledit-view-mode" }, [
                         _vm._v(
                           "\n                  " +
@@ -5179,10 +5217,10 @@ var render = function() {
                       _vm._v(" "),
                       _c(
                         "td",
-                        _vm._l(user.roles, function(role) {
+                        _vm._l(user.roles, function(role, index) {
                           return _c(
                             "span",
-                            { key: role._id, staticClass: "label label-info" },
+                            { key: index, staticClass: "label label-info" },
                             [_vm._v(_vm._s(role.description))]
                           )
                         })
@@ -5255,7 +5293,7 @@ var render = function() {
                                       on: {
                                         click: function($event) {
                                           $event.preventDefault()
-                                          _vm.alertRemove(user)
+                                          _vm.removeData(user)
                                         }
                                       }
                                     },

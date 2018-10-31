@@ -31,7 +31,7 @@
             </template>
 
             <template slot="tbody">
-              <tr v-for="user in users.data" :key="user._id">
+              <tr v-for="(user, index) in users.data" :key="index">
                 <td class="tabledit-view-mode">
                     {{ user.name }}
                     <br>
@@ -40,7 +40,7 @@
                     </small>
                 </td>
                 <td>
-                    <span v-for="role in user.roles" :key="role._id" class="label label-info">{{ role.description }}</span>
+                    <span v-for="(role, index) in user.roles" :key="index" class="label label-info">{{ role.description }}</span>
                 </td>
                 <td style="white-space: nowrap; width: 1%;">
                     <div class="tabledit-toolbar btn-toolbar" style="text-align: left;">
@@ -53,7 +53,7 @@
 
                           <UserEditModal :dataItem="user"/>
 
-                          <button type="button" @click.prevent="alertRemove(user)" class="tabledit-delete-button btn btn-sm btn-danger" style="float: none; margin-left:2px">
+                          <button type="button" @click.prevent="removeData(user)" class="tabledit-delete-button btn btn-sm btn-danger" style="float: none; margin-left:2px">
                             <span class="glyphicon glyphicon-trash"></span>
                           </button>
 
@@ -140,6 +140,8 @@ export default {
           if (isConfirm) {
             let result = parent.sendDataActive(user);
             result.then(function(value) {
+
+              user.active = !user.active;
               // Faça algo com o valor aqui dentro.
               // Se precisar dele em outro lugar, chame uma função
               // e passe adiante. Não tente atribuir seu valor a uma
@@ -203,7 +205,6 @@ export default {
         )
         .then(response => {
           if (Boolean(response.data) === true) {
-            user.active = !user.active;
             return true;
           }
           return false;
@@ -214,11 +215,33 @@ export default {
         });
     },
 
-    alertRemove(user) {
+    sendDataRemove(user) {
+      const api = `${this.$urlApi}/admin/users/${user._id}`;
+
+      return Vue.axios
+        .delete(api, {
+          headers: {
+            authorization: "Bearer " + this.$store.getters.getToken
+          }
+        })
+        .then(response => {
+          if (Boolean(response.data) === true) {
+            return true;
+          }
+          return false;
+        })
+        .catch(error => {
+          this.$eventHub.$emit("eventError", { data: error.response });
+          return false;
+        });
+    },
+
+    removeData(user) {
+      const parent = this;
       swal(
         {
           title: "Deseja realmente excluir?",
-          text: `${user.name} -  ${user._id}`,
+          text: `${user.name}`,
           type: "warning",
           showCancelButton: true,
           confirmButtonClass: "btn-danger",
@@ -227,13 +250,31 @@ export default {
           closeOnConfirm: false,
           closeOnCancel: false
         },
+
         function(isConfirm) {
           if (isConfirm) {
-            swal({
-              title: "Removido",
-              text: "Dados foram removidos com sucesso",
-              type: "success",
-              confirmButtonClass: "btn-success"
+            let result = parent.sendDataRemove(user);
+            result.then(function(value) {
+              if (value == true) {
+
+                let index = parent.users.data.indexOf(user);
+                parent.users.data.splice(index, 1);
+                parent.total = parent.total-1
+
+                swal({
+                  title: "Removido",
+                  text: "Dados foram removidos com sucesso",
+                  type: "success",
+                  confirmButtonClass: "btn-success"
+                });
+              } else {
+                swal({
+                  title: "Erro",
+                  text: "Houve um erro na socilitação do pedido.",
+                  type: "error",
+                  confirmButtonClass: "btn-danger"
+                });
+              }
             });
           } else {
             swal({
