@@ -5,6 +5,8 @@ import VueAxios from 'vue-axios';
 
 Vue.use(VueAxios, axios);
 
+Vue.prototype.$eventHub = new Vue();
+
 //Vue.config.productionTip = false
 Vue.prototype.$urlApi = 'http://api.vocecrianca.site/v1';
 

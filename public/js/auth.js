@@ -1117,6 +1117,8 @@ window.Vue = __webpack_require__(10);
 
 Vue.use(__WEBPACK_IMPORTED_MODULE_1_vue_axios___default.a, __WEBPACK_IMPORTED_MODULE_0_axios___default.a);
 
+Vue.prototype.$eventHub = new Vue();
+
 //Vue.config.productionTip = false
 Vue.prototype.$urlApi = 'http://api.vocecrianca.site/v1';
 
@@ -2992,15 +2994,12 @@ var index_esm = {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-//https://alligator.io/vuejs/vuex-dynamic-modules/
-
 var state = {
   token: sessionStorage.getItem('token') ? JSON.parse(sessionStorage.getItem('token')) : null,
   user: sessionStorage.getItem('user') ? JSON.parse(sessionStorage.getItem('user')) : null
 };
 
 var getters = {
-
   getToken: function getToken(state) {
     return state.token;
   },

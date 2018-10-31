@@ -138,10 +138,8 @@ export default {
         },
         function(isConfirm) {
           if (isConfirm) {
-
             let result = parent.sendDataActive(user);
             result.then(function(value) {
-
               // Faça algo com o valor aqui dentro.
               // Se precisar dele em outro lugar, chame uma função
               // e passe adiante. Não tente atribuir seu valor a uma
@@ -211,6 +209,7 @@ export default {
           return false;
         })
         .catch(error => {
+          this.$eventHub.$emit("eventError", { data: error.response });
           return false;
         });
     },
@@ -259,15 +258,12 @@ export default {
         .then(response => {
           this.users = response.data;
           this.total = response.data.total;
-          //console.log(this.users)
         })
         .catch(error => {
-          // console.log(error.response);
+          //console.log(error.response);
+          this.$eventHub.$emit("eventError", { data: error.response });
         });
     }
   }
 };
 </script>
-
-<style scoped>
-</style>

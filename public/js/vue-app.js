@@ -1117,6 +1117,8 @@ window.Vue = __webpack_require__(10);
 
 Vue.use(__WEBPACK_IMPORTED_MODULE_1_vue_axios___default.a, __WEBPACK_IMPORTED_MODULE_0_axios___default.a);
 
+Vue.prototype.$eventHub = new Vue();
+
 //Vue.config.productionTip = false
 Vue.prototype.$urlApi = 'http://api.vocecrianca.site/v1';
 
@@ -2992,15 +2994,12 @@ var index_esm = {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-//https://alligator.io/vuejs/vuex-dynamic-modules/
-
 var state = {
   token: sessionStorage.getItem('token') ? JSON.parse(sessionStorage.getItem('token')) : null,
   user: sessionStorage.getItem('user') ? JSON.parse(sessionStorage.getItem('user')) : null
 };
 
 var getters = {
-
   getToken: function getToken(state) {
     return state.token;
   },
@@ -3131,6 +3130,12 @@ __webpack_require__(11);
 var appOne = new Vue({
   el: '#vue-site-header',
   store: __WEBPACK_IMPORTED_MODULE_0__stores__["a" /* default */],
+  data: function data() {
+    return {
+      showErrorStatus401: false
+    };
+  },
+
   components: {
     SiteHeader: __WEBPACK_IMPORTED_MODULE_1__components_layouts_header_SiteHeader___default.a
   },
@@ -3138,6 +3143,36 @@ var appOne = new Vue({
     var user = this.$store.getters.getUser;
     if (!user) {
       window.location = "/login";
+    }
+  },
+  created: function created() {
+    var parent = this;
+    this.$eventHub.$on('eventError', function (obj) {
+      parent.showError(obj);
+    });
+  },
+
+  methods: {
+    showError: function showError(obj) {
+
+      if (obj.data.status === 401) {
+        if (obj.data.statusText === "Unauthorized") {
+
+          swal({
+            title: "Atenção!!!",
+            text: "Acesso não autorizado ou negado pelo servidor.",
+            type: "error",
+            showCancelButton: false,
+            cancelButtonClass: "btn-default",
+            confirmButtonClass: "btn-danger",
+            confirmButtonText: "Fazer login",
+            closeOnConfirm: false
+          }, function () {
+            sessionStorage.clear();
+            window.location.replace("/login");
+          });
+        }
+      }
     }
   }
 });
@@ -3160,21 +3195,6 @@ var appThree = new Vue({
   },
   mounted: function mounted() {
     document.getElementById('content').style.display = 'block';
-
-    // const api = `${this.$urlApi}/admin/users/5bd0fd3ba2a09300115d2486`;
-    // Vue.axios
-    //   .get(api,
-    //     {
-    //       headers: {
-    //         authorization: "Bearer " + this.$store.getters.getToken
-    //       }
-    //     })
-    //   .then(response => {
-    //     console.log(response.data)
-    //   })
-    //   .catch(error => {
-    //     console.log(error.response)
-    //   });
   }
 });
 

@@ -9,19 +9,15 @@ const getters = {
 }
 
 const mutations = {
-
   setItem(state, obj) {
     state.item = obj
   },
-
-  updateRoleUser (state, roles) {
+  updateRoleUser(state, roles) {
     state.item.roles = roles
   },
-
-  updateActiveUser (state, active) {
+  updateActiveUser(state, active) {
     state.item.active = active
-  },
-
+  }
 }
 
 export default {

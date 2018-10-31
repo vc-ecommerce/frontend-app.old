@@ -9,6 +9,11 @@ import SidebarMenuRight from './components/layouts/sidebar/SidebarMenuRight';
 const appOne = new Vue({
   el: '#vue-site-header',
   store,
+  data() {
+    return {
+      showErrorStatus401: false
+    }
+  },
   components: {
     SiteHeader,
   },
@@ -16,6 +21,37 @@ const appOne = new Vue({
     let user = this.$store.getters.getUser;
     if (!user) {
       window.location = "/login";
+    }
+  },
+  created() {
+    const parent = this;
+    this.$eventHub.$on('eventError', function (obj) {
+      parent.showError(obj)
+    });
+  },
+  methods: {
+    showError(obj) {
+
+      if (obj.data.status === 401) {
+        if(obj.data.statusText==="Unauthorized") {
+
+          swal({
+            title: "Atenção!!!",
+            text: "Acesso não autorizado ou negado pelo servidor.",
+            type: "error",
+            showCancelButton: false,
+            cancelButtonClass: "btn-default",
+            confirmButtonClass: "btn-danger",
+            confirmButtonText: "Fazer login",
+            closeOnConfirm: false
+          },
+          function(){
+            sessionStorage.clear();
+            window.location.replace("/login");
+          });
+
+        }
+      }
     }
   }
 });
@@ -38,22 +74,6 @@ const appThree = new Vue({
   },
   mounted() {
     document.getElementById('content').style.display = 'block';
-
-    // const api = `${this.$urlApi}/admin/users/5bd0fd3ba2a09300115d2486`;
-    // Vue.axios
-    //   .get(api,
-    //     {
-    //       headers: {
-    //         authorization: "Bearer " + this.$store.getters.getToken
-    //       }
-    //     })
-    //   .then(response => {
-    //     console.log(response.data)
-    //   })
-    //   .catch(error => {
-    //     console.log(error.response)
-    //   });
-
   }
 
 });

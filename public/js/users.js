@@ -1117,6 +1117,8 @@ window.Vue = __webpack_require__(10);
 
 Vue.use(__WEBPACK_IMPORTED_MODULE_1_vue_axios___default.a, __WEBPACK_IMPORTED_MODULE_0_axios___default.a);
 
+Vue.prototype.$eventHub = new Vue();
+
 //Vue.config.productionTip = false
 Vue.prototype.$urlApi = 'http://api.vocecrianca.site/v1';
 
@@ -2992,15 +2994,12 @@ var index_esm = {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-//https://alligator.io/vuejs/vuex-dynamic-modules/
-
 var state = {
   token: sessionStorage.getItem('token') ? JSON.parse(sessionStorage.getItem('token')) : null,
   user: sessionStorage.getItem('user') ? JSON.parse(sessionStorage.getItem('user')) : null
 };
 
 var getters = {
-
   getToken: function getToken(state) {
     return state.token;
   },
@@ -3415,21 +3414,17 @@ var app = new Vue({
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
-function injectStyle (ssrContext) {
-  if (disposed) return
-  __webpack_require__(145)
-}
 var normalizeComponent = __webpack_require__(1)
 /* script */
 var __vue_script__ = __webpack_require__(147)
 /* template */
-var __vue_template__ = __webpack_require__(165)
+var __vue_template__ = __webpack_require__(167)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
-var __vue_styles__ = injectStyle
+var __vue_styles__ = null
 /* scopeId */
-var __vue_scopeId__ = "data-v-ad00064c"
+var __vue_scopeId__ = null
 /* moduleIdentifier (server only) */
 var __vue_module_identifier__ = null
 var Component = normalizeComponent(
@@ -3462,46 +3457,8 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 145 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(146);
-if(typeof content === 'string') content = [[module.i, content, '']];
-if(content.locals) module.exports = content.locals;
-// add the styles to the DOM
-var update = __webpack_require__(4)("26756f69", content, false, {});
-// Hot Module Replacement
-if(false) {
- // When the styles change, update the <style> tags
- if(!content.locals) {
-   module.hot.accept("!!../../../../../../../node_modules/css-loader/index.js!../../../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-ad00064c\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./UserList.vue", function() {
-     var newContent = require("!!../../../../../../../node_modules/css-loader/index.js!../../../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-ad00064c\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./UserList.vue");
-     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-     update(newContent);
-   });
- }
- // When the module is disposed, remove the <style> tags
- module.hot.dispose(function() { update(); });
-}
-
-/***/ }),
-/* 146 */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(3)(false);
-// imports
-
-
-// module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
-
-// exports
-
-
-/***/ }),
+/* 145 */,
+/* 146 */,
 /* 147 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -3657,10 +3614,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         closeOnCancel: false
       }, function (isConfirm) {
         if (isConfirm) {
-
           var result = parent.sendDataActive(user);
           result.then(function (value) {
-
             // Faça algo com o valor aqui dentro.
             // Se precisar dele em outro lugar, chame uma função
             // e passe adiante. Não tente atribuir seu valor a uma
@@ -3702,6 +3657,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       });
     },
     sendDataActive: function sendDataActive(user) {
+      var _this = this;
+
       var status = !Boolean(user.active);
       var result = false;
 
@@ -3721,6 +3678,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         }
         return false;
       }).catch(function (error) {
+        _this.$eventHub.$emit("eventError", { data: error.response });
         return false;
       });
     },
@@ -3754,7 +3712,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       });
     },
     getUsers: function getUsers() {
-      var _this = this;
+      var _this2 = this;
 
       var api = this.$urlApi + "/admin/users?page=" + this.users.current_page;
       Vue.axios.get(api, {
@@ -3762,11 +3720,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
           authorization: "Bearer " + this.$store.getters.getToken
         }
       }).then(function (response) {
-        _this.users = response.data;
-        _this.total = response.data.total;
-        //console.log(this.users)
+        _this2.users = response.data;
+        _this2.total = response.data.total;
       }).catch(function (error) {
-        // console.log(error.response);
+        //console.log(error.response);
+        _this2.$eventHub.$emit("eventError", { data: error.response });
       });
     }
   }
@@ -4374,6 +4332,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       }).then(function (response) {
         _this.roles = Object(__WEBPACK_IMPORTED_MODULE_3__helpers_filterRoles__["a" /* default */])(response.data.data);
       }).catch(function (error) {
+        _this.$eventHub.$emit("eventError", { data: error.response });
         _this.error = JSON.parse(error.response.data.error);
       });
     },
@@ -4415,6 +4374,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         _this2.total = response.data.total;
         _this2.status = "Dados do usuário alterados com sucesso.";
       }).catch(function (error) {
+        _this2.$eventHub.$emit("eventError", { data: error.response });
         _this2.status = false;
         _this2.error = JSON.parse(error.response.data.error);
       });
@@ -5145,7 +5105,9 @@ if (false) {
 }
 
 /***/ }),
-/* 165 */
+/* 165 */,
+/* 166 */,
+/* 167 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
