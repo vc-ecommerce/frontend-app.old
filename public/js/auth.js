@@ -3401,7 +3401,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       password: "",
       data: "",
       token: "",
-      account_inactive: false,
       status: false,
       loading: false,
       ok: false
@@ -3416,7 +3415,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         this.status = true;
         setTimeout(function () {
           _this.status = false;
-          _this.account_inactive = false;
         }, 5000);
       }
     },
@@ -3458,12 +3456,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         _this3.activeSession(response.data.HTTP_Data);
       }).catch(function (error) {
         _this3.loading = false;
-
-        if (error.response.data.error = "account_inactive") {
-          _this3.account_inactive = 'account_inactive';
-        }
-
-        _this3.showError(error.response.status);
+        _this3.status = error.response.data.error;
       });
     }
   },
@@ -3500,11 +3493,11 @@ var render = function() {
         _c("img", { attrs: { src: _vm.image, alt: "" } })
       ]),
       _vm._v(" "),
-      _vm.account_inactive === "account_inactive"
+      _vm.status && _vm.status == "account_inactive"
         ? _c("header", { staticClass: "sign-title red showError" }, [
             _vm._v("Você ainda não confirmou seu email.")
           ])
-        : _vm.status
+        : _vm.status && _vm.status == "invalid_credentials"
           ? _c("header", { staticClass: "sign-title red showError" }, [
               _vm._v("Email e ou senha inválidos")
             ])
