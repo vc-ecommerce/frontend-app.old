@@ -10,7 +10,7 @@
                 <h3 v-else>{{ total }} Usuários</h3>
             </div>
             <div class="tbl-cell tbl-cell-action-bordered">
-              <CreateUser />
+              <CreateUser  />
             </div>
         </div>
       </header>
@@ -65,21 +65,21 @@
 
 </template>
 <script>
-import Table from "./../../../../components/layouts/Table";
 import CreateUser from "./components/CreateUser";
 import EditUser from "./components/EditUser";
 import ChangeStatusUser from "./components/ChangeStatusUser";
 import RemoveUser from "./components/RemoveUser";
+import Table from "./../../../../components/layouts/Table";
 import Pagination from "./../../../../components/paginations/Pagination";
 
 export default {
   name: "UserIndex",
   components: {
-    Table,
     CreateUser,
     EditUser,
     ChangeStatusUser,
     RemoveUser,
+    Table,
     Pagination
   },
   props: [],

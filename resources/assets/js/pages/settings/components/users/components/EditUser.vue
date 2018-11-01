@@ -176,7 +176,9 @@ export default {
             active: data.active,
             local: 'user-edit',
             password: this.password,
-            roles: data.roles
+            roles: data.roles,
+            user_id: this.$store.getters.getUserId,
+
           },
           {
             headers: {
@@ -205,3 +207,8 @@ export default {
   }
 };
 </script>
+<style scoped>
+.col-lg-6 {
+  text-align: left
+}
+</style>

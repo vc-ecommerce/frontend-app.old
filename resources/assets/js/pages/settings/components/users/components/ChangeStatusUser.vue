@@ -24,7 +24,8 @@ export default {
           api,
           {
             active: status,
-            local: "user-edit-status"
+            local: "user-edit-status",
+            user_id: this.$store.getters.getUserId
           },
           {
             headers: {

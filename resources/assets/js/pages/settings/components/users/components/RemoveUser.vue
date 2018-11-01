@@ -18,11 +18,17 @@ export default {
       const api = `${this.$urlApi}/admin/users/${user._id}`;
 
       return Vue.axios
-        .delete(api, {
-          headers: {
-            authorization: "Bearer " + this.$store.getters.getToken
+        .delete(
+          api,
+          {
+            user_id: this.$store.getters.getUserId
+          },
+          {
+            headers: {
+              authorization: "Bearer " + this.$store.getters.getToken
+            }
           }
-        })
+        )
         .then(response => {
           if (Boolean(response.data) === true) {
             return true;
