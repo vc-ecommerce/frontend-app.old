@@ -90,7 +90,7 @@ import filterRoles from "./../../../../../helpers/filterRoles";
 import forcePassword from "./../../../../../helpers/forcePassword";
 
 export default {
-  name: "UserEditModal",
+  name: "EditUser",
   components: {
     Table,
     Modal,

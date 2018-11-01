@@ -12,7 +12,7 @@
         @endslot
     @endcomponent
 
-    <user-list>Carregando...</user-list>
+    <user-index>Carregando...</user-index>
 
 @endsection
 

@@ -14,7 +14,7 @@
 import Table from "./../../../../../components/layouts/Table";
 import Modal from "./../../../../../components/layouts/Modal";
 export default {
-  name: "UserCreateModal",
+  name: "CreateUser",
   components: {
     Table,
     Modal
