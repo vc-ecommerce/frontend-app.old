@@ -4968,9 +4968,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   },
   mounted: function mounted() {
     this.getUsers();
-
     var parent = this;
-
     this.$eventHub.$on("totalUser", function (t) {
       parent.total = t;
     });

@@ -98,9 +98,7 @@ export default {
   },
   mounted() {
     this.getUsers();
-
     const parent = this;
-
     this.$eventHub.$on("totalUser", function(t) {
       parent.total = t;
     });
