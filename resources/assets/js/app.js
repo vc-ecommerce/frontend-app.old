@@ -41,7 +41,7 @@ const appOne = new Vue({
   },
   methods: {
     showError(obj) {
-      swalError(obj);
+      swalErrorUnauthorized(obj);
     }
   }
 });

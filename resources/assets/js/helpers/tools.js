@@ -48,7 +48,7 @@ export function forcePassword(password) {
 
 }
 
-export function swalError(obj) {
+export function swalErrorUnauthorized(obj) {
 
   if (obj.data.status === 401) {
 
