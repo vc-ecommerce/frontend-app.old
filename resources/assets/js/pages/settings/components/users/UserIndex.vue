@@ -1,24 +1,20 @@
 <template>
   <div>
-
     <section class="box-typical">
-
       <header class="box-typical-header">
         <div class="tbl-row">
-            <div class="tbl-cell tbl-cell-title">
-                <h3 v-if="total == 1">{{ total }} Usuário</h3>
-                <h3 v-else>{{ total }} Usuários</h3>
-            </div>
-            <div class="tbl-cell tbl-cell-action-bordered">
-              <CreateUser  />
-            </div>
+          <div class="tbl-cell tbl-cell-title">
+            <h3 v-if="total == 1">{{ total }} Usuário</h3>
+            <h3 v-else>{{ total }} Usuários</h3>
+          </div>
+          <div class="tbl-cell tbl-cell-action-bordered">
+            <CreateUser  />
+          </div>
         </div>
       </header>
-
       <div class="box-typical-body">
         <div class="table-responsive">
           <Table elementId="table-edit" className="table table-hover">
-
             <template slot="thead">
               <tr>
                 <th>Usuários</th>
@@ -26,14 +22,12 @@
                 <th class="tabledit-toolbar-column">Editar</th>
               </tr>
             </template>
-
             <template slot="tbody">
               <tr v-for="(user, index) in users.data" :key="index">
                 <td class="tabledit-view-mode">
                   {{ user.name }}
                   <br>
                   <small>
-
                   </small>
                 </td>
                 <td>
@@ -54,15 +48,12 @@
         </div>
       </div>
     </section>
-
     <section>
       <Pagination :pagination="users"
-                  @paginate="getUsers()"
-                  :offset="4" />
+        @paginate="getUsers()"
+        :offset="4" />
     </section>
-
   </div>
-
 </template>
 <script>
 import CreateUser from "./components/CreateUser";

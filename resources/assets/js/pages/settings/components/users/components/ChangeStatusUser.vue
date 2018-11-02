@@ -25,7 +25,7 @@ export default {
           {
             active: status,
             local: "user-edit-status",
-            user_id: this.$store.getters.getUserId
+            staff_id: this.$store.getters.getUserId
           },
           {
             headers: {

@@ -21,7 +21,7 @@ export default {
         .delete(
           api,
           {
-            user_id: this.$store.getters.getUserId
+            staff_id: this.$store.getters.getUserId
           },
           {
             headers: {
