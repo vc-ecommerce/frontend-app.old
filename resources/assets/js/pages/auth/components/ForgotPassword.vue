@@ -47,7 +47,8 @@
   </form>
 </template>
 <script>
-import forcePassword from "./../../../helpers/forcePassword";
+
+import { forcePassword } from "./../../../helpers/tools"
 
 export default {
   name: "ForgotPassword",

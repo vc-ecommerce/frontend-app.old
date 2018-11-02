@@ -23,6 +23,8 @@
 </template>
 
 <script>
+window.jQuery = require('jquery');
+
 export default {
   name: "ModalSubmit",
   props: {

@@ -48,7 +48,7 @@
         <div class="col-lg-6">
           <fieldset class="form-group">
             <label class="form-label" for="inputPassword">Status</label>
-            <select required class="form-control" v-model="selected">
+            <select required class="form-control" v-model="user.active">
               <option disabled value="">Escolha um item</option>
               <option v-for="option in options" :key="option.id" :value="option.value">{{ option.text }}</option>
             </select>
@@ -57,7 +57,7 @@
         <div class="col-lg-6">
           <fieldset class="form-group">
             <label class="form-label" for="inputPassword">Senha</label>
-            <input type="password" class="form-control" minlength="6" v-model="user.password" placeholder="Senha">
+            <input type="password" required class="form-control" minlength="6" v-model="user.password" placeholder="Senha">
           </fieldset>
         </div>
       </div>
@@ -81,8 +81,7 @@ import Table from "./../../../../../components/layouts/Table";
 import ModalSubmit from "./../../../../../components/layouts/ModalSubmit";
 import LinkModal from "./../../../../../components/layouts/LinkModal";
 import Alert from "./../../../../../components/layouts/Alert";
-import filterRoles from "./../../../../../helpers/filterRoles";
-import forcePassword from "./../../../../../helpers/forcePassword";
+import { cleanRole, forcePassword } from "./../../../../../helpers/tools";
 
 export default {
   name: "CreateUser",
@@ -101,14 +100,14 @@ export default {
         name: "",
         email: "",
         password: "",
+        active: "",
         roles: []
       },
       options: [
         { text: "Ativo", value: true },
         { text: "Desativado", value: false }
       ],
-      passwordInvalid: false,
-      selected: ""
+      passwordInvalid: false
     };
   },
   methods: {

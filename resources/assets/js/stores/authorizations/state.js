@@ -15,6 +15,9 @@ const getters = {
   },
   getUserName: state => {
     return state.user.name;
+  },
+  getUserRoles: state => {
+    return state.user.roles;
   }
 }
 

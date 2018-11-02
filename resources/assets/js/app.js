@@ -5,6 +5,8 @@ import store from './stores';
 import SiteHeader from './components/layouts/header/SiteHeader';
 import SidebarMenuLeft from './components/layouts/sidebar/SidebarMenuLeft';
 import SidebarMenuRight from './components/layouts/sidebar/SidebarMenuRight';
+import { userIsAuthorized } from "./helpers/validates";
+import { swalError } from "./helpers/tools";
 
 const appOne = new Vue({
   el: '#vue-site-header',
@@ -22,6 +24,14 @@ const appOne = new Vue({
     if (!user) {
       window.location = "/login";
     }
+
+    userIsAuthorized(this.$store.getters.getUserRoles, [
+      "ADMINs",
+      "STAFF_FINANCE",
+      "STAFF_EDITOR",
+      "STAFF_EXPEDITION"
+    ]);
+
   },
   created() {
     const parent = this;
@@ -31,27 +41,7 @@ const appOne = new Vue({
   },
   methods: {
     showError(obj) {
-
-      if (obj.data.status === 401) {
-        if(obj.data.statusText==="Unauthorized") {
-
-          swal({
-            title: "Atenção!!!",
-            text: "Acesso não autorizado ou negado pelo servidor.",
-            type: "error",
-            showCancelButton: false,
-            cancelButtonClass: "btn-default",
-            confirmButtonClass: "btn-danger",
-            confirmButtonText: "Fazer login",
-            closeOnConfirm: false
-          },
-          function(){
-            sessionStorage.clear();
-            window.location.replace("/login");
-          });
-
-        }
-      }
+      swalError(obj);
     }
   }
 });

@@ -27,4 +27,4 @@ mix.js('resources/assets/js/app.js', 'public/js/vue-app.js')
   .js('resources/assets/js/pages/auth/auth.js', 'public/js/auth.js')
   .js('resources/assets/js/pages/settings/users.js', 'public/js/users.js')
 
-mix.extract(['vue']);
+mix.extract(['vue', 'jquery']);

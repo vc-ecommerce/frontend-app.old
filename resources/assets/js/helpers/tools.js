@@ -1,4 +1,15 @@
-export default function forcePassword(password) {
+export function cleanRole(roles) {
+  return roles ? roles.filter(function(role) {
+    delete role["_id"];
+    delete role["default"];
+    delete role["privileges"];
+    delete role["updated_at"];
+    delete role["created_at"];
+    return role;
+  }) : [];
+}
+
+export function forcePassword(password) {
 
   let force = 0;
 
@@ -34,5 +45,32 @@ export default function forcePassword(password) {
 
   //console.log('força: '+force);
   return force;
+
+}
+
+export function swalError(obj) {
+
+  if (obj.data.status === 401) {
+
+    if(obj.data.statusText==="Unauthorized") {
+
+      swal({
+        title: "Atenção!!!",
+        text: "Acesso não autorizado ou negado pelo servidor.",
+        type: "error",
+        showCancelButton: false,
+        cancelButtonClass: "btn-default",
+        confirmButtonClass: "btn-danger",
+        confirmButtonText: "Fazer login",
+        closeOnConfirm: false
+      },
+      function(){
+        sessionStorage.clear();
+        window.location.replace("/login");
+      });
+
+    }
+
+  }
 
 }

@@ -62,7 +62,7 @@ import ChangeStatusUser from "./components/ChangeStatusUser";
 import RemoveUser from "./components/RemoveUser";
 import Table from "./../../../../components/layouts/Table";
 import Pagination from "./../../../../components/paginations/Pagination";
-import filterRoles from "./../../../../helpers/filterRoles";
+import { cleanRole } from "./../../../../helpers/tools";
 
 export default {
   name: "UserIndex",
@@ -98,9 +98,7 @@ export default {
     });
   },
   methods: {
-
     getRoles() {
-
       const api = `${this.$urlApi}/admin/roles`;
       Vue.axios
         .get(api, {
@@ -110,7 +108,7 @@ export default {
           }
         })
         .then(response => {
-          this.roles = filterRoles(response.data.data);
+          this.roles = cleanRole(response.data.data);
         })
         .catch(error => {
           this.$eventHub.$emit("eventError", { data: error.response });

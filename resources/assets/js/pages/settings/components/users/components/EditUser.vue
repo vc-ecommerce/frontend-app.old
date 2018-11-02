@@ -83,8 +83,7 @@ import Table from "./../../../../../components/layouts/Table";
 import ModalSubmit from "./../../../../../components/layouts/ModalSubmit";
 import LinkModal from "./../../../../../components/layouts/LinkModal";
 import Alert from "./../../../../../components/layouts/Alert";
-import filterRoles from "./../../../../../helpers/filterRoles";
-import forcePassword from "./../../../../../helpers/forcePassword";
+import { cleanRole, forcePassword } from "./../../../../../helpers/tools";
 
 export default {
   name: "EditUser",
@@ -110,7 +109,7 @@ export default {
   computed: {
     roleUser: {
       get() {
-        return filterRoles(
+        return cleanRole(
           this.$store.getters.getItem ? this.$store.getters.getItem.roles : []
         );
       },
@@ -178,6 +177,7 @@ export default {
           this.users = response.data;
           this.total = response.data.total;
           this.status = "Dados do usuário alterados com sucesso.";
+
         })
         .catch(error => {
           this.$eventHub.$emit("eventError", { data: error.response });
