@@ -24,12 +24,12 @@ export default {
           api,
           {
             active: status,
-            local: "user-edit-status",
-            staff_id: this.$store.getters.getUserId
+            local: "user-edit-status"
           },
           {
             headers: {
-              authorization: "Bearer " + this.$store.getters.getToken
+              Authorization: "Bearer " + this.$store.getters.getToken,
+              "User-ID": this.$store.getters.getUserId
             }
           }
         )

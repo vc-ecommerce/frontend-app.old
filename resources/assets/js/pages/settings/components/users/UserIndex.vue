@@ -8,7 +8,7 @@
             <h3 v-else>{{ total }} Usuários</h3>
           </div>
           <div class="tbl-cell tbl-cell-action-bordered">
-            <CreateUser  />
+            <CreateUser :dataRoles="roles" @reload="getUsers()" />
           </div>
         </div>
       </header>
@@ -37,7 +37,7 @@
                   <div class="tabledit-toolbar btn-toolbar" style="text-align: left;">
                     <div class="btn-group btn-group-sm" style="float: none;">
                       <ChangeStatusUser :dataItem="user"/>
-                      <EditUser :dataItem="user"/>
+                      <EditUser :dataItem="user" :dataRoles="roles"/>
                       <RemoveUser :dataUsers="users" :dataItem="user"/>
                     </div>
                   </div>
@@ -62,6 +62,7 @@ import ChangeStatusUser from "./components/ChangeStatusUser";
 import RemoveUser from "./components/RemoveUser";
 import Table from "./../../../../components/layouts/Table";
 import Pagination from "./../../../../components/paginations/Pagination";
+import filterRoles from "./../../../../helpers/filterRoles";
 
 export default {
   name: "UserIndex",
@@ -84,23 +85,46 @@ export default {
         to: 0,
         current_page: 1
       },
-      offset: 4
+      offset: 4,
+      roles: []
     };
   },
   mounted() {
     this.getUsers();
+    this.getRoles();
     const parent = this;
     this.$eventHub.$on("totalUser", function(t) {
       parent.total = t;
     });
   },
   methods: {
+
+    getRoles() {
+
+      const api = `${this.$urlApi}/admin/roles`;
+      Vue.axios
+        .get(api, {
+          headers: {
+            Authorization: "Bearer " + this.$store.getters.getToken,
+            "User-ID": this.$store.getters.getUserId
+          }
+        })
+        .then(response => {
+          this.roles = filterRoles(response.data.data);
+        })
+        .catch(error => {
+          this.$eventHub.$emit("eventError", { data: error.response });
+          this.error = JSON.parse(error.response.data.error);
+        });
+    },
+
     getUsers() {
       const api = `${this.$urlApi}/admin/users?page=${this.users.current_page}`;
       Vue.axios
         .get(api, {
           headers: {
-            authorization: "Bearer " + this.$store.getters.getToken
+            Authorization: "Bearer " + this.$store.getters.getToken,
+            "User-ID": this.$store.getters.getUserId
           }
         })
         .then(response => {

@@ -13,7 +13,7 @@
             <slot></slot>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-rounded btn-default" data-dismiss="modal">Fechar</button>
+            <button type="button" class="btn btn-rounded btn-default closeModal" data-dismiss="modal">Fechar</button>
             <button type="submit" class="btn btn-rounded btn-primary">{{ btnTitle }}</button>
           </div>
         </form>
@@ -48,6 +48,13 @@ export default {
     submitForm() {
       this.$emit('submit');
     }
-  }
+  },
+  mounted() {
+
+    this.$eventHub.$on('closeModal', function (obj) {
+      window.jQuery('.closeModal')[0].click();
+    })
+
+  },
 };
 </script>

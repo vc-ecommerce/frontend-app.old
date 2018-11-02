@@ -48,7 +48,7 @@
         <div class="col-lg-6">
           <fieldset class="form-group">
             <label class="form-label" for="inputPassword">Status</label>
-            <select class="form-control" v-model="selected">
+            <select required class="form-control" v-model="selected">
               <option disabled value="">Escolha um item</option>
               <option v-for="option in options" :key="option.id" :value="option.value">{{ option.text }}</option>
             </select>
@@ -66,7 +66,7 @@
       </div>
 
       <div class="row">
-        <div class="checkbox-toggle" v-for="(role, index) in roles" :key="role.id" style="margin-left:20px">
+        <div class="checkbox-toggle" v-for="(role, index) in dataRoles" :key="role.id" style="margin-left:20px">
           <span :class="index = index + Math.floor((Math.random() * 1000) + 1)"></span>
           <input type="checkbox" v-model="user.roles" :id="'check-toggle-'+ index" :value="role">
           <label :for="'check-toggle-'+ index">{{role.description}}</label>
@@ -92,12 +92,11 @@ export default {
     ModalSubmit,
     Alert
   },
-  props: ["dataItem"],
+  props: ["dataItem", "dataRoles"],
   data() {
     return {
       status: false,
       error: false,
-      roles: [],
       user: {
         name: "",
         email: "",
@@ -112,26 +111,7 @@ export default {
       selected: ""
     };
   },
-  mounted() {
-    this.getRoles();
-  },
   methods: {
-    getRoles() {
-      const api = `${this.$urlApi}/admin/roles`;
-      Vue.axios
-        .get(api, {
-          headers: {
-            authorization: "Bearer " + this.$store.getters.getToken
-          }
-        })
-        .then(response => {
-          this.roles = filterRoles(response.data.data);
-        })
-        .catch(error => {
-          this.$eventHub.$emit("eventError", { data: error.response });
-          this.error = JSON.parse(error.response.data.error);
-        });
-    },
     submitForm() {
       if (this.user.password !== "") {
         if (forcePassword(this.user.password) < 50) {
@@ -156,12 +136,12 @@ export default {
             email: this.user.email,
             active: this.user.active,
             password: this.user.password,
-            roles: this.user.roles,
-            staff_id: this.$store.getters.getUserId
+            roles: this.user.roles
           },
           {
             headers: {
-              authorization: "Bearer " + this.$store.getters.getToken
+              Authorization: "Bearer " + this.$store.getters.getToken,
+              "User-ID": this.$store.getters.getUserId
             }
           }
         )
@@ -170,6 +150,12 @@ export default {
           this.users = response.data;
           this.total = response.data.total;
           this.status = "Dados cadastrados com sucesso.";
+
+          this.$emit("reload");
+
+          setTimeout(() => {
+            this.$eventHub.$emit("closeModal", true);
+          }, 5000);
         })
         .catch(error => {
           this.$eventHub.$emit("eventError", { data: error.response });

@@ -51,7 +51,7 @@
         <div class="col-lg-6">
           <fieldset class="form-group">
             <label class="form-label" for="inputPassword">Status</label>
-            <select class="form-control" v-model="selectedOption">
+            <select class="form-control" required v-model="selectedOption">
               <option disabled value="">Escolha um item</option>
               <option v-for="option in options" :key="option.id" :value="option.value">{{ option.text }}</option>
             </select>
@@ -69,8 +69,8 @@
         <label class="form-label semibold">Funções do usuário</label>
       </div>
       <div class="row">
-        <div class="checkbox-toggle" v-for="(role, index) in roles" :key="role.id" style="margin-left:20px">
-          <span :class="index = index + Math.floor((Math.random() * 1000) + 1)"></span>
+        <div class="checkbox-toggle" v-for="(role, index) in dataRoles" :key="role.id" style="margin-left:20px">
+          <span :class="index = index + Math.floor((Math.random() * 1000000) + 1)"></span>
           <input type="checkbox" v-model="roleUser" :id="'check-toggle-'+ index" :value="role">
           <label :for="'check-toggle-'+ index">{{role.description}}</label>
         </div>
@@ -94,12 +94,11 @@ export default {
     LinkModal,
     Alert
   },
-  props: ["dataItem"],
+  props: ["dataItem", "dataRoles"],
   data() {
     return {
       status: false,
       error: false,
-      roles: [],
       password: "",
       options: [
         { text: "Ativo", value: true },
@@ -132,27 +131,7 @@ export default {
       }
     }
   },
-  mounted() {
-    this.getRoles();
-  },
   methods: {
-    getRoles() {
-      const api = `${this.$urlApi}/admin/roles`;
-      Vue.axios
-        .get(api, {
-          headers: {
-            authorization: "Bearer " + this.$store.getters.getToken
-          }
-        })
-        .then(response => {
-          this.roles = filterRoles(response.data.data);
-        })
-        .catch(error => {
-          this.$eventHub.$emit("eventError", { data: error.response });
-          this.error = JSON.parse(error.response.data.error);
-        });
-    },
-
     submitForm() {
       if (!this.$store.getters.getItem) {
         return;
@@ -184,12 +163,12 @@ export default {
             active: data.active,
             local: "user-edit",
             password: this.password,
-            roles: data.roles,
-            staff_id: this.$store.getters.getUserId
+            roles: data.roles
           },
           {
             headers: {
-              authorization: "Bearer " + this.$store.getters.getToken
+              Authorization: "Bearer " + this.$store.getters.getToken,
+              "User-ID": this.$store.getters.getUserId
             }
           }
         )
@@ -216,7 +195,8 @@ export default {
 </script>
 
 <style scoped>
-.row, .col-lg-6 {
+.row,
+.col-lg-6 {
   text-align: left;
 }
 </style>
