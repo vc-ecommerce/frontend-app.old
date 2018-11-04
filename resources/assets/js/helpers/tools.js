@@ -74,3 +74,10 @@ export function swalErrorUnauthorized(obj) {
   }
 
 }
+
+export function cleanDataApi(data) {
+
+  let str = String(data);
+  str = str.replace(["[","]"], '')
+  return str;
+}

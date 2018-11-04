@@ -3100,9 +3100,10 @@ module.exports = function listToStyles (parentId, list) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (immutable) */ __webpack_exports__["a"] = cleanRole;
-/* harmony export (immutable) */ __webpack_exports__["b"] = forcePassword;
+/* harmony export (immutable) */ __webpack_exports__["b"] = cleanRole;
+/* harmony export (immutable) */ __webpack_exports__["c"] = forcePassword;
 /* unused harmony export swalErrorUnauthorized */
+/* harmony export (immutable) */ __webpack_exports__["a"] = cleanDataApi;
 function cleanRole(roles) {
   return roles ? roles.filter(function (role) {
     delete role["_id"];
@@ -3173,6 +3174,13 @@ function swalErrorUnauthorized(obj) {
       });
     }
   }
+}
+
+function cleanDataApi(data) {
+
+  var str = String(data);
+  str = str.replace(["[", "]"], '');
+  return str;
 }
 
 /***/ }),
@@ -3448,7 +3456,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       token: "",
       status: false,
       loading: false,
-      ok: false
+      ok: false,
+      btnDisabled: false
     };
   },
 
@@ -3487,6 +3496,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     submitForm: function submitForm() {
       var _this3 = this;
 
+      this.btnDisabled = true;
       this.loading = true;
       var api = this.$urlApi + "/auth/login";
       Vue.axios.post(api, {
@@ -3494,12 +3504,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         password: this.password
       }).then(function (response) {
         _this3.ok = true;
+        _this3.btnDisabled = false;
         _this3.status = false;
         sessionStorage.setItem("token", JSON.stringify(response.data.HTTP_Authorization));
         sessionStorage.setItem("user", JSON.stringify(response.data.HTTP_Data));
         _this3.$store.commit("setUser", response.data);
         _this3.activeSession(response.data.HTTP_Data);
       }).catch(function (error) {
+        _this3.btnDisabled = false;
         _this3.loading = false;
         _this3.status = error.response.data.error;
       });
@@ -3623,7 +3635,10 @@ var render = function() {
       _vm._v(" "),
       _c(
         "button",
-        { staticClass: "btn btn-rounded", attrs: { type: "submit" } },
+        {
+          staticClass: "btn btn-rounded",
+          attrs: { type: "submit", disabled: _vm.btnDisabled }
+        },
         [_vm._v("Efetuar Login")]
       )
     ]
@@ -3736,6 +3751,7 @@ exports.push([module.i, "\n.sign-title[data-v-b0cc392a] {\n  font-weight: bold;\
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__helpers_tools__ = __webpack_require__(37);
 //
 //
 //
@@ -3770,6 +3786,17 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "ResetPassword",
@@ -3779,37 +3806,44 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       email: "",
       data: "",
       token: "",
-      status: false,
       loading: false,
-      ok: false
+      success: false,
+      btnDisabled: false,
+      error: false
     };
   },
 
   methods: {
-    showError: function showError(code) {
-      var _this = this;
-
-      if (code === 401) {
-        this.status = true;
-        setTimeout(function () {
-          _this.status = false;
-        }, 5000);
-      }
+    cleanData: function cleanData(data) {
+      return Object(__WEBPACK_IMPORTED_MODULE_0__helpers_tools__["a" /* cleanDataApi */])(data);
     },
     submitForm: function submitForm() {
-      var _this2 = this;
+      var _this = this;
 
+      this.btnDisabled = true;
       this.loading = true;
       var api = this.$urlApi + "/auth/reset";
       Vue.axios.post(api, {
         email: this.email
       }).then(function (response) {
-        _this2.ok = true;
-        _this2.loading = false;
+        _this.success = true;
+        _this.loading = false;
+        _this.btnDisabled = false;
         //console.log(response.data);
       }).catch(function (error) {
-        _this2.loading = false;
-        _this2.showError(error.response.status);
+        _this.loading = false;
+        _this.btnDisabled = false;
+        var resp = error.response.data.error;
+
+        if (resp === 'email_not_found') {
+          _this.error = true;
+        } else {
+          _this.error = JSON.parse(error.response.data.error);
+        }
+
+        setTimeout(function () {
+          _this.error = false;
+        }, 5000);
       });
     }
   }
@@ -3839,23 +3873,33 @@ var render = function() {
         _vm._v("Redefinição de senha")
       ]),
       _vm._v(" "),
-      _vm.status
-        ? _c("header", { staticClass: "sign-title red showError" }, [
-            _c(
-              "div",
-              {
-                staticClass:
-                  "alert alert-error alert-fill alert-close alert-dismissible fade show",
-                attrs: { role: "alert" }
-              },
-              [_vm._v("\n      Email não encontrado!\n    ")]
-            )
+      _vm.loading
+        ? _c("header", { staticClass: "sign-title red" }, [
+            _vm._v("\n    Aguarde enviando...\n  ")
           ])
-        : _vm.loading
-          ? _c("header", { staticClass: "sign-title red" }, [
-              _vm._v("\n    Aguarde enviando...\n  ")
+        : _vm.error
+          ? _c("header", [
+              _c(
+                "div",
+                {
+                  staticClass:
+                    "alert alert-danger alert-fill alert-close alert-dismissible fade show",
+                  attrs: { role: "alert" }
+                },
+                _vm._l(_vm.error, function(err) {
+                  return _vm.error !== "true"
+                    ? _c("span", { key: err._id }, [
+                        _vm._v(
+                          "\n        " + _vm._s(_vm.cleanData(err)) + "\n      "
+                        )
+                      ])
+                    : _c("span", [
+                        _vm._v("\n        Email não encontrado!\n      ")
+                      ])
+                })
+              )
             ])
-          : _vm.ok
+          : _vm.success
             ? _c("header", [
                 _c(
                   "div",
@@ -3911,7 +3955,10 @@ var render = function() {
       _vm._v(" "),
       _c(
         "button",
-        { staticClass: "btn btn-rounded", attrs: { type: "submit" } },
+        {
+          staticClass: "btn btn-rounded",
+          attrs: { type: "submit", disabled: _vm.btnDisabled }
+        },
         [_vm._v("Enviar")]
       )
     ]
@@ -4073,13 +4120,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "ForgotPassword",
-  props: ["token", "urllogin"],
+  props: ["token", "urllogin", "urlreset"],
   data: function data() {
     return {
       password: "",
@@ -4090,7 +4138,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       loading: false,
       userId: "",
       tokenOk: false,
-      updateOk: false
+      updateOk: false,
+      btnDisabled: false
     };
   },
   mounted: function mounted() {
@@ -4102,6 +4151,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     checkAlert: function checkAlert() {
       if (this.passwordInvalid === true) {
         this.passwordInvalid = false;
+        this.btnDisabled = false;
       }
     },
     showError: function showError(code) {
@@ -4145,6 +4195,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     sendData: function sendData() {
       var _this4 = this;
 
+      if (this.updateOk) {
+        this.checkToken();
+      }
+      this.btnDisabled = true;
       this.loading = true;
       var api = this.$urlApi + "/auth/forgot";
       Vue.axios.post(api, {
@@ -4152,6 +4206,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         token: this.token,
         password: this.password
       }).then(function (response) {
+        _this4.btnDisabled = false;
         if (response.data === "update_password") {
           _this4.loading = false;
           _this4.updateOk = true;
@@ -4159,6 +4214,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
           _this4.confirme = "";
         }
       }).catch(function (error) {
+        _this4.btnDisabled = false;
         _this4.loading = false;
         _this4.showError(error.response.status);
       });
@@ -4168,7 +4224,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         return;
       }
 
-      if (Object(__WEBPACK_IMPORTED_MODULE_0__helpers_tools__["b" /* forcePassword */])(this.password) < 50) {
+      if (Object(__WEBPACK_IMPORTED_MODULE_0__helpers_tools__["c" /* forcePassword */])(this.password) < 50) {
         this.passwordInvalid = true;
         return;
       }
@@ -4208,16 +4264,42 @@ var render = function() {
     [
       _c("header", { staticClass: "sign-title" }, [_vm._v("Redefinir Senha")]),
       _vm._v(" "),
-      !_vm.tokenOk ? _c("header", [_vm._m(0)]) : _vm._e(),
+      !_vm.tokenOk
+        ? _c("header", [
+            _c(
+              "div",
+              {
+                staticClass:
+                  "alert alert-warning alert-icon alert-close alert-dismissible fade show",
+                attrs: { role: "alert" }
+              },
+              [
+                _c("i", { staticClass: "font-icon font-icon-warning" }),
+                _vm._v("\n      Token inválido ou expirado!!! "),
+                _c("br"),
+                _vm._v(" "),
+                _c(
+                  "a",
+                  {
+                    staticStyle: { color: "blue" },
+                    attrs: { href: _vm.urlreset }
+                  },
+                  [_vm._v("Clique aqui")]
+                ),
+                _vm._v(" para gerar um novo Token.\n    ")
+              ]
+            )
+          ])
+        : _vm._e(),
       _vm._v(" "),
       _vm.passwordNotEquals
-        ? _c("header", { staticClass: "sign-title red showError" }, [_vm._m(1)])
+        ? _c("header", { staticClass: "sign-title red showError" }, [_vm._m(0)])
         : _vm.loading
           ? _c("header", { staticClass: "sign-title red" }, [
               _vm._v("Aguarde enviando...")
             ])
           : _vm.passwordInvalid
-            ? _c("header", [_vm._m(2)])
+            ? _c("header", [_vm._m(1)])
             : _vm.updateOk
               ? _c("header", [
                   _c(
@@ -4302,7 +4384,7 @@ var render = function() {
         "button",
         {
           staticClass: "btn btn-rounded",
-          attrs: { type: "submit", disabled: _vm.passwordInvalid }
+          attrs: { type: "submit", disabled: _vm.btnDisabled }
         },
         [_vm._v("Redefinir senha agora")]
       )
@@ -4310,23 +4392,6 @@ var render = function() {
   )
 }
 var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "div",
-      {
-        staticClass:
-          "alert alert-warning alert-icon alert-close alert-dismissible fade show",
-        attrs: { role: "alert" }
-      },
-      [
-        _c("i", { staticClass: "font-icon font-icon-warning" }),
-        _vm._v("\n      Token inválido ou expirado!!!\n    ")
-      ]
-    )
-  },
   function() {
     var _vm = this
     var _h = _vm.$createElement

@@ -3100,9 +3100,10 @@ module.exports = function listToStyles (parentId, list) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (immutable) */ __webpack_exports__["a"] = cleanRole;
-/* harmony export (immutable) */ __webpack_exports__["b"] = forcePassword;
+/* harmony export (immutable) */ __webpack_exports__["b"] = cleanRole;
+/* harmony export (immutable) */ __webpack_exports__["c"] = forcePassword;
 /* unused harmony export swalErrorUnauthorized */
+/* harmony export (immutable) */ __webpack_exports__["a"] = cleanDataApi;
 function cleanRole(roles) {
   return roles ? roles.filter(function (role) {
     delete role["_id"];
@@ -3175,6 +3176,13 @@ function swalErrorUnauthorized(obj) {
   }
 }
 
+function cleanDataApi(data) {
+
+  var str = String(data);
+  str = str.replace(["[", "]"], '');
+  return str;
+}
+
 /***/ }),
 /* 38 */,
 /* 39 */,
@@ -3185,8 +3193,9 @@ function swalErrorUnauthorized(obj) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (immutable) */ __webpack_exports__["b"] = userIsAuthorizedPage;
-/* harmony export (immutable) */ __webpack_exports__["a"] = userIsAuthorized;
+/* harmony export (immutable) */ __webpack_exports__["c"] = userIsAuthorizedPage;
+/* harmony export (immutable) */ __webpack_exports__["b"] = userIsAuthorized;
+/* harmony export (immutable) */ __webpack_exports__["a"] = isRoleUser;
 function userIsAuthorizedPage(roles, keys) {
 
   var count = 0;
@@ -3214,6 +3223,21 @@ function userIsAuthorized(roles, keys) {
     sessionStorage.clear();
     return window.location.replace("/login");
   }
+}
+
+function isRoleUser(roles, keys) {
+
+  var count = 0;
+  roles.filter(function (role) {
+    if (keys.indexOf(role.name) > -1) {
+      count++;
+    }
+  });
+
+  if (count > 0) {
+    return true;
+  }
+  return false;
 }
 
 /***/ }),
@@ -3273,7 +3297,7 @@ var appOne = new Vue({
       window.location = "/login";
     }
 
-    Object(__WEBPACK_IMPORTED_MODULE_4__helpers_validates__["a" /* userIsAuthorized */])(this.$store.getters.getUserRoles, ["ADMINs", "STAFF_FINANCE", "STAFF_EDITOR", "STAFF_EXPEDITION"]);
+    Object(__WEBPACK_IMPORTED_MODULE_4__helpers_validates__["b" /* userIsAuthorized */])(this.$store.getters.getUserRoles, ["ADMIN", "STAFF_FINANCE", "STAFF_EDITOR", "STAFF_EXPEDITION"]);
   },
   created: function created() {
     var parent = this;
@@ -3291,9 +3315,27 @@ var appOne = new Vue({
 
 var appTwo = new Vue({
   el: '#vue-sidebar-menu-left',
+  store: __WEBPACK_IMPORTED_MODULE_0__stores__["a" /* default */],
+  data: function data() {
+    return {
+      isAdmin: false
+    };
+  },
+
   components: {
     SidebarMenuLeft: __WEBPACK_IMPORTED_MODULE_2__components_layouts_sidebar_SidebarMenuLeft___default.a
   },
+  created: function created() {
+
+    this.isRoleAdmin = Object(__WEBPACK_IMPORTED_MODULE_4__helpers_validates__["a" /* isRoleUser */])(this.$store.getters.getUserRoles, ["ADMIN"]);
+
+    this.isRoleFinance = Object(__WEBPACK_IMPORTED_MODULE_4__helpers_validates__["a" /* isRoleUser */])(this.$store.getters.getUserRoles, ["STAFF_FINANCE"]);
+
+    this.isRoleEditor = Object(__WEBPACK_IMPORTED_MODULE_4__helpers_validates__["a" /* isRoleUser */])(this.$store.getters.getUserRoles, ["STAFF_EDITOR"]);
+
+    this.isRoleExpedition = Object(__WEBPACK_IMPORTED_MODULE_4__helpers_validates__["a" /* isRoleUser */])(this.$store.getters.getUserRoles, ["STAFF_EXPEDITION"]);
+  },
+
   mounted: function mounted() {
     document.getElementById('vue-sidebar-menu-left').style.display = 'block';
   }

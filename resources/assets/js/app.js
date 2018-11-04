@@ -5,7 +5,7 @@ import store from './stores';
 import SiteHeader from './components/layouts/header/SiteHeader';
 import SidebarMenuLeft from './components/layouts/sidebar/SidebarMenuLeft';
 import SidebarMenuRight from './components/layouts/sidebar/SidebarMenuRight';
-import { userIsAuthorized } from "./helpers/validates";
+import { userIsAuthorized, isRoleUser } from "./helpers/validates";
 import { swalError } from "./helpers/tools";
 
 const appOne = new Vue({
@@ -26,7 +26,7 @@ const appOne = new Vue({
     }
 
     userIsAuthorized(this.$store.getters.getUserRoles, [
-      "ADMINs",
+      "ADMIN",
       "STAFF_FINANCE",
       "STAFF_EDITOR",
       "STAFF_EXPEDITION"
@@ -48,8 +48,33 @@ const appOne = new Vue({
 
 const appTwo = new Vue({
   el: '#vue-sidebar-menu-left',
+  store,
+  data() {
+    return{
+      isAdmin: false
+    }
+  },
   components: {
     SidebarMenuLeft,
+  },
+  created(){
+
+    this.isRoleAdmin = isRoleUser(this.$store.getters.getUserRoles, [
+      "ADMIN"
+    ]);
+
+    this.isRoleFinance = isRoleUser(this.$store.getters.getUserRoles, [
+      "STAFF_FINANCE"
+    ]);
+
+    this.isRoleEditor = isRoleUser(this.$store.getters.getUserRoles, [
+      "STAFF_EDITOR"
+    ]);
+
+    this.isRoleExpedition = isRoleUser(this.$store.getters.getUserRoles, [
+      "STAFF_EXPEDITION"
+    ]);
+
   },
   mounted: function () {
     document.getElementById('vue-sidebar-menu-left').style.display = 'block';

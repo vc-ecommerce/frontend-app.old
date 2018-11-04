@@ -3100,9 +3100,10 @@ module.exports = function listToStyles (parentId, list) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (immutable) */ __webpack_exports__["a"] = cleanRole;
-/* harmony export (immutable) */ __webpack_exports__["b"] = forcePassword;
+/* harmony export (immutable) */ __webpack_exports__["b"] = cleanRole;
+/* harmony export (immutable) */ __webpack_exports__["c"] = forcePassword;
 /* unused harmony export swalErrorUnauthorized */
+/* harmony export (immutable) */ __webpack_exports__["a"] = cleanDataApi;
 function cleanRole(roles) {
   return roles ? roles.filter(function (role) {
     delete role["_id"];
@@ -3175,6 +3176,13 @@ function swalErrorUnauthorized(obj) {
   }
 }
 
+function cleanDataApi(data) {
+
+  var str = String(data);
+  str = str.replace(["[", "]"], '');
+  return str;
+}
+
 /***/ }),
 /* 38 */
 /***/ (function(module, exports, __webpack_require__) {
@@ -3231,8 +3239,9 @@ module.exports = Component.exports
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (immutable) */ __webpack_exports__["b"] = userIsAuthorizedPage;
-/* harmony export (immutable) */ __webpack_exports__["a"] = userIsAuthorized;
+/* harmony export (immutable) */ __webpack_exports__["c"] = userIsAuthorizedPage;
+/* harmony export (immutable) */ __webpack_exports__["b"] = userIsAuthorized;
+/* harmony export (immutable) */ __webpack_exports__["a"] = isRoleUser;
 function userIsAuthorizedPage(roles, keys) {
 
   var count = 0;
@@ -3260,6 +3269,21 @@ function userIsAuthorized(roles, keys) {
     sessionStorage.clear();
     return window.location.replace("/login");
   }
+}
+
+function isRoleUser(roles, keys) {
+
+  var count = 0;
+  roles.filter(function (role) {
+    if (keys.indexOf(role.name) > -1) {
+      count++;
+    }
+  });
+
+  if (count > 0) {
+    return true;
+  }
+  return false;
 }
 
 /***/ }),
@@ -3583,7 +3607,7 @@ var app = new Vue({
     UserIndex: __WEBPACK_IMPORTED_MODULE_1__components_users_UserIndex___default.a
   },
   beforeCreate: function beforeCreate() {
-    Object(__WEBPACK_IMPORTED_MODULE_2__helpers_validates__["b" /* userIsAuthorizedPage */])(this.$store.getters.getUserRoles, ["ADMIN"]);
+    Object(__WEBPACK_IMPORTED_MODULE_2__helpers_validates__["c" /* userIsAuthorizedPage */])(this.$store.getters.getUserRoles, ["ADMIN"]);
   }
 });
 
@@ -3764,7 +3788,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
           "User-ID": this.$store.getters.getUserId
         }
       }).then(function (response) {
-        _this.roles = Object(__WEBPACK_IMPORTED_MODULE_6__helpers_tools__["a" /* cleanRole */])(response.data.data);
+        _this.roles = Object(__WEBPACK_IMPORTED_MODULE_6__helpers_tools__["b" /* cleanRole */])(response.data.data);
       }).catch(function (error) {
         _this.$eventHub.$emit("eventError", { data: error.response });
         _this.error = JSON.parse(error.response.data.error);
@@ -4007,11 +4031,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   },
 
   methods: {
+    cleanData: function cleanData(data) {
+      return Object(__WEBPACK_IMPORTED_MODULE_4__helpers_tools__["a" /* cleanDataApi */])(data);
+    },
     submitForm: function submitForm() {
       var _this = this;
 
       if (this.user.password !== "") {
-        if (Object(__WEBPACK_IMPORTED_MODULE_4__helpers_tools__["b" /* forcePassword */])(this.user.password) < 50) {
+        if (Object(__WEBPACK_IMPORTED_MODULE_4__helpers_tools__["c" /* forcePassword */])(this.user.password) < 50) {
           this.passwordInvalid = true;
 
           setTimeout(function () {
@@ -4528,7 +4555,9 @@ var render = function() {
                         _vm._l(_vm.error, function(err) {
                           return _c("dt", { key: err.id }, [
                             _vm._v(
-                              "\n            " + _vm._s(err) + "\n          "
+                              "\n            " +
+                                _vm._s(_vm.cleanData(err)) +
+                                "\n          "
                             )
                           ])
                         })
@@ -5020,7 +5049,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   computed: {
     roleUser: {
       get: function get() {
-        return Object(__WEBPACK_IMPORTED_MODULE_4__helpers_tools__["a" /* cleanRole */])(this.$store.getters.getItem ? this.$store.getters.getItem.roles : []);
+        return Object(__WEBPACK_IMPORTED_MODULE_4__helpers_tools__["b" /* cleanRole */])(this.$store.getters.getItem ? this.$store.getters.getItem.roles : []);
       },
       set: function set(value) {
         this.$store.commit("updateRoleUser", value);
@@ -5036,6 +5065,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     }
   },
   methods: {
+    cleanData: function cleanData(data) {
+      return Object(__WEBPACK_IMPORTED_MODULE_4__helpers_tools__["a" /* cleanDataApi */])(data);
+    },
     submitForm: function submitForm() {
       var _this = this;
 
@@ -5046,7 +5078,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       var data = this.$store.getters.getItem;
 
       if (this.password !== "") {
-        if (Object(__WEBPACK_IMPORTED_MODULE_4__helpers_tools__["b" /* forcePassword */])(this.password) < 50) {
+        if (Object(__WEBPACK_IMPORTED_MODULE_4__helpers_tools__["c" /* forcePassword */])(this.password) < 50) {
           this.passwordInvalid = true;
 
           setTimeout(function () {
@@ -5192,7 +5224,9 @@ var render = function() {
                         _vm._l(_vm.error, function(err) {
                           return _c("dt", { key: err.id }, [
                             _vm._v(
-                              "\n            " + _vm._s(err) + "\n          "
+                              "\n            " +
+                                _vm._s(_vm.cleanData(err)) +
+                                "\n          "
                             )
                           ])
                         })

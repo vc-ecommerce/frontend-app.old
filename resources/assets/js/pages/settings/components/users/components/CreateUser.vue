@@ -25,7 +25,7 @@
         <Alert className="alert alert-danger alert-fill alert-close alert-dismissible fade show">
           <dl>
             <dt v-for="err in error" :key="err.id">
-              {{ err }}
+              {{ cleanData( err ) }}
             </dt>
           </dl>
         </Alert>
@@ -81,7 +81,7 @@ import Table from "./../../../../../components/layouts/Table";
 import ModalSubmit from "./../../../../../components/layouts/ModalSubmit";
 import LinkModal from "./../../../../../components/layouts/LinkModal";
 import Alert from "./../../../../../components/layouts/Alert";
-import { cleanRole, forcePassword } from "./../../../../../helpers/tools";
+import { cleanRole, forcePassword, cleanDataApi } from "./../../../../../helpers/tools";
 
 export default {
   name: "CreateUser",
@@ -111,6 +111,11 @@ export default {
     };
   },
   methods: {
+
+    cleanData(data) {
+      return cleanDataApi(data);
+    },
+
     submitForm() {
       if (this.user.password !== "") {
         if (forcePassword(this.user.password) < 50) {

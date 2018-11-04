@@ -106,10 +106,13 @@
         <span class="lbl">Configurações</span>
         </span>
         <ul>
-          <li><a href="#"><span class="lbl">Gerenciar Lojas</span></a></li>
+          <li>
+            <a href="#">
+              <span class="lbl">Gerenciar Lojas</span>
+            </a>
+          </li>
 
-
-          <li class="purple with-sub">
+          <li v-if="isRoleAdmin" class="purple with-sub">
             <span>
             <span class="lbl">Gerenciar usuários</span>
             </span>

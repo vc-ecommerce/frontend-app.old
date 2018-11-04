@@ -6,7 +6,8 @@
     <header v-if="!tokenOk">
       <div class="alert alert-warning alert-icon alert-close alert-dismissible fade show" role="alert">
         <i class="font-icon font-icon-warning"></i>
-        Token inválido ou expirado!!!
+        Token inválido ou expirado!!! <br />
+        <a :href="urlreset" style="color:blue">Clique aqui</a> para gerar um novo Token.
       </div>
     </header>
 
@@ -42,7 +43,7 @@
       <input type="password" @click="checkAlert" required minlength="6" class="form-control" v-model="confirme"  placeholder="Confirme a senha"/>
     </div>
 
-    <button type="submit" class="btn btn-rounded" :disabled="passwordInvalid">Redefinir senha agora</button>
+    <button type="submit" class="btn btn-rounded" :disabled="btnDisabled">Redefinir senha agora</button>
 
   </form>
 </template>
@@ -52,7 +53,7 @@ import { forcePassword } from "./../../../helpers/tools"
 
 export default {
   name: "ForgotPassword",
-  props: ["token", "urllogin"],
+  props: ["token", "urllogin", "urlreset"],
   data() {
     return {
       password: "",
@@ -63,7 +64,8 @@ export default {
       loading: false,
       userId: "",
       tokenOk: false,
-      updateOk: false
+      updateOk: false,
+      btnDisabled: false,
     };
   },
   mounted() {
@@ -74,6 +76,7 @@ export default {
     checkAlert() {
       if (this.passwordInvalid === true) {
         this.passwordInvalid = false;
+        this.btnDisabled = false;
       }
     },
     showError(code) {
@@ -112,6 +115,11 @@ export default {
         });
     },
     sendData() {
+
+      if(this.updateOk) {
+        this.checkToken();
+      }
+      this.btnDisabled = true;
       this.loading = true;
       const api = `${this.$urlApi}/auth/forgot`;
       Vue.axios
@@ -121,6 +129,7 @@ export default {
           password: this.password
         })
         .then(response => {
+          this.btnDisabled = false;
           if (response.data === "update_password") {
             this.loading = false;
             this.updateOk = true;
@@ -129,6 +138,7 @@ export default {
           }
         })
         .catch(error => {
+          this.btnDisabled = false;
           this.loading = false;
           this.showError(error.response.status);
         });
@@ -156,6 +166,7 @@ export default {
 </script>
 
 <style scoped>
+
 .sign-title {
   font-weight: bold;
 }

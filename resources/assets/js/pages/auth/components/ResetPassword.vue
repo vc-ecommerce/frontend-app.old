@@ -3,17 +3,25 @@
 
     <header class="sign-title">Redefinição de senha</header>
 
-    <header v-if="status" class="sign-title red showError">
-      <div class="alert alert-error alert-fill alert-close alert-dismissible fade show" role="alert">
-        Email não encontrado!
-      </div>
-    </header>
-
-    <header v-else-if="loading" class="sign-title red">
+    <header v-if="loading" class="sign-title red">
       Aguarde enviando...
     </header>
 
-    <header v-else-if="ok">
+    <header v-else-if="error">
+      <div class="alert alert-danger alert-fill alert-close alert-dismissible fade show" role="alert">
+
+        <span v-if="error !=='true'" v-for="err in error" :key="err._id">
+          {{ cleanData( err ) }}
+        </span>
+
+        <span v-else>
+          Email não encontrado!
+        </span>
+
+      </div>
+    </header>
+
+    <header v-else-if="success">
       <div class="alert alert-success alert-fill alert-close alert-dismissible fade show" role="alert">
         O link para redefinição de senha foi enviado para o seu e-mail!
       </div>
@@ -28,11 +36,14 @@
       <input type="email" required class="form-control" v-model="email" placeholder="Endereço de email"/>
     </div>
 
-    <button type="submit" class="btn btn-rounded">Enviar</button>
+    <button type="submit" class="btn btn-rounded" :disabled="btnDisabled">Enviar</button>
 
   </form>
 </template>
 <script>
+
+import { cleanDataApi } from "./../../../helpers/tools"
+
 export default {
   name: "ResetPassword",
   props: [],
@@ -41,21 +52,20 @@ export default {
       email: "",
       data: "",
       token: "",
-      status: false,
       loading: false,
-      ok: false
+      success: false,
+      btnDisabled: false,
+      error: false
     };
   },
   methods: {
-    showError(code) {
-      if (code === 401) {
-        this.status = true;
-        setTimeout(() => {
-          this.status = false;
-        }, 5000);
-      }
+
+    cleanData(data) {
+      return cleanDataApi(data);
     },
+
     submitForm() {
+      this.btnDisabled = true;
       this.loading = true;
       const api = `${this.$urlApi}/auth/reset`;
       Vue.axios
@@ -63,13 +73,27 @@ export default {
           email: this.email
         })
         .then(response => {
-          this.ok = true;
+          this.success = true;
           this.loading = false;
+          this.btnDisabled = false;
           //console.log(response.data);
         })
         .catch(error => {
           this.loading = false;
-          this.showError(error.response.status);
+          this.btnDisabled = false;
+          let resp =error.response.data.error
+
+          if (resp ==='email_not_found') {
+            this.error = true;
+          } else {
+            this.error = JSON.parse(error.response.data.error);
+          }
+
+          setTimeout(() => {
+            this.error = false;
+          }, 5000);
+
+
         });
     }
   }

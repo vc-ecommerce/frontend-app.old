@@ -29,7 +29,7 @@
       </div>
     </div>
 
-    <button type="submit" class="btn btn-rounded">Efetuar Login</button>
+    <button type="submit" class="btn btn-rounded" :disabled="btnDisabled">Efetuar Login</button>
 
   </form>
 </template>
@@ -45,7 +45,8 @@ export default {
       token: "",
       status: false,
       loading: false,
-      ok: false
+      ok: false,
+      btnDisabled: false,
     };
   },
   methods: {
@@ -84,6 +85,7 @@ export default {
         });
     },
     submitForm() {
+      this.btnDisabled = true;
       this.loading = true;
       const api = `${this.$urlApi}/auth/login`;
       Vue.axios
@@ -93,6 +95,7 @@ export default {
         })
         .then(response => {
           this.ok = true;
+          this.btnDisabled = false;
           this.status = false;
           sessionStorage.setItem(
             "token",
@@ -106,6 +109,7 @@ export default {
           this.activeSession(response.data.HTTP_Data);
         })
         .catch(error => {
+          this.btnDisabled = false;
           this.loading = false;
           this.status = error.response.data.error;
         });
