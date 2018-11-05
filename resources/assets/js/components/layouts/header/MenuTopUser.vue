@@ -6,7 +6,7 @@
     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dd-user-menu">
       <a class="dropdown-item" :href="urlAccounts">
         <span class="font-icon glyphicon glyphicon-user"></span>
-        {{ userName }}
+        {{ user.name }}
       </a>
       <!--
       <a class="dropdown-item" href="#">
@@ -32,7 +32,7 @@ export default {
   props: ['urlLogout', 'urlAccounts'],
   data() {
     return {
-      userName: this.$store.getters.getUserName
+      user: this.$store.getters.getUser
     }
   }
 }

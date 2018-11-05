@@ -56,8 +56,8 @@
         </div>
         <div class="col-lg-6">
           <fieldset class="form-group">
-            <label class="form-label" for="inputPassword">Senha</label>
-            <input type="password" required class="form-control" minlength="6" v-model="user.password" placeholder="Senha">
+            <label class="form-label" for="hide-show-password">Senha</label>
+            <input type="password" id="hide-show-password" required class="form-control" minlength="6" v-model="user.password" placeholder="Senha">
           </fieldset>
         </div>
       </div>
@@ -140,7 +140,9 @@ export default {
             email: this.user.email,
             active: this.user.active,
             password: this.user.password,
-            roles: this.user.roles
+            password_confirmation: this.user.password,
+            roles: this.user.roles,
+            admin: 'create-user'
           },
           {
             headers: {

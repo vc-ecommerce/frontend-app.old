@@ -69,7 +69,7 @@
         <label class="form-label semibold">Funções do usuário</label>
       </div>
       <div class="row">
-        <div class="checkbox-toggle" v-for="(role, index) in dataRoles" :key="role.id" style="margin-left:20px">
+        <div class="checkbox-toggle" v-for="(role, index) in dataRoles" :key="role.id" style="margin:20px">
           <span :class="index = index + Math.floor((Math.random() * 1000000) + 1)"></span>
           <input type="checkbox" v-model="roleUser" :id="'check-toggle-'+ index" :value="role">
           <label :for="'check-toggle-'+ index">{{role.description}}</label>
@@ -167,8 +167,9 @@ export default {
             name: data.name,
             email: data.email,
             active: data.active,
-            local: "user-edit",
+            admin: "edit-user",
             password: this.password,
+            password_confirmation: this.password,
             roles: data.roles
           },
           {

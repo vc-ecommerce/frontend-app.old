@@ -27,9 +27,13 @@ const appOne = new Vue({
 
     userIsAuthorized(this.$store.getters.getUserRoles, [
       "ADMIN",
+      "STAFF_AUDITOR",
       "STAFF_FINANCE",
+      "STAFF_COMMERCIAL",
+      "STAFF_SUPPORT",
+      "STAFF_SALE",
       "STAFF_EDITOR",
-      "STAFF_EXPEDITION"
+      "STAFF_EXPEDITION",
     ]);
 
   },

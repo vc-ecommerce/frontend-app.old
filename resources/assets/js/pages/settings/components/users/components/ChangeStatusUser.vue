@@ -32,7 +32,7 @@ export default {
           api,
           {
             active: status,
-            local: "user-edit-status"
+            admin: "edit-status"
           },
           {
             headers: {

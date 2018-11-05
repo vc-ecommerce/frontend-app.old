@@ -23,5 +23,8 @@
 
 @section('scripts')
 <script src="{{ asset('js/lib/bootstrap-sweetalert/sweetalert.min.js') }}"></script>
+<script src="{{ asset('js/lib/hide-show-password/bootstrap-show-password.min.js') }}"></script>
+<script src="{{ asset('js/lib/hide-show-password/bootstrap-show-password-init.js') }}"></script>
+
 <script src="{{ asset('js/users.js') }}"></script>
 @endsection
