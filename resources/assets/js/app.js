@@ -6,7 +6,7 @@ import SiteHeader from './components/layouts/header/SiteHeader';
 import SidebarMenuLeft from './components/layouts/sidebar/SidebarMenuLeft';
 import SidebarMenuRight from './components/layouts/sidebar/SidebarMenuRight';
 import { userIsAuthorized, isRoleUser } from "./helpers/validates";
-import { swalError } from "./helpers/tools";
+import { swalErrorUnauthorized } from "./helpers/tools";
 
 const appOne = new Vue({
   el: '#vue-site-header',

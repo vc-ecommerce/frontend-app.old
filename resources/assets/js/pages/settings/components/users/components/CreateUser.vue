@@ -9,7 +9,7 @@
     <ModalSubmit idModal="create-user"
       titleModal="Criar novo usuário"
       sizeModal="lg"
-      btnTitle="Salvar" @submit="submitForm">
+      btnTitle="Salvar Dados" @submit="submitForm">
 
       <div v-if="status && error === false" class="row">
         <Alert className="alert alert-success alert-fill alert-close alert-dismissible fade show">

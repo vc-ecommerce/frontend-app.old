@@ -4,10 +4,11 @@
       <img src="/img/avatar-2-64.png" alt="">
     </button>
     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dd-user-menu">
-      <a class="dropdown-item" href="#">
+      <a class="dropdown-item" :href="urlAccounts">
         <span class="font-icon glyphicon glyphicon-user"></span>
         {{ userName }}
       </a>
+      <!--
       <a class="dropdown-item" href="#">
         <span class="font-icon glyphicon glyphicon-cog"></span>
         Configurações
@@ -16,8 +17,9 @@
         <span class="font-icon glyphicon glyphicon-question-sign"></span>
         Ajuda
       </a>
+      -->
       <div class="dropdown-divider"></div>
-      <a class="dropdown-item" href="/logout">
+      <a class="dropdown-item" :href="urlLogout">
         <span class="font-icon glyphicon glyphicon-log-out"></span>
         Sair
       </a>
@@ -27,7 +29,7 @@
 <script>
 export default {
   name: "MenuTopUser",
-  props: [],
+  props: ['urlLogout', 'urlAccounts'],
   data() {
     return {
       userName: this.$store.getters.getUserName

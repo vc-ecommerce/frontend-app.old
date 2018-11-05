@@ -50,26 +50,25 @@ export function forcePassword(password) {
 
 export function swalErrorUnauthorized(obj) {
 
-  if (obj.data.status === 401) {
+  if(!obj) return '';
 
-    if(obj.data.statusText==="Unauthorized") {
+  if (obj.data.status === 401
+    && obj.data.statusText === "Unauthorized") {
 
-      swal({
-        title: "Atenção!!!",
-        text: "Acesso não autorizado ou negado pelo servidor.",
-        type: "error",
-        showCancelButton: false,
-        cancelButtonClass: "btn-default",
-        confirmButtonClass: "btn-danger",
-        confirmButtonText: "Fazer login",
-        closeOnConfirm: false
-      },
-      function(){
-        sessionStorage.clear();
-        window.location.replace("/login");
-      });
-
-    }
+    swal({
+      title: "Atenção!!!",
+      text: "Acesso não autorizado ou negado pelo servidor.",
+      type: "error",
+      showCancelButton: false,
+      cancelButtonClass: "btn-default",
+      confirmButtonClass: "btn-danger",
+      confirmButtonText: "Fazer login",
+      closeOnConfirm: false
+    },
+    function(){
+      sessionStorage.clear();
+      window.location.replace("/login");
+    });
 
   }
 
@@ -77,7 +76,8 @@ export function swalErrorUnauthorized(obj) {
 
 export function cleanDataApi(data) {
 
-  let str = String(data);
-  str = str.replace(["[","]"], '')
-  return str;
+  if(!data) return '';
+  data = data.toString();
+  return data.replace(["[","]"], '');
+
 }
