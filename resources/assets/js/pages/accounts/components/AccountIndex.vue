@@ -49,6 +49,17 @@
             </div>
           </div>
         </div>
+
+        <h5 class="with-border m-t-lg">Funções administrativas</h5>
+
+        <div class="row">
+            <div class="checkbox-toggle" v-for="(role) in $store.getters.getUserRoles" :key="role.id" style="margin:20px">
+              <span class="label label-success">{{role.description}}</span>
+            </div>
+        </div>
+
+        <h5 class="with-border m-t-lg"></h5>
+
         <div class="row">
           <div class="col-md-4 col-sm-6">
             <button type="submit" :disabled="bntDisabled" class="btn btn-inline">Salvar Alterações</button>
@@ -88,6 +99,7 @@ export default {
     };
   },
   methods: {
+
     cleanData(data) {
       return cleanDataApi(data);
     },
@@ -114,7 +126,6 @@ export default {
           api,
           {
             name: this.user.name,
-            active: true,
             password: this.password,
             password_confirmation: this.password,
           },

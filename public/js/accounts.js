@@ -917,6 +917,17 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -965,7 +976,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       var api = this.$urlApi + "/admin/users/" + this.$store.getters.getUserId;
       Vue.axios.put(api, {
         name: this.user.name,
-        active: true,
         password: this.password,
         password_confirmation: this.password
       }, {
@@ -1233,6 +1243,32 @@ var render = function() {
               ])
             ])
           ]),
+          _vm._v(" "),
+          _c("h5", { staticClass: "with-border m-t-lg" }, [
+            _vm._v("Funções administrativas")
+          ]),
+          _vm._v(" "),
+          _c(
+            "div",
+            { staticClass: "row" },
+            _vm._l(_vm.$store.getters.getUserRoles, function(role) {
+              return _c(
+                "div",
+                {
+                  key: role.id,
+                  staticClass: "checkbox-toggle",
+                  staticStyle: { margin: "20px" }
+                },
+                [
+                  _c("span", { staticClass: "label label-success" }, [
+                    _vm._v(_vm._s(role.description))
+                  ])
+                ]
+              )
+            })
+          ),
+          _vm._v(" "),
+          _c("h5", { staticClass: "with-border m-t-lg" }),
           _vm._v(" "),
           _c("div", { staticClass: "row" }, [
             _c("div", { staticClass: "col-md-4 col-sm-6" }, [
