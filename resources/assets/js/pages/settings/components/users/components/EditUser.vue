@@ -116,7 +116,7 @@ export default {
   props: ["dataItem", "dataRoles"],
   data() {
     return {
-      formId:'',
+      formId: "",
       status: false,
       error: false,
       password: "",
@@ -129,7 +129,7 @@ export default {
   },
   computed: {
     generateId() {
-      return Math.floor((Math.random() * 1000000) + 1)
+      return Math.floor(Math.random() * 1000000 + 1);
     },
     roleUser: {
       get() {
@@ -210,12 +210,11 @@ export default {
           this.$eventHub.$emit("eventError", { data: error.response });
           this.status = false;
           this.error = JSON.parse(error.response.data.error);
-        });
 
-      setTimeout(() => {
-        this.status = false;
-        this.error = false;
-      }, 5000);
+          setTimeout(() => {
+            this.error = false;
+          }, 5000);
+        });
     }
   }
 };

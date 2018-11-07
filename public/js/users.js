@@ -4284,7 +4284,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         password: this.user.password,
         password_confirmation: this.user.password,
         roles: this.user.roles,
-        admin: 'create-user'
+        admin: "create-user"
       }, {
         headers: {
           Authorization: "Bearer " + this.$store.getters.getToken,
@@ -4297,20 +4297,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         _this.status = "Dados cadastrados com sucesso.";
 
         _this.$emit("reload");
-
-        setTimeout(function () {
-          _this.$eventHub.$emit("closeModal", true);
-        }, 5000);
       }).catch(function (error) {
         _this.$eventHub.$emit("eventError", { data: error.response });
         _this.status = false;
         _this.error = JSON.parse(error.response.data.error);
-      });
 
-      setTimeout(function () {
-        _this.status = false;
-        _this.error = false;
-      }, 5000);
+        setTimeout(function () {
+          _this.error = false;
+        }, 5000);
+      });
     }
   }
 });
@@ -4950,7 +4945,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   props: ["dataItem", "dataRoles"],
   data: function data() {
     return {
-      formId: '',
+      formId: "",
       status: false,
       error: false,
       password: "",
@@ -5032,12 +5027,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         _this.$eventHub.$emit("eventError", { data: error.response });
         _this.status = false;
         _this.error = JSON.parse(error.response.data.error);
-      });
 
-      setTimeout(function () {
-        _this.status = false;
-        _this.error = false;
-      }, 5000);
+        setTimeout(function () {
+          _this.error = false;
+        }, 5000);
+      });
     }
   }
 });

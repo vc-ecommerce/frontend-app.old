@@ -90,7 +90,11 @@ import Table from "./../../../../../components/layouts/Table";
 import Modal from "./../../../../../components/modals/Modal";
 import ModalLink from "./../../../../../components/modals/ModalLink";
 import Alert from "./../../../../../components/layouts/Alert";
-import { cleanRole, forcePassword, cleanDataApi } from "./../../../../../helpers/tools";
+import {
+  cleanRole,
+  forcePassword,
+  cleanDataApi
+} from "./../../../../../helpers/tools";
 
 export default {
   name: "CreateUser",
@@ -121,11 +125,10 @@ export default {
   },
   computed: {
     generateId() {
-      return Math.floor((Math.random() * 1000000) + 1)
-    },
+      return Math.floor(Math.random() * 1000000 + 1);
+    }
   },
   methods: {
-
     cleanData(data) {
       return cleanDataApi(data);
     },
@@ -156,7 +159,7 @@ export default {
             password: this.user.password,
             password_confirmation: this.user.password,
             roles: this.user.roles,
-            admin: 'create-user'
+            admin: "create-user"
           },
           {
             headers: {
@@ -172,21 +175,16 @@ export default {
           this.status = "Dados cadastrados com sucesso.";
 
           this.$emit("reload");
-
-          setTimeout(() => {
-            this.$eventHub.$emit("closeModal", true);
-          }, 5000);
         })
         .catch(error => {
           this.$eventHub.$emit("eventError", { data: error.response });
           this.status = false;
           this.error = JSON.parse(error.response.data.error);
-        });
 
-      setTimeout(() => {
-        this.status = false;
-        this.error = false;
-      }, 5000);
+          setTimeout(() => {
+            this.error = false;
+          }, 5000);
+        });
     }
   }
 };
