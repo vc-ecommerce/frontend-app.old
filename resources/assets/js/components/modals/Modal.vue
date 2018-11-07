@@ -13,7 +13,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-rounded btn-default" data-dismiss="modal">Fechar</button>
-          <button type="button" class="btn btn-rounded btn-primary">{{ btnTitle }}</button>
+          <slot name="btn"></slot>
         </div>
       </div>
     </div>
@@ -35,11 +35,6 @@ export default {
     titleModal: {
       type: String,
       required: true
-    },
-    btnTitle: {
-      type: String,
-      default: "Salvar",
-      require: true
     }
   }
 };

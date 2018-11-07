@@ -2,14 +2,14 @@ require('../../bootstrap')
 
 import store from '../../stores';
 
-import UserIndex from './components/users/UserIndex'
-import { userIsAuthorizedPage } from "./../../helpers/validates";
+//import RoleIndex from './components/roles/RoleIndex'
+import { userIsAuthorizedPage } from "../../helpers/validates";
 
 new Vue({
   el: '#content',
   store,
   components: {
-    UserIndex
+    //RoleIndex
   },
   beforeCreate() {
     userIsAuthorizedPage(this.$store.getters.getUserRoles, [

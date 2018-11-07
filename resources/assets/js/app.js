@@ -42,8 +42,19 @@ const appOne = new Vue({
     this.$eventHub.$on('eventError', function (obj) {
       parent.showError(obj)
     });
+    this.isTokenEquals();
   },
   methods: {
+    getCsrfToken() {
+      let token = document.head.querySelector('meta[name="csrf-token"]');
+      return token.content;
+    },
+    isTokenEquals() {
+      let equals = this.getCsrfToken() === sessionStorage.getItem("csrfToken");
+      if (!equals) {
+        userIsAuthorized({});
+      }
+    },
     showError(obj) {
       swalErrorUnauthorized(obj);
     }
@@ -80,9 +91,7 @@ const appTwo = new Vue({
     ]);
 
   },
-  mounted: function () {
-    document.getElementById('vue-sidebar-menu-left').style.display = 'block';
-  }
+
 });
 
 const appThree = new Vue({
@@ -92,6 +101,7 @@ const appThree = new Vue({
     SidebarMenuRight,
   },
   mounted() {
+    document.getElementById('vue-sidebar-menu-left').style.display = 'block';
     document.getElementById('content').style.display = 'block';
   }
 

@@ -1,26 +1,27 @@
 <template>
   <span>
 
-    <LinkModal
-      idLinkModal="create-user"
+    <ModalLink
+      idModalLink="create-user"
       titleLink="Criar"
       classIcon="glyphicon glyphicon-plus" />
 
-    <ModalSubmit idModal="create-user"
+    <Modal idModal="create-user"
       titleModal="Criar novo usuário"
-      sizeModal="lg"
-      btnTitle="Salvar Dados" @submit="submitForm">
+      sizeModal="lg">
 
       <div v-if="status && error === false" class="row">
         <Alert className="alert alert-success alert-fill alert-close alert-dismissible fade show">
           {{ status }}
         </Alert>
       </div>
+
       <div v-if="passwordInvalid" class="row">
         <Alert className="alert alert-danger alert-fill alert-close alert-dismissible fade show">
           <strong>Atenção:</strong> Senha administrativa fraca, tente outra mais forte.
         </Alert>
       </div>
+
       <div v-if="error && status === false" class="row">
         <Alert className="alert alert-danger alert-fill alert-close alert-dismissible fade show">
           <dl>
@@ -30,56 +31,64 @@
           </dl>
         </Alert>
       </div>
-      <div class="row">
-        <div class="col-lg-6">
-          <fieldset class="form-group">
-            <label class="form-label semibold" for="inputName">Nome</label>
-            <input type="text" required class="form-control" v-model="user.name" placeholder="Nome">
-          </fieldset>
-        </div>
-        <div class="col-lg-6">
-          <fieldset class="form-group">
-            <label class="form-label" for="inputEmail">Email</label>
-            <input type="email" required class="form-control" placeholder="E-mail" v-model="user.email">
-          </fieldset>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-lg-6">
-          <fieldset class="form-group">
-            <label class="form-label" for="inputPassword">Status</label>
-            <select required class="form-control" v-model="user.active">
-              <option disabled value="">Escolha um item</option>
-              <option v-for="option in options" :key="option.id" :value="option.value">{{ option.text }}</option>
-            </select>
-          </fieldset>
-        </div>
-        <div class="col-lg-6">
-          <fieldset class="form-group">
-            <label class="form-label" for="hide-show-password">Senha</label>
-            <input type="password" id="hide-show-password" required class="form-control" minlength="6" v-model="user.password" placeholder="Senha">
-          </fieldset>
-        </div>
-      </div>
-      <div class="row" style="margin:10px 0 10px 0">
-        <label class="form-label semibold">Funções do usuário</label>
-      </div>
 
-      <div class="row">
-        <div class="checkbox-toggle" v-for="(role, index) in dataRoles" :key="role.id" style="margin-left:20px">
-          <span :class="index = index + Math.floor((Math.random() * 1000) + 1)"></span>
-          <input type="checkbox" v-model="user.roles" :id="'check-toggle-'+ index" :value="role">
-          <label :for="'check-toggle-'+ index">{{role.description}}</label>
-        </div>
-      </div>
+      <form id="add-user" @submit.prevent="submitForm">
 
-    </ModalSubmit>
+        <div class="row">
+          <div class="col-lg-6">
+            <fieldset class="form-group">
+              <label class="form-label semibold" for="inputName">Nome</label>
+              <input type="text" required class="form-control" v-model="user.name" placeholder="Nome">
+            </fieldset>
+          </div>
+          <div class="col-lg-6">
+            <fieldset class="form-group">
+              <label class="form-label" for="inputEmail">Email</label>
+              <input type="email" required class="form-control" placeholder="E-mail" v-model="user.email">
+            </fieldset>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-6">
+            <fieldset class="form-group">
+              <label class="form-label" for="inputPassword">Status</label>
+              <select required class="form-control" v-model="user.active">
+                <option disabled value="">Escolha um item</option>
+                <option v-for="option in options" :key="option.id" :value="option.value">{{ option.text }}</option>
+              </select>
+            </fieldset>
+          </div>
+          <div class="col-lg-6">
+            <fieldset class="form-group">
+              <label class="form-label" for="hide-show-password">Senha</label>
+              <input type="password" id="hide-show-password" required class="form-control" minlength="6" v-model="user.password" placeholder="Senha">
+            </fieldset>
+          </div>
+        </div>
+        <div class="row" style="margin:10px 0 10px 0">
+          <label class="form-label semibold">Departamentos do usuário [Permissões]</label>
+        </div>
+
+        <div class="row">
+          <div class="checkbox-toggle" v-for="(role, index) in dataRoles" :key="role.id" style="margin-left:20px">
+            <span :class="index = index + generateId"></span>
+            <input type="checkbox" v-model="user.roles" :id="'check-toggle-'+ index" :value="role">
+            <label :for="'check-toggle-'+ index">{{role.description}}</label>
+          </div>
+        </div>
+      </form>
+
+      <span slot="btn">
+        <button form="add-user" type="submit" class="btn btn-rounded btn-primary">Salvar Dados</button>
+      </span>
+
+    </Modal>
   </span>
 </template>
 <script>
 import Table from "./../../../../../components/layouts/Table";
-import ModalSubmit from "./../../../../../components/layouts/ModalSubmit";
-import LinkModal from "./../../../../../components/layouts/LinkModal";
+import Modal from "./../../../../../components/modals/Modal";
+import ModalLink from "./../../../../../components/modals/ModalLink";
 import Alert from "./../../../../../components/layouts/Alert";
 import { cleanRole, forcePassword, cleanDataApi } from "./../../../../../helpers/tools";
 
@@ -87,8 +96,8 @@ export default {
   name: "CreateUser",
   components: {
     Table,
-    LinkModal,
-    ModalSubmit,
+    Modal,
+    ModalLink,
     Alert
   },
   props: ["dataItem", "dataRoles"],
@@ -109,6 +118,11 @@ export default {
       ],
       passwordInvalid: false
     };
+  },
+  computed: {
+    generateId() {
+      return Math.floor((Math.random() * 1000000) + 1)
+    },
   },
   methods: {
 

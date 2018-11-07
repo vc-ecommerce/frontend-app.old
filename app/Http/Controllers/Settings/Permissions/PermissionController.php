@@ -1,12 +1,13 @@
 <?php
 
-namespace VoceCrianca\Http\Controllers\Settings\Users;
+namespace VoceCrianca\Http\Controllers\Settings\Permissions;
 
 use Illuminate\Http\Request;
 use VoceCrianca\Http\Controllers\Controller;
 
-class UserController extends Controller
+class PermissionController extends Controller
 {
+
     /**
      * Display a listing of the resource.
      *
@@ -14,6 +15,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        return view('pages.settings.users.index');
+        return view('pages.settings.permissions.index');
     }
+
 }

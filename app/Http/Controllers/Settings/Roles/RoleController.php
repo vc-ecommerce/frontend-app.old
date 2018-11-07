@@ -1,12 +1,13 @@
 <?php
 
-namespace VoceCrianca\Http\Controllers\Settings\Users;
+namespace VoceCrianca\Http\Controllers\Settings\Roles;
 
 use Illuminate\Http\Request;
 use VoceCrianca\Http\Controllers\Controller;
 
-class UserController extends Controller
+class RoleController extends Controller
 {
+
     /**
      * Display a listing of the resource.
      *
@@ -14,6 +15,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        return view('pages.settings.users.index');
+        return view('pages.settings.roles.index');
     }
+
 }

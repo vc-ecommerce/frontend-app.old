@@ -1,11 +1,11 @@
 <template>
   <span>
     <a v-if="showType =='href'" v-on:click="fillDataStore()" href="javascript:void(0)" :class="showTypeClassName"
-      data-toggle="modal" :data-target="!sizeModal ? '#'+idLinkModal : '.bd-example-modal-'+ sizeModal">
+      data-toggle="modal" :data-target="!sizeModal ? '#'+idModalLink : '.bd-example-modal-'+ sizeModal">
       <i :class="classIcon"></i> {{ titleLink || '' }}
     </a>
     <button v-else v-on:click="fillDataStore()" type="button" :class="showTypeClassName"
-      data-toggle="modal" :data-target="!sizeModal ? '#'+idLinkModal : '.bd-example-modal-'+ sizeModal">
+      data-toggle="modal" :data-target="!sizeModal ? '#'+idModalLink : '.bd-example-modal-'+ sizeModal">
       <i :class="classIcon"></i> {{ titleLink || '' }}
     </button>
   </span>
@@ -13,7 +13,7 @@
 
 <script>
 export default {
-  name: 'LinkModal',
+  name: 'ModalLink',
   props: {
     showType: {
       type: String,
@@ -26,7 +26,7 @@ export default {
       type: String,
       default: ""
     },
-    idLinkModal: {
+    idModalLink: {
       type: String,
       default: "myModal"
     },

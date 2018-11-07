@@ -123,6 +123,18 @@
             </ul>
           </li>
 
+          <li v-if="isRoleAdmin" class="purple with-sub">
+            <span>
+            <span class="lbl">Gerenciar Permissões</span>
+            </span>
+            <ul>
+              <li><a href="{{ route('settings.roles.index') }}"><span class="lbl">Funções [Roles]</span></a></li>
+            </ul>
+            <ul>
+                <li><a href="#"><span class="lbl">Permissões [Permissions]</span></a></li>
+              </ul>
+          </li>
+
           <li class="purple with-sub">
             <span>
               <span class="lbl">Dados auxiliares</span>

@@ -6,7 +6,7 @@
 </template>
 <script>
 export default {
-  name: "RemoveUser",
+  name: "ChangeStatusUser",
   components: {},
   props: ["dataItem"],
   data() {

@@ -1,4 +1,4 @@
-webpackJsonp([5],{
+webpackJsonp([2],{
 
 /***/ 0:
 /***/ (function(module, exports, __webpack_require__) {
@@ -311,204 +311,6 @@ module.exports = {
 
 /***/ }),
 
-/***/ 1:
-/***/ (function(module, exports) {
-
-/* globals __VUE_SSR_CONTEXT__ */
-
-// IMPORTANT: Do NOT use ES2015 features in this file.
-// This module is a runtime utility for cleaner component module output and will
-// be included in the final webpack user bundle.
-
-module.exports = function normalizeComponent (
-  rawScriptExports,
-  compiledTemplate,
-  functionalTemplate,
-  injectStyles,
-  scopeId,
-  moduleIdentifier /* server only */
-) {
-  var esModule
-  var scriptExports = rawScriptExports = rawScriptExports || {}
-
-  // ES6 modules interop
-  var type = typeof rawScriptExports.default
-  if (type === 'object' || type === 'function') {
-    esModule = rawScriptExports
-    scriptExports = rawScriptExports.default
-  }
-
-  // Vue.extend constructor export interop
-  var options = typeof scriptExports === 'function'
-    ? scriptExports.options
-    : scriptExports
-
-  // render functions
-  if (compiledTemplate) {
-    options.render = compiledTemplate.render
-    options.staticRenderFns = compiledTemplate.staticRenderFns
-    options._compiled = true
-  }
-
-  // functional template
-  if (functionalTemplate) {
-    options.functional = true
-  }
-
-  // scopedId
-  if (scopeId) {
-    options._scopeId = scopeId
-  }
-
-  var hook
-  if (moduleIdentifier) { // server build
-    hook = function (context) {
-      // 2.3 injection
-      context =
-        context || // cached call
-        (this.$vnode && this.$vnode.ssrContext) || // stateful
-        (this.parent && this.parent.$vnode && this.parent.$vnode.ssrContext) // functional
-      // 2.2 with runInNewContext: true
-      if (!context && typeof __VUE_SSR_CONTEXT__ !== 'undefined') {
-        context = __VUE_SSR_CONTEXT__
-      }
-      // inject component styles
-      if (injectStyles) {
-        injectStyles.call(this, context)
-      }
-      // register component module identifier for async chunk inferrence
-      if (context && context._registeredComponents) {
-        context._registeredComponents.add(moduleIdentifier)
-      }
-    }
-    // used by ssr in case component is cached and beforeCreate
-    // never gets called
-    options._ssrRegister = hook
-  } else if (injectStyles) {
-    hook = injectStyles
-  }
-
-  if (hook) {
-    var functional = options.functional
-    var existing = functional
-      ? options.render
-      : options.beforeCreate
-
-    if (!functional) {
-      // inject component registration as beforeCreate hook
-      options.beforeCreate = existing
-        ? [].concat(existing, hook)
-        : [hook]
-    } else {
-      // for template-only hot-reload because in that case the render fn doesn't
-      // go through the normalizer
-      options._injectStyles = hook
-      // register for functioal component in vue file
-      options.render = function renderWithStyleInjection (h, context) {
-        hook.call(context)
-        return existing(h, context)
-      }
-    }
-  }
-
-  return {
-    esModule: esModule,
-    exports: scriptExports,
-    options: options
-  }
-}
-
-
-/***/ }),
-
-/***/ 10:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (immutable) */ __webpack_exports__["b"] = cleanRole;
-/* harmony export (immutable) */ __webpack_exports__["c"] = forcePassword;
-/* harmony export (immutable) */ __webpack_exports__["d"] = swalErrorUnauthorized;
-/* harmony export (immutable) */ __webpack_exports__["a"] = cleanDataApi;
-function cleanRole(roles) {
-  return roles ? roles.filter(function (role) {
-    delete role["_id"];
-    delete role["default"];
-    delete role["privileges"];
-    delete role["updated_at"];
-    delete role["created_at"];
-    return role;
-  }) : [];
-}
-
-function forcePassword(password) {
-
-  var force = 0;
-
-  var regLettersMa = /[A-Z]/;
-  var regLettersMi = /[a-z]/;
-  var regNumber = /[0-9]/;
-  var regEspecial = /[!@#$%&*?]/;
-
-  var size = false;
-  var sizeM = false;
-  var lettersMa = false;
-  var lettersMi = false;
-  var number = false;
-  var especial = false;
-
-  //    console.clear();
-  //    console.log('password: '+password);
-
-  if (password.length >= 6) size = true;
-  if (password.length >= 10) sizeM = true;
-  if (regLettersMa.exec(password)) lettersMa = true;
-  if (regLettersMi.exec(password)) lettersMi = true;
-  if (regNumber.exec(password)) number = true;
-  if (regEspecial.exec(password)) especial = true;
-
-  if (size) force += 10;
-  if (sizeM) force += 10;
-  if (lettersMa) force += 10;
-  if (lettersMi) force += 10;
-  if (lettersMa && lettersMi) force += 20;
-  if (number) force += 20;
-  if (especial) force += 20;
-
-  //console.log('força: '+force);
-  return force;
-}
-
-function swalErrorUnauthorized(obj) {
-
-  if (!obj) return '';
-
-  if (obj.data.status === 401 && obj.data.statusText === "Unauthorized") {
-
-    swal({
-      title: "Atenção!!!",
-      text: "Acesso não autorizado ou negado pelo servidor.",
-      type: "error",
-      showCancelButton: false,
-      cancelButtonClass: "btn-default",
-      confirmButtonClass: "btn-danger",
-      confirmButtonText: "Fazer login",
-      closeOnConfirm: false
-    }, function () {
-      sessionStorage.clear();
-      window.location.replace("/login");
-    });
-  }
-}
-
-function cleanDataApi(data) {
-
-  if (!data) return '';
-  data = data.toString();
-  return data.replace(["[", "]"], '');
-}
-
-/***/ }),
-
 /***/ 12:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -736,6 +538,41 @@ module.exports = function normalizeHeaderName(headers, normalizedName) {
 
 /***/ }),
 
+/***/ 176:
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__(177);
+
+
+/***/ }),
+
+/***/ 177:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__stores__ = __webpack_require__(33);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__helpers_validates__ = __webpack_require__(41);
+__webpack_require__(12);
+
+
+
+//import RoleIndex from './components/roles/RoleIndex'
+
+
+new Vue({
+  el: '#content',
+  store: __WEBPACK_IMPORTED_MODULE_0__stores__["a" /* default */],
+  components: {
+    //RoleIndex
+  },
+  beforeCreate: function beforeCreate() {
+    Object(__WEBPACK_IMPORTED_MODULE_1__helpers_validates__["c" /* userIsAuthorizedPage */])(this.$store.getters.getUserRoles, ["ADMIN"]);
+  }
+});
+
+/***/ }),
+
 /***/ 18:
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -795,85 +632,6 @@ module.exports = function enhanceError(error, config, code, request, response) {
   error.response = response;
   return error;
 };
-
-
-/***/ }),
-
-/***/ 197:
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = __webpack_require__(198);
-
-
-/***/ }),
-
-/***/ 198:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__stores__ = __webpack_require__(33);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_AccountIndex__ = __webpack_require__(199);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_AccountIndex___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__components_AccountIndex__);
-__webpack_require__(12);
-
-
-
-
-var app = new Vue({
-  el: '#content',
-  store: __WEBPACK_IMPORTED_MODULE_0__stores__["a" /* default */],
-  components: {
-    AccountIndex: __WEBPACK_IMPORTED_MODULE_1__components_AccountIndex___default.a
-  }
-});
-
-/***/ }),
-
-/***/ 199:
-/***/ (function(module, exports, __webpack_require__) {
-
-var disposed = false
-var normalizeComponent = __webpack_require__(1)
-/* script */
-var __vue_script__ = __webpack_require__(200)
-/* template */
-var __vue_template__ = __webpack_require__(201)
-/* template functional */
-var __vue_template_functional__ = false
-/* styles */
-var __vue_styles__ = null
-/* scopeId */
-var __vue_scopeId__ = null
-/* moduleIdentifier (server only) */
-var __vue_module_identifier__ = null
-var Component = normalizeComponent(
-  __vue_script__,
-  __vue_template__,
-  __vue_template_functional__,
-  __vue_styles__,
-  __vue_scopeId__,
-  __vue_module_identifier__
-)
-Component.options.__file = "resources/assets/js/pages/accounts/components/AccountIndex.vue"
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-25567f92", Component.options)
-  } else {
-    hotAPI.reload("data-v-25567f92", Component.options)
-  }
-  module.hot.dispose(function (data) {
-    disposed = true
-  })
-})()}
-
-module.exports = Component.exports
 
 
 /***/ }),
@@ -1054,420 +812,6 @@ module.exports = function buildURL(url, params, paramsSerializer) {
   return url;
 };
 
-
-/***/ }),
-
-/***/ 200:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_layouts_Alert__ = __webpack_require__(40);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_layouts_Alert___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__components_layouts_Alert__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__helpers_tools__ = __webpack_require__(10);
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-
-
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-  name: "AccountIndex",
-  components: {
-    Alert: __WEBPACK_IMPORTED_MODULE_0__components_layouts_Alert___default.a
-  },
-
-  props: [],
-  data: function data() {
-    return {
-      user: this.$store.getters.getUser,
-      status: false,
-      error: false,
-      password: "",
-      options: [{ text: "Ativo", value: true }, { text: "Desativado", value: false }],
-      passwordInvalid: false,
-      bntDisabled: false
-    };
-  },
-
-  methods: {
-    cleanData: function cleanData(data) {
-      return Object(__WEBPACK_IMPORTED_MODULE_1__helpers_tools__["a" /* cleanDataApi */])(data);
-    },
-    submitForm: function submitForm() {
-      var _this = this;
-
-      if (this.password !== "") {
-        if (Object(__WEBPACK_IMPORTED_MODULE_1__helpers_tools__["c" /* forcePassword */])(this.password) < 50) {
-          this.passwordInvalid = true;
-
-          setTimeout(function () {
-            _this.passwordInvalid = false;
-          }, 5000);
-
-          return;
-        }
-      }
-
-      this.status = "Enviando...";
-      this.bntDisabled = true;
-
-      var api = this.$urlApi + "/admin/users/" + this.$store.getters.getUserId;
-      Vue.axios.put(api, {
-        name: this.user.name,
-        password: this.password,
-        password_confirmation: this.password
-      }, {
-        headers: {
-          Authorization: "Bearer " + this.$store.getters.getToken,
-          "User-ID": this.$store.getters.getUserId
-        }
-      }).then(function (response) {
-
-        var stateUser = _this.$store.getters.getUser;
-        stateUser.name = _this.user.name;
-
-        sessionStorage.setItem("user", JSON.stringify(stateUser));
-
-        _this.bntDisabled = false;
-        _this.passwordInvalid = false;
-
-        _this.password = "";
-        _this.error = false;
-        _this.users = response.data;
-        _this.total = response.data.total;
-        _this.status = "Dados do usuário alterados com sucesso.";
-      }).catch(function (error) {
-
-        _this.bntDisabled = false;
-        _this.passwordInvalid = false;
-
-        _this.$eventHub.$emit("eventError", { data: error.response });
-        _this.status = false;
-        _this.error = JSON.parse(error.response.data.error);
-      });
-
-      setTimeout(function () {
-        _this.status = false;
-        _this.error = false;
-      }, 5000);
-    }
-  }
-});
-
-/***/ }),
-
-/***/ 201:
-/***/ (function(module, exports, __webpack_require__) {
-
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c(
-    "form",
-    {
-      on: {
-        submit: function($event) {
-          $event.preventDefault()
-          return _vm.submitForm($event)
-        }
-      }
-    },
-    [
-      _c("section", { staticClass: "card" }, [
-        _c("div", { staticClass: "card-block" }, [
-          _c("div", { staticClass: "row" }, [
-            _c("div", { staticClass: "col-lg-12" }, [
-              _vm.status && _vm.error === false
-                ? _c(
-                    "div",
-                    { staticClass: "row" },
-                    [
-                      _c(
-                        "Alert",
-                        {
-                          attrs: {
-                            className:
-                              "alert alert-success alert-fill alert-close alert-dismissible fade show"
-                          }
-                        },
-                        [
-                          _vm._v(
-                            "\n              " +
-                              _vm._s(_vm.status) +
-                              "\n            "
-                          )
-                        ]
-                      )
-                    ],
-                    1
-                  )
-                : _vm._e(),
-              _vm._v(" "),
-              _vm.passwordInvalid
-                ? _c(
-                    "div",
-                    { staticClass: "row" },
-                    [
-                      _c(
-                        "Alert",
-                        {
-                          attrs: {
-                            className:
-                              "alert alert-danger alert-fill alert-close alert-dismissible fade show"
-                          }
-                        },
-                        [
-                          _c("strong", [_vm._v("Atenção:")]),
-                          _vm._v(
-                            " Senha administrativa fraca, tente outra mais forte.\n            "
-                          )
-                        ]
-                      )
-                    ],
-                    1
-                  )
-                : _vm._e(),
-              _vm._v(" "),
-              _vm.error && _vm.status === false
-                ? _c(
-                    "div",
-                    { staticClass: "row" },
-                    [
-                      _c(
-                        "Alert",
-                        {
-                          attrs: {
-                            className:
-                              "alert alert-danger alert-fill alert-close alert-dismissible fade show"
-                          }
-                        },
-                        [
-                          _c(
-                            "dl",
-                            _vm._l(_vm.error, function(err) {
-                              return _c("dt", { key: err.id }, [
-                                _vm._v(
-                                  "\n                  " +
-                                    _vm._s(_vm.cleanData(err)) +
-                                    "\n                "
-                                )
-                              ])
-                            })
-                          )
-                        ]
-                      )
-                    ],
-                    1
-                  )
-                : _vm._e()
-            ])
-          ]),
-          _vm._v(" "),
-          _c("h5", { staticClass: "with-border m-t-lg" }, [
-            _vm._v("Detalhes Pessoais")
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "row" }, [
-            _c("div", { staticClass: "col-lg-6" }, [
-              _c("fieldset", { staticClass: "form-group" }, [
-                _c(
-                  "label",
-                  { staticClass: "form-label", attrs: { for: "exampleInput" } },
-                  [_vm._v("Nome")]
-                ),
-                _vm._v(" "),
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.user.name,
-                      expression: "user.name"
-                    }
-                  ],
-                  staticClass: "form-control maxlength-simple",
-                  attrs: { type: "text", placeholder: "Seu Nome" },
-                  domProps: { value: _vm.user.name },
-                  on: {
-                    input: function($event) {
-                      if ($event.target.composing) {
-                        return
-                      }
-                      _vm.$set(_vm.user, "name", $event.target.value)
-                    }
-                  }
-                })
-              ])
-            ])
-          ]),
-          _vm._v(" "),
-          _c("h5", { staticClass: "with-border m-t-lg" }, [
-            _vm._v("E-mail e Senha")
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "row" }, [
-            _c("div", { staticClass: "col-md-6 col-sm-6" }, [
-              _c("fieldset", { staticClass: "form-group" }, [
-                _c(
-                  "label",
-                  {
-                    staticClass: "form-label",
-                    attrs: { for: "exampleInputEmail1" }
-                  },
-                  [_vm._v("E-mail")]
-                ),
-                _vm._v(" "),
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.user.email,
-                      expression: "user.email"
-                    }
-                  ],
-                  staticClass: "form-control maxlength-custom-message",
-                  attrs: {
-                    type: "email",
-                    disabled: "",
-                    placeholder: "Seu Email"
-                  },
-                  domProps: { value: _vm.user.email },
-                  on: {
-                    input: function($event) {
-                      if ($event.target.composing) {
-                        return
-                      }
-                      _vm.$set(_vm.user, "email", $event.target.value)
-                    }
-                  }
-                })
-              ])
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "col-md-4 col-sm-6" }, [
-              _c("div", { staticClass: "form-group" }, [
-                _c(
-                  "label",
-                  {
-                    staticClass: "form-label",
-                    attrs: { for: "hide-show-password" }
-                  },
-                  [_vm._v("Senha")]
-                ),
-                _vm._v(" "),
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.password,
-                      expression: "password"
-                    }
-                  ],
-                  staticClass: "form-control",
-                  attrs: { type: "password", id: "hide-show-password" },
-                  domProps: { value: _vm.password },
-                  on: {
-                    input: function($event) {
-                      if ($event.target.composing) {
-                        return
-                      }
-                      _vm.password = $event.target.value
-                    }
-                  }
-                })
-              ])
-            ])
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "row" }, [
-            _c("div", { staticClass: "col-md-4 col-sm-6" }, [
-              _c(
-                "button",
-                {
-                  staticClass: "btn btn-inline",
-                  attrs: { type: "submit", disabled: _vm.bntDisabled }
-                },
-                [_vm._v("Salvar Alterações")]
-              )
-            ])
-          ])
-        ])
-      ])
-    ]
-  )
-}
-var staticRenderFns = []
-render._withStripped = true
-module.exports = { render: render, staticRenderFns: staticRenderFns }
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-25567f92", module.exports)
-  }
-}
 
 /***/ }),
 
@@ -3298,126 +2642,55 @@ module.exports = function xhrAdapter(config) {
 
 /***/ }),
 
-/***/ 40:
-/***/ (function(module, exports, __webpack_require__) {
-
-var disposed = false
-var normalizeComponent = __webpack_require__(1)
-/* script */
-var __vue_script__ = __webpack_require__(48)
-/* template */
-var __vue_template__ = __webpack_require__(49)
-/* template functional */
-var __vue_template_functional__ = false
-/* styles */
-var __vue_styles__ = null
-/* scopeId */
-var __vue_scopeId__ = null
-/* moduleIdentifier (server only) */
-var __vue_module_identifier__ = null
-var Component = normalizeComponent(
-  __vue_script__,
-  __vue_template__,
-  __vue_template_functional__,
-  __vue_styles__,
-  __vue_scopeId__,
-  __vue_module_identifier__
-)
-Component.options.__file = "resources/assets/js/components/layouts/Alert.vue"
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-1241eaaf", Component.options)
-  } else {
-    hotAPI.reload("data-v-1241eaaf", Component.options)
-  }
-  module.hot.dispose(function (data) {
-    disposed = true
-  })
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
-
-/***/ 48:
+/***/ 41:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
+/* harmony export (immutable) */ __webpack_exports__["c"] = userIsAuthorizedPage;
+/* harmony export (immutable) */ __webpack_exports__["b"] = userIsAuthorized;
+/* harmony export (immutable) */ __webpack_exports__["a"] = isRoleUser;
+function userIsAuthorizedPage(roles, keys) {
 
-/* harmony default export */ __webpack_exports__["default"] = ({
-  name: "Alert",
-  props: {
-    col: {
-      type: Number,
-      default: 12
-    },
-    className: {
-      type: String,
-      required: true
+  var count = 0;
+  roles.filter(function (role) {
+    if (keys.indexOf(role.name) > -1) {
+      count++;
     }
-  },
-  computed: {
-    defineCol: function defineCol() {
-      return "col-lg-" + this.col;
-    }
+  });
+
+  if (count === 0) {
+    return window.location.replace("/");
   }
-});
-
-/***/ }),
-
-/***/ 49:
-/***/ (function(module, exports, __webpack_require__) {
-
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c("div", { class: _vm.defineCol }, [
-    _c(
-      "div",
-      { class: _vm.className, attrs: { role: "alert" } },
-      [
-        _c("button", {
-          staticClass: "close",
-          attrs: {
-            type: "button",
-            "data-dismiss": "alert",
-            "aria-label": "Close"
-          }
-        }),
-        _vm._v(" "),
-        _vm._t("default")
-      ],
-      2
-    )
-  ])
 }
-var staticRenderFns = []
-render._withStripped = true
-module.exports = { render: render, staticRenderFns: staticRenderFns }
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-1241eaaf", module.exports)
+
+function userIsAuthorized(roles, keys) {
+
+  var count = 0;
+  roles.filter(function (role) {
+    if (keys.indexOf(role.name) > -1) {
+      count++;
+    }
+  });
+
+  if (count === 0) {
+    sessionStorage.clear();
+    return window.location.replace("/login");
   }
+}
+
+function isRoleUser(roles, keys) {
+
+  var count = 0;
+  roles.filter(function (role) {
+    if (keys.indexOf(role.name) > -1) {
+      count++;
+    }
+  });
+
+  if (count > 0) {
+    return true;
+  }
+  return false;
 }
 
 /***/ }),
@@ -3488,4 +2761,4 @@ module.exports = Cancel;
 
 /***/ })
 
-},[197]);
+},[176]);
