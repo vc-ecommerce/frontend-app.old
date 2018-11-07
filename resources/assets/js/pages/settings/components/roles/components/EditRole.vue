@@ -1,13 +1,14 @@
 <template>
   <span>
-
     <ModalLink
-      idModalLink="create-user"
-      titleLink="Criar"
-      classIcon="glyphicon glyphicon-plus" />
+      :idModalLink="$store.getters.getItem ? $store.getters.getItem._id : ''"
+      showTypeClassName="tabledit-edit-button btn btn-sm btn-default"
+      classIcon="glyphicon glyphicon-pencil"
+      :dataItem="dataItem" />
 
-    <Modal idModal="create-user"
-      titleModal="Criar novo usuário"
+    <Modal
+      :idModal="$store.getters.getItem ? $store.getters.getItem._id : ''"
+      titleModal="Editar dados de Usuário"
       sizeModal="lg">
 
       <div v-if="status && error === false" class="row">
@@ -32,27 +33,25 @@
         </Alert>
       </div>
 
-      <form id="add-user" @submit.prevent="submitForm">
+      <span :class="formId = generateId"></span>
+
+      <form :id="'edit-user-'+ formId" @submit.prevent="submitForm">
 
         <div class="row">
           <div class="col-lg-6">
             <fieldset class="form-group">
               <label class="form-label semibold" for="inputName">Nome</label>
-              <input type="text" required class="form-control" v-model="user.name" placeholder="Nome">
-            </fieldset>
-          </div>
-          <div class="col-lg-6">
-            <fieldset class="form-group">
-              <label class="form-label" for="inputEmail">Email</label>
-              <input type="email" required class="form-control" placeholder="E-mail" v-model="user.email">
+              <input v-if="$store.getters.getItem" type="text" required class="form-control" v-model="$store.getters.getItem.name" placeholder="Nome">
             </fieldset>
           </div>
         </div>
+
+        <!--.row-->
         <div class="row">
           <div class="col-lg-6">
             <fieldset class="form-group">
               <label class="form-label" for="inputPassword">Status</label>
-              <select required class="form-control" v-model="user.active">
+              <select class="form-control" required v-model="selectedOption">
                 <option disabled value="">Escolha um item</option>
                 <option v-for="option in options" :key="option.id" :value="option.value">{{ option.text }}</option>
               </select>
@@ -60,35 +59,39 @@
           </div>
           <div class="col-lg-6">
             <fieldset class="form-group">
-              <label class="form-label" for="hide-show-password">Senha</label>
-              <input type="password" id="hide-show-password" required class="form-control" minlength="6" v-model="user.password" placeholder="Senha">
+              <label class="form-label" for="inputPassword">Senha</label>
+              <input type="password" class="form-control" minlength="6" v-model="password" placeholder="Senha">
             </fieldset>
           </div>
         </div>
+
+        <!--.row-->
         <div class="row" style="margin:10px 0 10px 0">
           <label class="form-label semibold">Departamentos do usuário [Permissões]</label>
         </div>
 
         <div class="row">
-          <div class="checkbox-toggle" v-for="(role, index) in dataRoles" :key="role.id" style="margin-left:20px">
+          <div class="checkbox-toggle" v-for="(role, index) in dataRoles" :key="role.id" style="margin:20px">
             <span :class="index = index + generateId"></span>
-            <input type="checkbox" v-model="user.roles" :id="'check-toggle-'+ index" :value="role">
+            <input type="checkbox" v-model="roleRole" :id="'check-toggle-'+ index" :value="role">
             <label :for="'check-toggle-'+ index">{{role.description}}</label>
           </div>
         </div>
+
       </form>
 
       <span slot="btn">
-        <button form="add-user" type="submit" class="btn btn-rounded btn-primary">Salvar Dados</button>
+        <button :form="'edit-user-'+ formId" type="submit" class="btn btn-rounded btn-primary">Salvar Alterações</button>
       </span>
 
     </Modal>
+
   </span>
 </template>
 <script>
 import Table from "./../../../../../components/layouts/Table";
-import Modal from "./../../../../../components/modals/Modal";
 import ModalLink from "./../../../../../components/modals/ModalLink";
+import Modal from "./../../../../../components/modals/Modal";
 import Alert from "./../../../../../components/layouts/Alert";
 import {
   cleanRole,
@@ -97,25 +100,20 @@ import {
 } from "./../../../../../helpers/tools";
 
 export default {
-  name: "CreateUser",
+  name: "EditRole",
   components: {
     Table,
     Modal,
     ModalLink,
     Alert
   },
-  props: ["dataRoles"],
+  props: ["dataItem", "dataRoles"],
   data() {
     return {
+      formId: "",
       status: false,
       error: false,
-      user: {
-        name: "",
-        email: "",
-        password: "",
-        active: "",
-        roles: []
-      },
+      password: "",
       options: [
         { text: "Ativo", value: true },
         { text: "Desativado", value: false }
@@ -126,16 +124,43 @@ export default {
   computed: {
     generateId() {
       return Math.floor(Math.random() * 1000000 + 1);
+    },
+    roleRole: {
+      get() {
+        return cleanRole(
+          this.$store.getters.getItem ? this.$store.getters.getItem.roles : []
+        );
+      },
+      set(value) {
+        this.$store.commit("updateRoleRole", value);
+      }
+    },
+    selectedOption: {
+      get() {
+        return Boolean(
+          this.$store.getters.getItem
+            ? this.$store.getters.getItem.active
+            : false
+        );
+      },
+      set(value) {
+        this.$store.commit("updateActiveRole", Boolean(value));
+      }
     }
   },
   methods: {
     cleanData(data) {
       return cleanDataApi(data);
     },
-
     submitForm() {
-      if (this.user.password !== "") {
-        if (forcePassword(this.user.password) < 50) {
+      if (!this.$store.getters.getItem) {
+        return;
+      }
+
+      let data = this.$store.getters.getItem;
+
+      if (this.password !== "") {
+        if (forcePassword(this.password) < 50) {
           this.passwordInvalid = true;
 
           setTimeout(() => {
@@ -148,18 +173,18 @@ export default {
 
       this.status = "Enviando...";
 
-      const api = `${this.$urlApi}/admin/users`;
+      const api = `${this.$urlApi}/admin/users/${data._id}`;
       Vue.axios
-        .post(
+        .put(
           api,
           {
-            name: this.user.name,
-            email: this.user.email,
-            active: this.user.active,
-            password: this.user.password,
-            password_confirmation: this.user.password,
-            roles: this.user.roles,
-            admin: "create-user"
+            name: data.name,
+            email: data.email,
+            active: data.active,
+            admin: "edit-user",
+            password: this.password,
+            password_confirmation: this.password,
+            roles: data.roles
           },
           {
             headers: {
@@ -169,12 +194,11 @@ export default {
           }
         )
         .then(response => {
+          this.password = "";
           this.error = false;
           this.users = response.data;
           this.total = response.data.total;
-          this.status = "Dados cadastrados com sucesso.";
-
-          this.$emit("reload");
+          this.status = "Dados do usuário alterados com sucesso.";
         })
         .catch(error => {
           this.$eventHub.$emit("eventError", { data: error.response });

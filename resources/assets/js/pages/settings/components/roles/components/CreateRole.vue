@@ -2,23 +2,17 @@
   <span>
 
     <ModalLink
-      idModalLink="create-user"
+      idModalLink="create-role"
       titleLink="Criar"
       classIcon="glyphicon glyphicon-plus" />
 
-    <Modal idModal="create-user"
-      titleModal="Criar novo usuário"
+    <Modal idModal="create-role"
+      titleModal="Criar nova função"
       sizeModal="lg">
 
       <div v-if="status && error === false" class="row">
         <Alert className="alert alert-success alert-fill alert-close alert-dismissible fade show">
           {{ status }}
-        </Alert>
-      </div>
-
-      <div v-if="passwordInvalid" class="row">
-        <Alert className="alert alert-danger alert-fill alert-close alert-dismissible fade show">
-          <strong>Atenção:</strong> Senha administrativa fraca, tente outra mais forte.
         </Alert>
       </div>
 
@@ -32,54 +26,47 @@
         </Alert>
       </div>
 
-      <form id="add-user" @submit.prevent="submitForm">
+      <form id="add-role" @submit.prevent="submitForm">
 
         <div class="row">
           <div class="col-lg-6">
             <fieldset class="form-group">
-              <label class="form-label semibold" for="inputName">Nome</label>
-              <input type="text" required class="form-control" v-model="user.name" placeholder="Nome">
-            </fieldset>
-          </div>
-          <div class="col-lg-6">
-            <fieldset class="form-group">
-              <label class="form-label" for="inputEmail">Email</label>
-              <input type="email" required class="form-control" placeholder="E-mail" v-model="user.email">
+              <label class="form-label semibold" for="name">Nome</label>
+              <input type="text" required class="form-control" v-model="role.name" placeholder="Nome">
             </fieldset>
           </div>
         </div>
+
         <div class="row">
           <div class="col-lg-6">
             <fieldset class="form-group">
-              <label class="form-label" for="inputPassword">Status</label>
-              <select required class="form-control" v-model="user.active">
+              <label class="form-label" for="status">Status</label>
+              <select required class="form-control" v-model="role.active">
                 <option disabled value="">Escolha um item</option>
                 <option v-for="option in options" :key="option.id" :value="option.value">{{ option.text }}</option>
               </select>
             </fieldset>
           </div>
-          <div class="col-lg-6">
-            <fieldset class="form-group">
-              <label class="form-label" for="hide-show-password">Senha</label>
-              <input type="password" id="hide-show-password" required class="form-control" minlength="6" v-model="user.password" placeholder="Senha">
-            </fieldset>
-          </div>
         </div>
+
+        {{ dataPrivilegies }}
+
         <div class="row" style="margin:10px 0 10px 0">
-          <label class="form-label semibold">Departamentos do usuário [Permissões]</label>
+          <label class="form-label semibold">Privilégios</label>
         </div>
 
         <div class="row">
-          <div class="checkbox-toggle" v-for="(role, index) in dataRoles" :key="role.id" style="margin-left:20px">
+          <div class="checkbox-toggle" v-for="(privilege, index) in dataPrivilegies" :key="index" style="margin-left:20px">
             <span :class="index = index + generateId"></span>
-            <input type="checkbox" v-model="user.roles" :id="'check-toggle-'+ index" :value="role">
-            <label :for="'check-toggle-'+ index">{{role.description}}</label>
+            <input type="checkbox" v-model="role.privilege" :id="'check-toggle-'+ index" :value="privilege">
+            <label :for="'check-toggle-'+ index">{{ privilege.description }}</label>
           </div>
         </div>
+
       </form>
 
       <span slot="btn">
-        <button form="add-user" type="submit" class="btn btn-rounded btn-primary">Salvar Dados</button>
+        <button form="add-role" type="submit" class="btn btn-rounded btn-primary">Salvar Dados</button>
       </span>
 
     </Modal>
@@ -97,30 +84,26 @@ import {
 } from "./../../../../../helpers/tools";
 
 export default {
-  name: "CreateUser",
+  name: "CreateRole",
   components: {
     Table,
     Modal,
     ModalLink,
     Alert
   },
-  props: ["dataRoles"],
+  props: ["dataPrivilegies"],
   data() {
     return {
       status: false,
       error: false,
-      user: {
+      role: {
         name: "",
-        email: "",
-        password: "",
-        active: "",
-        roles: []
+        active: ""
       },
       options: [
         { text: "Ativo", value: true },
         { text: "Desativado", value: false }
-      ],
-      passwordInvalid: false
+      ]
     };
   },
   computed: {
@@ -132,34 +115,19 @@ export default {
     cleanData(data) {
       return cleanDataApi(data);
     },
-
     submitForm() {
-      if (this.user.password !== "") {
-        if (forcePassword(this.user.password) < 50) {
-          this.passwordInvalid = true;
-
-          setTimeout(() => {
-            this.passwordInvalid = false;
-          }, 5000);
-
-          return;
-        }
-      }
 
       this.status = "Enviando...";
 
-      const api = `${this.$urlApi}/admin/users`;
+      const api = `${this.$urlApi}/admin/roles`;
       Vue.axios
         .post(
           api,
           {
-            name: this.user.name,
-            email: this.user.email,
-            active: this.user.active,
-            password: this.user.password,
-            password_confirmation: this.user.password,
-            roles: this.user.roles,
-            admin: "create-user"
+            name: this.role.name,
+            active: this.role.active,
+            privileges: this.role.privileges,
+            admin: "create-role"
           },
           {
             headers: {
@@ -169,14 +137,16 @@ export default {
           }
         )
         .then(response => {
+
           this.error = false;
-          this.users = response.data;
+          this.roles = response.data;
           this.total = response.data.total;
           this.status = "Dados cadastrados com sucesso.";
-
           this.$emit("reload");
+
         })
         .catch(error => {
+
           this.$eventHub.$emit("eventError", { data: error.response });
           this.status = false;
           this.error = JSON.parse(error.response.data.error);
@@ -184,6 +154,7 @@ export default {
           setTimeout(() => {
             this.error = false;
           }, 5000);
+
         });
     }
   }

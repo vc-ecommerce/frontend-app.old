@@ -3193,7 +3193,7 @@ module.exports = function listToStyles (parentId, list) {
 function userIsAuthorizedPage(roles, keys) {
 
   var count = 0;
-  roles.filter(function (role) {
+  roles.forEach(function (role) {
     if (keys.indexOf(role.name) > -1) {
       count++;
     }
@@ -3207,7 +3207,7 @@ function userIsAuthorizedPage(roles, keys) {
 function userIsAuthorized(roles, keys) {
 
   var count = 0;
-  roles.filter(function (role) {
+  roles.forEach(function (role) {
     if (keys.indexOf(role.name) > -1) {
       count++;
     }
@@ -3222,7 +3222,7 @@ function userIsAuthorized(roles, keys) {
 function isRoleUser(roles, keys) {
 
   var count = 0;
-  roles.filter(function (role) {
+  roles.forEach(function (role) {
     if (keys.indexOf(role.name) > -1) {
       count++;
     }

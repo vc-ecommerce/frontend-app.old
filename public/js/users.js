@@ -3285,7 +3285,7 @@ module.exports = Component.exports
 function userIsAuthorizedPage(roles, keys) {
 
   var count = 0;
-  roles.filter(function (role) {
+  roles.forEach(function (role) {
     if (keys.indexOf(role.name) > -1) {
       count++;
     }
@@ -3299,7 +3299,7 @@ function userIsAuthorizedPage(roles, keys) {
 function userIsAuthorized(roles, keys) {
 
   var count = 0;
-  roles.filter(function (role) {
+  roles.forEach(function (role) {
     if (keys.indexOf(role.name) > -1) {
       count++;
     }
@@ -3314,7 +3314,7 @@ function userIsAuthorized(roles, keys) {
 function isRoleUser(roles, keys) {
 
   var count = 0;
-  roles.filter(function (role) {
+  roles.forEach(function (role) {
     if (keys.indexOf(role.name) > -1) {
       count++;
     }
@@ -4233,7 +4233,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     ModalLink: __WEBPACK_IMPORTED_MODULE_2__components_modals_ModalLink___default.a,
     Alert: __WEBPACK_IMPORTED_MODULE_3__components_layouts_Alert___default.a
   },
-  props: ["dataItem", "dataRoles"],
+  props: ["dataRoles"],
   data: function data() {
     return {
       status: false,
@@ -5948,7 +5948,11 @@ var render = function() {
                         _vm._l(user.roles, function(role, index) {
                           return _c(
                             "span",
-                            { key: index, staticClass: "label label-info" },
+                            {
+                              key: index,
+                              staticClass: "label label-info",
+                              staticStyle: { margin: "2px" }
+                            },
                             [_vm._v(_vm._s(role.description))]
                           )
                         })

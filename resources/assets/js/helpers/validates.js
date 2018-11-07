@@ -1,7 +1,7 @@
 export function userIsAuthorizedPage(roles, keys) {
 
   let count = 0;
-  roles.filter(function (role) {
+  roles.forEach(function (role) {
     if (keys.indexOf(role.name) > -1) {
       count++;
     }
@@ -15,7 +15,7 @@ export function userIsAuthorizedPage(roles, keys) {
 export function userIsAuthorized(roles, keys) {
 
   let count = 0;
-  roles.filter(function (role) {
+  roles.forEach(function (role) {
     if (keys.indexOf(role.name) > -1) {
       count++;
     }
@@ -31,7 +31,7 @@ export function userIsAuthorized(roles, keys) {
 export function isRoleUser(roles, keys) {
 
   let count = 0;
-  roles.filter(function (role) {
+  roles.forEach(function (role) {
     if (keys.indexOf(role.name) > -1) {
       count++;
     }
