@@ -18,10 +18,8 @@ class TokenController extends Controller
   {
 
     if ($request->token === csrf_token()) {
-
       $request->session()->put('token', $request->token);
-      $request->session()->put('data', $request->data);
-      return $request->all();
+      return response()->json(['success'], 201);
     }
 
     return response()->json([], 500);

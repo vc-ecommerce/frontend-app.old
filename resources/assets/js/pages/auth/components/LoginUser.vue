@@ -8,7 +8,7 @@
     <header v-if="status && status == 'account_inactive'" class="sign-title red showError">Você ainda não confirmou seu email.</header>
     <header v-else-if="status && status == 'invalid_credentials'" class="sign-title red showError">Email e ou senha inválidos</header>
     <header v-else-if="loading" class="sign-title gray">Aguarde!!!</header>
-    <header v-else-if="ok" class="sign-title green">Redirecinando...</header>
+    <header v-else-if="ok" class="sign-title green">Redirecionando...</header>
     <header v-else class="sign-title">Login</header>
 
     <div class="form-group">
@@ -29,7 +29,7 @@
       </div>
     </div>
 
-    <button type="submit" class="btn btn-rounded">Efetuar Login</button>
+    <button type="submit" class="btn btn-rounded" :disabled="btnDisabled">Efetuar Login</button>
 
   </form>
 </template>
@@ -45,10 +45,15 @@ export default {
       token: "",
       status: false,
       loading: false,
-      ok: false
+      ok: false,
+      btnDisabled: false
     };
   },
   methods: {
+    getCsrfToken() {
+      let token = document.head.querySelector('meta[name="csrf-token"]');
+      return token.content;
+    },
     showError(code) {
       if (code === 401) {
         this.status = true;
@@ -67,11 +72,11 @@ export default {
         .post(
           "/token",
           {
-            token: token.content
+            token: this.getCsrfToken()
           },
           {
             headers: {
-              "X-CSRF-TOKEN": token.content
+              "X-CSRF-TOKEN": this.getCsrfToken()
             }
           }
         )
@@ -84,6 +89,7 @@ export default {
         });
     },
     submitForm() {
+      this.btnDisabled = true;
       this.loading = true;
       const api = `${this.$urlApi}/auth/login`;
       Vue.axios
@@ -92,20 +98,27 @@ export default {
           password: this.password
         })
         .then(response => {
+
           this.ok = true;
           this.status = false;
+
+          sessionStorage.setItem("csrfToken", this.getCsrfToken());
+
           sessionStorage.setItem(
             "token",
             JSON.stringify(response.data.HTTP_Authorization)
           );
+
           sessionStorage.setItem(
             "user",
             JSON.stringify(response.data.HTTP_Data)
           );
+
           this.$store.commit("setUser", response.data);
           this.activeSession(response.data.HTTP_Data);
         })
         .catch(error => {
+          this.btnDisabled = false;
           this.loading = false;
           this.status = error.response.data.error;
         });

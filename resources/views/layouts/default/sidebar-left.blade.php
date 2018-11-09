@@ -106,10 +106,13 @@
         <span class="lbl">Configurações</span>
         </span>
         <ul>
-          <li><a href="#"><span class="lbl">Gerenciar Lojas</span></a></li>
+          <li>
+            <a href="#">
+              <span class="lbl">Gerenciar Lojas</span>
+            </a>
+          </li>
 
-
-          <li class="purple with-sub">
+          <li v-if="isRoleAdmin" class="purple with-sub">
             <span>
             <span class="lbl">Gerenciar usuários</span>
             </span>
@@ -118,6 +121,18 @@
               <li><a href="#"><span class="lbl">Grupos de usuários</span></a></li>
               <li><a href="#"><span class="lbl">API</span></a></li>
             </ul>
+          </li>
+
+          <li v-if="isRoleAdmin" class="purple with-sub">
+            <span>
+            <span class="lbl">Gerenciar Permissões</span>
+            </span>
+            <ul>
+              <li><a href="{{ route('settings.roles.index') }}"><span class="lbl">Funções [Roles]</span></a></li>
+            </ul>
+            <ul>
+                <li><a href="{{ route('settings.privileges.index') }}"><span class="lbl">Privilégios [Privileges]</span></a></li>
+              </ul>
           </li>
 
           <li class="purple with-sub">

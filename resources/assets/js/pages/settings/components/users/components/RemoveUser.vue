@@ -1,5 +1,5 @@
 <template>
-  <button type="button" @click.prevent="remove(dataItem)" class="tabledit-delete-button btn btn-sm btn-danger" style="float: none; margin-left:2px">
+  <button v-if="isUserLogged" type="button" @click.prevent="remove(dataItem)" class="tabledit-delete-button btn btn-sm btn-danger" style="float: none; margin-left:2px">
     <span class="glyphicon glyphicon-trash"></span>
   </button>
 </template>
@@ -10,25 +10,29 @@ export default {
   props: ["dataUsers", "dataItem"],
   data() {
     return {
-      total: 0
+      total: 0,
+      active: true
     };
+  },
+  computed: {
+    isUserLogged() {
+      if (this.dataItem._id === this.$store.getters.getUserId) {
+        return false;
+      }
+      return true
+    }
   },
   methods: {
     send(user) {
       const api = `${this.$urlApi}/admin/users/${user._id}`;
 
       return Vue.axios
-        .delete(
-          api,
-          {
-            user_id: this.$store.getters.getUserId
-          },
-          {
-            headers: {
-              authorization: "Bearer " + this.$store.getters.getToken
-            }
+        .delete(api, {
+          headers: {
+            Authorization: "Bearer " + this.$store.getters.getToken,
+            "User-ID": this.$store.getters.getUserId
           }
-        )
+        })
         .then(response => {
           if (Boolean(response.data) === true) {
             return true;

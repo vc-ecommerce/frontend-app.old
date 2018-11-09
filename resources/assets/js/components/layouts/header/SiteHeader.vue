@@ -17,7 +17,7 @@
 
             <Notification />
 
-            <MenuTopUser />
+            <MenuTopUser :urlLogout="urllogout" :urlAccounts="urlaccounts"/>
 
             <button type="button" class="burger-right">
               <i class="font-icon-menu-addl"></i>
@@ -51,6 +51,7 @@ import FormSearch from "./FormSearch";
 
 export default {
   name: 'SiteHeader',
+  props: ['urllogout', 'urlaccounts'],
   data() {
     return {
 

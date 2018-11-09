@@ -5,7 +5,10 @@
 @endsection
 
 @section('content')
-    <forgot-password token="{{ $token }}" urllogin="{{ route('auth.login') }}"></forgot-password>
+    <forgot-password
+    token="{{ $token }}"
+    urllogin="{{ route('auth.login') }}"
+    urlreset="{{ route('auth.reset') }}" />
 @endsection
 
 @section('scripts')

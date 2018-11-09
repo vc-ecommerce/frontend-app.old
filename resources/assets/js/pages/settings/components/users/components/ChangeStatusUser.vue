@@ -1,16 +1,24 @@
 <template>
-  <button type="button" @click.prevent="update(dataItem)" class="tabledit-delete-button btn btn-sm" style="float: none; margin-right:2px">
+  <button v-if="isUserLogged" type="button" @click.prevent="update(dataItem)" class="tabledit-delete-button btn btn-sm" style="float: none; margin-right:2px">
     <span v-if="dataItem.active" class="glyphicon glyphicon-eye-open"></span>
     <span v-else class="glyphicon glyphicon-eye-close"></span>
   </button>
 </template>
 <script>
 export default {
-  name: "RemoveUser",
+  name: "ChangeStatusUser",
   components: {},
   props: ["dataItem"],
   data() {
     return {};
+  },
+  computed: {
+    isUserLogged() {
+      if (this.dataItem._id === this.$store.getters.getUserId) {
+        return false;
+      }
+      return true
+    }
   },
   methods: {
     send(user) {
@@ -24,12 +32,12 @@ export default {
           api,
           {
             active: status,
-            local: "user-edit-status",
-            user_id: this.$store.getters.getUserId
+            admin: "edit-status"
           },
           {
             headers: {
-              authorization: "Bearer " + this.$store.getters.getToken
+              Authorization: "Bearer " + this.$store.getters.getToken,
+              "User-ID": this.$store.getters.getUserId
             }
           }
         )

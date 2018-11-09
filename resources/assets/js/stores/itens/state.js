@@ -15,9 +15,13 @@ const mutations = {
   updateRoleUser(state, roles) {
     state.item.roles = roles
   },
+  updatePrivilegeRole(state, privileges) {
+    state.item.privileges = privileges
+  },
   updateActiveUser(state, active) {
     state.item.active = active
-  }
+  },
+
 }
 
 export default {
