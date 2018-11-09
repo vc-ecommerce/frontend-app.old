@@ -8,6 +8,6 @@ $this->resource('roles', 'Settings\Roles\RoleController')->only([
     'index'
 ]);
 
-$this->resource('permissions', 'Settings\Permissions\PermissionController')->only([
+$this->resource('privileges', 'Settings\Privileges\PrivilegeController')->only([
     'index'
 ]);

@@ -1,25 +1,20 @@
 <template>
   <span>
-    <ModalLink
+
+   <ModalLink
       :idModalLink="$store.getters.getItem ? $store.getters.getItem._id : ''"
       showTypeClassName="tabledit-edit-button btn btn-sm btn-default"
       classIcon="glyphicon glyphicon-pencil"
       :dataItem="dataItem" />
 
-    <Modal
-      :idModal="$store.getters.getItem ? $store.getters.getItem._id : ''"
-      titleModal="Editar dados de Usuário"
+
+    <Modal :idModal="$store.getters.getItem ? $store.getters.getItem._id : ''"
+      titleModal="Editar função"
       sizeModal="lg">
 
       <div v-if="status && error === false" class="row">
         <Alert className="alert alert-success alert-fill alert-close alert-dismissible fade show">
           {{ status }}
-        </Alert>
-      </div>
-
-      <div v-if="passwordInvalid" class="row">
-        <Alert className="alert alert-danger alert-fill alert-close alert-dismissible fade show">
-          <strong>Atenção:</strong> Senha administrativa fraca, tente outra mais forte.
         </Alert>
       </div>
 
@@ -33,71 +28,50 @@
         </Alert>
       </div>
 
-      <span :class="formId = generateId"></span>
-
-      <form :id="'edit-user-'+ formId" @submit.prevent="submitForm">
+      <form id="edit-role" @submit.prevent="submitForm">
 
         <div class="row">
           <div class="col-lg-6">
             <fieldset class="form-group">
-              <label class="form-label semibold" for="inputName">Nome</label>
-              <input v-if="$store.getters.getItem" type="text" required class="form-control" v-model="$store.getters.getItem.name" placeholder="Nome">
+              <label class="form-label semibold" for="role">Role Description</label>
+              <input v-if="$store.getters.getItem" type="text" required class="form-control" v-model="$store.getters.getItem.description" placeholder="Description">
+            </fieldset>
+          </div>
+           <div class="col-lg-6">
+            <fieldset class="form-group">
+              <label class="form-label semibold" for="name">Name</label>
+              <input v-if="$store.getters.getItem" type="text" required class="form-control" v-model="$store.getters.getItem.name" placeholder="Example: STAFF_COMMERCIAL">
             </fieldset>
           </div>
         </div>
 
-        <!--.row-->
-        <div class="row">
-          <div class="col-lg-6">
-            <fieldset class="form-group">
-              <label class="form-label" for="inputPassword">Status</label>
-              <select class="form-control" required v-model="selectedOption">
-                <option disabled value="">Escolha um item</option>
-                <option v-for="option in options" :key="option.id" :value="option.value">{{ option.text }}</option>
-              </select>
-            </fieldset>
-          </div>
-          <div class="col-lg-6">
-            <fieldset class="form-group">
-              <label class="form-label" for="inputPassword">Senha</label>
-              <input type="password" class="form-control" minlength="6" v-model="password" placeholder="Senha">
-            </fieldset>
-          </div>
-        </div>
-
-        <!--.row-->
         <div class="row" style="margin:10px 0 10px 0">
-          <label class="form-label semibold">Departamentos do usuário [Permissões]</label>
+          <label class="form-label semibold">Privilégios</label>
         </div>
 
         <div class="row">
-          <div class="checkbox-toggle" v-for="(role, index) in dataRoles" :key="role.id" style="margin:20px">
+          <div class="checkbox-toggle" v-for="(privilege, index) in dataPrivilegies" :key="index" style="margin-left:20px">
             <span :class="index = index + generateId"></span>
-            <input type="checkbox" v-model="roleRole" :id="'check-toggle-'+ index" :value="role">
-            <label :for="'check-toggle-'+ index">{{role.description}}</label>
+            <input type="checkbox" v-model="privilegeRole" :id="'check-toggle-'+ index" :value="privilege">
+            <label :for="'check-toggle-'+ index">{{ privilege.description }}</label>
           </div>
         </div>
 
       </form>
 
       <span slot="btn">
-        <button :form="'edit-user-'+ formId" type="submit" class="btn btn-rounded btn-primary">Salvar Alterações</button>
+        <button form="edit-role" type="submit" class="btn btn-rounded btn-primary">Salvar Alterações</button>
       </span>
 
     </Modal>
-
   </span>
 </template>
 <script>
 import Table from "./../../../../../components/layouts/Table";
-import ModalLink from "./../../../../../components/modals/ModalLink";
 import Modal from "./../../../../../components/modals/Modal";
+import ModalLink from "./../../../../../components/modals/ModalLink";
 import Alert from "./../../../../../components/layouts/Alert";
-import {
-  cleanRole,
-  forcePassword,
-  cleanDataApi
-} from "./../../../../../helpers/tools";
+import { cleanDataApi } from "./../../../../../helpers/tools";
 
 export default {
   name: "EditRole",
@@ -107,84 +81,62 @@ export default {
     ModalLink,
     Alert
   },
-  props: ["dataItem", "dataRoles"],
+  props: ["dataPrivilegies", "dataItem"],
   data() {
     return {
-      formId: "",
       status: false,
       error: false,
-      password: "",
+      role: {
+        name: "",
+        description: "",
+        privileges: []
+      },
       options: [
         { text: "Ativo", value: true },
         { text: "Desativado", value: false }
-      ],
-      passwordInvalid: false
+      ]
     };
   },
   computed: {
     generateId() {
       return Math.floor(Math.random() * 1000000 + 1);
     },
-    roleRole: {
+
+    privilegeRole: {
       get() {
-        return cleanRole(
-          this.$store.getters.getItem ? this.$store.getters.getItem.roles : []
-        );
+        return this.$store.getters.getItem ? this.$store.getters.getItem.privileges : []
       },
       set(value) {
-        this.$store.commit("updateRoleRole", value);
+        this.$store.commit("updatePrivilegeRole", value);
       }
     },
-    selectedOption: {
-      get() {
-        return Boolean(
-          this.$store.getters.getItem
-            ? this.$store.getters.getItem.active
-            : false
-        );
-      },
-      set(value) {
-        this.$store.commit("updateActiveRole", Boolean(value));
-      }
-    }
   },
   methods: {
     cleanData(data) {
       return cleanDataApi(data);
     },
     submitForm() {
+
       if (!this.$store.getters.getItem) {
         return;
       }
 
       let data = this.$store.getters.getItem;
 
-      if (this.password !== "") {
-        if (forcePassword(this.password) < 50) {
-          this.passwordInvalid = true;
-
-          setTimeout(() => {
-            this.passwordInvalid = false;
-          }, 5000);
-
-          return;
-        }
-      }
+      console.log(data)
 
       this.status = "Enviando...";
 
-      const api = `${this.$urlApi}/admin/users/${data._id}`;
+      const api = `${this.$urlApi}/admin/roles/${data._id}`;
       Vue.axios
         .put(
           api,
           {
-            name: data.name,
-            email: data.email,
-            active: data.active,
-            admin: "edit-user",
-            password: this.password,
-            password_confirmation: this.password,
-            roles: data.roles
+            name: data.name.toUpperCase(),
+            description: data.description,
+            privileges: data.privileges,
+            default: false,
+            admin: "edit-role"
           },
           {
             headers: {
@@ -194,11 +146,11 @@ export default {
           }
         )
         .then(response => {
-          this.password = "";
           this.error = false;
-          this.users = response.data;
+          this.roles = response.data;
           this.total = response.data.total;
-          this.status = "Dados do usuário alterados com sucesso.";
+          this.status = "Dados alterados com sucesso.";
+          this.$emit("reload");
         })
         .catch(error => {
           this.$eventHub.$emit("eventError", { data: error.response });

@@ -1,11 +1,11 @@
 <?php
 
-namespace VoceCrianca\Http\Controllers\Settings\Permissions;
+namespace VoceCrianca\Http\Controllers\Settings\Privileges;
 
 use Illuminate\Http\Request;
 use VoceCrianca\Http\Controllers\Controller;
 
-class PermissionController extends Controller
+class PrivilegeController extends Controller
 {
 
     /**
@@ -15,7 +15,7 @@ class PermissionController extends Controller
      */
     public function index()
     {
-        return view('pages.settings.permissions.index');
+        return view('pages.settings.privileges.index');
     }
 
 }

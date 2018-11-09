@@ -4,7 +4,7 @@
     <ModalLink
       idModalLink="create-role"
       titleLink="Criar"
-      classIcon="glyphicon glyphicon-plus" />
+      classIcon="glyphicon glyphicon-plus" :dataItem="dataPrivilegies" />
 
     <Modal idModal="create-role"
       titleModal="Criar nova função"
@@ -31,25 +31,17 @@
         <div class="row">
           <div class="col-lg-6">
             <fieldset class="form-group">
-              <label class="form-label semibold" for="name">Nome</label>
-              <input type="text" required class="form-control" v-model="role.name" placeholder="Nome">
+              <label class="form-label semibold" for="role">Role Description</label>
+              <input type="text" required class="form-control" v-model="role.description" placeholder="Description">
             </fieldset>
           </div>
-        </div>
-
-        <div class="row">
-          <div class="col-lg-6">
+           <div class="col-lg-6">
             <fieldset class="form-group">
-              <label class="form-label" for="status">Status</label>
-              <select required class="form-control" v-model="role.active">
-                <option disabled value="">Escolha um item</option>
-                <option v-for="option in options" :key="option.id" :value="option.value">{{ option.text }}</option>
-              </select>
+              <label class="form-label semibold" for="name">Name</label>
+              <input type="text" required class="form-control" v-model="role.name" placeholder="Example: STAFF_COMMERCIAL">
             </fieldset>
           </div>
         </div>
-
-        {{ dataPrivilegies }}
 
         <div class="row" style="margin:10px 0 10px 0">
           <label class="form-label semibold">Privilégios</label>
@@ -58,7 +50,7 @@
         <div class="row">
           <div class="checkbox-toggle" v-for="(privilege, index) in dataPrivilegies" :key="index" style="margin-left:20px">
             <span :class="index = index + generateId"></span>
-            <input type="checkbox" v-model="role.privilege" :id="'check-toggle-'+ index" :value="privilege">
+            <input type="checkbox" v-model="role.privileges" :id="'check-toggle-'+ index" :value="privilege">
             <label :for="'check-toggle-'+ index">{{ privilege.description }}</label>
           </div>
         </div>
@@ -77,11 +69,7 @@ import Table from "./../../../../../components/layouts/Table";
 import Modal from "./../../../../../components/modals/Modal";
 import ModalLink from "./../../../../../components/modals/ModalLink";
 import Alert from "./../../../../../components/layouts/Alert";
-import {
-  cleanRole,
-  forcePassword,
-  cleanDataApi
-} from "./../../../../../helpers/tools";
+import { cleanDataApi } from "./../../../../../helpers/tools";
 
 export default {
   name: "CreateRole",
@@ -98,7 +86,8 @@ export default {
       error: false,
       role: {
         name: "",
-        active: ""
+        description: "",
+        privileges: []
       },
       options: [
         { text: "Ativo", value: true },
@@ -124,9 +113,10 @@ export default {
         .post(
           api,
           {
-            name: this.role.name,
-            active: this.role.active,
+            name: this.role.name.toUpperCase(),
+            description: this.role.description,
             privileges: this.role.privileges,
+            default: false,
             admin: "create-role"
           },
           {

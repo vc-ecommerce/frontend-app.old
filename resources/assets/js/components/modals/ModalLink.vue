@@ -39,7 +39,6 @@ export default {
       required: false
     },
     dataItem: {
-      type: Object,
       require: false
     }
   },

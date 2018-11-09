@@ -131,7 +131,7 @@
               <li><a href="{{ route('settings.roles.index') }}"><span class="lbl">Funções [Roles]</span></a></li>
             </ul>
             <ul>
-                <li><a href="#"><span class="lbl">Permissões [Privileges]</span></a></li>
+                <li><a href="{{ route('settings.privileges.index') }}"><span class="lbl">Privilégios [Privileges]</span></a></li>
               </ul>
           </li>
 

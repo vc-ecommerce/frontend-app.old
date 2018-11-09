@@ -42,7 +42,7 @@ export default {
       swal(
         {
           title: "Deseja realmente excluir?",
-          text: `${role.name}`,
+          text: `${role.description}`,
           type: "warning",
           showCancelButton: true,
           confirmButtonClass: "btn-danger",

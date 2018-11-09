@@ -4,15 +4,15 @@
 
     @component('layouts.default.breadcrumb')
         @slot('title')
-            Permissões [Permissions]
+            Privilégios
         @endslot
         @slot('url')
             <li><a href="#">Configurações</a></li>
-            <li class="active">Permissões [Permissions]</li>
+            <li class="active">Privilégios</li>
         @endslot
     @endcomponent
 
-    <role-index>Carregando...</role-index>
+    <privilege-index>Carregando...</privilege-index>
 
 @endsection
 
@@ -23,5 +23,5 @@
 
 @section('scripts')
 <script src="{{ asset('js/lib/bootstrap-sweetalert/sweetalert.min.js') }}"></script>
-<script src="{{ asset('js/roles.js') }}"></script>
+<script src="{{ asset('js/privileges.js') }}"></script>
 @endsection

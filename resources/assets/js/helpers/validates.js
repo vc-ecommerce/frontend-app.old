@@ -1,11 +1,13 @@
 export function userIsAuthorizedPage(roles, keys) {
 
   let count = 0;
-  roles.forEach(function (role) {
-    if (keys.indexOf(role.name) > -1) {
-      count++;
-    }
-  });
+  if(roles) {
+    roles.forEach(function (role) {
+      if (keys.indexOf(role.name) > -1) {
+        count++;
+      }
+    });
+  }
 
   if (count === 0) {
     return window.location.replace("/");
@@ -15,11 +17,13 @@ export function userIsAuthorizedPage(roles, keys) {
 export function userIsAuthorized(roles, keys) {
 
   let count = 0;
-  roles.forEach(function (role) {
-    if (keys.indexOf(role.name) > -1) {
-      count++;
-    }
-  });
+  if(roles) {
+    roles.forEach(function (role) {
+      if (keys.indexOf(role.name) > -1) {
+        count++;
+      }
+    });
+  }
 
   if (count === 0) {
     sessionStorage.clear();
@@ -31,11 +35,13 @@ export function userIsAuthorized(roles, keys) {
 export function isRoleUser(roles, keys) {
 
   let count = 0;
-  roles.forEach(function (role) {
-    if (keys.indexOf(role.name) > -1) {
-      count++;
-    }
-  });
+  if(roles) {
+    roles.forEach(function (role) {
+      if (keys.indexOf(role.name) > -1) {
+        count++;
+      }
+    });
+  }
 
   if (count > 0) {
     return true

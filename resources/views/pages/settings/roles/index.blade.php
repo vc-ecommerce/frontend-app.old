@@ -4,11 +4,11 @@
 
     @component('layouts.default.breadcrumb')
         @slot('title')
-            Funções [Roles]
+            Funções
         @endslot
         @slot('url')
             <li><a href="#">Configurações</a></li>
-            <li class="active">Funções [Roles]</li>
+            <li class="active">Funções</li>
         @endslot
     @endcomponent
 

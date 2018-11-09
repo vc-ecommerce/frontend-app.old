@@ -8,8 +8,7 @@
             <h3 v-else>{{ total }} Funções</h3>
           </div>
           <div class="tbl-cell tbl-cell-action-bordered">
-
-            <!--<CreateRole :dataPrivilegies="privileges" @reload="getRoles()" /> -->
+            <CreateRole @reload="getRoles()" :dataPrivilegies="privileges" />
           </div>
         </div>
       </header>
@@ -18,10 +17,10 @@
           <Table elementId="table-edit" className="table table-hover">
             <template slot="thead">
               <tr>
-                <th>Funções</th>
+                <th width="200" >Funções</th>
                 <th>Name</th>
                 <th>Privilégios</th>
-                <!-- <th class="tabledit-toolbar-column">Editar</th> -->
+                <th width="300" class="tabledit-toolbar-column">Editar</th>
               </tr>
             </template>
             <template slot="tbody">
@@ -36,50 +35,44 @@
                   <span class="label label-info">{{ role.name }}</span>
                 </td>
                 <td>
-                  <span v-for="(privilege) in role.privileges" :key="privilege._id" class="label label-success" style="margin:2px">{{ privilege.description }} [ {{ privilege.name }} ]</span>
+                  <span v-for="(privilege) in role.privileges" :key="privilege._id" class="label label-success" style="margin:2px">{{ privilege.description }}</span>
                 </td>
-                <!--
+
                 <td style="white-space: nowrap; width: 1%;">
                   <div class="tabledit-toolbar btn-toolbar" style="text-align: left;">
                     <div class="btn-group btn-group-sm" style="float: none;">
-                      <ChangeStatusRole :dataItem="role"/>
-                      <EditRole :dataItem="role" :dataRoles="roles"/>
-                      <RemoveRole :dataUsers="roles" :dataItem="role"/>
+
+                      <EditRole v-if="!role.default" :dataPrivilegies="privileges" :dataRoles="roles" :dataItem="role" />
+
+                      <RemoveRole v-if="!role.default" :dataRoles="roles" :dataItem="role"/>
+
                     </div>
+
                   </div>
                 </td>
-                -->
+
               </tr>
             </template>
           </Table>
         </div>
       </div>
     </section>
-    <section>
-      <Pagination :pagination="roles"
-        @paginate="getRoles()"
-        :offset="4" />
-    </section>
+
   </div>
 </template>
 <script>
 import CreateRole from "./components/CreateRole";
-// import EditRole from "./components/EditRole";
-// import ChangeStatusRole from "./components/ChangeStatusRole";
-//import RemoveRole from "./components/RemoveRole";
+import EditRole from "./components/EditRole";
+import RemoveRole from "./components/RemoveRole";
 import Table from "./../../../../components/layouts/Table";
-import Pagination from "./../../../../components/paginations/Pagination";
-import { cleanRole } from "./../../../../helpers/tools";
 
 export default {
   name: "UserIndex",
   components: {
     CreateRole,
-    //EditRole,
-    //ChangeStatusRole,
-    //RemoveRole,
-    Table,
-    Pagination
+    EditRole,
+    RemoveRole,
+    Table
   },
   props: [],
   data() {
@@ -93,12 +86,12 @@ export default {
         current_page: 1
       },
       offset: 4,
-      privileges: []
+      privileges: [],
     };
   },
   mounted() {
     this.getRoles();
-    // this.getPrivileges();
+    this.getPrivileges();
     const parent = this;
     this.$eventHub.$on("totalUser", function(t) {
       parent.total = t;
@@ -133,7 +126,7 @@ export default {
           }
         })
         .then(response => {
-          this.privileges = response.data;
+          this.privileges = response.data.data;
         })
         .catch(error => {
           //console.log(error.response);
