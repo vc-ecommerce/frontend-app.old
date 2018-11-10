@@ -79,7 +79,7 @@
         <div class="row">
           <div class="checkbox-toggle" v-for="(role, index) in dataRoles" :key="role.id" style="margin:20px">
             <span :class="index = index + generateId"></span>
-            <input type="checkbox" v-model="roleAttribute" :id="'check-toggle-'+ index" :value="role">
+            <input type="checkbox" v-model="roleUser" :id="'check-toggle-'+ index" :value="role">
             <label :for="'check-toggle-'+ index">{{role.description}}</label>
           </div>
         </div>
@@ -87,7 +87,9 @@
       </form>
 
       <span slot="btn">
-        <button :form="'edit-user-'+ formId" type="submit" class="btn btn-rounded btn-primary">Salvar Alterações</button>
+        <button :form="'edit-user-'+ formId" type="submit" class="btn btn-rounded btn-primary">
+          <i class="glyphicon glyphicon-ok"></i> Salvar Alterações
+        </button>
       </span>
 
     </Modal>
@@ -106,7 +108,7 @@ import {
 } from "./../../../../../helpers/tools";
 
 export default {
-  name: "EditAttribute",
+  name: "EditUser",
   components: {
     Table,
     Modal,
@@ -131,14 +133,14 @@ export default {
     generateId() {
       return Math.floor(Math.random() * 1000000 + 1);
     },
-    roleAttribute: {
+    roleUser: {
       get() {
         return cleanRole(
           this.$store.getters.getItem ? this.$store.getters.getItem.roles : []
         );
       },
       set(value) {
-        this.$store.commit("updateRoleAttribute", value);
+        this.$store.commit("updateRoleUser", value);
       }
     },
     selectedOption: {
@@ -150,7 +152,7 @@ export default {
         );
       },
       set(value) {
-        this.$store.commit("updateActiveAttribute", Boolean(value));
+        this.$store.commit("updateActiveUser", Boolean(value));
       }
     }
   },

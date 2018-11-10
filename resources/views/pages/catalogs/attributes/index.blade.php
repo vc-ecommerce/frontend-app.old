@@ -7,8 +7,9 @@
            Atributos
         @endslot
         @slot('url')
-            <li><a href="#">Catálagos</a></li>
-            <li class="active">Atributos</li>
+            <li><a href="javascript::void(0)">Catálagos</a></li>
+            <li><a href="{{ route('catalogs.attributes.index') }}">Atributos</a></li>
+            <breadcrumbs></breadcrumbs>
         @endslot
     @endcomponent
 

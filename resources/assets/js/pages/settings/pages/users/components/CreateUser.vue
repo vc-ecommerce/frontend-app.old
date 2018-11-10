@@ -79,7 +79,7 @@
       </form>
 
       <span slot="btn">
-        <button form="add-user" type="submit" class="btn btn-rounded btn-primary">Salvar Dados</button>
+        <button form="add-user" type="submit" class="btn btn-rounded btn-primary"><i class="glyphicon glyphicon-ok"></i> Salvar Dados</button>
       </span>
 
     </Modal>
@@ -97,7 +97,7 @@ import {
 } from "./../../../../../helpers/tools";
 
 export default {
-  name: "CreateAttribute",
+  name: "CreateUser",
   components: {
     Table,
     Modal,

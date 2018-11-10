@@ -2,7 +2,7 @@ require('../../bootstrap')
 
 import store from '../../stores';
 
-import PrivilegeIndex from './components/privileges/PrivilegeIndex'
+import PrivilegeIndex from './pages/privileges/PrivilegeIndex'
 import { userIsAuthorizedPage } from "../../helpers/validates";
 
 new Vue({

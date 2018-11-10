@@ -1,30 +1,22 @@
 <template>
-  <button v-if="isUserLogged" type="button" @click.prevent="remove(dataItem)" class="tabledit-delete-button btn btn-sm btn-danger" style="float: none; margin-left:2px">
+  <button type="button" @click.prevent="remove(dataItem)" class="tabledit-delete-button btn btn-sm btn-danger">
     <span class="glyphicon glyphicon-trash"></span>
   </button>
 </template>
 <script>
 export default {
-  name: "RemoveUser",
+  name: "RemoveAttribute",
   components: {},
-  props: ["dataUsers", "dataItem"],
+  props: ["dataAttributes", "dataItem"],
   data() {
     return {
       total: 0,
       active: true
     };
   },
-  computed: {
-    isUserLogged() {
-      if (this.dataItem._id === this.$store.getters.getUserId) {
-        return false;
-      }
-      return true
-    }
-  },
   methods: {
-    send(user) {
-      const api = `${this.$urlApi}/admin/users/${user._id}`;
+    send(attribute) {
+      const api = `${this.$urlApi}/admin/attributes/${attribute._id}`;
 
       return Vue.axios
         .delete(api, {
@@ -45,12 +37,12 @@ export default {
         });
     },
 
-    remove(user) {
+    remove(attribute) {
       const parent = this;
       swal(
         {
-          title: "Deseja realmente excluir?",
-          text: `${user.name}`,
+          title: "Deseja realmente excluir o atributo?",
+          text: `${attribute.name}`,
           type: "warning",
           showCancelButton: true,
           confirmButtonClass: "btn-danger",
@@ -62,14 +54,14 @@ export default {
 
         function(isConfirm) {
           if (isConfirm) {
-            let result = parent.send(user);
+            let result = parent.send(attribute);
             result.then(function(value) {
               if (value == true) {
-                let index = parent.dataUsers.data.indexOf(user);
-                parent.dataUsers.data.splice(index, 1);
+                let index = parent.dataAttributes.data.indexOf(attribute);
+                parent.dataAttributes.data.splice(index, 1);
 
-                parent.dataUsers.total = parent.dataUsers.total - 1;
-                parent.$eventHub.$emit("totalUser", parent.dataUsers.total);
+                parent.dataAttributes.total = parent.dataAttributes.total - 1;
+                parent.$eventHub.$emit("totalAttribute", parent.dataAttributes.total);
 
                 swal({
                   title: "Removido",

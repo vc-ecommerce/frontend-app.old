@@ -1,8 +1,8 @@
 {
     "/js/home.js": "/js/home.js",
+    "/js/attributes.js": "/js/attributes.js",
     "/js/users.js": "/js/users.js",
     "/js/vue-app.js": "/js/vue-app.js",
-    "/js/attributes.js": "/js/attributes.js",
     "/js/roles.js": "/js/roles.js",
     "/js/auth.js": "/js/auth.js",
     "/js/privileges.js": "/js/privileges.js",

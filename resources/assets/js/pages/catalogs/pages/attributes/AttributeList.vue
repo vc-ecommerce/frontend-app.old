@@ -8,7 +8,9 @@
             <h3 v-else>{{ total }} Atributos</h3>
           </div>
           <div class="tbl-cell tbl-cell-action-bordered">
-            <CreateAttribute @reload="getAttributes()" />
+
+            <router-link :to="{ name: 'AttributeCreate' }" class="btn btn-inline"><i class="glyphicon glyphicon-plus"></i> Criar Atributo</router-link>
+
           </div>
         </div>
       </header>
@@ -23,23 +25,28 @@
               </tr>
             </template>
             <template slot="tbody">
-              <tr v-for="(attribute, index) in attributes.data" :key="index">
+              <tr v-for="attribute in attributes.data">
                 <td class="tabledit-view-mode">
                   <strong>{{ attribute.name }}</strong>
                   <br>
-                  <small v-for="(variation, index) in attribute.variations" :key="variation._id">
+                  <small v-for="(variation, index) in attribute.variations">
                     <span v-if="index>0">, </span>
                     <span>{{ variation.name }}</span>
                   </small>
                 </td>
                 <td>
-                  <span></span>
+                  <span class="label label-default">-- produtos vinculados</span>
                 </td>
                 <td style="white-space: nowrap; width: 1%;">
                   <div class="tabledit-toolbar btn-toolbar" style="text-align: left;">
-                    <div class="btn-group btn-group-sm" style="float: none;">
-                      <EditAttribute :dataItem="attribute" :dataRoles="roles"/>
-                      <RemoveAttribute :dataAttributes="attributes" :dataItem="attribute"/>
+
+                    <div class="btn-group btn-group-sm" style="float: none  !important;">
+
+                      <button v-if="!attribute.default" @click.prevent="clickEdit(attribute._id)" type="button" class="tabledit-edit-button btn btn-sm btn-default" style="float: none;">
+                        <span class="glyphicon glyphicon-pencil"></span>
+                      </button>
+
+                      <RemoveAttribute v-if="!attribute.default" :dataAttributes="attributes" :dataItem="attribute"/>
                     </div>
                   </div>
                 </td>
@@ -57,18 +64,14 @@
   </div>
 </template>
 <script>
-import CreateAttribute from "./components/CreateAttribute";
-import EditAttribute from "./components/EditAttribute";
 import RemoveAttribute from "./components/RemoveAttribute";
 import Table from "./../../../../components/layouts/Table";
 import Pagination from "./../../../../components/paginations/Pagination";
 import { cleanRole } from "./../../../../helpers/tools";
 
 export default {
-  name: "AttributeIndex",
+  name: "AttributeList",
   components: {
-    CreateAttribute,
-    EditAttribute,
     RemoveAttribute,
     Table,
     Pagination
@@ -88,14 +91,21 @@ export default {
       roles: []
     };
   },
+  created() {
+    this.$eventHub.$emit("eventBreadcrumbs", 'Listar atributos');
+  },
   mounted() {
     this.getAttributes();
     const parent = this;
     this.$eventHub.$on("totalAttribute", function(t) {
       parent.total = t;
     });
+
   },
   methods: {
+    clickEdit(id) {
+      this.$router.push({ name: 'AttributeEdit', params: { id }})
+    },
     getAttributes() {
       const api = `${this.$urlApi}/admin/attributes?page=${this.attributes.current_page}`;
       Vue.axios
@@ -117,3 +127,11 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+small {
+    font-size: 11px;
+    color: #999;
+    font-weight: normal;
+}
+</style>

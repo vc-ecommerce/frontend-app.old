@@ -1,13 +1,13 @@
 <template>
-  <button v-if="isUserLogged" type="button" @click.prevent="remove(dataItem)" class="tabledit-delete-button btn btn-sm btn-danger" style="float: none; margin-left:2px">
+  <a href="" v-if="isUserLogged" type="button" @click.prevent="remove(dataItem)" class="tabledit-delete-button btn btn-sm btn-danger" style="float: none; margin-left:2px">
     <span class="glyphicon glyphicon-trash"></span>
-  </button>
+  </a>
 </template>
 <script>
 export default {
-  name: "RemoveAttribute",
+  name: "RemoveUser",
   components: {},
-  props: ["dataAttributes", "dataItem"],
+  props: ["dataUsers", "dataItem"],
   data() {
     return {
       total: 0,
@@ -65,11 +65,11 @@ export default {
             let result = parent.send(user);
             result.then(function(value) {
               if (value == true) {
-                let index = parent.dataAttributes.data.indexOf(user);
-                parent.dataAttributes.data.splice(index, 1);
+                let index = parent.dataUsers.data.indexOf(user);
+                parent.dataUsers.data.splice(index, 1);
 
-                parent.dataAttributes.total = parent.dataAttributes.total - 1;
-                parent.$eventHub.$emit("totalAttribute", parent.dataAttributes.total);
+                parent.dataUsers.total = parent.dataUsers.total - 1;
+                parent.$eventHub.$emit("totalUser", parent.dataUsers.total);
 
                 swal({
                   title: "Removido",

@@ -7,8 +7,9 @@
             Usuários
         @endslot
         @slot('url')
-            <li><a href="#">Configurações</a></li>
-            <li class="active">Usuários</li>
+            <li><a href="javascript::void(0)">Configurações</a></li>
+            <li><a href="javascript::void(0)">Usuários</a></li>
+            <li class="active">Listar</li>
         @endslot
     @endcomponent
 

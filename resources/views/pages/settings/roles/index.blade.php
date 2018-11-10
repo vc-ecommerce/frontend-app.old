@@ -7,8 +7,9 @@
             Funções
         @endslot
         @slot('url')
-            <li><a href="#">Configurações</a></li>
-            <li class="active">Funções</li>
+            <li><a href="javascript::void(0)">Configurações</a></li>
+            <li><a href="javascript::void(0)">Funções</a></li>
+            <li class="active">Listar</li>
         @endslot
     @endcomponent
 
