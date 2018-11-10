@@ -9,7 +9,7 @@
         </a>
       </li>
 
-      <li class="brown with-sub">
+      <li v-if="isRoleAdmin || isRoleEditor || isRoleAuditor" class="brown with-sub">
         <span>
           <i class="fa fa-tags"></i>
           <span class="lbl">Catálago</span>
@@ -19,8 +19,11 @@
           <li><a href="#"><span class="lbl">Produtos</span></a></li>
           <li><a href="#"><span class="lbl">Tipos de assinatura</span></a></li>
           <li><a href="#"><span class="lbl">Filtros</span></a></li>
-          <li><a href="{{ route('catalogs.attributes.index') }}"><span class="lbl">Atributos</span></a></li>
-
+          <li>
+            <a href="{{ route('catalogs.attributes.index') }}">
+                <span class="lbl">Atributos</span>
+            </a>
+          </li>
           <li><a href="#"><span class="lbl">Opções</span></a></li>
           <li><a href="#"><span class="lbl">Marcas</span></a></li>
           <li><a href="#"><span class="lbl">Downloads</span></a></li>
@@ -99,8 +102,7 @@
         </ul>
       </li>
 
-
-      <li class="purple with-sub">
+      <li v-if="isRoleAdmin" class="purple with-sub">
         <span>
         <i class="fa fa-cog"></i>
         <span class="lbl">Configurações</span>
@@ -112,7 +114,7 @@
             </a>
           </li>
 
-          <li v-if="isRoleAdmin" class="purple with-sub">
+          <li class="purple with-sub">
             <span>
             <span class="lbl">Gerenciar usuários</span>
             </span>
@@ -123,7 +125,7 @@
             </ul>
           </li>
 
-          <li v-if="isRoleAdmin" class="purple with-sub">
+          <li class="purple with-sub">
             <span>
             <span class="lbl">Gerenciar Permissões</span>
             </span>

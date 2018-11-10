@@ -1,5 +1,5 @@
 <?php
 
-$this->resource('attributes', 'Catalogs\AttributeController')->except([
-  'create', 'edit'
+$this->resource('attributes', 'Catalogs\AttributeController')->only([
+    'index'
 ]);

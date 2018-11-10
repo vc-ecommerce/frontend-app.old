@@ -66,7 +66,11 @@ const appTwo = new Vue({
   store,
   data() {
     return{
-      isAdmin: false
+      isRoleAdmin: false,
+      isRoleEditor: false,
+      isRoleAuditor: false,
+      isRoleFinance: false,
+      isRoleExpedition: false
     }
   },
   components: {
@@ -78,12 +82,16 @@ const appTwo = new Vue({
       "ADMIN"
     ]);
 
-    this.isRoleFinance = isRoleUser(this.$store.getters.getUserRoles, [
-      "STAFF_FINANCE"
-    ]);
-
     this.isRoleEditor = isRoleUser(this.$store.getters.getUserRoles, [
       "STAFF_EDITOR"
+    ]);
+
+    this.isRoleAuditor = isRoleUser(this.$store.getters.getUserRoles, [
+      "STAFF_AUDITOR"
+    ]);
+
+    this.isRoleFinance = isRoleUser(this.$store.getters.getUserRoles, [
+      "STAFF_FINANCE"
     ]);
 
     this.isRoleExpedition = isRoleUser(this.$store.getters.getUserRoles, [

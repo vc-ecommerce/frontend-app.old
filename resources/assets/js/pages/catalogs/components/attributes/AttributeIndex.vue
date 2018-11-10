@@ -4,11 +4,11 @@
       <header class="box-typical-header">
         <div class="tbl-row">
           <div class="tbl-cell tbl-cell-title">
-            <h3 v-if="total == 1">{{ total }} Usuário</h3>
-            <h3 v-else>{{ total }} Usuários</h3>
+            <h3 v-if="total == 1">{{ total }} Atributo</h3>
+            <h3 v-else>{{ total }} Atributos</h3>
           </div>
           <div class="tbl-cell tbl-cell-action-bordered">
-            <CreateUser :dataRoles="roles" @reload="getUsers()" />
+            <CreateAttribute @reload="getAttributes()" />
           </div>
         </div>
       </header>
@@ -17,28 +17,29 @@
           <Table elementId="table-edit" className="table table-hover">
             <template slot="thead">
               <tr>
-                <th>Usuários</th>
-                <th width="200">Departamentos</th>
+                <th>Atributos</th>
+                <th width="200">Produtos vinculados</th>
                 <th class="tabledit-toolbar-column">Editar</th>
               </tr>
             </template>
             <template slot="tbody">
-              <tr v-for="(user, index) in users.data" :key="index">
+              <tr v-for="(attribute, index) in attributes.data" :key="index">
                 <td class="tabledit-view-mode">
-                  {{ user.name }}
+                  <strong>{{ attribute.name }}</strong>
                   <br>
-                  <small>
+                  <small v-for="(variation, index) in attribute.variations" :key="variation._id">
+                    <span v-if="index>0">, </span>
+                    <span>{{ variation.name }}</span>
                   </small>
                 </td>
                 <td>
-                  <span v-for="(role, index) in user.roles" :key="index" class="label label-info" style="margin:2px">{{ role.description }}</span>
+                  <span></span>
                 </td>
                 <td style="white-space: nowrap; width: 1%;">
                   <div class="tabledit-toolbar btn-toolbar" style="text-align: left;">
                     <div class="btn-group btn-group-sm" style="float: none;">
-                      <ChangeStatusUser :dataItem="user"/>
-                      <EditUser :dataItem="user" :dataRoles="roles"/>
-                      <RemoveUser :dataUsers="users" :dataItem="user"/>
+                      <EditAttribute :dataItem="attribute" :dataRoles="roles"/>
+                      <RemoveAttribute :dataAttributes="attributes" :dataItem="attribute"/>
                     </div>
                   </div>
                 </td>
@@ -49,28 +50,26 @@
       </div>
     </section>
     <section>
-      <Pagination v-if="total>15" :pagination="users"
-        @paginate="getUsers()"
+      <Pagination v-if="total>15" :pagination="attributes"
+        @paginate="getAttributes()"
         :offset="4" />
     </section>
   </div>
 </template>
 <script>
-import CreateUser from "./components/CreateUser";
-import EditUser from "./components/EditUser";
-import ChangeStatusUser from "./components/ChangeStatusUser";
-import RemoveUser from "./components/RemoveUser";
+import CreateAttribute from "./components/CreateAttribute";
+import EditAttribute from "./components/EditAttribute";
+import RemoveAttribute from "./components/RemoveAttribute";
 import Table from "./../../../../components/layouts/Table";
 import Pagination from "./../../../../components/paginations/Pagination";
 import { cleanRole } from "./../../../../helpers/tools";
 
 export default {
-  name: "UserIndex",
+  name: "AttributeIndex",
   components: {
-    CreateUser,
-    EditUser,
-    ChangeStatusUser,
-    RemoveUser,
+    CreateAttribute,
+    EditAttribute,
+    RemoveAttribute,
     Table,
     Pagination
   },
@@ -78,7 +77,7 @@ export default {
   data() {
     return {
       total: 0,
-      users: {
+      attributes: {
         total: 0,
         per_page: 2,
         from: 1,
@@ -90,16 +89,15 @@ export default {
     };
   },
   mounted() {
-    this.getUsers();
-    this.getRoles();
+    this.getAttributes();
     const parent = this;
-    this.$eventHub.$on("totalUser", function(t) {
+    this.$eventHub.$on("totalAttribute", function(t) {
       parent.total = t;
     });
   },
   methods: {
-    getRoles() {
-      const api = `${this.$urlApi}/admin/roles`;
+    getAttributes() {
+      const api = `${this.$urlApi}/admin/attributes?page=${this.attributes.current_page}`;
       Vue.axios
         .get(api, {
           headers: {
@@ -108,25 +106,7 @@ export default {
           }
         })
         .then(response => {
-          this.roles = cleanRole(response.data.data);
-        })
-        .catch(error => {
-          this.$eventHub.$emit("eventError", { data: error.response });
-          this.error = JSON.parse(error.response.data.error);
-        });
-    },
-
-    getUsers() {
-      const api = `${this.$urlApi}/admin/users?page=${this.users.current_page}`;
-      Vue.axios
-        .get(api, {
-          headers: {
-            Authorization: "Bearer " + this.$store.getters.getToken,
-            "User-ID": this.$store.getters.getUserId
-          }
-        })
-        .then(response => {
-          this.users = response.data;
+          this.attributes = response.data;
           this.total = response.data.total;
         })
         .catch(error => {

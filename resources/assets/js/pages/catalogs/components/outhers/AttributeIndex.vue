@@ -49,7 +49,7 @@
       </div>
     </section>
     <section>
-      <Pagination v-if="total>15" :pagination="users"
+      <Pagination :pagination="users"
         @paginate="getUsers()"
         :offset="4" />
     </section>
@@ -65,7 +65,7 @@ import Pagination from "./../../../../components/paginations/Pagination";
 import { cleanRole } from "./../../../../helpers/tools";
 
 export default {
-  name: "UserIndex",
+  name: "AttributeIndex",
   components: {
     CreateUser,
     EditUser,
