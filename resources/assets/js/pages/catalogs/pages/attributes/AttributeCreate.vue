@@ -34,7 +34,7 @@
         </div>
         <div class="col align-self-end">
           <router-link :to="{ name: 'AttributeList' }" class="btn btn-inline btn-default"><i class="glyphicon glyphicon-remove"></i> Cancelar</router-link>
-          <button class="btn btn-inline" type="submit">
+          <button :disabled="btnDisabled" class="btn btn-inline" type="submit">
             <i class="glyphicon glyphicon-ok"></i> Criar atributo
           </button>
         </div>
@@ -59,7 +59,8 @@ export default {
     return {
       name: "",
       status: false,
-      error: false
+      error: false,
+      btnDisabled: false
     };
   },
   mounted() {
@@ -72,6 +73,9 @@ export default {
     submitForm() {
       this.status = "Enviando...";
       const api = `${this.$urlApi}/admin/attributes`;
+
+      this.btnDisabled = true;
+
       Vue.axios
         .post(
           api,
@@ -98,11 +102,12 @@ export default {
           }
 
           this.name = "";
+          this.btnDisabled = false;
         })
         .catch(error => {
           this.status = false;
           this.error = JSON.parse(error.response.data.error);
-
+           this.btnDisabled = false;
           setTimeout(() => {
             this.error = false;
           }, 5000);

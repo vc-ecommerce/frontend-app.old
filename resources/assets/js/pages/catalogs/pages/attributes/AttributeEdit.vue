@@ -35,7 +35,7 @@
         </div>
         <div class="col align-self-end">
           <router-link :to="{ name: 'AttributeList' }" class="btn btn-inline btn-default"><i class="glyphicon glyphicon-remove"></i> Cancelar</router-link>
-          <button class="btn btn-inline" type="submit">
+          <button :disabled="btnDisabled" class="btn btn-inline" type="submit">
             <i class="glyphicon glyphicon-ok"></i> Alterar nome
           </button>
         </div>
@@ -52,7 +52,7 @@ import Panel from "./../../../../components/layouts/Panel";
 import Alert from "./../../../../components/layouts/Alert";
 import { cleanDataApi } from "./../../../../helpers/tools";
 
-import AttributeVariation from './components/AttributeVariation'
+import AttributeVariation from "./components/AttributeVariation";
 
 export default {
   name: "AttributeEdit",
@@ -66,7 +66,8 @@ export default {
     return {
       name: "",
       status: false,
-      error: false
+      error: false,
+      btnDisabled: false
     };
   },
   mounted() {
@@ -106,6 +107,7 @@ export default {
     submitForm() {
       this.status = "Enviando...";
       const api = `${this.$urlApi}/admin/attributes/${this.$route.params.id}`;
+      this.btnDisabled = true;
       Vue.axios
         .put(
           api,
@@ -123,16 +125,18 @@ export default {
         .then(response => {
           this.error = false;
           this.status = "Atributo alterado com sucesso.";
+          this.btnDisabled = false;
         })
         .catch(error => {
           this.status = false;
           this.error = JSON.parse(error.response.data.error);
+          this.btnDisabled = false;
         });
 
-        setTimeout(() => {
-          this.status = false;
-          this.error = false;
-        }, 8000);
+      setTimeout(() => {
+        this.status = false;
+        this.error = false;
+      }, 8000);
     }
   }
 };
@@ -150,6 +154,6 @@ span {
 }
 
 .variation {
-  border-top: 1px solid #ece9e9
+  border-top: 1px solid #ece9e9;
 }
 </style>

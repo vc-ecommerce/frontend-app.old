@@ -1814,7 +1814,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     return {
       name: "",
       status: false,
-      error: false
+      error: false,
+      btnDisabled: false
     };
   },
   mounted: function mounted() {
@@ -1830,6 +1831,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
       this.status = "Enviando...";
       var api = this.$urlApi + "/admin/attributes";
+
+      this.btnDisabled = true;
+
       Vue.axios.post(api, {
         name: this.name,
         default: false
@@ -1850,10 +1854,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         }
 
         _this.name = "";
+        _this.btnDisabled = false;
       }).catch(function (error) {
         _this.status = false;
         _this.error = JSON.parse(error.response.data.error);
-
+        _this.btnDisabled = false;
         setTimeout(function () {
           _this.error = false;
         }, 5000);
@@ -1944,7 +1949,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     return {
       name: "",
       status: false,
-      error: false
+      error: false,
+      btnDisabled: false
     };
   },
   mounted: function mounted() {
@@ -1986,6 +1992,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
       this.status = "Enviando...";
       var api = this.$urlApi + "/admin/attributes/" + this.$route.params.id;
+      this.btnDisabled = true;
       Vue.axios.put(api, {
         name: this.name,
         default: false
@@ -1997,9 +2004,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       }).then(function (response) {
         _this3.error = false;
         _this3.status = "Atributo alterado com sucesso.";
+        _this3.btnDisabled = false;
       }).catch(function (error) {
         _this3.status = false;
         _this3.error = JSON.parse(error.response.data.error);
+        _this3.btnDisabled = false;
       });
 
       setTimeout(function () {
@@ -2208,6 +2217,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_layouts_Table__ = __webpack_require__("./resources/assets/js/components/layouts/Table.vue");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_layouts_Table___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__components_layouts_Table__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__RemoveVariation__ = __webpack_require__("./resources/assets/js/pages/catalogs/pages/attributes/components/RemoveVariation.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__RemoveVariation___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__RemoveVariation__);
 //
 //
 //
@@ -2256,23 +2267,100 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  name: 'AttributeVariation',
+  name: "AttributeVariation",
   props: [],
   components: {
-    Table: __WEBPACK_IMPORTED_MODULE_0__components_layouts_Table___default.a
+    Table: __WEBPACK_IMPORTED_MODULE_0__components_layouts_Table___default.a,
+    RemoveVariation: __WEBPACK_IMPORTED_MODULE_1__RemoveVariation___default.a
   },
   data: function data() {
-    return {};
+    return {
+      attributeId: this.$route.params.id,
+      total: 0,
+      name: "",
+      variations: [],
+      btnDisabled: false
+    };
+  },
+  mounted: function mounted() {
+    this.getVariations();
   },
 
   methods: {
-    submitFormVariation: function submitFormVariation() {}
-  }
+    getVariations: function getVariations() {
+      var _this = this;
 
+      var api = this.$urlApi + "/admin/attributes/" + this.attributeId + "/variations";
+      Vue.axios.get(api, {
+        headers: {
+          Authorization: "Bearer " + this.$store.getters.getToken,
+          "User-ID": this.$store.getters.getUserId
+        }
+      }).then(function (response) {
+        _this.variations = response;
+        _this.total = response.data.total;
+      }).catch(function (error) {
+        //console.log(error.response);
+        _this.$eventHub.$emit("eventError", { data: error.response });
+      });
+    },
+    submitFormVariation: function submitFormVariation() {
+      var _this2 = this;
+
+      var api = this.$urlApi + "/admin/attributes/" + this.attributeId + "/variations";
+
+      this.btnDisabled = true;
+
+      Vue.axios.post(api, {
+        name: this.name,
+        default: false
+      }, {
+        headers: {
+          Authorization: "Bearer " + this.$store.getters.getToken,
+          "User-ID": this.$store.getters.getUserId
+        }
+      }).then(function (response) {
+        _this2.error = false;
+        var data = response.data;
+        _this2.btnDisabled = false;
+        if (data._id) {
+          _this2.getVariations();
+
+          swal({
+            title: "Salvo com sucesso!",
+            text: "A variação do atributo foi gravado com sucesso!",
+            type: "success",
+            confirmButtonClass: "btn-success",
+            confirmButtonText: "OK!"
+          });
+
+          _this2.name = "";
+        }
+      }).catch(function (error) {
+        if (error.response.data === "attribute_variation_is_exists") {
+          swal({
+            title: "Dados duplicado!",
+            text: "Varia\xE7\xE3o " + _this2.name + "j\xE1 existe."
+          });
+        }
+        _this2.btnDisabled = false;
+      });
+    }
+  }
 });
 
 /***/ }),
@@ -2373,6 +2461,106 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/pages/catalogs/pages/attributes/components/RemoveVariation.vue":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  name: "RemoveVariation",
+  components: {},
+  props: ["dataVariations", "dataItem"],
+  data: function data() {
+    return {
+      total: 0,
+      active: true,
+      attributeId: this.$route.params.id
+    };
+  },
+
+  methods: {
+    send: function send(variation) {
+      var _this = this;
+
+      var api = this.$urlApi + "/admin/attributes/" + this.attributeId + "/variations/" + this.dataItem._id;
+
+      return Vue.axios.delete(api, {
+        headers: {
+          Authorization: "Bearer " + this.$store.getters.getToken,
+          "User-ID": this.$store.getters.getUserId
+        }
+      }).then(function (response) {
+        if (Boolean(response.data) === true) {
+          return true;
+        }
+        return false;
+      }).catch(function (error) {
+        _this.$eventHub.$emit("eventError", { data: error.response });
+        return false;
+      });
+    },
+    remove: function remove(variation) {
+
+      var parent = this;
+      swal({
+        title: "Deseja realmente excluir a variação?",
+        text: "" + variation.name,
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonClass: "btn-danger",
+        confirmButtonText: "Sim!",
+        cancelButtonText: "Cancelar",
+        closeOnConfirm: false,
+        closeOnCancel: false
+      }, function (isConfirm) {
+        if (isConfirm) {
+          var result = parent.send(variation);
+          result.then(function (value) {
+            if (value == true) {
+
+              var index = parent.dataVariations.data.indexOf(variation);
+              parent.dataVariations.data.splice(index, 1);
+
+              parent.dataVariations.total = parent.dataVariations.total - 1;
+              parent.$eventHub.$emit("totalAttribute", parent.dataVariations.total);
+
+              swal({
+                title: "Removido",
+                text: "Variação removida com sucesso",
+                type: "success",
+                confirmButtonClass: "btn-success"
+              });
+            } else {
+              swal({
+                title: "Erro",
+                text: "Houve um erro na socilitação do pedido.",
+                type: "error",
+                confirmButtonClass: "btn-danger"
+              });
+            }
+          });
+        } else {
+          swal({
+            title: "Cancelado",
+            text: "Pedido cancelado com sucesso.",
+            type: "error",
+            confirmButtonClass: "btn-danger"
+          });
+        }
+      });
+    }
+  }
+});
+
+/***/ }),
+
 /***/ "./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-494c29b3\",\"scoped\":true,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/pages/catalogs/pages/attributes/AttributeCreate.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2396,7 +2584,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n.row[data-v-58ef7f2a] {\n  padding: 20px;\n}\nspan[data-v-58ef7f2a] {\n  font-size: 12px;\n  color: #999;\n}\n.col-btn[data-v-58ef7f2a] {\n  margin-top: -20px;\n}\n.glyphicon-pencil[data-v-58ef7f2a]:before {\n    color: #fff;\n}\n.glyphicon-trash[data-v-58ef7f2a]:before {\n    color: #fff;\n}\n\n", ""]);
+exports.push([module.i, "\n.row[data-v-58ef7f2a] {\n  padding: 20px;\n}\nspan[data-v-58ef7f2a] {\n  font-size: 12px;\n  color: #999;\n}\n.col-btn[data-v-58ef7f2a] {\n  margin-top: -20px;\n}\n.glyphicon-pencil[data-v-58ef7f2a]:before {\n  color: #fff;\n}\n.glyphicon-trash[data-v-58ef7f2a]:before {\n  color: #fff;\n}\n", ""]);
 
 // exports
 
@@ -2411,7 +2599,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n.row[data-v-948d88fe] {\n  padding: 20px;\n}\nspan[data-v-948d88fe] {\n  font-size: 12px;\n  color: #999;\n}\n.col-btn[data-v-948d88fe] {\n  margin-top: -20px;\n}\n.variation[data-v-948d88fe] {\n  border-top: 1px solid #ece9e9\n}\n", ""]);
+exports.push([module.i, "\n.row[data-v-948d88fe] {\n  padding: 20px;\n}\nspan[data-v-948d88fe] {\n  font-size: 12px;\n  color: #999;\n}\n.col-btn[data-v-948d88fe] {\n  margin-top: -20px;\n}\n.variation[data-v-948d88fe] {\n  border-top: 1px solid #ece9e9;\n}\n", ""]);
 
 // exports
 
@@ -3081,7 +3269,10 @@ var render = function() {
                 _vm._v(" "),
                 _c(
                   "button",
-                  { staticClass: "btn btn-inline", attrs: { type: "submit" } },
+                  {
+                    staticClass: "btn btn-inline",
+                    attrs: { disabled: _vm.btnDisabled, type: "submit" }
+                  },
                   [
                     _c("i", { staticClass: "glyphicon glyphicon-ok" }),
                     _vm._v(" Criar atributo\n        ")
@@ -3142,67 +3333,89 @@ var render = function() {
                 }
               },
               [
-                _c("template", { slot: "tbody" }, [
-                  _c("tr", [
-                    _c("td", { staticClass: "tabledit-view-mode" }, [
-                      _vm._v("\n                teste\n              ")
-                    ]),
-                    _vm._v(" "),
-                    _c(
-                      "td",
-                      { staticStyle: { "white-space": "nowrap", width: "1%" } },
-                      [
+                _c(
+                  "template",
+                  { slot: "tbody" },
+                  [
+                    _vm._l(_vm.variations.data, function(variation, index) {
+                      return _c("tr", { key: index }, [
+                        _c("td", { staticClass: "tabledit-view-mode" }, [
+                          _vm._v(
+                            "\n                " +
+                              _vm._s(variation.name) +
+                              "\n              "
+                          )
+                        ]),
+                        _vm._v(" "),
                         _c(
-                          "div",
+                          "td",
                           {
-                            staticClass: "tabledit-toolbar btn-toolbar",
-                            staticStyle: { "text-align": "left" }
+                            staticStyle: {
+                              "white-space": "nowrap",
+                              width: "1%"
+                            }
                           },
                           [
                             _c(
                               "div",
                               {
-                                staticClass: "btn-group btn-group-sm",
-                                staticStyle: { float: "none" }
+                                staticClass: "tabledit-toolbar btn-toolbar",
+                                staticStyle: { "text-align": "left" }
                               },
                               [
                                 _c(
-                                  "button",
+                                  "div",
                                   {
-                                    staticClass:
-                                      "tabledit-edit-button btn btn-sm btn-default",
-                                    staticStyle: { float: "none" },
-                                    attrs: { type: "button" }
+                                    staticClass: "btn-group btn-group-sm",
+                                    staticStyle: { float: "none" }
                                   },
                                   [
-                                    _c("span", {
-                                      staticClass: "glyphicon glyphicon-pencil"
-                                    })
-                                  ]
-                                ),
-                                _vm._v(" "),
-                                _c(
-                                  "button",
-                                  {
-                                    staticClass:
-                                      "tabledit-delete-button btn btn-sm btn-danger",
-                                    staticStyle: { float: "none" },
-                                    attrs: { type: "button" }
-                                  },
-                                  [
-                                    _c("span", {
-                                      staticClass: "glyphicon glyphicon-trash"
-                                    })
-                                  ]
+                                    _c(
+                                      "button",
+                                      {
+                                        staticClass:
+                                          "tabledit-edit-button btn btn-sm btn-default",
+                                        staticStyle: { float: "none" },
+                                        attrs: { type: "button" }
+                                      },
+                                      [
+                                        _c("span", {
+                                          staticClass:
+                                            "glyphicon glyphicon-pencil"
+                                        })
+                                      ]
+                                    ),
+                                    _vm._v(" "),
+                                    !variation.default
+                                      ? _c("RemoveVariation", {
+                                          attrs: {
+                                            dataVariations: _vm.variations,
+                                            dataItem: variation
+                                          }
+                                        })
+                                      : _vm._e()
+                                  ],
+                                  1
                                 )
                               ]
                             )
                           ]
                         )
-                      ]
-                    )
-                  ])
-                ])
+                      ])
+                    }),
+                    _vm._v(" "),
+                    _vm.total <= 0
+                      ? _c("tr", [
+                          _c("td", [
+                            _vm._v(
+                              "\n                Não há opção da variação.\n              "
+                            )
+                          ])
+                        ])
+                      : _vm._e()
+                  ],
+                  2
+                )
               ],
               2
             )
@@ -3240,7 +3453,19 @@ var render = function() {
           })
         ]),
         _vm._v(" "),
-        _vm._m(1)
+        _c("div", { staticClass: "col-sm-4" }, [
+          _c(
+            "button",
+            {
+              staticClass: "btn btn-inline",
+              attrs: { disabled: _vm.btnDisabled, type: "submit" }
+            },
+            [
+              _c("i", { staticClass: "glyphicon glyphicon-ok" }),
+              _vm._v(" Criar variação\n      ")
+            ]
+          )
+        ])
       ])
     ]
   )
@@ -3252,21 +3477,6 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "col-sm-12" }, [
       _c("h3", [_vm._v("Variações do atributo")])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-sm-4" }, [
-      _c(
-        "button",
-        { staticClass: "btn btn-inline", attrs: { type: "submit" } },
-        [
-          _c("i", { staticClass: "glyphicon glyphicon-ok" }),
-          _vm._v(" Criar variação\n      ")
-        ]
-      )
     ])
   }
 ]
@@ -3413,7 +3623,10 @@ var render = function() {
                 _vm._v(" "),
                 _c(
                   "button",
-                  { staticClass: "btn btn-inline", attrs: { type: "submit" } },
+                  {
+                    staticClass: "btn btn-inline",
+                    attrs: { disabled: _vm.btnDisabled, type: "submit" }
+                  },
                   [
                     _c("i", { staticClass: "glyphicon glyphicon-ok" }),
                     _vm._v(" Alterar nome\n        ")
@@ -3638,6 +3851,40 @@ if (false) {
   module.hot.accept()
   if (module.hot.data) {
     require("vue-hot-reload-api")      .rerender("data-v-b31dd7d6", module.exports)
+  }
+}
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-efbfafea\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/pages/catalogs/pages/attributes/components/RemoveVariation.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "button",
+    {
+      staticClass: "tabledit-delete-button btn btn-sm btn-danger",
+      attrs: { type: "button" },
+      on: {
+        click: function($event) {
+          $event.preventDefault()
+          _vm.remove(_vm.dataItem)
+        }
+      }
+    },
+    [_c("span", { staticClass: "glyphicon glyphicon-trash" })]
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-efbfafea", module.exports)
   }
 }
 
@@ -8332,6 +8579,54 @@ if (false) {(function () {
     hotAPI.createRecord("data-v-2110c414", Component.options)
   } else {
     hotAPI.reload("data-v-2110c414", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
+/***/ "./resources/assets/js/pages/catalogs/pages/attributes/components/RemoveVariation.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")
+/* script */
+var __vue_script__ = __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/pages/catalogs/pages/attributes/components/RemoveVariation.vue")
+/* template */
+var __vue_template__ = __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-efbfafea\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/pages/catalogs/pages/attributes/components/RemoveVariation.vue")
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/pages/catalogs/pages/attributes/components/RemoveVariation.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-efbfafea", Component.options)
+  } else {
+    hotAPI.reload("data-v-efbfafea", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true
