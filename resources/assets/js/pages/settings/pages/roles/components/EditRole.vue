@@ -149,7 +149,7 @@ export default {
           this.error = false;
           this.roles = response.data;
           this.total = response.data.total;
-          this.status = "Dados alterados com sucesso.";
+          this.status = "Função editada com sucesso!";
           this.$emit("reload");
         })
         .catch(error => {

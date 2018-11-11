@@ -1,13 +1,13 @@
 {
-    "/js/home.js": "/js/home.js",
-    "/js/attributes.js": "/js/attributes.js",
-    "/js/users.js": "/js/users.js",
-    "/js/vue-app.js": "/js/vue-app.js",
-    "/js/roles.js": "/js/roles.js",
-    "/js/auth.js": "/js/auth.js",
-    "/js/privileges.js": "/js/privileges.js",
-    "/js/accounts.js": "/js/accounts.js",
-    "/js/vendor.js": "/js/vendor.js",
-    "/js/home-custom.js": "/js/home-custom.js",
-    "/js/manifest.js": "/js/manifest.js"
+    "/js/attributes.js": "/js/attributes.js?id=e1d817beb3c221a14480",
+    "/js/home.js": "/js/home.js?id=7ba39fbf5ecef2b44390",
+    "/js/users.js": "/js/users.js?id=e31870ed09f9c0d073df",
+    "/js/init.js": "/js/init.js?id=db67afa51284b56b89f8",
+    "/js/roles.js": "/js/roles.js?id=e9e7b75dbe5cadb5193d",
+    "/js/auth.js": "/js/auth.js?id=b490f01d9a121595abc8",
+    "/js/privileges.js": "/js/privileges.js?id=4db760c0935af7a17ca4",
+    "/js/accounts.js": "/js/accounts.js?id=1d6a3945d21581725b8c",
+    "/js/vendor.js": "/js/vendor.js?id=f51ddb5b67a6cffe097b",
+    "/js/home-custom.js": "/js/home-custom.js?id=c4d5662a12d6f5a2d771",
+    "/js/manifest.js": "/js/manifest.js?id=2ff126c63b2f4be02adc"
 }

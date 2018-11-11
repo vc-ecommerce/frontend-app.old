@@ -25,10 +25,11 @@
         </div>
         <div class="col-sm-10">
             <input type="text" required class="form-control" v-model="name" placeholder="Digite aqui">
+            <span>Nome do atributo para controle interno</span>
         </div>
       </div>
 
-      <div class="row">
+      <div class="row col-btn">
         <div class="col-sm-2">
         </div>
         <div class="col align-self-end">
@@ -56,13 +57,13 @@ export default {
   props: [],
   data() {
     return {
-      name:"",
+      name: "",
       status: false,
-      error: false,
-    }
+      error: false
+    };
   },
   mounted() {
-    this.$eventHub.$emit("eventBreadcrumbs", 'Criar atributos');
+    this.$eventHub.$emit("eventBreadcrumbs", "Criar atributos");
   },
   methods: {
     cleanData(data) {
@@ -88,29 +89,37 @@ export default {
         .then(response => {
           this.error = false;
           let data = response.data;
-          if(data._id) {
-            this.$router.push({ name: 'AttributeEdit', params: { id: data._id }})
+          if (data._id) {
+            sessionStorage.setItem("attributeCreated", "Atributo criado com sucesso!");
+            this.$router.push({
+              name: "AttributeEdit",
+              params: { id: data._id }
+            });
           }
-          this.status = "Dados cadastrados com sucesso.";
-          this.name = '';
+
+          this.name = "";
         })
         .catch(error => {
-
           this.status = false;
           this.error = JSON.parse(error.response.data.error);
 
           setTimeout(() => {
             this.error = false;
           }, 5000);
-
         });
     }
-
   }
 };
 </script>
 <style scoped>
 .row {
-  padding:20px
+  padding: 20px;
+}
+.col-btn {
+  margin-top: -20px;
+}
+span {
+  font-size: 12px;
+  color: #999;
 }
 </style>

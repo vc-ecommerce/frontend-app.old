@@ -172,7 +172,7 @@ export default {
           this.error = false;
           this.users = response.data;
           this.total = response.data.total;
-          this.status = "Dados cadastrados com sucesso.";
+          this.status = "Usuário criado com sucesso!";
 
           this.$emit("reload");
         })

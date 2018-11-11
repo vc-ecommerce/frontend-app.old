@@ -25,21 +25,26 @@
         </div>
         <div class="col-sm-10">
             <input type="text" required class="form-control" v-model="name" placeholder="Digite aqui">
+            <span>Nome do atributo para controle interno</span>
         </div>
+
       </div>
 
-      <div class="row">
+      <div class="row col-btn">
         <div class="col-sm-2">
         </div>
         <div class="col align-self-end">
           <router-link :to="{ name: 'AttributeList' }" class="btn btn-inline btn-default"><i class="glyphicon glyphicon-remove"></i> Cancelar</router-link>
           <button class="btn btn-inline" type="submit">
-            <i class="glyphicon glyphicon-ok"></i> Editar atributo
+            <i class="glyphicon glyphicon-ok"></i> Alterar nome
           </button>
         </div>
       </div>
 
     </form>
+
+    <AttributeVariation class="variation"/>
+
   </Panel>
 </template>
 <script>
@@ -47,25 +52,34 @@ import Panel from "./../../../../components/layouts/Panel";
 import Alert from "./../../../../components/layouts/Alert";
 import { cleanDataApi } from "./../../../../helpers/tools";
 
+import AttributeVariation from './components/AttributeVariation'
+
 export default {
   name: "AttributeEdit",
   components: {
     Panel,
-    Alert
+    Alert,
+    AttributeVariation
   },
   props: [],
   data() {
     return {
-      name:"",
+      name: "",
       status: false,
-      error: false,
-    }
+      error: false
+    };
   },
   mounted() {
-    this.$eventHub.$emit("eventBreadcrumbs", 'Editar atributos');
-
+    this.$eventHub.$emit("eventBreadcrumbs", "Editar atributos");
     this.getAttribute();
+    if (sessionStorage.getItem("attributeCreated")) {
+      this.status = sessionStorage.getItem("attributeCreated");
+      sessionStorage.removeItem("attributeCreated");
 
+      setTimeout(() => {
+        this.status = false;
+      }, 8000);
+    }
   },
   methods: {
     cleanData(data) {
@@ -75,14 +89,12 @@ export default {
     getAttribute() {
       const api = `${this.$urlApi}/admin/attributes/${this.$route.params.id}`;
       Vue.axios
-        .get(api,
-          {
-            headers: {
-              Authorization: "Bearer " + this.$store.getters.getToken,
-              "User-ID": this.$store.getters.getUserId
-            }
+        .get(api, {
+          headers: {
+            Authorization: "Bearer " + this.$store.getters.getToken,
+            "User-ID": this.$store.getters.getUserId
           }
-        )
+        })
         .then(response => {
           this.name = response.data.name;
         })
@@ -91,12 +103,11 @@ export default {
         });
     },
 
-
     submitForm() {
       this.status = "Enviando...";
-      const api = `${this.$urlApi}/admin/attributes`;
+      const api = `${this.$urlApi}/admin/attributes/${this.$route.params.id}`;
       Vue.axios
-        .post(
+        .put(
           api,
           {
             name: this.name,
@@ -111,28 +122,34 @@ export default {
         )
         .then(response => {
           this.error = false;
-          //this.users = response.data;
-
-          this.status = "Dados alterados com sucesso.";
-          this.name = '';
+          this.status = "Atributo alterado com sucesso.";
         })
         .catch(error => {
-
           this.status = false;
           this.error = JSON.parse(error.response.data.error);
-
-          setTimeout(() => {
-            this.error = false;
-          }, 5000);
-
         });
-    }
 
+        setTimeout(() => {
+          this.status = false;
+          this.error = false;
+        }, 8000);
+    }
   }
 };
 </script>
 <style scoped>
 .row {
-  padding:20px
+  padding: 20px;
+}
+span {
+  font-size: 12px;
+  color: #999;
+}
+.col-btn {
+  margin-top: -20px;
+}
+
+.variation {
+  border-top: 1px solid #ece9e9
 }
 </style>

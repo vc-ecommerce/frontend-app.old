@@ -131,7 +131,7 @@ export default {
           this.error = false;
           this.roles = response.data;
           this.total = response.data.total;
-          this.status = "Dados cadastrados com sucesso.";
+          this.status = "Função criada com sucesso!";
           this.$emit("reload");
 
         })

@@ -206,7 +206,7 @@ export default {
           this.error = false;
           this.users = response.data;
           this.total = response.data.total;
-          this.status = "Dados do usuário alterados com sucesso.";
+          this.status = "Usuário alterado com sucesso!";
         })
         .catch(error => {
           this.$eventHub.$emit("eventError", { data: error.response });
