@@ -140,7 +140,7 @@ export default {
           if (error.response.data === "attribute_variation_is_exists") {
             swal({
               title: "Dados duplicado!",
-              text: `Variação ${this.name}já existe.`
+              text: `Variação ${this.name} já existe.`
             });
           }
           this.btnDisabled = false;

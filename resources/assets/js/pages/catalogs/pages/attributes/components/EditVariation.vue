@@ -18,13 +18,9 @@
         </Alert>
       </div>
 
-      <div v-if="error && status === false" class="row">
+      <div v-if="error" class="row">
         <Alert className="alert alert-danger alert-fill alert-close alert-dismissible fade show">
-          <dl>
-            <dt v-for="err in error" :key="err.id">
-              {{ cleanData( err ) }}
-            </dt>
-          </dl>
+          {{ error }}
         </Alert>
       </div>
 
@@ -111,16 +107,21 @@ export default {
           this.total = response.data.total;
           this.status = "Variação editada com sucesso!";
           this.$emit("reload");
+
+          console.log(response);
         })
         .catch(error => {
           this.$eventHub.$emit("eventError", { data: error.response });
-          this.error = JSON.parse(error.response.data.error);
+
+          if ((error.response.data = "attribute_variation_is_exists")) {
+            this.error = `Variação ${data.name} já existe.`;
+          }
         });
 
-        setTimeout(() => {
-          this.error = false;
-          this.status = false;
-        }, 5000);
+      setTimeout(() => {
+        this.error = false;
+        this.status = false;
+      }, 5000);
     }
   }
 };

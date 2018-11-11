@@ -2459,7 +2459,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         if (error.response.data === "attribute_variation_is_exists") {
           swal({
             title: "Dados duplicado!",
-            text: "Varia\xE7\xE3o " + _this2.name + "j\xE1 existe."
+            text: "Varia\xE7\xE3o " + _this2.name + " j\xE1 existe."
           });
         }
         _this2.btnDisabled = false;
@@ -2484,10 +2484,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__components_layouts_Alert__ = __webpack_require__("./resources/assets/js/components/layouts/Alert.vue");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__components_layouts_Alert___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__components_layouts_Alert__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__helpers_tools__ = __webpack_require__("./resources/assets/js/helpers/tools.js");
-//
-//
-//
-//
 //
 //
 //
@@ -2592,9 +2588,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         _this.total = response.data.total;
         _this.status = "Variação editada com sucesso!";
         _this.$emit("reload");
+
+        console.log(response);
       }).catch(function (error) {
         _this.$eventHub.$emit("eventError", { data: error.response });
-        _this.error = JSON.parse(error.response.data.error);
+
+        if (error.response.data = "attribute_variation_is_exists") {
+          _this.error = "Varia\xE7\xE3o " + data.name + " j\xE1 existe.";
+        }
       });
 
       setTimeout(function () {
@@ -3957,7 +3958,7 @@ var render = function() {
               )
             : _vm._e(),
           _vm._v(" "),
-          _vm.error && _vm.status === false
+          _vm.error
             ? _c(
                 "div",
                 { staticClass: "row" },
@@ -3970,20 +3971,7 @@ var render = function() {
                           "alert alert-danger alert-fill alert-close alert-dismissible fade show"
                       }
                     },
-                    [
-                      _c(
-                        "dl",
-                        _vm._l(_vm.error, function(err) {
-                          return _c("dt", { key: err.id }, [
-                            _vm._v(
-                              "\n            " +
-                                _vm._s(_vm.cleanData(err)) +
-                                "\n          "
-                            )
-                          ])
-                        })
-                      )
-                    ]
+                    [_vm._v("\n        " + _vm._s(_vm.error) + "\n      ")]
                   )
                 ],
                 1
