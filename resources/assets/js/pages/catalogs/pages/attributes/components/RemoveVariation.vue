@@ -13,12 +13,14 @@ export default {
     return {
       total: 0,
       active: true,
-      attributeId: this.$route.params.id,
+      attributeId: this.$route.params.id
     };
   },
   methods: {
     send(variation) {
-      const api = `${this.$urlApi}/admin/attributes/${this.attributeId}/variations/${this.dataItem._id}`;
+      const api = `${this.$urlApi}/admin/attributes/${
+        this.attributeId
+      }/variations/${this.dataItem._id}`;
 
       return Vue.axios
         .delete(api, {
@@ -40,7 +42,6 @@ export default {
     },
 
     remove(variation) {
-
       const parent = this;
       swal(
         {
@@ -60,13 +61,14 @@ export default {
             let result = parent.send(variation);
             result.then(function(value) {
               if (value == true) {
-
-
                 let index = parent.dataVariations.data.indexOf(variation);
                 parent.dataVariations.data.splice(index, 1);
 
                 parent.dataVariations.total = parent.dataVariations.total - 1;
-                parent.$eventHub.$emit("totalAttribute", parent.dataVariations.total);
+                parent.$eventHub.$emit(
+                  "totalAttribute",
+                  parent.dataVariations.total
+                );
 
                 swal({
                   title: "Removido",

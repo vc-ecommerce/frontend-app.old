@@ -2189,8 +2189,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
       var data = this.$store.getters.getItem;
 
-      console.log(data);
-
       this.status = "Enviando...";
 
       var api = this.$urlApi + "/admin/roles/" + data._id;

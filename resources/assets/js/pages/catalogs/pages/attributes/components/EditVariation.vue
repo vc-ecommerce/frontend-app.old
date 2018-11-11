@@ -9,7 +9,7 @@
 
 
     <Modal :idModal="$store.getters.getItem ? $store.getters.getItem._id : ''"
-      titleModal="Editar função"
+      titleModal="Editar variação de atributo"
       sizeModal="lg">
 
       <div v-if="status && error === false" class="row">
@@ -28,39 +28,22 @@
         </Alert>
       </div>
 
-      <form id="edit-role" @submit.prevent="submitForm">
+      <form id="edit-variation" @submit.prevent="submitForm">
 
         <div class="row">
-          <div class="col-lg-6">
-            <fieldset class="form-group">
-              <label class="form-label semibold" for="role">Role Description</label>
-              <input v-if="$store.getters.getItem" type="text" required class="form-control" v-model="$store.getters.getItem.description" placeholder="Description">
-            </fieldset>
-          </div>
-           <div class="col-lg-6">
-            <fieldset class="form-group">
-              <label class="form-label semibold" for="name">Name</label>
-              <input v-if="$store.getters.getItem" type="text" required class="form-control" v-model="$store.getters.getItem.name" placeholder="Example: STAFF_COMMERCIAL">
-            </fieldset>
-          </div>
-        </div>
 
-        <div class="row" style="margin:10px 0 10px 0">
-          <label class="form-label semibold">Privilégios</label>
-        </div>
-
-        <div class="row">
-          <div class="checkbox-toggle" v-for="(privilege, index) in dataPrivilegies" :key="index" style="margin-left:20px">
-            <span :class="index = index + generateId"></span>
-            <input type="checkbox" v-model="privilegeRole" :id="'check-toggle-'+ index" :value="privilege">
-            <label :for="'check-toggle-'+ index">{{ privilege.description }}</label>
+           <div class="col-lg-12">
+            <fieldset class="form-group">
+              <label class="form-label semibold" for="name">Nome da variação do atributo</label>
+              <input v-if="$store.getters.getItem" type="text" required class="form-control" v-model="$store.getters.getItem.name" placeholder="Nome da variação do atributo">
+            </fieldset>
           </div>
         </div>
 
       </form>
 
       <span slot="btn">
-        <button form="edit-role" type="submit" class="btn btn-rounded btn-primary"><i class="glyphicon glyphicon-ok"></i> Salvar Alterações</button>
+        <button form="edit-variation" type="submit" class="btn btn-rounded btn-primary"><i class="glyphicon glyphicon-ok"></i> Salvar Alterações</button>
       </span>
 
     </Modal>
@@ -81,42 +64,21 @@ export default {
     ModalLink,
     Alert
   },
-  props: ["dataPrivilegies", "dataItem"],
+  props: ["dataVariations", "dataItem"],
   data() {
     return {
       status: false,
       error: false,
-      role: {
-        name: "",
-        description: "",
-        privileges: []
-      },
-      options: [
-        { text: "Ativo", value: true },
-        { text: "Desativado", value: false }
-      ]
-    };
-  },
-  computed: {
-    generateId() {
-      return Math.floor(Math.random() * 1000000 + 1);
-    },
-
-    privilegeRole: {
-      get() {
-        return this.$store.getters.getItem ? this.$store.getters.getItem.privileges : []
-      },
-      set(value) {
-        this.$store.commit("updatePrivilegeRole", value);
+      variation: {
+        name: ""
       }
-    },
+    };
   },
   methods: {
     cleanData(data) {
       return cleanDataApi(data);
     },
     submitForm() {
-
       if (!this.$store.getters.getItem) {
         return;
       }
@@ -125,16 +87,16 @@ export default {
 
       this.status = "Enviando...";
 
-      const api = `${this.$urlApi}/admin/roles/${data._id}`;
+      const api = `${this.$urlApi}/admin/attributes/${
+        this.$route.params.id
+      }/variations/${data._id}`;
+
       Vue.axios
         .put(
           api,
           {
-            name: data.name.toUpperCase(),
-            description: data.description,
-            privileges: data.privileges,
-            default: false,
-            admin: "edit-role"
+            name: data.name,
+            default: false
           },
           {
             headers: {
@@ -145,20 +107,20 @@ export default {
         )
         .then(response => {
           this.error = false;
-          this.roles = response.data;
+          this.variations = response.data;
           this.total = response.data.total;
-          this.status = "Função editada com sucesso!";
+          this.status = "Variação editada com sucesso!";
           this.$emit("reload");
         })
         .catch(error => {
           this.$eventHub.$emit("eventError", { data: error.response });
-          this.status = false;
           this.error = JSON.parse(error.response.data.error);
-
-          setTimeout(() => {
-            this.error = false;
-          }, 5000);
         });
+
+        setTimeout(() => {
+          this.error = false;
+          this.status = false;
+        }, 5000);
     }
   }
 };

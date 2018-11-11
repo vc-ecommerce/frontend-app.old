@@ -17,14 +17,9 @@
                 <td style="white-space: nowrap; width: 1%;">
                   <div class="tabledit-toolbar btn-toolbar" style="text-align: left;">
                     <div class="btn-group btn-group-sm" style="float: none;">
-                      <button type="button" class="tabledit-edit-button btn btn-sm btn-default" style="float: none;">
-                        <span class="glyphicon glyphicon-pencil"></span>
-                      </button>
 
-
-                      <RemoveVariation v-if="!variation.default" :dataVariations="variations" :dataItem="variation"/>
-
-
+                      <EditVariation v-if="!variation.default" :dataVariations="variations" :dataItem="variation"  style="float: none;" />
+                      <RemoveVariation v-if="!variation.default" :dataVariations="variations" :dataItem="variation"  style="float: none; margin-left:-1px"/>
 
                     </div>
                   </div>
@@ -58,6 +53,7 @@
 <script>
 import Table from "./../../../../../components/layouts/Table";
 import RemoveVariation from "./RemoveVariation";
+import EditVariation from './EditVariation'
 
 export default {
   name: "AttributeVariation",
@@ -65,6 +61,7 @@ export default {
   components: {
     Table,
     RemoveVariation,
+    EditVariation,
   },
   data() {
     return {
