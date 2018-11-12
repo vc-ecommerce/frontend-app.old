@@ -1,22 +1,26 @@
 <template>
-  <button type="button" @click.prevent="remove(dataItem)" class="tabledit-delete-button btn btn-sm btn-danger" style="float: none; margin-left:-1px">
+  <button type="button" @click.prevent="remove(dataItem)" class="tabledit-delete-button btn btn-sm btn-danger">
     <span class="glyphicon glyphicon-trash"></span>
   </button>
+
 </template>
 <script>
 export default {
-  name: "RemoveRole",
+  name: "RemoveVariation",
   components: {},
-  props: ["dataRoles", "dataItem"],
+  props: ["dataVariations", "dataItem"],
   data() {
     return {
       total: 0,
-      active: true
+      active: true,
+      attributeId: this.$route.params.id
     };
   },
   methods: {
-    send(role) {
-      const api = `${this.$urlApi}/admin/roles/${role._id}`;
+    send(variation) {
+      const api = `${this.$urlApi}/admin/attributes/${
+        this.attributeId
+      }/variations/${this.dataItem._id}`;
 
       return Vue.axios
         .delete(api, {
@@ -37,12 +41,12 @@ export default {
         });
     },
 
-    remove(role) {
+    remove(variation) {
       const parent = this;
       swal(
         {
-          title: "Deseja realmente excluir?",
-          text: `${role.description}`,
+          title: "Deseja realmente excluir a variação?",
+          text: `${variation.name}`,
           type: "warning",
           showCancelButton: true,
           confirmButtonClass: "btn-danger",
@@ -54,18 +58,21 @@ export default {
 
         function(isConfirm) {
           if (isConfirm) {
-            let result = parent.send(role);
+            let result = parent.send(variation);
             result.then(function(value) {
               if (value == true) {
-                let index = parent.dataRoles.data.indexOf(role);
-                parent.dataRoles.data.splice(index, 1);
+                let index = parent.dataVariations.data.indexOf(variation);
+                parent.dataVariations.data.splice(index, 1);
 
-                parent.dataRoles.total = parent.dataRoles.total - 1;
-                parent.$eventHub.$emit("totalRole", parent.dataRoles.total);
+                parent.dataVariations.total = parent.dataVariations.total - 1;
+                parent.$eventHub.$emit(
+                  "totalAttribute",
+                  parent.dataVariations.total
+                );
 
                 swal({
                   title: "Removido",
-                  text: "Dados foram removidos com sucesso",
+                  text: "Variação removida com sucesso",
                   type: "success",
                   confirmButtonClass: "btn-success"
                 });

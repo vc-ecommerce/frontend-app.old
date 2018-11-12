@@ -1,4 +1,4 @@
-webpackJsonp([7],{
+webpackJsonp([8],{
 
 /***/ "./node_modules/axios/index.js":
 /***/ (function(module, exports, __webpack_require__) {
@@ -3464,13 +3464,13 @@ var mutations = {
   setItem: function setItem(state, obj) {
     state.item = obj;
   },
-  updateRoleUser: function updateRoleUser(state, roles) {
+  setItemRole: function setItemRole(state, roles) {
     state.item.roles = roles;
   },
-  updatePrivilegeRole: function updatePrivilegeRole(state, privileges) {
+  setItemPrivilege: function setItemPrivilege(state, privileges) {
     state.item.privileges = privileges;
   },
-  updateActiveUser: function updateActiveUser(state, active) {
+  setItemActive: function setItemActive(state, active) {
     state.item.active = active;
   }
 };
@@ -3483,7 +3483,7 @@ var mutations = {
 
 /***/ }),
 
-/***/ 8:
+/***/ 9:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__("./resources/assets/js/pages/accounts/accounts.js");
@@ -3491,4 +3491,4 @@ module.exports = __webpack_require__("./resources/assets/js/pages/accounts/accou
 
 /***/ })
 
-},[8]);
+},[9]);

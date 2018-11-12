@@ -1,13 +1,13 @@
 <template>
-  <button type="button" @click.prevent="remove(dataItem)" class="tabledit-delete-button btn btn-sm btn-danger" style="float: none; margin-left:-1px">
+  <button type="button" @click.prevent="remove(dataItem)" class="tabledit-delete-button btn btn-sm btn-danger">
     <span class="glyphicon glyphicon-trash"></span>
   </button>
 </template>
 <script>
 export default {
-  name: "RemoveRole",
+  name: "RemoveAttribute",
   components: {},
-  props: ["dataRoles", "dataItem"],
+  props: ["dataAttributes", "dataItem"],
   data() {
     return {
       total: 0,
@@ -15,8 +15,8 @@ export default {
     };
   },
   methods: {
-    send(role) {
-      const api = `${this.$urlApi}/admin/roles/${role._id}`;
+    send(attribute) {
+      const api = `${this.$urlApi}/admin/attributes/${attribute._id}`;
 
       return Vue.axios
         .delete(api, {
@@ -37,12 +37,12 @@ export default {
         });
     },
 
-    remove(role) {
+    remove(attribute) {
       const parent = this;
       swal(
         {
-          title: "Deseja realmente excluir?",
-          text: `${role.description}`,
+          title: "Deseja realmente excluir o atributo?",
+          text: `${attribute.name}`,
           type: "warning",
           showCancelButton: true,
           confirmButtonClass: "btn-danger",
@@ -54,14 +54,14 @@ export default {
 
         function(isConfirm) {
           if (isConfirm) {
-            let result = parent.send(role);
+            let result = parent.send(attribute);
             result.then(function(value) {
               if (value == true) {
-                let index = parent.dataRoles.data.indexOf(role);
-                parent.dataRoles.data.splice(index, 1);
+                let index = parent.dataAttributes.data.indexOf(attribute);
+                parent.dataAttributes.data.splice(index, 1);
 
-                parent.dataRoles.total = parent.dataRoles.total - 1;
-                parent.$eventHub.$emit("totalRole", parent.dataRoles.total);
+                parent.dataAttributes.total = parent.dataAttributes.total - 1;
+                parent.$eventHub.$emit("totalAttribute", parent.dataAttributes.total);
 
                 swal({
                   title: "Removido",

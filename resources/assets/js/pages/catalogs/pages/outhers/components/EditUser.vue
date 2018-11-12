@@ -138,7 +138,7 @@ export default {
         );
       },
       set(value) {
-        this.$store.commit("updateRoleUser", value);
+        this.$store.commit("setItemRole", value);
       }
     },
     selectedOption: {
@@ -150,7 +150,7 @@ export default {
         );
       },
       set(value) {
-        this.$store.commit("updateActiveUser", Boolean(value));
+        this.$store.commit("setItemActive", Boolean(value));
       }
     }
   },

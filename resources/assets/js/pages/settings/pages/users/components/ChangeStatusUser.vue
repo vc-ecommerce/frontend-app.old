@@ -1,5 +1,5 @@
 <template>
-  <button v-if="isUserLogged" type="button" @click.prevent="update(dataItem)" class="tabledit-delete-button btn btn-sm" style="float: none; margin-right:2px">
+  <button v-if="isUserLogged" type="button" @click.prevent="update(dataItem)" class="tabledit-delete-button btn btn-sm" style="float: none; margin-right:-1px">
     <span v-if="dataItem.active" class="glyphicon glyphicon-eye-open"></span>
     <span v-else class="glyphicon glyphicon-eye-close"></span>
   </button>

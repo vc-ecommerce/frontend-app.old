@@ -34,6 +34,7 @@ mix.js('resources/assets/js/pages/settings/users.js', 'public/js/users.js')
   .js('resources/assets/js/pages/settings/privileges.js', 'public/js/privileges.js');
 
 mix.js('resources/assets/js/pages/catalogs/attributes.js', 'public/js/attributes.js');
+mix.js('resources/assets/js/pages/catalogs/pages.js', 'public/js/pages.js');
 
 mix.js('resources/assets/js/pages/accounts/accounts.js', 'public/js/accounts.js');
 

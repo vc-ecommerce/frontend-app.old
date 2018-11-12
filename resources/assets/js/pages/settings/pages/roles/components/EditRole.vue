@@ -107,7 +107,7 @@ export default {
         return this.$store.getters.getItem ? this.$store.getters.getItem.privileges : []
       },
       set(value) {
-        this.$store.commit("updatePrivilegeRole", value);
+        this.$store.commit("setItemPrivilege", value);
       }
     },
   },

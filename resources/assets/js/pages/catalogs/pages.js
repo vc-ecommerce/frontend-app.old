@@ -1,10 +1,10 @@
 require('../../bootstrap')
 
 import store from '../../stores';
-import router from './pages/attributes/router'
+import router from './pages/pages-info/router'
 
-import AttributeIndex from './pages/attributes/AttributeIndex'
-import Breadcrumbs from './pages/attributes/breadcrumbs/Breadcrumbs'
+import PagesIndex from './pages/pages-info/PagesIndex'
+import Breadcrumbs from './pages/pages-info/breadcrumbs/Breadcrumbs'
 import { userIsAuthorizedPage } from "../../helpers/validates";
 
 new Vue({
@@ -13,7 +13,7 @@ new Vue({
   router,
   components: {
     Breadcrumbs,
-    AttributeIndex
+    PagesIndex
   },
   beforeCreate() {
     userIsAuthorizedPage(this.$store.getters.getUserRoles, [

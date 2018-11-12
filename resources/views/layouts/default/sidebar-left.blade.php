@@ -15,25 +15,25 @@
           <span class="lbl">Catálago</span>
         </span>
         <ul>
-          <li><a href="#"><span class="lbl">Departamentos</span></a></li>
+          <li><a href="#"><span class="lbl">Categorias</span></a></li>
           <li><a href="#"><span class="lbl">Produtos</span></a></li>
-          <li><a href="#"><span class="lbl">Tipos de assinatura</span></a></li>
-          <li><a href="#"><span class="lbl">Filtros</span></a></li>
+          {{-- <li><a href="#"><span class="lbl">Tipos de assinatura</span></a></li> --}}
+          {{-- <li><a href="#"><span class="lbl">Filtros</span></a></li> --}}
           <li>
             <a href="{{ route('catalogs.attributes.index') }}">
                 <span class="lbl">Atributos</span>
             </a>
           </li>
-          <li><a href="#"><span class="lbl">Opções</span></a></li>
+          {{-- <li><a href="#"><span class="lbl">Opções</span></a></li> --}}
           <li><a href="#"><span class="lbl">Marcas</span></a></li>
-          <li><a href="#"><span class="lbl">Downloads</span></a></li>
+          {{-- <li><a href="#"><span class="lbl">Downloads</span></a></li> --}}
           <li><a href="#"><span class="lbl">Comentários</span></a></li>
           <li><a href="#"><span class="lbl">Páginas de informações</span></a></li>
 
         </ul>
       </li>
 
-      <li class="purple with-sub">
+      {{-- <li class="purple with-sub">
         <span>
           <i class="fa fa-puzzle-piece"></i>
           <span class="lbl">Extensões</span>
@@ -42,7 +42,7 @@
           <li><a href="#"><span class="lbl">Marketplace</span></a></li>
           <li><a href="#"><span class="lbl">Extensões</span></a></li>
         </ul>
-      </li>
+      </li> --}}
 
       <li class="red with-sub">
         <span>
@@ -121,7 +121,7 @@
             <ul>
               <li><a href="{{ route('settings.users.index') }}"><span class="lbl">Gerenciar usuários</span></a></li>
               <li><a href="#"><span class="lbl">Grupos de usuários</span></a></li>
-              <li><a href="#"><span class="lbl">API</span></a></li>
+              {{-- <li><a href="#"><span class="lbl">API</span></a></li> --}}
             </ul>
           </li>
 

@@ -5,7 +5,7 @@ namespace VoceCrianca\Http\Controllers\Catalogs;
 use Illuminate\Http\Request;
 use VoceCrianca\Http\Controllers\Controller;
 
-class AttributeController extends Controller
+class PageController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,7 +14,7 @@ class AttributeController extends Controller
      */
     public function index()
     {
-        return view('pages.catalogs.attributes.index');
+        return view('pages.catalogs.pages.index');
     }
 
 }

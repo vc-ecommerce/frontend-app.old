@@ -1,4 +1,4 @@
-webpackJsonp([2],{
+webpackJsonp([3],{
 
 /***/ "./node_modules/axios/index.js":
 /***/ (function(module, exports, __webpack_require__) {
@@ -1702,14 +1702,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  name: 'ModalLink',
+  name: "ModalLink",
   props: {
     showType: {
       type: String,
-      default: 'button'
+      default: "button"
     },
     showTypeClassName: {
-      default: 'btn btn-inline'
+      default: "btn btn-inline"
     },
     sizeModal: {
       type: String,
@@ -1733,7 +1733,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   },
   methods: {
     fillDataStore: function fillDataStore() {
-      this.$store.commit('setItem', this.dataItem);
+      this.$store.commit("setItem", this.dataItem);
     }
   }
 });
@@ -2444,7 +2444,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         return Object(__WEBPACK_IMPORTED_MODULE_4__helpers_tools__["b" /* cleanRole */])(this.$store.getters.getItem ? this.$store.getters.getItem.roles : []);
       },
       set: function set(value) {
-        this.$store.commit("updateRoleUser", value);
+        this.$store.commit("setItemRole", value);
       }
     },
     selectedOption: {
@@ -2452,7 +2452,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         return Boolean(this.$store.getters.getItem ? this.$store.getters.getItem.active : false);
       },
       set: function set(value) {
-        this.$store.commit("updateActiveUser", Boolean(value));
+        this.$store.commit("setItemActive", Boolean(value));
       }
     }
   },
@@ -2523,6 +2523,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
 //
 //
 //
@@ -4161,11 +4163,11 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _vm.isUserLogged
     ? _c(
-        "a",
+        "button",
         {
           staticClass: "tabledit-delete-button btn btn-sm btn-danger",
-          staticStyle: { float: "none", "margin-left": "2px" },
-          attrs: { href: "", type: "button" },
+          staticStyle: { float: "none", "margin-left": "-1px" },
+          attrs: { type: "button" },
           on: {
             click: function($event) {
               $event.preventDefault()
@@ -4294,7 +4296,7 @@ var render = function() {
         "button",
         {
           staticClass: "tabledit-delete-button btn btn-sm",
-          staticStyle: { float: "none", "margin-right": "2px" },
+          staticStyle: { float: "none", "margin-right": "-1px" },
           attrs: { type: "button" },
           on: {
             click: function($event) {
@@ -6356,13 +6358,13 @@ var mutations = {
   setItem: function setItem(state, obj) {
     state.item = obj;
   },
-  updateRoleUser: function updateRoleUser(state, roles) {
+  setItemRole: function setItemRole(state, roles) {
     state.item.roles = roles;
   },
-  updatePrivilegeRole: function updatePrivilegeRole(state, privileges) {
+  setItemPrivilege: function setItemPrivilege(state, privileges) {
     state.item.privileges = privileges;
   },
-  updateActiveUser: function updateActiveUser(state, active) {
+  setItemActive: function setItemActive(state, active) {
     state.item.active = active;
   }
 };

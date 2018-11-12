@@ -1,7 +1,9 @@
 <template>
-  <a href="" v-if="isUserLogged" type="button" @click.prevent="remove(dataItem)" class="tabledit-delete-button btn btn-sm btn-danger" style="float: none; margin-left:2px">
+
+  <button  v-if="isUserLogged" type="button" @click.prevent="remove(dataItem)" class="tabledit-delete-button btn btn-sm btn-danger" style="float: none; margin-left:-1px">
     <span class="glyphicon glyphicon-trash"></span>
-  </a>
+  </button>
+
 </template>
 <script>
 export default {
