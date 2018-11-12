@@ -4,7 +4,7 @@ import store from '../../stores';
 import router from './pages/pages-info/router'
 
 import PagesIndex from './pages/pages-info/PagesIndex'
-import Breadcrumbs from './pages/pages-info/breadcrumbs/Breadcrumbs'
+import Breadcrumbs from '../../components/breadcrumbs/Breadcrumbs'
 import { userIsAuthorizedPage } from "../../helpers/validates";
 
 new Vue({

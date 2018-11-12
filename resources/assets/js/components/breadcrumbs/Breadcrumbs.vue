@@ -16,8 +16,6 @@ export default {
     this.$eventHub.$on("eventBreadcrumbs", function(data) {
       parent.active = data;
     });
-  },
-  mounted() {},
-  methods: {}
+  }
 };
 </script>

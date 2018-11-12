@@ -1568,6 +1568,34 @@ module.exports = {
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/breadcrumbs/Breadcrumbs.vue":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  name: "Breadcrumbs",
+  components: {},
+  props: [],
+  data: function data() {
+    return {
+      active: "Listar"
+    };
+  },
+  created: function created() {
+    var parent = this;
+    this.$eventHub.$on("eventBreadcrumbs", function (data) {
+      parent.active = data;
+    });
+  }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/layouts/Alert.vue":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -2281,37 +2309,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "PagesIndex"
-});
-
-/***/ }),
-
-/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/pages/catalogs/pages/pages-info/breadcrumbs/Breadcrumbs.vue":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-//
-//
-//
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-  name: "Breadcrumbs",
-  components: {},
-  props: [],
-  data: function data() {
-    return {
-      active: "Listar"
-    };
-  },
-  created: function created() {
-    var parent = this;
-    this.$eventHub.$on("eventBreadcrumbs", function (data) {
-      parent.active = data;
-    });
-  },
-  mounted: function mounted() {},
-
-  methods: {}
 });
 
 /***/ }),
@@ -3234,27 +3231,6 @@ if (false) {
   module.hot.accept()
   if (module.hot.data) {
     require("vue-hot-reload-api")      .rerender("data-v-1a33d7be", module.exports)
-  }
-}
-
-/***/ }),
-
-/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-1b3be568\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/pages/catalogs/pages/pages-info/breadcrumbs/Breadcrumbs.vue":
-/***/ (function(module, exports, __webpack_require__) {
-
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c("li", { staticClass: "active" }, [_vm._v(_vm._s(_vm.active))])
-}
-var staticRenderFns = []
-render._withStripped = true
-module.exports = { render: render, staticRenderFns: staticRenderFns }
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-1b3be568", module.exports)
   }
 }
 
@@ -4267,6 +4243,27 @@ if (false) {
   module.hot.accept()
   if (module.hot.data) {
     require("vue-hot-reload-api")      .rerender("data-v-912305fa", module.exports)
+  }
+}
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-bd42c0ac\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/breadcrumbs/Breadcrumbs.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("li", { staticClass: "active" }, [_vm._v(_vm._s(_vm.active))])
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-bd42c0ac", module.exports)
   }
 }
 
@@ -8469,6 +8466,54 @@ Vue.prototype.$urlApi = 'http://api.vocecrianca.site/v1';
 
 /***/ }),
 
+/***/ "./resources/assets/js/components/breadcrumbs/Breadcrumbs.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")
+/* script */
+var __vue_script__ = __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/breadcrumbs/Breadcrumbs.vue")
+/* template */
+var __vue_template__ = __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-bd42c0ac\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/breadcrumbs/Breadcrumbs.vue")
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/breadcrumbs/Breadcrumbs.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-bd42c0ac", Component.options)
+  } else {
+    hotAPI.reload("data-v-bd42c0ac", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
 /***/ "./resources/assets/js/components/layouts/Alert.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -8913,8 +8958,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__pages_pages_info_router__ = __webpack_require__("./resources/assets/js/pages/catalogs/pages/pages-info/router/index.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__pages_pages_info_PagesIndex__ = __webpack_require__("./resources/assets/js/pages/catalogs/pages/pages-info/PagesIndex.vue");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__pages_pages_info_PagesIndex___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__pages_pages_info_PagesIndex__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__pages_pages_info_breadcrumbs_Breadcrumbs__ = __webpack_require__("./resources/assets/js/pages/catalogs/pages/pages-info/breadcrumbs/Breadcrumbs.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__pages_pages_info_breadcrumbs_Breadcrumbs___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__pages_pages_info_breadcrumbs_Breadcrumbs__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__components_breadcrumbs_Breadcrumbs__ = __webpack_require__("./resources/assets/js/components/breadcrumbs/Breadcrumbs.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__components_breadcrumbs_Breadcrumbs___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__components_breadcrumbs_Breadcrumbs__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__helpers_validates__ = __webpack_require__("./resources/assets/js/helpers/validates.js");
 __webpack_require__("./resources/assets/js/bootstrap.js");
 
@@ -8930,7 +8975,7 @@ new Vue({
   store: __WEBPACK_IMPORTED_MODULE_0__stores__["a" /* default */],
   router: __WEBPACK_IMPORTED_MODULE_1__pages_pages_info_router__["a" /* default */],
   components: {
-    Breadcrumbs: __WEBPACK_IMPORTED_MODULE_3__pages_pages_info_breadcrumbs_Breadcrumbs___default.a,
+    Breadcrumbs: __WEBPACK_IMPORTED_MODULE_3__components_breadcrumbs_Breadcrumbs___default.a,
     PagesIndex: __WEBPACK_IMPORTED_MODULE_2__pages_pages_info_PagesIndex___default.a
   },
   beforeCreate: function beforeCreate() {
@@ -9133,54 +9178,6 @@ if (false) {(function () {
     hotAPI.createRecord("data-v-912305fa", Component.options)
   } else {
     hotAPI.reload("data-v-912305fa", Component.options)
-  }
-  module.hot.dispose(function (data) {
-    disposed = true
-  })
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
-
-/***/ "./resources/assets/js/pages/catalogs/pages/pages-info/breadcrumbs/Breadcrumbs.vue":
-/***/ (function(module, exports, __webpack_require__) {
-
-var disposed = false
-var normalizeComponent = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")
-/* script */
-var __vue_script__ = __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/pages/catalogs/pages/pages-info/breadcrumbs/Breadcrumbs.vue")
-/* template */
-var __vue_template__ = __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-1b3be568\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/pages/catalogs/pages/pages-info/breadcrumbs/Breadcrumbs.vue")
-/* template functional */
-var __vue_template_functional__ = false
-/* styles */
-var __vue_styles__ = null
-/* scopeId */
-var __vue_scopeId__ = null
-/* moduleIdentifier (server only) */
-var __vue_module_identifier__ = null
-var Component = normalizeComponent(
-  __vue_script__,
-  __vue_template__,
-  __vue_template_functional__,
-  __vue_styles__,
-  __vue_scopeId__,
-  __vue_module_identifier__
-)
-Component.options.__file = "resources/assets/js/pages/catalogs/pages/pages-info/breadcrumbs/Breadcrumbs.vue"
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-1b3be568", Component.options)
-  } else {
-    hotAPI.reload("data-v-1b3be568", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true
