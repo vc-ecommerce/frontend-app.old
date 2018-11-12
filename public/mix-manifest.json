@@ -1,8 +1,9 @@
 {
+    "/js/pages.js": "/js/pages.js",
+    "/js/attributes.js": "/js/attributes.js",
     "/js/home.js": "/js/home.js",
     "/js/users.js": "/js/users.js",
-    "/js/vue-app.js": "/js/vue-app.js",
-    "/js/attributes.js": "/js/attributes.js",
+    "/js/init.js": "/js/init.js",
     "/js/roles.js": "/js/roles.js",
     "/js/auth.js": "/js/auth.js",
     "/js/privileges.js": "/js/privileges.js",
