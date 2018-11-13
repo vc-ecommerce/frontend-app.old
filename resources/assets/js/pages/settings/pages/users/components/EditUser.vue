@@ -189,7 +189,7 @@ export default {
             name: data.name,
             email: data.email,
             active: data.active,
-            admin: "edit-user",
+            action: "edit-user",
             password: this.password,
             password_confirmation: this.password,
             roles: data.roles

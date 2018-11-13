@@ -33,6 +33,8 @@
 
                     <div class="btn-group btn-group-sm" style="float: none  !important;">
 
+                      <ChangeStatus :dataItem="page"/>
+
                       <button v-if="!page.default" @click.prevent="clickEdit(page._id)" type="button" class="tabledit-edit-button btn btn-sm btn-default" style="float: none;">
                         <span class="glyphicon glyphicon-pencil"></span>
                       </button>
@@ -56,6 +58,7 @@
 </template>
 <script>
 import RemovePage from "./components/RemovePage";
+import ChangeStatus from './components/ChangeStatus'
 import Table from "./../../../../components/layouts/Table";
 import Pagination from "./../../../../components/paginations/Pagination";
 import { cleanRole } from "./../../../../helpers/tools";
@@ -64,6 +67,7 @@ export default {
   name: "PageList",
   components: {
     RemovePage,
+    ChangeStatus,
     Table,
     Pagination
   },

@@ -159,7 +159,7 @@ export default {
             password: this.user.password,
             password_confirmation: this.user.password,
             roles: this.user.roles,
-            admin: "create-user"
+            action: "create-user"
           },
           {
             headers: {

@@ -2009,7 +2009,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
       return Vue.axios.put(api, {
         active: status,
-        admin: "edit-status"
+        action: "edit-status"
       }, {
         headers: {
           Authorization: "Bearer " + this.$store.getters.getToken,
@@ -2267,7 +2267,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         password: this.user.password,
         password_confirmation: this.user.password,
         roles: this.user.roles,
-        admin: "create-user"
+        action: "create-user"
       }, {
         headers: {
           Authorization: "Bearer " + this.$store.getters.getToken,
@@ -2488,7 +2488,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         name: data.name,
         email: data.email,
         active: data.active,
-        admin: "edit-user",
+        action: "edit-user",
         password: this.password,
         password_confirmation: this.password,
         roles: data.roles

@@ -134,7 +134,7 @@ export default {
             description: data.description,
             privileges: data.privileges,
             default: false,
-            admin: "edit-role"
+            action: "edit-role"
           },
           {
             headers: {

@@ -117,7 +117,7 @@ export default {
             description: this.role.description,
             privileges: this.role.privileges,
             default: false,
-            admin: "create-role"
+            action: "create-role"
           },
           {
             headers: {

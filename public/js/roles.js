@@ -2021,7 +2021,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         description: this.role.description,
         privileges: this.role.privileges,
         default: false,
-        admin: "create-role"
+        action: "create-role"
       }, {
         headers: {
           Authorization: "Bearer " + this.$store.getters.getToken,
@@ -2197,7 +2197,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         description: data.description,
         privileges: data.privileges,
         default: false,
-        admin: "edit-role"
+        action: "edit-role"
       }, {
         headers: {
           Authorization: "Bearer " + this.$store.getters.getToken,

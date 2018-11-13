@@ -2065,11 +2065,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_RemovePage__ = __webpack_require__("./resources/assets/js/pages/catalogs/pages/pages-info/components/RemovePage.vue");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_RemovePage___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__components_RemovePage__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_layouts_Table__ = __webpack_require__("./resources/assets/js/components/layouts/Table.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_layouts_Table___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__components_layouts_Table__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_paginations_Pagination__ = __webpack_require__("./resources/assets/js/components/paginations/Pagination.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_paginations_Pagination___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__components_paginations_Pagination__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__helpers_tools__ = __webpack_require__("./resources/assets/js/helpers/tools.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_ChangeStatus__ = __webpack_require__("./resources/assets/js/pages/catalogs/pages/pages-info/components/ChangeStatus.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_ChangeStatus___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__components_ChangeStatus__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_layouts_Table__ = __webpack_require__("./resources/assets/js/components/layouts/Table.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_layouts_Table___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__components_layouts_Table__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__components_paginations_Pagination__ = __webpack_require__("./resources/assets/js/components/paginations/Pagination.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__components_paginations_Pagination___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__components_paginations_Pagination__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__helpers_tools__ = __webpack_require__("./resources/assets/js/helpers/tools.js");
 //
 //
 //
@@ -2126,6 +2128,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+
 
 
 
@@ -2136,8 +2141,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   name: "PageList",
   components: {
     RemovePage: __WEBPACK_IMPORTED_MODULE_0__components_RemovePage___default.a,
-    Table: __WEBPACK_IMPORTED_MODULE_1__components_layouts_Table___default.a,
-    Pagination: __WEBPACK_IMPORTED_MODULE_2__components_paginations_Pagination___default.a
+    ChangeStatus: __WEBPACK_IMPORTED_MODULE_1__components_ChangeStatus___default.a,
+    Table: __WEBPACK_IMPORTED_MODULE_2__components_layouts_Table___default.a,
+    Pagination: __WEBPACK_IMPORTED_MODULE_3__components_paginations_Pagination___default.a
   },
   props: [],
   data: function data() {
@@ -2184,6 +2190,128 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       }).catch(function (error) {
         //console.log(error.response);
         _this.$eventHub.$emit("eventError", { data: error.response });
+      });
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/pages/catalogs/pages/pages-info/components/ChangeStatus.vue":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  name: "ChangeStatus",
+  components: {},
+  props: ["dataItem"],
+  data: function data() {
+    return {};
+  },
+
+  methods: {
+    send: function send(page) {
+      var _this = this;
+
+      var status = !Boolean(page.active);
+      var result = false;
+
+      var api = this.$urlApi + "/admin/pages/" + page._id;
+
+      return Vue.axios.put(api, {
+        active: status,
+        action: 'edit-status'
+      }, {
+        headers: {
+          Authorization: "Bearer " + this.$store.getters.getToken,
+          "User-ID": this.$store.getters.getUserId
+        }
+      }).then(function (response) {
+        if (Boolean(response.data) === true) {
+          return true;
+        }
+        return false;
+      }).catch(function (error) {
+        _this.$eventHub.$emit("eventError", { data: error.response });
+        return false;
+      });
+    },
+    update: function update(page) {
+      var status = void 0,
+          titleQuestion = void 0,
+          titleResp = void 0,
+          textResp = void 0;
+      var parent = this;
+
+      status = !Boolean(page.active);
+
+      if (status === true) {
+        titleQuestion = "ativar";
+      } else {
+        titleQuestion = "desativar";
+      }
+
+      swal({
+        title: "Deseja realmente " + titleQuestion + " a p\xE1gina?",
+        text: page.name,
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonClass: "btn-danger",
+        confirmButtonText: "Sim!",
+        cancelButtonText: "Cancelar",
+        closeOnConfirm: false,
+        closeOnCancel: false
+      }, function (isConfirm) {
+        if (isConfirm) {
+          var result = parent.send(page);
+          result.then(function (value) {
+            page.active = !page.active;
+            // Faça algo com o valor aqui dentro.
+            // Se precisar dele em outro lugar, chame uma função
+            // e passe adiante. Não tente atribuir seu valor a uma
+            // variável de fora e acessar lá embaixo, não vai funcionar.
+            // (exceto em certos casos com frameworks reativos)
+
+            if (value == true) {
+              if (status === true) {
+                titleResp = "Ativado";
+                textResp = "ativado";
+              } else {
+                titleResp = "Desativado";
+                textResp = "desativado";
+              }
+
+              swal({
+                title: titleResp,
+                text: "P\xE1gina " + textResp + " com sucesso.",
+                type: "success",
+                confirmButtonClass: "btn-success"
+              });
+            } else {
+              swal({
+                title: "Erro",
+                text: "Houve um erro na socilitação do pedido.",
+                type: "error",
+                confirmButtonClass: "btn-danger"
+              });
+            }
+          });
+        } else {
+          swal({
+            title: "Cancelado",
+            text: "Pedido cancelado com sucesso.",
+            type: "error",
+            confirmButtonClass: "btn-danger"
+          });
+        }
       });
     }
   }
@@ -2989,6 +3117,45 @@ if (false) {
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-80bb26d4\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/pages/catalogs/pages/pages-info/components/ChangeStatus.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "button",
+    {
+      staticClass: "tabledit-delete-button btn btn-sm",
+      staticStyle: { float: "none" },
+      attrs: { type: "button" },
+      on: {
+        click: function($event) {
+          $event.preventDefault()
+          _vm.update(_vm.dataItem)
+        }
+      }
+    },
+    [
+      _vm.dataItem.active
+        ? _c("span", { staticClass: "glyphicon glyphicon-eye-open" })
+        : _c("span", { staticClass: "glyphicon glyphicon-eye-close" })
+    ]
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-80bb26d4", module.exports)
+  }
+}
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-b1c046e4\",\"hasScoped\":true,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/pages/catalogs/pages/pages-info/PageEdit.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -3267,6 +3434,10 @@ var render = function() {
                                   staticStyle: { float: "none  !important" }
                                 },
                                 [
+                                  _c("ChangeStatus", {
+                                    attrs: { dataItem: page }
+                                  }),
+                                  _vm._v(" "),
                                   !page.default
                                     ? _c(
                                         "button",
@@ -7910,6 +8081,54 @@ if (false) {(function () {
     hotAPI.createRecord("data-v-d05095bc", Component.options)
   } else {
     hotAPI.reload("data-v-d05095bc", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
+/***/ "./resources/assets/js/pages/catalogs/pages/pages-info/components/ChangeStatus.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")
+/* script */
+var __vue_script__ = __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/pages/catalogs/pages/pages-info/components/ChangeStatus.vue")
+/* template */
+var __vue_template__ = __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-80bb26d4\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/pages/catalogs/pages/pages-info/components/ChangeStatus.vue")
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/pages/catalogs/pages/pages-info/components/ChangeStatus.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-80bb26d4", Component.options)
+  } else {
+    hotAPI.reload("data-v-80bb26d4", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true
