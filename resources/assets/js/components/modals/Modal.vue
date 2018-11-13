@@ -12,7 +12,7 @@
           <slot></slot>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-rounded btn-default" data-dismiss="modal">Fechar</button>
+          <button type="button" class="btn btn-rounded btn-default" data-dismiss="modal"><i class="glyphicon glyphicon-remove"></i> Fechar</button>
           <slot name="btn"></slot>
         </div>
       </div>

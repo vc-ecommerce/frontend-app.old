@@ -5,7 +5,7 @@
       <h3 class="panel-title">{{ title }}</h3>
     </header>
 
-    <div class="box-typical-body panel-body">
+    <div :class="classContent">
       <slot></slot>
     </div>
     <!--.box-typical-body-->
@@ -20,6 +20,9 @@ export default {
     title: {
       type: String,
       required: true
+    },
+    classContent: {
+      default: 'box-typical-body panel-body'
     }
   }
 };

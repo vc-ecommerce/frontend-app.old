@@ -12,16 +12,15 @@ const mutations = {
   setItem(state, obj) {
     state.item = obj
   },
-  updateRoleUser(state, roles) {
+  setItemRole(state, roles) {
     state.item.roles = roles
   },
-  updatePrivilegeRole(state, privileges) {
+  setItemPrivilege(state, privileges) {
     state.item.privileges = privileges
   },
-  updateActiveUser(state, active) {
+  setItemActive(state, active) {
     state.item.active = active
-  },
-
+  }
 }
 
 export default {

@@ -13,14 +13,14 @@
 
 <script>
 export default {
-  name: 'ModalLink',
+  name: "ModalLink",
   props: {
     showType: {
       type: String,
-      default: 'button'
+      default: "button"
     },
     showTypeClassName: {
-      default: 'btn btn-inline'
+      default: "btn btn-inline"
     },
     sizeModal: {
       type: String,
@@ -42,10 +42,10 @@ export default {
       require: false
     }
   },
-  methods:{
-    fillDataStore:function(){
-      this.$store.commit('setItem',this.dataItem);
+  methods: {
+    fillDataStore: function() {
+      this.$store.commit("setItem", this.dataItem);
     }
   }
-}
+};
 </script>

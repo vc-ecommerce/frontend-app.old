@@ -1,14 +1,6 @@
-webpackJsonp([9],{
+webpackJsonp([10],{
 
-/***/ 95:
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = __webpack_require__(96);
-
-
-/***/ }),
-
-/***/ 96:
+/***/ "./resources/assets/js/pages/home/custom.js":
 /***/ (function(module, exports) {
 
 $(document).ready(function () {
@@ -100,6 +92,14 @@ $(document).ready(function () {
   });
 });
 
+/***/ }),
+
+/***/ 2:
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__("./resources/assets/js/pages/home/custom.js");
+
+
 /***/ })
 
-},[95]);
+},[2]);

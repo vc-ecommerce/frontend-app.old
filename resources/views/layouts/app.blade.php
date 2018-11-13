@@ -37,7 +37,7 @@
 	@endcomponent
 
 	<!-- Scripts -->
-    <script src="{{ asset('js/vue-app.js') }}"></script>
+    <script src="{{ asset('js/init.js') }}"></script>
     <script src="{{ asset('js/app.js') }}"></script>
 
 </body>
