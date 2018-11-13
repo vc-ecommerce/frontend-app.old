@@ -1953,7 +1953,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     };
   },
   mounted: function mounted() {
-    this.$eventHub.$emit("eventBreadcrumbs", "Criar atributos");
+    this.$eventHub.$emit("eventBreadcrumbs", "Criar atributo");
   },
 
   methods: {
@@ -2090,7 +2090,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   mounted: function mounted() {
     var _this = this;
 
-    this.$eventHub.$emit("eventBreadcrumbs", "Editar atributos");
+    this.$eventHub.$emit("eventBreadcrumbs", "Editar atributo");
     this.getAttribute();
     if (sessionStorage.getItem("attributeCreated")) {
       this.status = sessionStorage.getItem("attributeCreated");

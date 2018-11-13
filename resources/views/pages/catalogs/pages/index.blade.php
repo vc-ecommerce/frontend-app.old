@@ -4,16 +4,16 @@
 
     @component('layouts.default.breadcrumb')
         @slot('title')
-           Atributos
+           Páginas de informações
         @endslot
         @slot('url')
             <li><a href="javascript::void(0)">Catálagos</a></li>
-            <li><a href="{{ route('catalogs.attributes.index') }}">Páginas</a></li>
+            <li><a href="{{ route('catalogs.pages.index') }}">Páginas</a></li>
             <breadcrumbs></breadcrumbs>
         @endslot
     @endcomponent
 
-    <attribute-index>Carregando...</attribute-index>
+    <page-index>Carregando...</page-index>
 
 @endsection
 

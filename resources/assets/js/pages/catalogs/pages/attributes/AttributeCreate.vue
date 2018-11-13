@@ -64,7 +64,7 @@ export default {
     };
   },
   mounted() {
-    this.$eventHub.$emit("eventBreadcrumbs", "Criar atributos");
+    this.$eventHub.$emit("eventBreadcrumbs", "Criar atributo");
   },
   methods: {
     cleanData(data) {

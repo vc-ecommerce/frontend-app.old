@@ -71,7 +71,7 @@ export default {
     };
   },
   mounted() {
-    this.$eventHub.$emit("eventBreadcrumbs", "Editar atributos");
+    this.$eventHub.$emit("eventBreadcrumbs", "Editar atributo");
     this.getAttribute();
     if (sessionStorage.getItem("attributeCreated")) {
       this.status = sessionStorage.getItem("attributeCreated");
