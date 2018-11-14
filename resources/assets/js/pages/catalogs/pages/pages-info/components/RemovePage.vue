@@ -38,7 +38,7 @@ export default {
     },
 
     remove(page) {
-      const parent = this;
+      const vm = this;
       swal(
         {
           title: "Deseja realmente excluir a página?",
@@ -54,14 +54,14 @@ export default {
 
         function(isConfirm) {
           if (isConfirm) {
-            let result = parent.send(page);
+            let result = vm.send(page);
             result.then(function(value) {
               if (value == true) {
-                let index = parent.dataPages.data.indexOf(page);
-                parent.dataPages.data.splice(index, 1);
+                let index = vm.dataPages.data.indexOf(page);
+                vm.dataPages.data.splice(index, 1);
 
-                parent.dataPages.total = parent.dataPages.total - 1;
-                parent.$eventHub.$emit("totalPage", parent.dataPages.total);
+                vm.dataPages.total = vm.dataPages.total - 1;
+                vm.$eventHub.$emit("totalPage", vm.dataPages.total);
 
                 swal({
                   title: "Removido",

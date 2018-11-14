@@ -1925,9 +1925,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   mounted: function mounted() {
     this.getUsers();
     this.getRoles();
-    var parent = this;
+    var vm = this;
     this.$eventHub.$on("totalUser", function (t) {
-      parent.total = t;
+      vm.total = t;
     });
   },
 
@@ -2030,7 +2030,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
           titleQuestion = void 0,
           titleResp = void 0,
           textResp = void 0;
-      var parent = this;
+      var vm = this;
 
       status = !Boolean(user.active);
 
@@ -2052,7 +2052,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         closeOnCancel: false
       }, function (isConfirm) {
         if (isConfirm) {
-          var result = parent.send(user);
+          var result = vm.send(user);
           result.then(function (value) {
             user.active = !user.active;
             // Faça algo com o valor aqui dentro.
@@ -2572,7 +2572,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       });
     },
     remove: function remove(user) {
-      var parent = this;
+      var vm = this;
       swal({
         title: "Deseja realmente excluir?",
         text: "" + user.name,
@@ -2585,14 +2585,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         closeOnCancel: false
       }, function (isConfirm) {
         if (isConfirm) {
-          var result = parent.send(user);
+          var result = vm.send(user);
           result.then(function (value) {
             if (value == true) {
-              var index = parent.dataUsers.data.indexOf(user);
-              parent.dataUsers.data.splice(index, 1);
+              var index = vm.dataUsers.data.indexOf(user);
+              vm.dataUsers.data.splice(index, 1);
 
-              parent.dataUsers.total = parent.dataUsers.total - 1;
-              parent.$eventHub.$emit("totalUser", parent.dataUsers.total);
+              vm.dataUsers.total = vm.dataUsers.total - 1;
+              vm.$eventHub.$emit("totalUser", vm.dataUsers.total);
 
               swal({
                 title: "Removido",

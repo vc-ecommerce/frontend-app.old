@@ -55,7 +55,7 @@ export default {
 
     update(user) {
       let status, titleQuestion, titleResp, textResp;
-      const parent = this;
+      const vm = this;
 
       status = !Boolean(user.active);
 
@@ -79,7 +79,7 @@ export default {
         },
         function(isConfirm) {
           if (isConfirm) {
-            let result = parent.send(user);
+            let result = vm.send(user);
             result.then(function(value) {
               user.active = !user.active;
               // Faça algo com o valor aqui dentro.

@@ -4670,9 +4670,9 @@ var appOne = new Vue({
     Object(__WEBPACK_IMPORTED_MODULE_4__helpers_validates__["b" /* userIsAuthorized */])(this.$store.getters.getUserRoles, ["ADMIN", "STAFF_AUDITOR", "STAFF_FINANCE", "STAFF_COMMERCIAL", "STAFF_SUPPORT", "STAFF_SALE", "STAFF_EDITOR", "STAFF_EXPEDITION"]);
   },
   created: function created() {
-    var parent = this;
+    var vm = this;
     this.$eventHub.$on('eventError', function (obj) {
-      parent.showError(obj);
+      vm.showError(obj);
     });
     this.isTokenEquals();
   },

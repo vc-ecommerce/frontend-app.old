@@ -91,9 +91,9 @@ export default {
   },
   mounted() {
     this.getPages();
-    const parent = this;
+    const vm = this;
     this.$eventHub.$on("totalPage", function(t) {
-      parent.total = t;
+      vm.total = t;
     });
 
   },

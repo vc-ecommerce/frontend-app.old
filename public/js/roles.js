@@ -1847,9 +1847,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   mounted: function mounted() {
     this.getRoles();
     this.getPrivileges();
-    var parent = this;
+    var vm = this;
     this.$eventHub.$on("totalUser", function (t) {
-      parent.total = t;
+      vm.total = t;
     });
   },
 
@@ -2264,7 +2264,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       });
     },
     remove: function remove(role) {
-      var parent = this;
+      var vm = this;
       swal({
         title: "Deseja realmente excluir?",
         text: "" + role.description,
@@ -2277,14 +2277,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         closeOnCancel: false
       }, function (isConfirm) {
         if (isConfirm) {
-          var result = parent.send(role);
+          var result = vm.send(role);
           result.then(function (value) {
             if (value == true) {
-              var index = parent.dataRoles.data.indexOf(role);
-              parent.dataRoles.data.splice(index, 1);
+              var index = vm.dataRoles.data.indexOf(role);
+              vm.dataRoles.data.splice(index, 1);
 
-              parent.dataRoles.total = parent.dataRoles.total - 1;
-              parent.$eventHub.$emit("totalRole", parent.dataRoles.total);
+              vm.dataRoles.total = vm.dataRoles.total - 1;
+              vm.$eventHub.$emit("totalRole", vm.dataRoles.total);
 
               swal({
                 title: "Removido",

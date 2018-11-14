@@ -96,9 +96,9 @@ export default {
   },
   mounted() {
     this.getAttributes();
-    const parent = this;
+    const vm = this;
     this.$eventHub.$on("totalAttribute", function(t) {
-      parent.total = t;
+      vm.total = t;
     });
 
   },

@@ -1587,9 +1587,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     };
   },
   created: function created() {
-    var parent = this;
+    var vm = this;
     this.$eventHub.$on("eventBreadcrumbs", function (data) {
-      parent.active = data;
+      vm.active = data;
     });
   }
 });
@@ -2275,9 +2275,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   },
   mounted: function mounted() {
     this.getPages();
-    var parent = this;
+    var vm = this;
     this.$eventHub.$on("totalPage", function (t) {
-      parent.total = t;
+      vm.total = t;
     });
   },
 
@@ -2358,7 +2358,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
           titleQuestion = void 0,
           titleResp = void 0,
           textResp = void 0;
-      var parent = this;
+      var vm = this;
 
       status = !Boolean(page.active);
 
@@ -2380,7 +2380,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         closeOnCancel: false
       }, function (isConfirm) {
         if (isConfirm) {
-          var result = parent.send(page);
+          var result = vm.send(page);
           result.then(function (value) {
             page.active = !page.active;
             // Faça algo com o valor aqui dentro.
@@ -2472,7 +2472,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       });
     },
     remove: function remove(page) {
-      var parent = this;
+      var vm = this;
       swal({
         title: "Deseja realmente excluir a página?",
         text: "" + page.name,
@@ -2485,14 +2485,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         closeOnCancel: false
       }, function (isConfirm) {
         if (isConfirm) {
-          var result = parent.send(page);
+          var result = vm.send(page);
           result.then(function (value) {
             if (value == true) {
-              var index = parent.dataPages.data.indexOf(page);
-              parent.dataPages.data.splice(index, 1);
+              var index = vm.dataPages.data.indexOf(page);
+              vm.dataPages.data.splice(index, 1);
 
-              parent.dataPages.total = parent.dataPages.total - 1;
-              parent.$eventHub.$emit("totalPage", parent.dataPages.total);
+              vm.dataPages.total = vm.dataPages.total - 1;
+              vm.$eventHub.$emit("totalPage", vm.dataPages.total);
 
               swal({
                 title: "Removido",

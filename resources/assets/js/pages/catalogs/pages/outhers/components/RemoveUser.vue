@@ -46,7 +46,7 @@ export default {
     },
 
     remove(user) {
-      const parent = this;
+      const vm = this;
       swal(
         {
           title: "Deseja realmente excluir?",
@@ -62,14 +62,14 @@ export default {
 
         function(isConfirm) {
           if (isConfirm) {
-            let result = parent.send(user);
+            let result = vm.send(user);
             result.then(function(value) {
               if (value == true) {
-                let index = parent.dataUsers.data.indexOf(user);
-                parent.dataUsers.data.splice(index, 1);
+                let index = vm.dataUsers.data.indexOf(user);
+                vm.dataUsers.data.splice(index, 1);
 
-                parent.dataUsers.total = parent.dataUsers.total - 1;
-                parent.$eventHub.$emit("totalUser", parent.dataUsers.total);
+                vm.dataUsers.total = vm.dataUsers.total - 1;
+                vm.$eventHub.$emit("totalUser", vm.dataUsers.total);
 
                 swal({
                   title: "Removido",

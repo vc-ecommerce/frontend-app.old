@@ -1587,9 +1587,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     };
   },
   created: function created() {
-    var parent = this;
+    var vm = this;
     this.$eventHub.$on("eventBreadcrumbs", function (data) {
-      parent.active = data;
+      vm.active = data;
     });
   }
 });
@@ -2283,9 +2283,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   },
   mounted: function mounted() {
     this.getAttributes();
-    var parent = this;
+    var vm = this;
     this.$eventHub.$on("totalAttribute", function (t) {
-      parent.total = t;
+      vm.total = t;
     });
   },
 
@@ -2648,7 +2648,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       });
     },
     remove: function remove(attribute) {
-      var parent = this;
+      var vm = this;
       swal({
         title: "Deseja realmente excluir o atributo?",
         text: "" + attribute.name,
@@ -2661,14 +2661,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         closeOnCancel: false
       }, function (isConfirm) {
         if (isConfirm) {
-          var result = parent.send(attribute);
+          var result = vm.send(attribute);
           result.then(function (value) {
             if (value == true) {
-              var index = parent.dataAttributes.data.indexOf(attribute);
-              parent.dataAttributes.data.splice(index, 1);
+              var index = vm.dataAttributes.data.indexOf(attribute);
+              vm.dataAttributes.data.splice(index, 1);
 
-              parent.dataAttributes.total = parent.dataAttributes.total - 1;
-              parent.$eventHub.$emit("totalAttribute", parent.dataAttributes.total);
+              vm.dataAttributes.total = vm.dataAttributes.total - 1;
+              vm.$eventHub.$emit("totalAttribute", vm.dataAttributes.total);
 
               swal({
                 title: "Removido",
@@ -2746,7 +2746,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       });
     },
     remove: function remove(variation) {
-      var parent = this;
+      var vm = this;
       swal({
         title: "Deseja realmente excluir a variação?",
         text: "" + variation.name,
@@ -2759,14 +2759,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         closeOnCancel: false
       }, function (isConfirm) {
         if (isConfirm) {
-          var result = parent.send(variation);
+          var result = vm.send(variation);
           result.then(function (value) {
             if (value == true) {
-              var index = parent.dataVariations.data.indexOf(variation);
-              parent.dataVariations.data.splice(index, 1);
+              var index = vm.dataVariations.data.indexOf(variation);
+              vm.dataVariations.data.splice(index, 1);
 
-              parent.dataVariations.total = parent.dataVariations.total - 1;
-              parent.$eventHub.$emit("totalAttribute", parent.dataVariations.total);
+              vm.dataVariations.total = vm.dataVariations.total - 1;
+              vm.$eventHub.$emit("totalAttribute", vm.dataVariations.total);
 
               swal({
                 title: "Removido",

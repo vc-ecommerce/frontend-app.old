@@ -47,7 +47,7 @@ export default {
 
     update(page) {
       let status, titleQuestion, titleResp, textResp;
-      const parent = this;
+      const vm = this;
 
       status = !Boolean(page.active);
 
@@ -71,7 +71,7 @@ export default {
         },
         function(isConfirm) {
           if (isConfirm) {
-            let result = parent.send(page);
+            let result = vm.send(page);
             result.then(function(value) {
               page.active = !page.active;
               // Faça algo com o valor aqui dentro.
