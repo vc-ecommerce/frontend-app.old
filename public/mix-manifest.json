@@ -1,14 +1,16 @@
 {
-    "/js/pages.js": "/js/pages.js?id=709a80754a49fe824295",
-    "/js/attributes.js": "/js/attributes.js?id=e7aff2d030e2ebf74350",
+    "/js/attributes.js": "/js/attributes.js?id=2242e67b6d5db355b321",
+    "/js/pages.js": "/js/pages.js?id=44ba5a5b15e04c4614c5",
     "/js/home.js": "/js/home.js?id=5f2d69c936b2a3c1335b",
     "/js/users.js": "/js/users.js?id=c2cfdc4711bbadbd495e",
     "/js/init.js": "/js/init.js?id=8fe13e26d0025e6dbfc4",
-    "/js/roles.js": "/js/roles.js?id=8e337738f06d50dae591",
+    "/js/roles.js": "/js/roles.js?id=784a3814027322c50f40",
     "/js/auth.js": "/js/auth.js?id=a27a5387dfe6d2a20efa",
-    "/js/privileges.js": "/js/privileges.js?id=b3b88ff0cd497e18587b",
+    "/js/privileges.js": "/js/privileges.js?id=86a2bc58cb3571c3d21e",
     "/js/accounts.js": "/js/accounts.js?id=08216cf6e549f98105b1",
     "/js/vendor.js": "/js/vendor.js?id=a7bd6483e3b9cd7599bf",
     "/js/home-custom.js": "/js/home-custom.js?id=da40c6a8b132d796dce5",
-    "/js/manifest.js": "/js/manifest.js?id=d82d02a7f2273b4b6fd4"
+    "/js/manifest.js": "/js/manifest.js?id=d82d02a7f2273b4b6fd4",
+    "/css/summernote.css": "/css/summernote.css?id=d29fc8b9166da9b0c2f6",
+    "/js/summernote.js": "/js/summernote.js?id=3c85c4913716f78d346a"
 }

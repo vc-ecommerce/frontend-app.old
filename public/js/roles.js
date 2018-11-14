@@ -1867,7 +1867,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         _this.roles = response.data;
         _this.total = response.data.total;
       }).catch(function (error) {
-        //console.log(error.response);
         _this.$eventHub.$emit("eventError", { data: error.response });
       });
     },
@@ -1883,7 +1882,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       }).then(function (response) {
         _this2.privileges = response.data.data;
       }).catch(function (error) {
-        //console.log(error.response);
         _this2.$eventHub.$emit("eventError", { data: error.response });
       });
     }
@@ -2028,14 +2026,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
           "User-ID": this.$store.getters.getUserId
         }
       }).then(function (response) {
-
         _this.error = false;
         _this.roles = response.data;
         _this.total = response.data.total;
         _this.status = "Função criada com sucesso!";
         _this.$emit("reload");
       }).catch(function (error) {
-
         _this.$eventHub.$emit("eventError", { data: error.response });
         _this.status = false;
         _this.error = JSON.parse(error.response.data.error);

@@ -1,5 +1,5 @@
 <template>
-  <Panel title="Editando Atributo" classContent="panel-body">
+  <Panel title="Editando Página" classContent="panel-body">
 
     <div v-if="status && error === false" class="row">
       <Alert className="alert alert-success alert-fill alert-close alert-dismissible fade show">
@@ -21,22 +21,43 @@
 
       <div class="row">
         <div class="col-sm-2">
-          Nome do atributo
+          Título
         </div>
         <div class="col-sm-10">
-            <input type="text" required class="form-control" v-model="name" placeholder="Digite aqui">
-            <span>Nome do atributo para controle interno</span>
+            <input type="text" required class="form-control" v-model="data.name" placeholder="Digite aqui o título da página">
         </div>
-
       </div>
+
+      <div class="row">
+        <div class="col-sm-2">
+          Slug
+        </div>
+        <div class="col-sm-10">
+            <input type="text" required class="form-control" v-model="data.slug" placeholder="Digite aqui a slug">
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-sm-2">
+          Descrição
+        </div>
+        <div class="col-sm-10">
+            <div class="form-group">
+                <html-editor v-if="data.description" height="200" :dataDesc="data.description" :model.sync="data.description"></html-editor>
+            </div>
+            {{data.description}}
+
+        </div>
+      </div>
+
 
       <div class="row col-btn">
         <div class="col-sm-2">
         </div>
         <div class="col align-self-end">
-          <router-link :to="{ name: 'AttributeList' }" class="btn btn-inline btn-default"><i class="glyphicon glyphicon-remove"></i> Cancelar</router-link>
+          <router-link :to="{ name: 'PageList' }" class="btn btn-inline btn-default"><i class="glyphicon glyphicon-remove"></i> Cancelar</router-link>
           <button :disabled="btnDisabled" class="btn btn-inline" type="submit">
-            <i class="glyphicon glyphicon-ok"></i> Alterar nome
+            <i class="glyphicon glyphicon-ok"></i> Salvar dados
           </button>
         </div>
       </div>
@@ -50,24 +71,28 @@ import Panel from "./../../../../components/layouts/Panel";
 import Alert from "./../../../../components/layouts/Alert";
 import { cleanDataApi } from "./../../../../helpers/tools";
 
+import HtmlEditor from "./../../../../components/summernote/HtmlEditor";
+
 export default {
   name: "PageEdit",
   components: {
     Panel,
     Alert,
+    HtmlEditor
   },
   props: [],
   data() {
     return {
-      name: "",
+      data: {},
       status: false,
       error: false,
       btnDisabled: false
     };
   },
-  mounted() {
+  created() {
     this.$eventHub.$emit("eventBreadcrumbs", "Editar página");
-    this.getAttribute();
+    this.getPage();
+
     if (sessionStorage.getItem("pageCreated")) {
       this.status = sessionStorage.getItem("pageCreated");
       sessionStorage.removeItem("pageCreated");
@@ -78,11 +103,7 @@ export default {
     }
   },
   methods: {
-    cleanData(data) {
-      return cleanDataApi(data);
-    },
-
-    getAttribute() {
+    getPage() {
       const api = `${this.$urlApi}/admin/pages/${this.$route.params.id}`;
       Vue.axios
         .get(api, {
@@ -92,9 +113,10 @@ export default {
           }
         })
         .then(response => {
-          this.name = response.data.name;
+          this.data = response.data;
         })
         .catch(error => {
+          this.$eventHub.$emit("eventError", { data: error.response });
           this.error = JSON.parse(error.response.data.error);
         });
     },
@@ -119,10 +141,11 @@ export default {
         )
         .then(response => {
           this.error = false;
-          this.status = "Atributo alterado com sucesso.";
+          this.status = "Página alterado com sucesso.";
           this.btnDisabled = false;
         })
         .catch(error => {
+          this.$eventHub.$emit("eventError", { data: error.response });
           this.status = false;
           this.error = JSON.parse(error.response.data.error);
           this.btnDisabled = false;

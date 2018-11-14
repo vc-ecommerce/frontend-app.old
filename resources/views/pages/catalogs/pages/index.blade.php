@@ -18,6 +18,7 @@
 @endsection
 
 @section('css')
+<link rel="stylesheet" href="{{ asset('css/summernote.css') }}">
 
 <link rel="stylesheet" href="{{ asset('css/lib/ladda-button/ladda-themeless.min.css') }}">
 <link rel="stylesheet" href="{{ asset('css/separate/vendor/context_menu.min.css') }}">
@@ -26,8 +27,9 @@
 @endsection
 
 @section('scripts')
-<script src="{{ asset('js/lib/ladda-button/spin.min.js') }}"></script>
+<script src="{{ asset('js/summernote.js') }}"></script>
 
+<script src="{{ asset('js/lib/ladda-button/spin.min.js') }}"></script>
 <script src="{{ asset('js/lib/ladda-button/ladda.min.js') }}"></script>
 <script src="{{ asset('js/lib/ladda-button/ladda-button-init.js') }}"></script>
 <script src="{{ asset('js/lib/bootstrap-sweetalert/sweetalert.min.js') }}"></script>

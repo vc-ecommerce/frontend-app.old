@@ -1686,7 +1686,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         _this.privileges = response.data;
         _this.total = response.data.total;
       }).catch(function (error) {
-        //console.log(error.response);
         _this.$eventHub.$emit("eventError", { data: error.response });
       });
     }

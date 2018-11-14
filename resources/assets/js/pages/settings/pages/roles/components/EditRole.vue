@@ -104,19 +104,20 @@ export default {
 
     privilegeRole: {
       get() {
-        return this.$store.getters.getItem ? this.$store.getters.getItem.privileges : []
+        return this.$store.getters.getItem
+          ? this.$store.getters.getItem.privileges
+          : [];
       },
       set(value) {
         this.$store.commit("setItemPrivilege", value);
       }
-    },
+    }
   },
   methods: {
     cleanData(data) {
       return cleanDataApi(data);
     },
     submitForm() {
-
       if (!this.$store.getters.getItem) {
         return;
       }

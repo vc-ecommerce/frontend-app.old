@@ -1,4 +1,4 @@
-webpackJsonp([1],{
+webpackJsonp([0],{
 
 /***/ "./node_modules/axios/index.js":
 /***/ (function(module, exports, __webpack_require__) {
@@ -1990,6 +1990,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         _this.name = "";
         _this.btnDisabled = false;
       }).catch(function (error) {
+        _this.$eventHub.$emit("eventError", { data: error.response });
         _this.status = false;
         _this.error = JSON.parse(error.response.data.error);
         _this.btnDisabled = false;
@@ -2140,6 +2141,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         _this3.status = "Atributo alterado com sucesso.";
         _this3.btnDisabled = false;
       }).catch(function (error) {
+        _this3.$eventHub.$emit("eventError", { data: error.response });
         _this3.status = false;
         _this3.error = JSON.parse(error.response.data.error);
         _this3.btnDisabled = false;
@@ -2304,7 +2306,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         _this.attributes = response.data;
         _this.total = response.data.total;
       }).catch(function (error) {
-        //console.log(error.response);
         _this.$eventHub.$emit("eventError", { data: error.response });
       });
     }
@@ -2416,7 +2417,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         _this.variations = response;
         _this.total = response.data.total;
       }).catch(function (error) {
-        //console.log(error.response);
         _this.$eventHub.$emit("eventError", { data: error.response });
       });
     },
@@ -2453,6 +2453,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
           _this2.name = "";
         }
       }).catch(function (error) {
+        _this2.$eventHub.$emit("eventError", { data: error.response });
         if (error.response.data === "attribute_variation_is_exists") {
           swal({
             title: "Dados duplicado!",
@@ -2585,8 +2586,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         _this.total = response.data.total;
         _this.status = "Variação editada com sucesso!";
         _this.$emit("reload");
-
-        console.log(response);
       }).catch(function (error) {
         _this.$eventHub.$emit("eventError", { data: error.response });
 
