@@ -2021,6 +2021,30 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -2041,8 +2065,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       data: {},
       status: false,
       error: false,
-      btnDisabled: false
+      btnDisabled: false,
+      options: [{ text: "Sim", value: true }, { text: "Não", value: false }]
     };
+  },
+
+  computed: {
+    applySlug: function applySlug() {
+      if (this.data.name) {
+        return Object(__WEBPACK_IMPORTED_MODULE_2__helpers_tools__["d" /* strSlug */])(this.data.name);
+      }
+      return "";
+    }
   },
   created: function created() {
     var _this = this;
@@ -2080,12 +2114,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     submitForm: function submitForm() {
       var _this3 = this;
 
+      var vm = this;
+
       this.status = "Enviando...";
       var api = this.$urlApi + "/admin/pages/" + this.$route.params.id;
       this.btnDisabled = true;
       Vue.axios.put(api, {
-        name: this.name,
-        default: false
+        name: vm.data.name,
+        description: vm.data.description,
+        active: vm.data.active,
+        slug: Object(__WEBPACK_IMPORTED_MODULE_2__helpers_tools__["d" /* strSlug */])(vm.data.name),
+        meta_description: vm.data.meta_description,
+        meta_title: vm.data.meta_title
       }, {
         headers: {
           Authorization: "Bearer " + this.$store.getters.getToken,
@@ -3342,7 +3382,64 @@ var render = function() {
         [
           _c("div", { staticClass: "row" }, [
             _c("div", { staticClass: "col-sm-2" }, [
-              _vm._v("\n        Título\n      ")
+              _vm._v("\n        Página ativa?\n      ")
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "col-sm-4" }, [
+              _c(
+                "select",
+                {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.data.active,
+                      expression: "data.active"
+                    }
+                  ],
+                  staticClass: "form-control",
+                  attrs: { required: "" },
+                  on: {
+                    change: function($event) {
+                      var $$selectedVal = Array.prototype.filter
+                        .call($event.target.options, function(o) {
+                          return o.selected
+                        })
+                        .map(function(o) {
+                          var val = "_value" in o ? o._value : o.value
+                          return val
+                        })
+                      _vm.$set(
+                        _vm.data,
+                        "active",
+                        $event.target.multiple
+                          ? $$selectedVal
+                          : $$selectedVal[0]
+                      )
+                    }
+                  }
+                },
+                [
+                  _c("option", { attrs: { disabled: "", value: "" } }, [
+                    _vm._v("Escolha um item")
+                  ]),
+                  _vm._v(" "),
+                  _vm._l(_vm.options, function(option) {
+                    return _c(
+                      "option",
+                      { key: option.id, domProps: { value: option.value } },
+                      [_vm._v(_vm._s(option.text))]
+                    )
+                  })
+                ],
+                2
+              )
+            ])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "row" }, [
+            _c("div", { staticClass: "col-sm-2" }, [
+              _vm._v("\n        Título da página\n      ")
             ]),
             _vm._v(" "),
             _c("div", { staticClass: "col-sm-10" }, [
@@ -3370,47 +3467,19 @@ var render = function() {
                     _vm.$set(_vm.data, "name", $event.target.value)
                   }
                 }
-              })
+              }),
+              _vm._v(" "),
+              _vm.applySlug
+                ? _c("span", { staticClass: "control" }, [
+                    _vm._v(_vm._s(_vm.$urlSite + "/pg/" + _vm.applySlug))
+                  ])
+                : _vm._e()
             ])
           ]),
           _vm._v(" "),
           _c("div", { staticClass: "row" }, [
             _c("div", { staticClass: "col-sm-2" }, [
-              _vm._v("\n        Slug\n      ")
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "col-sm-10" }, [
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.data.slug,
-                    expression: "data.slug"
-                  }
-                ],
-                staticClass: "form-control",
-                attrs: {
-                  type: "text",
-                  required: "",
-                  placeholder: "Digite aqui a slug"
-                },
-                domProps: { value: _vm.data.slug },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
-                    }
-                    _vm.$set(_vm.data, "slug", $event.target.value)
-                  }
-                }
-              })
-            ])
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "row" }, [
-            _c("div", { staticClass: "col-sm-2" }, [
-              _vm._v("\n        Descrição\n      ")
+              _vm._v("\n        Conteúdo da página\n      ")
             ]),
             _vm._v(" "),
             _c("div", { staticClass: "col-sm-10" }, [
@@ -3434,10 +3503,69 @@ var render = function() {
                     : _vm._e()
                 ],
                 1
-              ),
-              _vm._v(
-                "\n          " + _vm._s(_vm.data.description) + "\n\n      "
               )
+            ])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "row" }, [
+            _c("div", { staticClass: "col-sm-2" }, [
+              _vm._v("\n        Tag Title\n      ")
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "col-sm-10" }, [
+              _c("div", { staticClass: "form-group" }, [
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.meta_title,
+                      expression: "meta_title"
+                    }
+                  ],
+                  staticClass: "form-control",
+                  domProps: { value: _vm.meta_title },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.meta_title = $event.target.value
+                    }
+                  }
+                })
+              ])
+            ])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "row" }, [
+            _c("div", { staticClass: "col-sm-2" }, [
+              _vm._v("\n        Meta Tag Description\n      ")
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "col-sm-10" }, [
+              _c("div", { staticClass: "form-group" }, [
+                _c("textarea", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.meta_description,
+                      expression: "meta_description"
+                    }
+                  ],
+                  staticClass: "form-control",
+                  domProps: { value: _vm.meta_description },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.meta_description = $event.target.value
+                    }
+                  }
+                })
+              ])
             ])
           ]),
           _vm._v(" "),
@@ -3449,18 +3577,6 @@ var render = function() {
               { staticClass: "col align-self-end" },
               [
                 _c(
-                  "router-link",
-                  {
-                    staticClass: "btn btn-inline btn-default",
-                    attrs: { to: { name: "PageList" } }
-                  },
-                  [
-                    _c("i", { staticClass: "glyphicon glyphicon-remove" }),
-                    _vm._v(" Cancelar")
-                  ]
-                ),
-                _vm._v(" "),
-                _c(
                   "button",
                   {
                     staticClass: "btn btn-inline",
@@ -3468,7 +3584,19 @@ var render = function() {
                   },
                   [
                     _c("i", { staticClass: "glyphicon glyphicon-ok" }),
-                    _vm._v(" Salvar dados\n        ")
+                    _vm._v(" Salvar alterações\n        ")
+                  ]
+                ),
+                _vm._v(" "),
+                _c(
+                  "router-link",
+                  {
+                    staticClass: "btn btn-inline btn-sm btn-default",
+                    attrs: { to: { name: "PageList" } }
+                  },
+                  [
+                    _c("i", { staticClass: "glyphicon glyphicon-remove" }),
+                    _vm._v(" Cancelar")
                   ]
                 )
               ],
@@ -7634,6 +7762,7 @@ Vue.prototype.$eventHub = new Vue();
 
 //Vue.config.productionTip = false
 Vue.prototype.$urlApi = 'http://api.vocecrianca.site/v1';
+Vue.prototype.$urlSite = 'https://vocecrianca.com.br';
 
 //https://jsoneditoronline.org/
 
@@ -7933,8 +8062,9 @@ module.exports = Component.exports
 "use strict";
 /* harmony export (immutable) */ __webpack_exports__["b"] = cleanRole;
 /* harmony export (immutable) */ __webpack_exports__["c"] = forcePassword;
-/* harmony export (immutable) */ __webpack_exports__["d"] = swalErrorUnauthorized;
+/* harmony export (immutable) */ __webpack_exports__["e"] = swalErrorUnauthorized;
 /* harmony export (immutable) */ __webpack_exports__["a"] = cleanDataApi;
+/* harmony export (immutable) */ __webpack_exports__["d"] = strSlug;
 function cleanRole(roles) {
   return roles ? roles.filter(function (role) {
     delete role["_id"];
@@ -8011,6 +8141,29 @@ function cleanDataApi(data) {
   if (!data) return '';
   data = data.toString();
   return data.replace(["[", "]"], '');
+}
+
+function strSlug(str) {
+  var separator = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '-';
+
+  str = String(str);
+  str = str.trim();
+  str = str.toLowerCase();
+
+  // remove accents, swap ñ for n, etc
+  var from = "åàáãäâèéëêìíïîòóöôùúüûñç·/_,:;";
+  var to = "aaaaaaeeeeiiiioooouuuunc------";
+
+  for (var i = 0, l = from.length; i < l; i++) {
+    str = str.replace(new RegExp(from.charAt(i), "g"), to.charAt(i));
+  }
+
+  return str.replace(/[^a-z0-9 -]/g, "") // remove invalid chars
+  .replace(/\s+/g, "-") // collapse whitespace and replace by -
+  .replace(/-+/g, "-") // collapse dashes
+  .replace(/^-+/, "") // trim - from start of text
+  .replace(/-+$/, "") // trim - from end of text
+  .replace(/-/g, separator);
 }
 
 /***/ }),

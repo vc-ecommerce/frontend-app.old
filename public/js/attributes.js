@@ -8460,6 +8460,7 @@ Vue.prototype.$eventHub = new Vue();
 
 //Vue.config.productionTip = false
 Vue.prototype.$urlApi = 'http://api.vocecrianca.site/v1';
+Vue.prototype.$urlSite = 'https://vocecrianca.com.br';
 
 //https://jsoneditoronline.org/
 
@@ -8807,8 +8808,9 @@ module.exports = Component.exports
 "use strict";
 /* harmony export (immutable) */ __webpack_exports__["b"] = cleanRole;
 /* harmony export (immutable) */ __webpack_exports__["c"] = forcePassword;
-/* harmony export (immutable) */ __webpack_exports__["d"] = swalErrorUnauthorized;
+/* harmony export (immutable) */ __webpack_exports__["e"] = swalErrorUnauthorized;
 /* harmony export (immutable) */ __webpack_exports__["a"] = cleanDataApi;
+/* harmony export (immutable) */ __webpack_exports__["d"] = strSlug;
 function cleanRole(roles) {
   return roles ? roles.filter(function (role) {
     delete role["_id"];
@@ -8885,6 +8887,29 @@ function cleanDataApi(data) {
   if (!data) return '';
   data = data.toString();
   return data.replace(["[", "]"], '');
+}
+
+function strSlug(str) {
+  var separator = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '-';
+
+  str = String(str);
+  str = str.trim();
+  str = str.toLowerCase();
+
+  // remove accents, swap ñ for n, etc
+  var from = "åàáãäâèéëêìíïîòóöôùúüûñç·/_,:;";
+  var to = "aaaaaaeeeeiiiioooouuuunc------";
+
+  for (var i = 0, l = from.length; i < l; i++) {
+    str = str.replace(new RegExp(from.charAt(i), "g"), to.charAt(i));
+  }
+
+  return str.replace(/[^a-z0-9 -]/g, "") // remove invalid chars
+  .replace(/\s+/g, "-") // collapse whitespace and replace by -
+  .replace(/-+/g, "-") // collapse dashes
+  .replace(/^-+/, "") // trim - from start of text
+  .replace(/-+$/, "") // trim - from end of text
+  .replace(/-/g, separator);
 }
 
 /***/ }),

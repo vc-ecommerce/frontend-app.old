@@ -51,7 +51,7 @@
         <div class="row">
           <div class="col-lg-6">
             <fieldset class="form-group">
-              <label class="form-label" for="inputPassword">Status</label>
+              <label class="form-label" for="inputPassword">Usuário ativo?</label>
               <select required class="form-control" v-model="user.active">
                 <option disabled value="">Escolha um item</option>
                 <option v-for="option in options" :key="option.id" :value="option.value">{{ option.text }}</option>

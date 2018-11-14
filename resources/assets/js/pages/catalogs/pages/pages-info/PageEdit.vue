@@ -21,44 +21,68 @@
 
       <div class="row">
         <div class="col-sm-2">
-          Título
+          Página ativa?
+        </div>
+        <div class="col-sm-4">
+            <select class="form-control" required v-model="data.active">
+              <option disabled value="">Escolha um item</option>
+              <option v-for="option in options" :key="option.id" :value="option.value">{{ option.text }}</option>
+            </select>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-sm-2">
+          Título da página
         </div>
         <div class="col-sm-10">
             <input type="text" required class="form-control" v-model="data.name" placeholder="Digite aqui o título da página">
+            <span v-if="applySlug" class="control">{{ $urlSite +"/pg/"+ applySlug }}</span>
         </div>
       </div>
 
       <div class="row">
         <div class="col-sm-2">
-          Slug
+          Conteúdo da página
         </div>
         <div class="col-sm-10">
-            <input type="text" required class="form-control" v-model="data.slug" placeholder="Digite aqui a slug">
+          <div class="form-group">
+              <html-editor v-if="data.description" height="200" :dataDesc="data.description" :model.sync="data.description"></html-editor>
+          </div>
         </div>
       </div>
 
       <div class="row">
         <div class="col-sm-2">
-          Descrição
+          Tag Title
         </div>
         <div class="col-sm-10">
-            <div class="form-group">
-                <html-editor v-if="data.description" height="200" :dataDesc="data.description" :model.sync="data.description"></html-editor>
-            </div>
-            {{data.description}}
-
+          <div class="form-group">
+            <input class="form-control" v-model="meta_title">
+          </div>
         </div>
       </div>
 
+      <div class="row">
+        <div class="col-sm-2">
+          Meta Tag Description
+        </div>
+        <div class="col-sm-10">
+          <div class="form-group">
+            <textarea class="form-control" v-model="meta_description"></textarea>
+          </div>
+        </div>
+      </div>
 
       <div class="row col-btn">
         <div class="col-sm-2">
         </div>
         <div class="col align-self-end">
-          <router-link :to="{ name: 'PageList' }" class="btn btn-inline btn-default"><i class="glyphicon glyphicon-remove"></i> Cancelar</router-link>
           <button :disabled="btnDisabled" class="btn btn-inline" type="submit">
-            <i class="glyphicon glyphicon-ok"></i> Salvar dados
+            <i class="glyphicon glyphicon-ok"></i> Salvar alterações
           </button>
+          <router-link :to="{ name: 'PageList' }" class="btn btn-inline btn-sm btn-default"><i class="glyphicon glyphicon-remove"></i> Cancelar</router-link>
+
         </div>
       </div>
 
@@ -69,7 +93,7 @@
 <script>
 import Panel from "./../../../../components/layouts/Panel";
 import Alert from "./../../../../components/layouts/Alert";
-import { cleanDataApi } from "./../../../../helpers/tools";
+import { cleanDataApi, strSlug } from "./../../../../helpers/tools";
 
 import HtmlEditor from "./../../../../components/summernote/HtmlEditor";
 
@@ -86,8 +110,17 @@ export default {
       data: {},
       status: false,
       error: false,
-      btnDisabled: false
+      btnDisabled: false,
+      options: [{ text: "Sim", value: true }, { text: "Não", value: false }]
     };
+  },
+  computed: {
+    applySlug() {
+      if (this.data.name) {
+        return strSlug(this.data.name);
+      }
+      return "";
+    }
   },
   created() {
     this.$eventHub.$emit("eventBreadcrumbs", "Editar página");
@@ -122,6 +155,9 @@ export default {
     },
 
     submitForm() {
+
+      let vm = this;
+
       this.status = "Enviando...";
       const api = `${this.$urlApi}/admin/pages/${this.$route.params.id}`;
       this.btnDisabled = true;
@@ -129,8 +165,12 @@ export default {
         .put(
           api,
           {
-            name: this.name,
-            default: false
+            name: vm.data.name,
+            description: vm.data.description,
+            active: vm.data.active,
+            slug: strSlug( vm.data.name ),
+            meta_description: vm.data.meta_description,
+            meta_title: vm.data.meta_title,
           },
           {
             headers: {
