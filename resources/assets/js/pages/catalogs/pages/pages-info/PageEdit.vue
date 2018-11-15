@@ -52,25 +52,46 @@
         </div>
       </div>
 
-      <div class="row">
-        <div class="col-sm-2">
-          Tag Title
-        </div>
-        <div class="col-sm-10">
-          <div class="form-group">
-            <input class="form-control" v-model="meta_title">
-          </div>
-        </div>
-      </div>
 
       <div class="row">
-        <div class="col-sm-2">
-          Meta Tag Description
-        </div>
-        <div class="col-sm-10">
-          <div class="form-group">
-            <textarea class="form-control" v-model="meta_description"></textarea>
-          </div>
+        <div class="col-sm-12">
+          <WidgetAccordion>
+            <WidgetAccordionContent title="Otimização para buscadores (SEO)">
+
+              <div class="row">
+                <div class="col-sm-2">
+                  Tag Title
+                </div>
+                <div class="col-sm-9">
+                  <div class="form-group">
+                    <input class="form-control" v-model="data.meta_title">
+                  </div>
+                </div>
+                <div class="col-sm-1">
+
+                  <div class="form-group">
+                    <a href="https://static.googleusercontent.com/media/www.google.com/pt-BR//intl/pt-BR/webmasters/docs/guia-otimizacao-para-mecanismos-de-pesquisa-pt-br.pdf" target="_blank"
+                    class="label label-default" data-toggle="tooltip" title="" data-original-title="Guia do Google para Iniciantes">
+                    <i class="glyphicon glyphicon-question-sign"></i> Guia
+                    </a>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-sm-2">
+                  Meta Tag Description
+                </div>
+                <div class="col-sm-10">
+                  <div class="form-group">
+                    <textarea class="form-control" v-model="data.meta_description"></textarea>
+                  </div>
+                </div>
+              </div>
+            </WidgetAccordionContent>
+          </WidgetAccordion>
+
+
         </div>
       </div>
 
@@ -93,6 +114,9 @@
 <script>
 import Panel from "./../../../../components/layouts/Panel";
 import Alert from "./../../../../components/layouts/Alert";
+import WidgetAccordion from './../../../../components/widgets/WidgetAccordion'
+import WidgetAccordionContent from './../../../../components/widgets/WidgetAccordionContent'
+
 import { cleanDataApi, strSlug } from "./../../../../helpers/tools";
 
 import HtmlEditor from "./../../../../components/summernote/HtmlEditor";
@@ -102,6 +126,8 @@ export default {
   components: {
     Panel,
     Alert,
+    WidgetAccordion,
+    WidgetAccordionContent,
     HtmlEditor
   },
   props: [],
@@ -136,6 +162,9 @@ export default {
     }
   },
   methods: {
+    cleanData(data) {
+      return cleanDataApi(data);
+    },
     getPage() {
       const api = `${this.$urlApi}/admin/pages/${this.$route.params.id}`;
       Vue.axios
@@ -155,8 +184,7 @@ export default {
     },
 
     submitForm() {
-
-      let vm = this;
+      const vm = this;
 
       this.status = "Enviando...";
       const api = `${this.$urlApi}/admin/pages/${this.$route.params.id}`;
@@ -168,9 +196,9 @@ export default {
             name: vm.data.name,
             description: vm.data.description,
             active: vm.data.active,
-            slug: strSlug( vm.data.name ),
+            slug: strSlug(vm.data.name),
             meta_description: vm.data.meta_description,
-            meta_title: vm.data.meta_title,
+            meta_title: vm.data.meta_title
           },
           {
             headers: {
@@ -181,19 +209,42 @@ export default {
         )
         .then(response => {
           this.error = false;
-          this.status = "Página alterado com sucesso.";
+          this.status = false;
+
+          if (response.data ===true) {
+
+            swal({
+              title: "Dados atualizado!",
+              text: "Página foi alterada com sucesso.",
+              type: "success",
+              confirmButtonClass: "btn-success",
+              confirmButtonText: "OK"
+            });
+
+            this.$router.push({
+              name: "PageList"
+            });
+          }
+
           this.btnDisabled = false;
         })
         .catch(error => {
           this.$eventHub.$emit("eventError", { data: error.response });
           this.status = false;
           this.error = JSON.parse(error.response.data.error);
+
+          swal({
+            title: "Houve um erro na solicitação!",
+            text: "Corrija os erros!",
+            type: "error",
+            confirmButtonClass: "btn-danger",
+            confirmButtonText: "OK"
+          });
           this.btnDisabled = false;
         });
 
       setTimeout(() => {
         this.status = false;
-        this.error = false;
       }, 8000);
     }
   }

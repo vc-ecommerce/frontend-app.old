@@ -3234,6 +3234,7 @@ module.exports = Component.exports
 /* harmony export (immutable) */ __webpack_exports__["e"] = swalErrorUnauthorized;
 /* harmony export (immutable) */ __webpack_exports__["a"] = cleanDataApi;
 /* harmony export (immutable) */ __webpack_exports__["d"] = strSlug;
+/* unused harmony export strRandon */
 function cleanRole(roles) {
   return roles ? roles.filter(function (role) {
     delete role["_id"];
@@ -3333,6 +3334,10 @@ function strSlug(str) {
   .replace(/^-+/, "") // trim - from start of text
   .replace(/-+$/, "") // trim - from end of text
   .replace(/-/g, separator);
+}
+
+function strRandon() {
+  return Math.floor(Math.random() * 1000000 + 1);
 }
 
 /***/ }),

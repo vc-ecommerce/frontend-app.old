@@ -103,3 +103,7 @@ export function strSlug(str, separator='-') {
     .replace(/-+$/, "") // trim - from end of text
     .replace(/-/g, separator);
 }
+
+export function strRandon() {
+  return Math.floor(Math.random() * 1000000 + 1);
+}
