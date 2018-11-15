@@ -1623,6 +1623,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
 
 
 
@@ -1749,6 +1752,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
 //
 //
 //
@@ -1925,6 +1931,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
 
 
 
@@ -1964,10 +1973,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       }).catch(function (error) {
         _this.loading = false;
         _this.btnDisabled = false;
-        var resp = error.response.data.error;
 
-        if (resp === 'email_not_found') {
-          _this.error = true;
+        if (error.response.status === 404) {
+          _this.error = error.response.status;
         } else {
           _this.error = JSON.parse(error.response.data.error);
         }
@@ -2369,7 +2377,11 @@ var render = function() {
           staticClass: "btn btn-rounded",
           attrs: { type: "submit", disabled: _vm.btnDisabled }
         },
-        [_vm._v("Efetuar Login")]
+        [
+          _vm.btnDisabled
+            ? _c("span", [_vm._v("Enviando...")])
+            : _c("span", [_vm._v("Efetuar Login")])
+        ]
       )
     ]
   )
@@ -2422,17 +2434,22 @@ var render = function() {
                     "alert alert-danger alert-fill alert-close alert-dismissible fade show",
                   attrs: { role: "alert" }
                 },
-                _vm._l(_vm.error, function(err) {
-                  return _vm.error !== "true"
-                    ? _c("span", { key: err._id }, [
-                        _vm._v(
-                          "\n        " + _vm._s(_vm.cleanData(err)) + "\n      "
-                        )
-                      ])
-                    : _c("span", [
+                [
+                  _vm.error === 404
+                    ? _c("span", [
                         _vm._v("\n        Email não encontrado!\n      ")
                       ])
-                })
+                    : _vm._l(_vm.error, function(err) {
+                        return _c("span", { key: err._id }, [
+                          _vm._v(
+                            "\n        " +
+                              _vm._s(_vm.cleanData(err)) +
+                              "\n      "
+                          )
+                        ])
+                      })
+                ],
+                2
               )
             ])
           : _vm.success
@@ -2495,7 +2512,11 @@ var render = function() {
           staticClass: "btn btn-rounded",
           attrs: { type: "submit", disabled: _vm.btnDisabled }
         },
-        [_vm._v("Enviar")]
+        [
+          _vm.btnDisabled
+            ? _c("span", [_vm._v("Enviando...")])
+            : _c("span", [_vm._v("Enviar")])
+        ]
       )
     ]
   )
@@ -2657,7 +2678,11 @@ var render = function() {
           staticClass: "btn btn-rounded",
           attrs: { type: "submit", disabled: _vm.btnDisabled }
         },
-        [_vm._v("Redefinir senha agora")]
+        [
+          _vm.btnDisabled
+            ? _c("span", [_vm._v("Enviando...")])
+            : _c("span", [_vm._v("Redefinir senha agora")])
+        ]
       )
     ]
   )
@@ -4044,10 +4069,10 @@ Vue.prototype.$urlSite = 'https://vocecrianca.com.br';
 "use strict";
 /* harmony export (immutable) */ __webpack_exports__["b"] = cleanRole;
 /* harmony export (immutable) */ __webpack_exports__["c"] = forcePassword;
-/* harmony export (immutable) */ __webpack_exports__["e"] = swalErrorUnauthorized;
+/* harmony export (immutable) */ __webpack_exports__["f"] = swalErrorUnauthorized;
 /* harmony export (immutable) */ __webpack_exports__["a"] = cleanDataApi;
-/* harmony export (immutable) */ __webpack_exports__["d"] = strSlug;
-/* unused harmony export strRandon */
+/* harmony export (immutable) */ __webpack_exports__["e"] = strSlug;
+/* harmony export (immutable) */ __webpack_exports__["d"] = strRandon;
 function cleanRole(roles) {
   return roles ? roles.filter(function (role) {
     delete role["_id"];

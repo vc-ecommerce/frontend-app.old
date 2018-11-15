@@ -3551,20 +3551,8 @@ var render = function() {
             _vm._v(" "),
             _c(
               "div",
-              { staticClass: "col align-self-end" },
+              { staticClass: "col-sm-10" },
               [
-                _c(
-                  "router-link",
-                  {
-                    staticClass: "btn btn-inline btn-default",
-                    attrs: { to: { name: "AttributeList" } }
-                  },
-                  [
-                    _c("i", { staticClass: "glyphicon glyphicon-remove" }),
-                    _vm._v(" Cancelar")
-                  ]
-                ),
-                _vm._v(" "),
                 _c(
                   "button",
                   {
@@ -3574,6 +3562,18 @@ var render = function() {
                   [
                     _c("i", { staticClass: "glyphicon glyphicon-ok" }),
                     _vm._v(" Criar atributo\n        ")
+                  ]
+                ),
+                _vm._v(" "),
+                _c(
+                  "router-link",
+                  {
+                    staticClass: "btn btn-inline btn-sm btn-default",
+                    attrs: { to: { name: "AttributeList" } }
+                  },
+                  [
+                    _c("i", { staticClass: "glyphicon glyphicon-remove" }),
+                    _vm._v(" Cancelar")
                   ]
                 )
               ],
@@ -4159,36 +4159,19 @@ var render = function() {
           _c("div", { staticClass: "row col-btn" }, [
             _c("div", { staticClass: "col-sm-2" }),
             _vm._v(" "),
-            _c(
-              "div",
-              { staticClass: "col align-self-end" },
-              [
-                _c(
-                  "router-link",
-                  {
-                    staticClass: "btn btn-inline btn-default",
-                    attrs: { to: { name: "AttributeList" } }
-                  },
-                  [
-                    _c("i", { staticClass: "glyphicon glyphicon-remove" }),
-                    _vm._v(" Cancelar")
-                  ]
-                ),
-                _vm._v(" "),
-                _c(
-                  "button",
-                  {
-                    staticClass: "btn btn-inline",
-                    attrs: { disabled: _vm.btnDisabled, type: "submit" }
-                  },
-                  [
-                    _c("i", { staticClass: "glyphicon glyphicon-ok" }),
-                    _vm._v(" Alterar nome\n        ")
-                  ]
-                )
-              ],
-              1
-            )
+            _c("div", { staticClass: "col-sm-10 text-right" }, [
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-inline",
+                  attrs: { disabled: _vm.btnDisabled, type: "submit" }
+                },
+                [
+                  _c("i", { staticClass: "glyphicon glyphicon-ok" }),
+                  _vm._v(" Alterar nome\n        ")
+                ]
+              )
+            ])
           ])
         ]
       ),
@@ -8808,10 +8791,10 @@ module.exports = Component.exports
 "use strict";
 /* harmony export (immutable) */ __webpack_exports__["b"] = cleanRole;
 /* harmony export (immutable) */ __webpack_exports__["c"] = forcePassword;
-/* harmony export (immutable) */ __webpack_exports__["e"] = swalErrorUnauthorized;
+/* harmony export (immutable) */ __webpack_exports__["f"] = swalErrorUnauthorized;
 /* harmony export (immutable) */ __webpack_exports__["a"] = cleanDataApi;
-/* harmony export (immutable) */ __webpack_exports__["d"] = strSlug;
-/* unused harmony export strRandon */
+/* harmony export (immutable) */ __webpack_exports__["e"] = strSlug;
+/* harmony export (immutable) */ __webpack_exports__["d"] = strRandon;
 function cleanRole(roles) {
   return roles ? roles.filter(function (role) {
     delete role["_id"];

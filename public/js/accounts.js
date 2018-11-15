@@ -3231,10 +3231,10 @@ module.exports = Component.exports
 "use strict";
 /* harmony export (immutable) */ __webpack_exports__["b"] = cleanRole;
 /* harmony export (immutable) */ __webpack_exports__["c"] = forcePassword;
-/* harmony export (immutable) */ __webpack_exports__["e"] = swalErrorUnauthorized;
+/* harmony export (immutable) */ __webpack_exports__["f"] = swalErrorUnauthorized;
 /* harmony export (immutable) */ __webpack_exports__["a"] = cleanDataApi;
-/* harmony export (immutable) */ __webpack_exports__["d"] = strSlug;
-/* unused harmony export strRandon */
+/* harmony export (immutable) */ __webpack_exports__["e"] = strSlug;
+/* harmony export (immutable) */ __webpack_exports__["d"] = strRandon;
 function cleanRole(roles) {
   return roles ? roles.filter(function (role) {
     delete role["_id"];

@@ -43,7 +43,10 @@
       <input type="password" @click="checkAlert" required minlength="6" class="form-control" v-model="confirme"  placeholder="Confirme a senha"/>
     </div>
 
-    <button type="submit" class="btn btn-rounded" :disabled="btnDisabled">Redefinir senha agora</button>
+    <button type="submit" class="btn btn-rounded" :disabled="btnDisabled">
+      <span v-if="btnDisabled">Enviando...</span>
+      <span v-else>Redefinir senha agora</span>
+    </button>
 
   </form>
 </template>

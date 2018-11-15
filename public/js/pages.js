@@ -1887,7 +1887,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_layouts_Panel___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__components_layouts_Panel__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_layouts_Alert__ = __webpack_require__("./resources/assets/js/components/layouts/Alert.vue");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_layouts_Alert___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__components_layouts_Alert__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__helpers_tools__ = __webpack_require__("./resources/assets/js/helpers/tools.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_widgets_WidgetAccordion__ = __webpack_require__("./resources/assets/js/components/widgets/WidgetAccordion.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_widgets_WidgetAccordion___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__components_widgets_WidgetAccordion__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__components_widgets_WidgetAccordionContent__ = __webpack_require__("./resources/assets/js/components/widgets/WidgetAccordionContent.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__components_widgets_WidgetAccordionContent___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__components_widgets_WidgetAccordionContent__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__helpers_tools__ = __webpack_require__("./resources/assets/js/helpers/tools.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__components_summernote_HtmlEditor__ = __webpack_require__("./resources/assets/js/components/summernote/HtmlEditor.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__components_summernote_HtmlEditor___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5__components_summernote_HtmlEditor__);
 //
 //
 //
@@ -1933,45 +1939,140 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
 
 
 
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  name: "PageCreate",
+  name: "PageEdit",
   components: {
     Panel: __WEBPACK_IMPORTED_MODULE_0__components_layouts_Panel___default.a,
-    Alert: __WEBPACK_IMPORTED_MODULE_1__components_layouts_Alert___default.a
+    Alert: __WEBPACK_IMPORTED_MODULE_1__components_layouts_Alert___default.a,
+    WidgetAccordion: __WEBPACK_IMPORTED_MODULE_2__components_widgets_WidgetAccordion___default.a,
+    WidgetAccordionContent: __WEBPACK_IMPORTED_MODULE_3__components_widgets_WidgetAccordionContent___default.a,
+    HtmlEditor: __WEBPACK_IMPORTED_MODULE_5__components_summernote_HtmlEditor___default.a
   },
   props: [],
   data: function data() {
     return {
-      name: "",
+      data: {
+        name: "",
+        description: "",
+        active: "",
+        slug: "",
+        meta_description: "",
+        meta_title: ""
+      },
       status: false,
       error: false,
-      btnDisabled: false
+      btnDisabled: false,
+      options: [{ text: "Sim", value: true }, { text: "Não", value: false }]
     };
   },
-  mounted: function mounted() {
-    this.$eventHub.$emit("eventBreadcrumbs", "Criar páginas");
+
+  computed: {
+    applySlug: function applySlug() {
+      if (this.data.name) {
+        return Object(__WEBPACK_IMPORTED_MODULE_4__helpers_tools__["e" /* strSlug */])(this.data.name);
+      }
+      return "";
+    }
+  },
+  created: function created() {
+    this.$eventHub.$emit("eventBreadcrumbs", "Cadastrar página");
   },
 
   methods: {
     cleanData: function cleanData(data) {
-      return Object(__WEBPACK_IMPORTED_MODULE_2__helpers_tools__["a" /* cleanDataApi */])(data);
+      return Object(__WEBPACK_IMPORTED_MODULE_4__helpers_tools__["a" /* cleanDataApi */])(data);
     },
     submitForm: function submitForm() {
       var _this = this;
 
+      var vm = this;
+
       this.status = "Enviando...";
       var api = this.$urlApi + "/admin/pages";
-
       this.btnDisabled = true;
-
       Vue.axios.post(api, {
-        name: this.name,
-        default: false
+        name: vm.data.name,
+        description: vm.data.description,
+        active: vm.data.active,
+        slug: Object(__WEBPACK_IMPORTED_MODULE_4__helpers_tools__["e" /* strSlug */])(vm.data.name),
+        meta_description: vm.data.meta_description,
+        meta_title: vm.data.meta_title
       }, {
         headers: {
           Authorization: "Bearer " + this.$store.getters.getToken,
@@ -1979,26 +2080,42 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         }
       }).then(function (response) {
         _this.error = false;
-        var data = response.data;
-        if (data._id) {
-          sessionStorage.setItem("pageCreated", "Página criada com sucesso!");
+        _this.status = false;
+        console.log(response);
+
+        if (response.status === 201) {
+          swal({
+            title: "Dados cadastrados!",
+            text: "Página foi cadastrada com sucesso.",
+            type: "success",
+            confirmButtonClass: "btn-success",
+            confirmButtonText: "OK"
+          });
+
           _this.$router.push({
-            name: "PageEdit",
-            params: { id: data._id }
+            name: "PageList"
           });
         }
 
-        _this.name = "";
         _this.btnDisabled = false;
       }).catch(function (error) {
         _this.$eventHub.$emit("eventError", { data: error.response });
         _this.status = false;
         _this.error = JSON.parse(error.response.data.error);
+
+        swal({
+          title: "Houve um erro na solicitação!",
+          text: "Corrija os erros!",
+          type: "error",
+          confirmButtonClass: "btn-danger",
+          confirmButtonText: "OK"
+        });
         _this.btnDisabled = false;
-        setTimeout(function () {
-          _this.error = false;
-        }, 5000);
       });
+
+      setTimeout(function () {
+        _this.status = false;
+      }, 8000);
     }
   }
 });
@@ -2142,8 +2259,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 
-
-
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "PageEdit",
   components: {
@@ -2173,19 +2288,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     }
   },
   created: function created() {
-    var _this = this;
-
     this.$eventHub.$emit("eventBreadcrumbs", "Editar página");
     this.getPage();
-
-    if (sessionStorage.getItem("pageCreated")) {
-      this.status = sessionStorage.getItem("pageCreated");
-      sessionStorage.removeItem("pageCreated");
-
-      setTimeout(function () {
-        _this.status = false;
-      }, 8000);
-    }
   },
 
   methods: {
@@ -2193,7 +2297,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       return Object(__WEBPACK_IMPORTED_MODULE_4__helpers_tools__["a" /* cleanDataApi */])(data);
     },
     getPage: function getPage() {
-      var _this2 = this;
+      var _this = this;
 
       var api = this.$urlApi + "/admin/pages/" + this.$route.params.id;
       Vue.axios.get(api, {
@@ -2202,14 +2306,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
           "User-ID": this.$store.getters.getUserId
         }
       }).then(function (response) {
-        _this2.data = response.data;
+        _this.data = response.data;
       }).catch(function (error) {
-        _this2.$eventHub.$emit("eventError", { data: error.response });
-        _this2.error = JSON.parse(error.response.data.error);
+        _this.$eventHub.$emit("eventError", { data: error.response });
+        _this.error = JSON.parse(error.response.data.error);
       });
     },
     submitForm: function submitForm() {
-      var _this3 = this;
+      var _this2 = this;
 
       var vm = this;
 
@@ -2229,29 +2333,28 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
           "User-ID": this.$store.getters.getUserId
         }
       }).then(function (response) {
-        _this3.error = false;
-        _this3.status = false;
+        _this2.error = false;
+        _this2.status = false;
 
         if (response.data === true) {
-
           swal({
-            title: "Dados atualizado!",
-            text: "Página foi alterada com sucesso.",
+            title: "Dados atualizados!",
+            text: "A página foi atualizada com sucesso.",
             type: "success",
             confirmButtonClass: "btn-success",
             confirmButtonText: "OK"
           });
 
-          _this3.$router.push({
+          _this2.$router.push({
             name: "PageList"
           });
         }
 
-        _this3.btnDisabled = false;
+        _this2.btnDisabled = false;
       }).catch(function (error) {
-        _this3.$eventHub.$emit("eventError", { data: error.response });
-        _this3.status = false;
-        _this3.error = JSON.parse(error.response.data.error);
+        _this2.$eventHub.$emit("eventError", { data: error.response });
+        _this2.status = false;
+        _this2.error = JSON.parse(error.response.data.error);
 
         swal({
           title: "Houve um erro na solicitação!",
@@ -2260,11 +2363,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
           confirmButtonClass: "btn-danger",
           confirmButtonText: "OK"
         });
-        _this3.btnDisabled = false;
+        _this2.btnDisabled = false;
       });
 
       setTimeout(function () {
-        _this3.status = false;
+        _this2.status = false;
       }, 8000);
     }
   }
@@ -2652,7 +2755,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n.row[data-v-7b8ebb80] {\n  padding: 20px;\n}\n.col-btn[data-v-7b8ebb80] {\n  margin-top: -20px;\n}\nspan[data-v-7b8ebb80] {\n  font-size: 12px;\n  color: #999;\n}\n", ""]);
+exports.push([module.i, "\n.row[data-v-7b8ebb80] {\n  padding: 20px;\n}\nspan[data-v-7b8ebb80] {\n  font-size: 12px;\n  color: #999;\n}\n.col-btn[data-v-7b8ebb80] {\n  margin-top: -20px;\n}\n.variation[data-v-7b8ebb80] {\n  border-top: 1px solid #ece9e9;\n}\n", ""]);
 
 // exports
 
@@ -3237,7 +3340,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "Panel",
-    { attrs: { title: "Criando Página", classContent: "panel-body" } },
+    { attrs: { title: "Editando Página", classContent: "panel-body" } },
     [
       _vm.status && _vm.error === false
         ? _c(
@@ -3295,7 +3398,6 @@ var render = function() {
       _c(
         "form",
         {
-          attrs: { id: "add-user" },
           on: {
             submit: function($event) {
               $event.preventDefault()
@@ -3306,7 +3408,64 @@ var render = function() {
         [
           _c("div", { staticClass: "row" }, [
             _c("div", { staticClass: "col-sm-2" }, [
-              _vm._v("\n        Nome do atributo\n      ")
+              _vm._v("\n        Página ativa?\n      ")
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "col-sm-4" }, [
+              _c(
+                "select",
+                {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.data.active,
+                      expression: "data.active"
+                    }
+                  ],
+                  staticClass: "form-control",
+                  attrs: { required: "" },
+                  on: {
+                    change: function($event) {
+                      var $$selectedVal = Array.prototype.filter
+                        .call($event.target.options, function(o) {
+                          return o.selected
+                        })
+                        .map(function(o) {
+                          var val = "_value" in o ? o._value : o.value
+                          return val
+                        })
+                      _vm.$set(
+                        _vm.data,
+                        "active",
+                        $event.target.multiple
+                          ? $$selectedVal
+                          : $$selectedVal[0]
+                      )
+                    }
+                  }
+                },
+                [
+                  _c("option", { attrs: { disabled: "", value: "" } }, [
+                    _vm._v("Escolha um item")
+                  ]),
+                  _vm._v(" "),
+                  _vm._l(_vm.options, function(option) {
+                    return _c(
+                      "option",
+                      { key: option.id, domProps: { value: option.value } },
+                      [_vm._v(_vm._s(option.text))]
+                    )
+                  })
+                ],
+                2
+              )
+            ])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "row" }, [
+            _c("div", { staticClass: "col-sm-2" }, [
+              _vm._v("\n        Título da página\n      ")
             ]),
             _vm._v(" "),
             _c("div", { staticClass: "col-sm-10" }, [
@@ -3315,42 +3474,196 @@ var render = function() {
                   {
                     name: "model",
                     rawName: "v-model",
-                    value: _vm.name,
-                    expression: "name"
+                    value: _vm.data.name,
+                    expression: "data.name"
                   }
                 ],
                 staticClass: "form-control",
                 attrs: {
                   type: "text",
                   required: "",
-                  placeholder: "Digite aqui"
+                  placeholder: "Digite aqui o título da página"
                 },
-                domProps: { value: _vm.name },
+                domProps: { value: _vm.data.name },
                 on: {
                   input: function($event) {
                     if ($event.target.composing) {
                       return
                     }
-                    _vm.name = $event.target.value
+                    _vm.$set(_vm.data, "name", $event.target.value)
                   }
                 }
               }),
               _vm._v(" "),
-              _c("span", [_vm._v("Nome do atributo para controle interno")])
+              _vm.applySlug
+                ? _c("span", { staticClass: "control" }, [
+                    _vm._v(_vm._s(_vm.$urlSite + "/pg/" + _vm.applySlug))
+                  ])
+                : _vm._e()
             ])
           ]),
           _vm._v(" "),
-          _c("div", { staticClass: "row col-btn" }, [
+          _c("div", { staticClass: "row" }, [
+            _c("div", { staticClass: "col-sm-2" }, [
+              _vm._v("\n        Conteúdo da página\n      ")
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "col-sm-10" }, [
+              _c(
+                "div",
+                { staticClass: "form-group" },
+                [
+                  _c("html-editor", {
+                    attrs: {
+                      height: "200",
+                      dataDesc: _vm.data.description,
+                      model: _vm.data.description
+                    },
+                    on: {
+                      "update:model": function($event) {
+                        _vm.$set(_vm.data, "description", $event)
+                      }
+                    }
+                  })
+                ],
+                1
+              )
+            ])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "row" }, [
             _c("div", { staticClass: "col-sm-2" }),
             _vm._v(" "),
             _c(
               "div",
-              { staticClass: "col align-self-end" },
+              { staticClass: "col-sm-10" },
+              [
+                _c(
+                  "WidgetAccordion",
+                  [
+                    _c(
+                      "WidgetAccordionContent",
+                      { attrs: { title: "Otimização para buscadores (SEO)" } },
+                      [
+                        _c("div", { staticClass: "row" }, [
+                          _c("div", { staticClass: "col-sm-2" }, [
+                            _vm._v(
+                              "\n                Tag Title\n              "
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "col-sm-9" }, [
+                            _c("div", { staticClass: "form-group" }, [
+                              _c("input", {
+                                directives: [
+                                  {
+                                    name: "model",
+                                    rawName: "v-model",
+                                    value: _vm.data.meta_title,
+                                    expression: "data.meta_title"
+                                  }
+                                ],
+                                staticClass: "form-control",
+                                domProps: { value: _vm.data.meta_title },
+                                on: {
+                                  input: function($event) {
+                                    if ($event.target.composing) {
+                                      return
+                                    }
+                                    _vm.$set(
+                                      _vm.data,
+                                      "meta_title",
+                                      $event.target.value
+                                    )
+                                  }
+                                }
+                              })
+                            ])
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "col-sm-1" }, [
+                            _c("div", { staticClass: "form-group" }, [
+                              _c(
+                                "a",
+                                {
+                                  staticClass: "label label-default",
+                                  attrs: {
+                                    href:
+                                      "https://static.googleusercontent.com/media/www.google.com/pt-BR//intl/pt-BR/webmasters/docs/guia-otimizacao-para-mecanismos-de-pesquisa-pt-br.pdf",
+                                    target: "_blank",
+                                    "data-toggle": "tooltip",
+                                    title: "",
+                                    "data-original-title":
+                                      "Guia do Google para Iniciantes"
+                                  }
+                                },
+                                [
+                                  _c("i", {
+                                    staticClass:
+                                      "glyphicon glyphicon-question-sign"
+                                  }),
+                                  _vm._v(" Guia\n                  ")
+                                ]
+                              )
+                            ])
+                          ])
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "row" }, [
+                          _c("div", { staticClass: "col-sm-2" }, [
+                            _vm._v(
+                              "\n                Meta Tag Description\n              "
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "col-sm-10" }, [
+                            _c("div", { staticClass: "form-group" }, [
+                              _c("textarea", {
+                                directives: [
+                                  {
+                                    name: "model",
+                                    rawName: "v-model",
+                                    value: _vm.data.meta_description,
+                                    expression: "data.meta_description"
+                                  }
+                                ],
+                                staticClass: "form-control",
+                                domProps: { value: _vm.data.meta_description },
+                                on: {
+                                  input: function($event) {
+                                    if ($event.target.composing) {
+                                      return
+                                    }
+                                    _vm.$set(
+                                      _vm.data,
+                                      "meta_description",
+                                      $event.target.value
+                                    )
+                                  }
+                                }
+                              })
+                            ])
+                          ])
+                        ])
+                      ]
+                    )
+                  ],
+                  1
+                )
+              ],
+              1
+            )
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "row col-btn" }, [
+            _c(
+              "div",
+              { staticClass: "col-sm-12 text-right" },
               [
                 _c(
                   "router-link",
                   {
-                    staticClass: "btn btn-inline btn-default",
+                    staticClass: "btn btn-inline btn-sm btn-default",
                     attrs: { to: { name: "PageList" } }
                   },
                   [
@@ -3367,7 +3680,7 @@ var render = function() {
                   },
                   [
                     _c("i", { staticClass: "glyphicon glyphicon-ok" }),
-                    _vm._v(" Criar página\n        ")
+                    _vm._v(" Cadastrar Página\n        ")
                   ]
                 )
               ],
@@ -3721,9 +4034,11 @@ var render = function() {
           ]),
           _vm._v(" "),
           _c("div", { staticClass: "row" }, [
+            _c("div", { staticClass: "col-sm-2" }),
+            _vm._v(" "),
             _c(
               "div",
-              { staticClass: "col-sm-12" },
+              { staticClass: "col-sm-10" },
               [
                 _c(
                   "WidgetAccordion",
@@ -3843,24 +4158,10 @@ var render = function() {
           ]),
           _vm._v(" "),
           _c("div", { staticClass: "row col-btn" }, [
-            _c("div", { staticClass: "col-sm-2" }),
-            _vm._v(" "),
             _c(
               "div",
-              { staticClass: "col align-self-end" },
+              { staticClass: "col-sm-12 text-right" },
               [
-                _c(
-                  "button",
-                  {
-                    staticClass: "btn btn-inline",
-                    attrs: { disabled: _vm.btnDisabled, type: "submit" }
-                  },
-                  [
-                    _c("i", { staticClass: "glyphicon glyphicon-ok" }),
-                    _vm._v(" Salvar alterações\n        ")
-                  ]
-                ),
-                _vm._v(" "),
                 _c(
                   "router-link",
                   {
@@ -3870,6 +4171,18 @@ var render = function() {
                   [
                     _c("i", { staticClass: "glyphicon glyphicon-remove" }),
                     _vm._v(" Cancelar")
+                  ]
+                ),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-inline",
+                    attrs: { disabled: _vm.btnDisabled, type: "submit" }
+                  },
+                  [
+                    _c("i", { staticClass: "glyphicon glyphicon-ok" }),
+                    _vm._v(" Salvar alterações\n        ")
                   ]
                 )
               ],

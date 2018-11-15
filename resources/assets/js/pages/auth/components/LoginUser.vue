@@ -29,7 +29,10 @@
       </div>
     </div>
 
-    <button type="submit" class="btn btn-rounded" :disabled="btnDisabled">Efetuar Login</button>
+    <button type="submit" class="btn btn-rounded" :disabled="btnDisabled">
+      <span v-if="btnDisabled">Enviando...</span>
+      <span v-else>Efetuar Login</span>
+    </button>
 
   </form>
 </template>

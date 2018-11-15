@@ -52,9 +52,10 @@
         </div>
       </div>
 
-
       <div class="row">
-        <div class="col-sm-12">
+        <div class="col-sm-2">
+        </div>
+        <div class="col-sm-10">
           <WidgetAccordion>
             <WidgetAccordionContent title="Otimização para buscadores (SEO)">
 
@@ -91,18 +92,17 @@
             </WidgetAccordionContent>
           </WidgetAccordion>
 
-
         </div>
       </div>
 
       <div class="row col-btn">
-        <div class="col-sm-2">
-        </div>
-        <div class="col align-self-end">
+
+        <div class="col-sm-12 text-right">
+
+          <router-link :to="{ name: 'PageList' }" class="btn btn-inline btn-sm btn-default"><i class="glyphicon glyphicon-remove"></i> Cancelar</router-link>
           <button :disabled="btnDisabled" class="btn btn-inline" type="submit">
             <i class="glyphicon glyphicon-ok"></i> Salvar alterações
           </button>
-          <router-link :to="{ name: 'PageList' }" class="btn btn-inline btn-sm btn-default"><i class="glyphicon glyphicon-remove"></i> Cancelar</router-link>
 
         </div>
       </div>
@@ -114,11 +114,9 @@
 <script>
 import Panel from "./../../../../components/layouts/Panel";
 import Alert from "./../../../../components/layouts/Alert";
-import WidgetAccordion from './../../../../components/widgets/WidgetAccordion'
-import WidgetAccordionContent from './../../../../components/widgets/WidgetAccordionContent'
-
+import WidgetAccordion from "./../../../../components/widgets/WidgetAccordion";
+import WidgetAccordionContent from "./../../../../components/widgets/WidgetAccordionContent";
 import { cleanDataApi, strSlug } from "./../../../../helpers/tools";
-
 import HtmlEditor from "./../../../../components/summernote/HtmlEditor";
 
 export default {
@@ -151,15 +149,6 @@ export default {
   created() {
     this.$eventHub.$emit("eventBreadcrumbs", "Editar página");
     this.getPage();
-
-    if (sessionStorage.getItem("pageCreated")) {
-      this.status = sessionStorage.getItem("pageCreated");
-      sessionStorage.removeItem("pageCreated");
-
-      setTimeout(() => {
-        this.status = false;
-      }, 8000);
-    }
   },
   methods: {
     cleanData(data) {
@@ -211,11 +200,10 @@ export default {
           this.error = false;
           this.status = false;
 
-          if (response.data ===true) {
-
+          if (response.data === true) {
             swal({
-              title: "Dados atualizado!",
-              text: "Página foi alterada com sucesso.",
+              title: "Dados atualizados!",
+              text: "A página foi atualizada com sucesso.",
               type: "success",
               confirmButtonClass: "btn-success",
               confirmButtonText: "OK"

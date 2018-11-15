@@ -1,5 +1,5 @@
 <template>
-  <Panel title="Criando Página" classContent="panel-body">
+  <Panel title="Editando Página" classContent="panel-body">
 
     <div v-if="status && error === false" class="row">
       <Alert className="alert alert-success alert-fill alert-close alert-dismissible fade show">
@@ -17,71 +17,165 @@
       </Alert>
     </div>
 
-    <form id="add-user" @submit.prevent="submitForm">
+    <form @submit.prevent="submitForm">
 
       <div class="row">
         <div class="col-sm-2">
-          Nome do atributo
+          Página ativa?
+        </div>
+        <div class="col-sm-4">
+            <select class="form-control" required v-model="data.active">
+              <option disabled value="">Escolha um item</option>
+              <option v-for="option in options" :key="option.id" :value="option.value">{{ option.text }}</option>
+            </select>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-sm-2">
+          Título da página
         </div>
         <div class="col-sm-10">
-            <input type="text" required class="form-control" v-model="name" placeholder="Digite aqui">
-            <span>Nome do atributo para controle interno</span>
+            <input type="text" required class="form-control" v-model="data.name" placeholder="Digite aqui o título da página">
+            <span v-if="applySlug" class="control">{{ $urlSite +"/pg/"+ applySlug }}</span>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-sm-2">
+          Conteúdo da página
+        </div>
+        <div class="col-sm-10">
+          <div class="form-group">
+              <html-editor height="200" :dataDesc="data.description" :model.sync="data.description"></html-editor>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-sm-2">
+        </div>
+        <div class="col-sm-10">
+          <WidgetAccordion>
+            <WidgetAccordionContent title="Otimização para buscadores (SEO)">
+
+              <div class="row">
+                <div class="col-sm-2">
+                  Tag Title
+                </div>
+                <div class="col-sm-9">
+                  <div class="form-group">
+                    <input class="form-control" v-model="data.meta_title">
+                  </div>
+                </div>
+                <div class="col-sm-1">
+
+                  <div class="form-group">
+                    <a href="https://static.googleusercontent.com/media/www.google.com/pt-BR//intl/pt-BR/webmasters/docs/guia-otimizacao-para-mecanismos-de-pesquisa-pt-br.pdf" target="_blank"
+                    class="label label-default" data-toggle="tooltip" title="" data-original-title="Guia do Google para Iniciantes">
+                    <i class="glyphicon glyphicon-question-sign"></i> Guia
+                    </a>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-sm-2">
+                  Meta Tag Description
+                </div>
+                <div class="col-sm-10">
+                  <div class="form-group">
+                    <textarea class="form-control" v-model="data.meta_description"></textarea>
+                  </div>
+                </div>
+              </div>
+            </WidgetAccordionContent>
+          </WidgetAccordion>
+
         </div>
       </div>
 
       <div class="row col-btn">
-        <div class="col-sm-2">
-        </div>
-        <div class="col align-self-end">
-          <router-link :to="{ name: 'PageList' }" class="btn btn-inline btn-default"><i class="glyphicon glyphicon-remove"></i> Cancelar</router-link>
+
+        <div class="col-sm-12 text-right">
+
+          <router-link :to="{ name: 'PageList' }" class="btn btn-inline btn-sm btn-default"><i class="glyphicon glyphicon-remove"></i> Cancelar</router-link>
           <button :disabled="btnDisabled" class="btn btn-inline" type="submit">
-            <i class="glyphicon glyphicon-ok"></i> Criar página
+            <i class="glyphicon glyphicon-ok"></i> Cadastrar Página
           </button>
+
         </div>
       </div>
 
     </form>
+
   </Panel>
 </template>
 <script>
 import Panel from "./../../../../components/layouts/Panel";
 import Alert from "./../../../../components/layouts/Alert";
-import { cleanDataApi } from "./../../../../helpers/tools";
+import WidgetAccordion from "./../../../../components/widgets/WidgetAccordion";
+import WidgetAccordionContent from "./../../../../components/widgets/WidgetAccordionContent";
+import { cleanDataApi, strSlug } from "./../../../../helpers/tools";
+import HtmlEditor from "./../../../../components/summernote/HtmlEditor";
 
 export default {
-  name: "PageCreate",
+  name: "PageEdit",
   components: {
     Panel,
-    Alert
+    Alert,
+    WidgetAccordion,
+    WidgetAccordionContent,
+    HtmlEditor
   },
   props: [],
   data() {
     return {
-      name: "",
+      data: {
+        name: "",
+        description: "",
+        active: "",
+        slug: "",
+        meta_description: "",
+        meta_title: "",
+      },
       status: false,
       error: false,
-      btnDisabled: false
+      btnDisabled: false,
+      options: [{ text: "Sim", value: true }, { text: "Não", value: false }]
     };
   },
-  mounted() {
-    this.$eventHub.$emit("eventBreadcrumbs", "Criar páginas");
+  computed: {
+    applySlug() {
+      if (this.data.name) {
+        return strSlug(this.data.name);
+      }
+      return "";
+    }
+  },
+  created() {
+    this.$eventHub.$emit("eventBreadcrumbs", "Cadastrar página");
   },
   methods: {
     cleanData(data) {
       return cleanDataApi(data);
     },
     submitForm() {
+      const vm = this;
+
       this.status = "Enviando...";
       const api = `${this.$urlApi}/admin/pages`;
-
       this.btnDisabled = true;
-
       Vue.axios
         .post(
           api,
           {
-            name: this.name,
-            default: false
+            name: vm.data.name,
+            description: vm.data.description,
+            active: vm.data.active,
+            slug: strSlug(vm.data.name),
+            meta_description: vm.data.meta_description,
+            meta_title: vm.data.meta_title
           },
           {
             headers: {
@@ -92,27 +186,43 @@ export default {
         )
         .then(response => {
           this.error = false;
-          let data = response.data;
-          if (data._id) {
-            sessionStorage.setItem("pageCreated", "Página criada com sucesso!");
+          this.status = false;
+          console.log(response)
+
+          if (response.status === 201) {
+            swal({
+              title: "Dados cadastrados!",
+              text: "Página foi cadastrada com sucesso.",
+              type: "success",
+              confirmButtonClass: "btn-success",
+              confirmButtonText: "OK"
+            });
+
             this.$router.push({
-              name: "PageEdit",
-              params: { id: data._id }
+              name: "PageList"
             });
           }
 
-          this.name = "";
           this.btnDisabled = false;
         })
         .catch(error => {
           this.$eventHub.$emit("eventError", { data: error.response });
           this.status = false;
           this.error = JSON.parse(error.response.data.error);
-           this.btnDisabled = false;
-          setTimeout(() => {
-            this.error = false;
-          }, 5000);
+
+          swal({
+            title: "Houve um erro na solicitação!",
+            text: "Corrija os erros!",
+            type: "error",
+            confirmButtonClass: "btn-danger",
+            confirmButtonText: "OK"
+          });
+          this.btnDisabled = false;
         });
+
+      setTimeout(() => {
+        this.status = false;
+      }, 8000);
     }
   }
 };
@@ -121,11 +231,15 @@ export default {
 .row {
   padding: 20px;
 }
-.col-btn {
-  margin-top: -20px;
-}
 span {
   font-size: 12px;
   color: #999;
+}
+.col-btn {
+  margin-top: -20px;
+}
+
+.variation {
+  border-top: 1px solid #ece9e9;
 }
 </style>
