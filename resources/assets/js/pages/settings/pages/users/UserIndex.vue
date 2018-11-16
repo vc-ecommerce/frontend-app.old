@@ -92,9 +92,9 @@ export default {
   mounted() {
     this.getUsers();
     this.getRoles();
-    const parent = this;
+    const vm = this;
     this.$eventHub.$on("totalUser", function(t) {
-      parent.total = t;
+      vm.total = t;
     });
   },
   methods: {

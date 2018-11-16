@@ -38,9 +38,9 @@ const appOne = new Vue({
 
   },
   created() {
-    const parent = this;
+    const vm = this;
     this.$eventHub.$on('eventError', function (obj) {
-      parent.showError(obj)
+      vm.showError(obj)
     });
     this.isTokenEquals();
   },

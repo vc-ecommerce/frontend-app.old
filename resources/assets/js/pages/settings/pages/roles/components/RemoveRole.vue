@@ -38,7 +38,7 @@ export default {
     },
 
     remove(role) {
-      const parent = this;
+      const vm = this;
       swal(
         {
           title: "Deseja realmente excluir?",
@@ -54,14 +54,14 @@ export default {
 
         function(isConfirm) {
           if (isConfirm) {
-            let result = parent.send(role);
+            let result = vm.send(role);
             result.then(function(value) {
               if (value == true) {
-                let index = parent.dataRoles.data.indexOf(role);
-                parent.dataRoles.data.splice(index, 1);
+                let index = vm.dataRoles.data.indexOf(role);
+                vm.dataRoles.data.splice(index, 1);
 
-                parent.dataRoles.total = parent.dataRoles.total - 1;
-                parent.$eventHub.$emit("totalRole", parent.dataRoles.total);
+                vm.dataRoles.total = vm.dataRoles.total - 1;
+                vm.$eventHub.$emit("totalRole", vm.dataRoles.total);
 
                 swal({
                   title: "Removido",

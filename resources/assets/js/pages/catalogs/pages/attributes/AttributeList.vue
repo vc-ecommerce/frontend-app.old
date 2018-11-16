@@ -96,9 +96,9 @@ export default {
   },
   mounted() {
     this.getAttributes();
-    const parent = this;
+    const vm = this;
     this.$eventHub.$on("totalAttribute", function(t) {
-      parent.total = t;
+      vm.total = t;
     });
 
   },
@@ -120,7 +120,6 @@ export default {
           this.total = response.data.total;
         })
         .catch(error => {
-          //console.log(error.response);
           this.$eventHub.$emit("eventError", { data: error.response });
         });
     }

@@ -107,8 +107,6 @@ export default {
           this.total = response.data.total;
           this.status = "Variação editada com sucesso!";
           this.$emit("reload");
-
-          console.log(response);
         })
         .catch(error => {
           this.$eventHub.$emit("eventError", { data: error.response });

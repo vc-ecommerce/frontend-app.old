@@ -104,19 +104,22 @@ export default {
 
     privilegeRole: {
       get() {
-        return this.$store.getters.getItem ? this.$store.getters.getItem.privileges : []
+        return this.$store.getters.getItem
+          ? this.$store.getters.getItem.privileges
+          : [];
       },
       set(value) {
-        this.$store.commit("setItemPrivilege", value);
+        let item = this.$store.getters.getItem;
+        item.privileges = value;
+        this.$store.commit("setItem", item);
       }
-    },
+    }
   },
   methods: {
     cleanData(data) {
       return cleanDataApi(data);
     },
     submitForm() {
-
       if (!this.$store.getters.getItem) {
         return;
       }
@@ -134,7 +137,7 @@ export default {
             description: data.description,
             privileges: data.privileges,
             default: false,
-            admin: "edit-role"
+            action: "edit-role"
           },
           {
             headers: {

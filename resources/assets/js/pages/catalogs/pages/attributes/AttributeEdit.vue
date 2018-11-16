@@ -33,11 +33,11 @@
       <div class="row col-btn">
         <div class="col-sm-2">
         </div>
-        <div class="col align-self-end">
-          <router-link :to="{ name: 'AttributeList' }" class="btn btn-inline btn-default"><i class="glyphicon glyphicon-remove"></i> Cancelar</router-link>
+        <div class="col-sm-10 text-right">
           <button :disabled="btnDisabled" class="btn btn-inline" type="submit">
             <i class="glyphicon glyphicon-ok"></i> Alterar nome
           </button>
+
         </div>
       </div>
 
@@ -71,7 +71,7 @@ export default {
     };
   },
   mounted() {
-    this.$eventHub.$emit("eventBreadcrumbs", "Editar atributos");
+    this.$eventHub.$emit("eventBreadcrumbs", "Editar atributo");
     this.getAttribute();
     if (sessionStorage.getItem("attributeCreated")) {
       this.status = sessionStorage.getItem("attributeCreated");
@@ -128,6 +128,7 @@ export default {
           this.btnDisabled = false;
         })
         .catch(error => {
+          this.$eventHub.$emit("eventError", { data: error.response });
           this.status = false;
           this.error = JSON.parse(error.response.data.error);
           this.btnDisabled = false;

@@ -1925,9 +1925,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   mounted: function mounted() {
     this.getUsers();
     this.getRoles();
-    var parent = this;
+    var vm = this;
     this.$eventHub.$on("totalUser", function (t) {
-      parent.total = t;
+      vm.total = t;
     });
   },
 
@@ -2009,7 +2009,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
       return Vue.axios.put(api, {
         active: status,
-        admin: "edit-status"
+        action: "edit-status"
       }, {
         headers: {
           Authorization: "Bearer " + this.$store.getters.getToken,
@@ -2030,7 +2030,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
           titleQuestion = void 0,
           titleResp = void 0,
           textResp = void 0;
-      var parent = this;
+      var vm = this;
 
       status = !Boolean(user.active);
 
@@ -2052,7 +2052,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         closeOnCancel: false
       }, function (isConfirm) {
         if (isConfirm) {
-          var result = parent.send(user);
+          var result = vm.send(user);
           result.then(function (value) {
             user.active = !user.active;
             // Faça algo com o valor aqui dentro.
@@ -2267,7 +2267,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         password: this.user.password,
         password_confirmation: this.user.password,
         roles: this.user.roles,
-        admin: "create-user"
+        action: "create-user"
       }, {
         headers: {
           Authorization: "Bearer " + this.$store.getters.getToken,
@@ -2444,7 +2444,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         return Object(__WEBPACK_IMPORTED_MODULE_4__helpers_tools__["b" /* cleanRole */])(this.$store.getters.getItem ? this.$store.getters.getItem.roles : []);
       },
       set: function set(value) {
-        this.$store.commit("setItemRole", value);
+        var item = this.$store.getters.getItem;
+        item.roles = value;
+        this.$store.commit("setItem", item);
       }
     },
     selectedOption: {
@@ -2452,7 +2454,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         return Boolean(this.$store.getters.getItem ? this.$store.getters.getItem.active : false);
       },
       set: function set(value) {
-        this.$store.commit("setItemActive", Boolean(value));
+        var item = this.$store.getters.getItem;
+        item.active = value;
+        this.$store.commit("setItem", item);
       }
     }
   },
@@ -2488,7 +2492,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         name: data.name,
         email: data.email,
         active: data.active,
-        admin: "edit-user",
+        action: "edit-user",
         password: this.password,
         password_confirmation: this.password,
         roles: data.roles
@@ -2572,7 +2576,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       });
     },
     remove: function remove(user) {
-      var parent = this;
+      var vm = this;
       swal({
         title: "Deseja realmente excluir?",
         text: "" + user.name,
@@ -2585,14 +2589,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         closeOnCancel: false
       }, function (isConfirm) {
         if (isConfirm) {
-          var result = parent.send(user);
+          var result = vm.send(user);
           result.then(function (value) {
             if (value == true) {
-              var index = parent.dataUsers.data.indexOf(user);
-              parent.dataUsers.data.splice(index, 1);
+              var index = vm.dataUsers.data.indexOf(user);
+              vm.dataUsers.data.splice(index, 1);
 
-              parent.dataUsers.total = parent.dataUsers.total - 1;
-              parent.$eventHub.$emit("totalUser", parent.dataUsers.total);
+              vm.dataUsers.total = vm.dataUsers.total - 1;
+              vm.$eventHub.$emit("totalUser", vm.dataUsers.total);
 
               swal({
                 title: "Removido",
@@ -3155,7 +3159,7 @@ var render = function() {
                         staticClass: "form-label",
                         attrs: { for: "inputPassword" }
                       },
-                      [_vm._v("Status")]
+                      [_vm._v("Usuário ativo?")]
                     ),
                     _vm._v(" "),
                     _c(
@@ -3884,7 +3888,7 @@ var render = function() {
                         staticClass: "form-label",
                         attrs: { for: "inputPassword" }
                       },
-                      [_vm._v("Status")]
+                      [_vm._v("Usuário ativo?")]
                     ),
                     _vm._v(" "),
                     _c(
@@ -5608,6 +5612,7 @@ Vue.prototype.$eventHub = new Vue();
 
 //Vue.config.productionTip = false
 Vue.prototype.$urlApi = 'http://api.vocecrianca.site/v1';
+Vue.prototype.$urlSite = 'https://vocecrianca.com.br';
 
 //https://jsoneditoronline.org/
 
@@ -5859,8 +5864,10 @@ module.exports = Component.exports
 "use strict";
 /* harmony export (immutable) */ __webpack_exports__["b"] = cleanRole;
 /* harmony export (immutable) */ __webpack_exports__["c"] = forcePassword;
-/* harmony export (immutable) */ __webpack_exports__["d"] = swalErrorUnauthorized;
+/* harmony export (immutable) */ __webpack_exports__["f"] = swalErrorUnauthorized;
 /* harmony export (immutable) */ __webpack_exports__["a"] = cleanDataApi;
+/* harmony export (immutable) */ __webpack_exports__["e"] = strSlug;
+/* harmony export (immutable) */ __webpack_exports__["d"] = strRandon;
 function cleanRole(roles) {
   return roles ? roles.filter(function (role) {
     delete role["_id"];
@@ -5937,6 +5944,33 @@ function cleanDataApi(data) {
   if (!data) return '';
   data = data.toString();
   return data.replace(["[", "]"], '');
+}
+
+function strSlug(str) {
+  var separator = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '-';
+
+  str = String(str);
+  str = str.trim();
+  str = str.toLowerCase();
+
+  // remove accents, swap ñ for n, etc
+  var from = "åàáãäâèéëêìíïîòóöôùúüûñç·/_,:;";
+  var to = "aaaaaaeeeeiiiioooouuuunc------";
+
+  for (var i = 0, l = from.length; i < l; i++) {
+    str = str.replace(new RegExp(from.charAt(i), "g"), to.charAt(i));
+  }
+
+  return str.replace(/[^a-z0-9 -]/g, "") // remove invalid chars
+  .replace(/\s+/g, "-") // collapse whitespace and replace by -
+  .replace(/-+/g, "-") // collapse dashes
+  .replace(/^-+/, "") // trim - from start of text
+  .replace(/-+$/, "") // trim - from end of text
+  .replace(/-/g, separator);
+}
+
+function strRandon() {
+  return Math.floor(Math.random() * 1000000 + 1);
 }
 
 /***/ }),
@@ -6277,7 +6311,7 @@ new Vue({
 
 /***/ }),
 
-/***/ "./resources/assets/js/stores/authorizations/state.js":
+/***/ "./resources/assets/js/stores/auths/state.js":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -6322,7 +6356,7 @@ var mutations = {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__("./node_modules/vue/dist/vue.common.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vuex__ = __webpack_require__("./node_modules/vuex/dist/vuex.esm.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__authorizations_state__ = __webpack_require__("./resources/assets/js/stores/authorizations/state.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__auths_state__ = __webpack_require__("./resources/assets/js/stores/auths/state.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__itens_state__ = __webpack_require__("./resources/assets/js/stores/itens/state.js");
 
 
@@ -6333,7 +6367,7 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1_vuex
 
 /* harmony default export */ __webpack_exports__["a"] = (new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].Store({
   modules: {
-    authorizations: __WEBPACK_IMPORTED_MODULE_2__authorizations_state__["a" /* default */],
+    auths: __WEBPACK_IMPORTED_MODULE_2__auths_state__["a" /* default */],
     itens: __WEBPACK_IMPORTED_MODULE_3__itens_state__["a" /* default */]
   }
 }));
@@ -6357,15 +6391,6 @@ var getters = {
 var mutations = {
   setItem: function setItem(state, obj) {
     state.item = obj;
-  },
-  setItemRole: function setItemRole(state, roles) {
-    state.item.roles = roles;
-  },
-  setItemPrivilege: function setItemPrivilege(state, privileges) {
-    state.item.privileges = privileges;
-  },
-  setItemActive: function setItemActive(state, active) {
-    state.item.active = active;
   }
 };
 

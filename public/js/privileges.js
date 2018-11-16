@@ -1666,9 +1666,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   },
   mounted: function mounted() {
     this.getPrivileges();
-    var parent = this;
+    var vm = this;
     this.$eventHub.$on("totalUser", function (t) {
-      parent.total = t;
+      vm.total = t;
     });
   },
 
@@ -1686,7 +1686,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         _this.privileges = response.data;
         _this.total = response.data.total;
       }).catch(function (error) {
-        //console.log(error.response);
         _this.$eventHub.$emit("eventError", { data: error.response });
       });
     }
@@ -2922,6 +2921,7 @@ Vue.prototype.$eventHub = new Vue();
 
 //Vue.config.productionTip = false
 Vue.prototype.$urlApi = 'http://api.vocecrianca.site/v1';
+Vue.prototype.$urlSite = 'https://vocecrianca.com.br';
 
 //https://jsoneditoronline.org/
 
@@ -2981,8 +2981,10 @@ module.exports = Component.exports
 "use strict";
 /* harmony export (immutable) */ __webpack_exports__["b"] = cleanRole;
 /* harmony export (immutable) */ __webpack_exports__["c"] = forcePassword;
-/* harmony export (immutable) */ __webpack_exports__["d"] = swalErrorUnauthorized;
+/* harmony export (immutable) */ __webpack_exports__["f"] = swalErrorUnauthorized;
 /* harmony export (immutable) */ __webpack_exports__["a"] = cleanDataApi;
+/* harmony export (immutable) */ __webpack_exports__["e"] = strSlug;
+/* harmony export (immutable) */ __webpack_exports__["d"] = strRandon;
 function cleanRole(roles) {
   return roles ? roles.filter(function (role) {
     delete role["_id"];
@@ -3059,6 +3061,33 @@ function cleanDataApi(data) {
   if (!data) return '';
   data = data.toString();
   return data.replace(["[", "]"], '');
+}
+
+function strSlug(str) {
+  var separator = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '-';
+
+  str = String(str);
+  str = str.trim();
+  str = str.toLowerCase();
+
+  // remove accents, swap ñ for n, etc
+  var from = "åàáãäâèéëêìíïîòóöôùúüûñç·/_,:;";
+  var to = "aaaaaaeeeeiiiioooouuuunc------";
+
+  for (var i = 0, l = from.length; i < l; i++) {
+    str = str.replace(new RegExp(from.charAt(i), "g"), to.charAt(i));
+  }
+
+  return str.replace(/[^a-z0-9 -]/g, "") // remove invalid chars
+  .replace(/\s+/g, "-") // collapse whitespace and replace by -
+  .replace(/-+/g, "-") // collapse dashes
+  .replace(/^-+/, "") // trim - from start of text
+  .replace(/-+$/, "") // trim - from end of text
+  .replace(/-/g, separator);
+}
+
+function strRandon() {
+  return Math.floor(Math.random() * 1000000 + 1);
 }
 
 /***/ }),
@@ -3199,7 +3228,7 @@ new Vue({
 
 /***/ }),
 
-/***/ "./resources/assets/js/stores/authorizations/state.js":
+/***/ "./resources/assets/js/stores/auths/state.js":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -3244,7 +3273,7 @@ var mutations = {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__("./node_modules/vue/dist/vue.common.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vuex__ = __webpack_require__("./node_modules/vuex/dist/vuex.esm.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__authorizations_state__ = __webpack_require__("./resources/assets/js/stores/authorizations/state.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__auths_state__ = __webpack_require__("./resources/assets/js/stores/auths/state.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__itens_state__ = __webpack_require__("./resources/assets/js/stores/itens/state.js");
 
 
@@ -3255,7 +3284,7 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1_vuex
 
 /* harmony default export */ __webpack_exports__["a"] = (new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].Store({
   modules: {
-    authorizations: __WEBPACK_IMPORTED_MODULE_2__authorizations_state__["a" /* default */],
+    auths: __WEBPACK_IMPORTED_MODULE_2__auths_state__["a" /* default */],
     itens: __WEBPACK_IMPORTED_MODULE_3__itens_state__["a" /* default */]
   }
 }));
@@ -3279,15 +3308,6 @@ var getters = {
 var mutations = {
   setItem: function setItem(state, obj) {
     state.item = obj;
-  },
-  setItemRole: function setItemRole(state, roles) {
-    state.item.roles = roles;
-  },
-  setItemPrivilege: function setItemPrivilege(state, privileges) {
-    state.item.privileges = privileges;
-  },
-  setItemActive: function setItemActive(state, active) {
-    state.item.active = active;
   }
 };
 

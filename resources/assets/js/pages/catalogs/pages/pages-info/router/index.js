@@ -1,8 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import AttributeList from './../AttributeList'
-import AttributeCreate from './../AttributeCreate'
-import AttributeEdit from './../AttributeEdit'
+import PageList from './../PageList'
+import PageCreate from './../PageCreate'
+import PageEdit from './../PageEdit'
 
 Vue.use(Router)
 
@@ -10,19 +10,19 @@ export default new Router({
   mode: 'history',
   routes: [
     {
-      path: '/catalogs/attributes',
-      name: 'AttributeList',
-      component: AttributeList
+      path: '/catalogs/pages',
+      name: 'PageList',
+      component: PageList
     },
     {
-      path: '/catalogs/attributes/create',
-      name: 'AttributeCreate',
-      component: AttributeCreate
+      path: '/catalogs/pages/create',
+      name: 'PageCreate',
+      component: PageCreate
     },
     {
-      path: '/catalogs/attributes/:id/edit',
-      name: 'AttributeEdit',
-      component: AttributeEdit
+      path: '/catalogs/pages/:id/edit',
+      name: 'PageEdit',
+      component: PageEdit
     }
   ]
 })

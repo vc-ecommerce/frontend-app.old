@@ -28,7 +28,7 @@
           <li><a href="#"><span class="lbl">Marcas</span></a></li>
           {{-- <li><a href="#"><span class="lbl">Downloads</span></a></li> --}}
           <li><a href="#"><span class="lbl">Comentários</span></a></li>
-          <li><a href="#"><span class="lbl">Páginas de informações</span></a></li>
+          <li><a href="{{ route('catalogs.pages.index') }}"><span class="lbl">Páginas de informações</span></a></li>
 
         </ul>
       </li>

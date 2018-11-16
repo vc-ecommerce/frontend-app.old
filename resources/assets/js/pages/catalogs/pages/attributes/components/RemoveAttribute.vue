@@ -38,7 +38,7 @@ export default {
     },
 
     remove(attribute) {
-      const parent = this;
+      const vm = this;
       swal(
         {
           title: "Deseja realmente excluir o atributo?",
@@ -54,14 +54,14 @@ export default {
 
         function(isConfirm) {
           if (isConfirm) {
-            let result = parent.send(attribute);
+            let result = vm.send(attribute);
             result.then(function(value) {
               if (value == true) {
-                let index = parent.dataAttributes.data.indexOf(attribute);
-                parent.dataAttributes.data.splice(index, 1);
+                let index = vm.dataAttributes.data.indexOf(attribute);
+                vm.dataAttributes.data.splice(index, 1);
 
-                parent.dataAttributes.total = parent.dataAttributes.total - 1;
-                parent.$eventHub.$emit("totalAttribute", parent.dataAttributes.total);
+                vm.dataAttributes.total = vm.dataAttributes.total - 1;
+                vm.$eventHub.$emit("totalAttribute", vm.dataAttributes.total);
 
                 swal({
                   title: "Removido",

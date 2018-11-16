@@ -10,12 +10,12 @@
     <header v-else-if="error">
       <div class="alert alert-danger alert-fill alert-close alert-dismissible fade show" role="alert">
 
-        <span v-if="error !=='true'" v-for="err in error" :key="err._id">
-          {{ cleanData( err ) }}
+        <span v-if="error === 404">
+          Email não encontrado!
         </span>
 
-        <span v-else>
-          Email não encontrado!
+        <span v-else v-for="err in error" :key="err._id">
+          {{ cleanData( err ) }}
         </span>
 
       </div>
@@ -36,7 +36,10 @@
       <input type="email" required class="form-control" v-model="email" placeholder="Endereço de email"/>
     </div>
 
-    <button type="submit" class="btn btn-rounded" :disabled="btnDisabled">Enviar</button>
+    <button type="submit" class="btn btn-rounded" :disabled="btnDisabled">
+      <span v-if="btnDisabled">Enviando...</span>
+      <span v-else>Enviar</span>
+    </button>
 
   </form>
 </template>
@@ -81,10 +84,9 @@ export default {
         .catch(error => {
           this.loading = false;
           this.btnDisabled = false;
-          let resp =error.response.data.error
 
-          if (resp ==='email_not_found') {
-            this.error = true;
+          if (error.response.status === 404) {
+            this.error = error.response.status;
           } else {
             this.error = JSON.parse(error.response.data.error);
           }

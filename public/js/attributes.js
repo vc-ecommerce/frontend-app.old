@@ -1,4 +1,4 @@
-webpackJsonp([1],{
+webpackJsonp([0],{
 
 /***/ "./node_modules/axios/index.js":
 /***/ (function(module, exports, __webpack_require__) {
@@ -1587,9 +1587,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     };
   },
   created: function created() {
-    var parent = this;
+    var vm = this;
     this.$eventHub.$on("eventBreadcrumbs", function (data) {
-      parent.active = data;
+      vm.active = data;
     });
   }
 });
@@ -1953,7 +1953,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     };
   },
   mounted: function mounted() {
-    this.$eventHub.$emit("eventBreadcrumbs", "Criar atributos");
+    this.$eventHub.$emit("eventBreadcrumbs", "Criar atributo");
   },
 
   methods: {
@@ -1990,6 +1990,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         _this.name = "";
         _this.btnDisabled = false;
       }).catch(function (error) {
+        _this.$eventHub.$emit("eventError", { data: error.response });
         _this.status = false;
         _this.error = JSON.parse(error.response.data.error);
         _this.btnDisabled = false;
@@ -2090,7 +2091,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   mounted: function mounted() {
     var _this = this;
 
-    this.$eventHub.$emit("eventBreadcrumbs", "Editar atributos");
+    this.$eventHub.$emit("eventBreadcrumbs", "Editar atributo");
     this.getAttribute();
     if (sessionStorage.getItem("attributeCreated")) {
       this.status = sessionStorage.getItem("attributeCreated");
@@ -2140,6 +2141,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         _this3.status = "Atributo alterado com sucesso.";
         _this3.btnDisabled = false;
       }).catch(function (error) {
+        _this3.$eventHub.$emit("eventError", { data: error.response });
         _this3.status = false;
         _this3.error = JSON.parse(error.response.data.error);
         _this3.btnDisabled = false;
@@ -2281,9 +2283,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   },
   mounted: function mounted() {
     this.getAttributes();
-    var parent = this;
+    var vm = this;
     this.$eventHub.$on("totalAttribute", function (t) {
-      parent.total = t;
+      vm.total = t;
     });
   },
 
@@ -2304,7 +2306,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         _this.attributes = response.data;
         _this.total = response.data.total;
       }).catch(function (error) {
-        //console.log(error.response);
         _this.$eventHub.$emit("eventError", { data: error.response });
       });
     }
@@ -2416,7 +2417,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         _this.variations = response;
         _this.total = response.data.total;
       }).catch(function (error) {
-        //console.log(error.response);
         _this.$eventHub.$emit("eventError", { data: error.response });
       });
     },
@@ -2453,6 +2453,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
           _this2.name = "";
         }
       }).catch(function (error) {
+        _this2.$eventHub.$emit("eventError", { data: error.response });
         if (error.response.data === "attribute_variation_is_exists") {
           swal({
             title: "Dados duplicado!",
@@ -2585,8 +2586,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         _this.total = response.data.total;
         _this.status = "Variação editada com sucesso!";
         _this.$emit("reload");
-
-        console.log(response);
       }).catch(function (error) {
         _this.$eventHub.$emit("eventError", { data: error.response });
 
@@ -2649,7 +2648,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       });
     },
     remove: function remove(attribute) {
-      var parent = this;
+      var vm = this;
       swal({
         title: "Deseja realmente excluir o atributo?",
         text: "" + attribute.name,
@@ -2662,14 +2661,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         closeOnCancel: false
       }, function (isConfirm) {
         if (isConfirm) {
-          var result = parent.send(attribute);
+          var result = vm.send(attribute);
           result.then(function (value) {
             if (value == true) {
-              var index = parent.dataAttributes.data.indexOf(attribute);
-              parent.dataAttributes.data.splice(index, 1);
+              var index = vm.dataAttributes.data.indexOf(attribute);
+              vm.dataAttributes.data.splice(index, 1);
 
-              parent.dataAttributes.total = parent.dataAttributes.total - 1;
-              parent.$eventHub.$emit("totalAttribute", parent.dataAttributes.total);
+              vm.dataAttributes.total = vm.dataAttributes.total - 1;
+              vm.$eventHub.$emit("totalAttribute", vm.dataAttributes.total);
 
               swal({
                 title: "Removido",
@@ -2747,7 +2746,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       });
     },
     remove: function remove(variation) {
-      var parent = this;
+      var vm = this;
       swal({
         title: "Deseja realmente excluir a variação?",
         text: "" + variation.name,
@@ -2760,14 +2759,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         closeOnCancel: false
       }, function (isConfirm) {
         if (isConfirm) {
-          var result = parent.send(variation);
+          var result = vm.send(variation);
           result.then(function (value) {
             if (value == true) {
-              var index = parent.dataVariations.data.indexOf(variation);
-              parent.dataVariations.data.splice(index, 1);
+              var index = vm.dataVariations.data.indexOf(variation);
+              vm.dataVariations.data.splice(index, 1);
 
-              parent.dataVariations.total = parent.dataVariations.total - 1;
-              parent.$eventHub.$emit("totalAttribute", parent.dataVariations.total);
+              vm.dataVariations.total = vm.dataVariations.total - 1;
+              vm.$eventHub.$emit("totalAttribute", vm.dataVariations.total);
 
               swal({
                 title: "Removido",
@@ -3552,20 +3551,8 @@ var render = function() {
             _vm._v(" "),
             _c(
               "div",
-              { staticClass: "col align-self-end" },
+              { staticClass: "col-sm-10" },
               [
-                _c(
-                  "router-link",
-                  {
-                    staticClass: "btn btn-inline btn-default",
-                    attrs: { to: { name: "AttributeList" } }
-                  },
-                  [
-                    _c("i", { staticClass: "glyphicon glyphicon-remove" }),
-                    _vm._v(" Cancelar")
-                  ]
-                ),
-                _vm._v(" "),
                 _c(
                   "button",
                   {
@@ -3575,6 +3562,18 @@ var render = function() {
                   [
                     _c("i", { staticClass: "glyphicon glyphicon-ok" }),
                     _vm._v(" Criar atributo\n        ")
+                  ]
+                ),
+                _vm._v(" "),
+                _c(
+                  "router-link",
+                  {
+                    staticClass: "btn btn-inline btn-sm btn-default",
+                    attrs: { to: { name: "AttributeList" } }
+                  },
+                  [
+                    _c("i", { staticClass: "glyphicon glyphicon-remove" }),
+                    _vm._v(" Cancelar")
                   ]
                 )
               ],
@@ -4160,36 +4159,19 @@ var render = function() {
           _c("div", { staticClass: "row col-btn" }, [
             _c("div", { staticClass: "col-sm-2" }),
             _vm._v(" "),
-            _c(
-              "div",
-              { staticClass: "col align-self-end" },
-              [
-                _c(
-                  "router-link",
-                  {
-                    staticClass: "btn btn-inline btn-default",
-                    attrs: { to: { name: "AttributeList" } }
-                  },
-                  [
-                    _c("i", { staticClass: "glyphicon glyphicon-remove" }),
-                    _vm._v(" Cancelar")
-                  ]
-                ),
-                _vm._v(" "),
-                _c(
-                  "button",
-                  {
-                    staticClass: "btn btn-inline",
-                    attrs: { disabled: _vm.btnDisabled, type: "submit" }
-                  },
-                  [
-                    _c("i", { staticClass: "glyphicon glyphicon-ok" }),
-                    _vm._v(" Alterar nome\n        ")
-                  ]
-                )
-              ],
-              1
-            )
+            _c("div", { staticClass: "col-sm-10 text-right" }, [
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-inline",
+                  attrs: { disabled: _vm.btnDisabled, type: "submit" }
+                },
+                [
+                  _c("i", { staticClass: "glyphicon glyphicon-ok" }),
+                  _vm._v(" Alterar nome\n        ")
+                ]
+              )
+            ])
           ])
         ]
       ),
@@ -8461,6 +8443,7 @@ Vue.prototype.$eventHub = new Vue();
 
 //Vue.config.productionTip = false
 Vue.prototype.$urlApi = 'http://api.vocecrianca.site/v1';
+Vue.prototype.$urlSite = 'https://vocecrianca.com.br';
 
 //https://jsoneditoronline.org/
 
@@ -8808,8 +8791,10 @@ module.exports = Component.exports
 "use strict";
 /* harmony export (immutable) */ __webpack_exports__["b"] = cleanRole;
 /* harmony export (immutable) */ __webpack_exports__["c"] = forcePassword;
-/* harmony export (immutable) */ __webpack_exports__["d"] = swalErrorUnauthorized;
+/* harmony export (immutable) */ __webpack_exports__["f"] = swalErrorUnauthorized;
 /* harmony export (immutable) */ __webpack_exports__["a"] = cleanDataApi;
+/* harmony export (immutable) */ __webpack_exports__["e"] = strSlug;
+/* harmony export (immutable) */ __webpack_exports__["d"] = strRandon;
 function cleanRole(roles) {
   return roles ? roles.filter(function (role) {
     delete role["_id"];
@@ -8886,6 +8871,33 @@ function cleanDataApi(data) {
   if (!data) return '';
   data = data.toString();
   return data.replace(["[", "]"], '');
+}
+
+function strSlug(str) {
+  var separator = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '-';
+
+  str = String(str);
+  str = str.trim();
+  str = str.toLowerCase();
+
+  // remove accents, swap ñ for n, etc
+  var from = "åàáãäâèéëêìíïîòóöôùúüûñç·/_,:;";
+  var to = "aaaaaaeeeeiiiioooouuuunc------";
+
+  for (var i = 0, l = from.length; i < l; i++) {
+    str = str.replace(new RegExp(from.charAt(i), "g"), to.charAt(i));
+  }
+
+  return str.replace(/[^a-z0-9 -]/g, "") // remove invalid chars
+  .replace(/\s+/g, "-") // collapse whitespace and replace by -
+  .replace(/-+/g, "-") // collapse dashes
+  .replace(/^-+/, "") // trim - from start of text
+  .replace(/-+$/, "") // trim - from end of text
+  .replace(/-/g, separator);
+}
+
+function strRandon() {
+  return Math.floor(Math.random() * 1000000 + 1);
 }
 
 /***/ }),
@@ -9429,7 +9441,7 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1_vue_
 
 /***/ }),
 
-/***/ "./resources/assets/js/stores/authorizations/state.js":
+/***/ "./resources/assets/js/stores/auths/state.js":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -9474,7 +9486,7 @@ var mutations = {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__("./node_modules/vue/dist/vue.common.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vuex__ = __webpack_require__("./node_modules/vuex/dist/vuex.esm.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__authorizations_state__ = __webpack_require__("./resources/assets/js/stores/authorizations/state.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__auths_state__ = __webpack_require__("./resources/assets/js/stores/auths/state.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__itens_state__ = __webpack_require__("./resources/assets/js/stores/itens/state.js");
 
 
@@ -9485,7 +9497,7 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1_vuex
 
 /* harmony default export */ __webpack_exports__["a"] = (new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].Store({
   modules: {
-    authorizations: __WEBPACK_IMPORTED_MODULE_2__authorizations_state__["a" /* default */],
+    auths: __WEBPACK_IMPORTED_MODULE_2__auths_state__["a" /* default */],
     itens: __WEBPACK_IMPORTED_MODULE_3__itens_state__["a" /* default */]
   }
 }));
@@ -9509,15 +9521,6 @@ var getters = {
 var mutations = {
   setItem: function setItem(state, obj) {
     state.item = obj;
-  },
-  setItemRole: function setItemRole(state, roles) {
-    state.item.roles = roles;
-  },
-  setItemPrivilege: function setItemPrivilege(state, privileges) {
-    state.item.privileges = privileges;
-  },
-  setItemActive: function setItemActive(state, active) {
-    state.item.active = active;
   }
 };
 

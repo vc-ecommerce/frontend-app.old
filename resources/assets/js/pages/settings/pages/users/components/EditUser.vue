@@ -56,7 +56,7 @@
         <div class="row">
           <div class="col-lg-6">
             <fieldset class="form-group">
-              <label class="form-label" for="inputPassword">Status</label>
+              <label class="form-label" for="inputPassword">Usuário ativo?</label>
               <select class="form-control" required v-model="selectedOption">
                 <option disabled value="">Escolha um item</option>
                 <option v-for="option in options" :key="option.id" :value="option.value">{{ option.text }}</option>
@@ -140,7 +140,9 @@ export default {
         );
       },
       set(value) {
-        this.$store.commit("setItemRole", value);
+        let item = this.$store.getters.getItem;
+        item.roles = value;
+        this.$store.commit("setItem", item);
       }
     },
     selectedOption: {
@@ -152,7 +154,9 @@ export default {
         );
       },
       set(value) {
-        this.$store.commit("setItemActive", Boolean(value));
+        let item = this.$store.getters.getItem;
+        item.active = value;
+        this.$store.commit("setItem", item);
       }
     }
   },
@@ -189,7 +193,7 @@ export default {
             name: data.name,
             email: data.email,
             active: data.active,
-            admin: "edit-user",
+            action: "edit-user",
             password: this.password,
             password_confirmation: this.password,
             roles: data.roles

@@ -12,9 +12,9 @@ export default {
     };
   },
   created() {
-    let parent = this;
+    let vm = this;
     this.$eventHub.$on("eventBreadcrumbs", function(data) {
-      parent.active = data;
+      vm.active = data;
     });
   }
 };

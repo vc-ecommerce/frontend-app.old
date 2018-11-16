@@ -105,7 +105,6 @@ export default {
       return cleanDataApi(data);
     },
     submitForm() {
-
       this.status = "Enviando...";
 
       const api = `${this.$urlApi}/admin/roles`;
@@ -117,7 +116,7 @@ export default {
             description: this.role.description,
             privileges: this.role.privileges,
             default: false,
-            admin: "create-role"
+            action: "create-role"
           },
           {
             headers: {
@@ -127,16 +126,13 @@ export default {
           }
         )
         .then(response => {
-
           this.error = false;
           this.roles = response.data;
           this.total = response.data.total;
           this.status = "Função criada com sucesso!";
           this.$emit("reload");
-
         })
         .catch(error => {
-
           this.$eventHub.$emit("eventError", { data: error.response });
           this.status = false;
           this.error = JSON.parse(error.response.data.error);
@@ -144,7 +140,6 @@ export default {
           setTimeout(() => {
             this.error = false;
           }, 5000);
-
         });
     }
   }

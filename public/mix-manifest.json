@@ -1,14 +1,16 @@
 {
-    "/js/pages.js": "/js/pages.js?id=fd1f8e6a7de097dd6d3a",
-    "/js/attributes.js": "/js/attributes.js?id=1d1537a6757c7604a279",
-    "/js/home.js": "/js/home.js?id=5f2d69c936b2a3c1335b",
-    "/js/users.js": "/js/users.js?id=ff353adce7ff31fa1aae",
-    "/js/init.js": "/js/init.js?id=8fe13e26d0025e6dbfc4",
-    "/js/roles.js": "/js/roles.js?id=2c07f4dab33a5b69fe1f",
-    "/js/auth.js": "/js/auth.js?id=a27a5387dfe6d2a20efa",
-    "/js/privileges.js": "/js/privileges.js?id=b3b88ff0cd497e18587b",
-    "/js/accounts.js": "/js/accounts.js?id=08216cf6e549f98105b1",
+    "/js/attributes.js": "/js/attributes.js?id=526eca47764bb2cc9a25",
+    "/js/pages.js": "/js/pages.js?id=bdb4a775e2e7ef467c12",
+    "/js/home.js": "/js/home.js?id=46176623db4f33fa3af5",
+    "/js/users.js": "/js/users.js?id=7e971c1c1ebc85e0bdbe",
+    "/js/init.js": "/js/init.js?id=42e1205305f07bfad1ea",
+    "/js/roles.js": "/js/roles.js?id=a0b90844084fcb78888a",
+    "/js/auth.js": "/js/auth.js?id=58950f347c7d6d7c2fb3",
+    "/js/privileges.js": "/js/privileges.js?id=7cf7591fd8ff892b65bf",
+    "/js/accounts.js": "/js/accounts.js?id=4e554f3d575ab553eba7",
     "/js/vendor.js": "/js/vendor.js?id=a7bd6483e3b9cd7599bf",
     "/js/home-custom.js": "/js/home-custom.js?id=da40c6a8b132d796dce5",
-    "/js/manifest.js": "/js/manifest.js?id=d82d02a7f2273b4b6fd4"
+    "/js/manifest.js": "/js/manifest.js?id=d82d02a7f2273b4b6fd4",
+    "/css/summernote.css": "/css/summernote.css?id=d29fc8b9166da9b0c2f6",
+    "/js/summernote.js": "/js/summernote.js?id=3c85c4913716f78d346a"
 }

@@ -29,7 +29,10 @@
       </div>
     </div>
 
-    <button type="submit" class="btn btn-rounded" :disabled="btnDisabled">Efetuar Login</button>
+    <button type="submit" class="btn btn-rounded" :disabled="btnDisabled">
+      <span v-if="btnDisabled">Enviando...</span>
+      <span v-else>Efetuar Login</span>
+    </button>
 
   </form>
 </template>
@@ -115,6 +118,8 @@ export default {
           );
 
           this.$store.commit("setUser", response.data);
+          this.$store.commit("setToken", response.data.HTTP_Authorization);
+
           this.activeSession(response.data.HTTP_Data);
         })
         .catch(error => {

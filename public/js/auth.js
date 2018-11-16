@@ -1623,6 +1623,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
 
 
 
@@ -1784,6 +1787,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "ResetPassword",
@@ -1858,6 +1864,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         sessionStorage.setItem("user", JSON.stringify(response.data.HTTP_Data));
 
         _this3.$store.commit("setUser", response.data);
+        _this3.$store.commit("setToken", response.data.HTTP_Authorization);
+
         _this3.activeSession(response.data.HTTP_Data);
       }).catch(function (error) {
         _this3.btnDisabled = false;
@@ -1883,6 +1891,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__helpers_tools__ = __webpack_require__("./resources/assets/js/helpers/tools.js");
+//
+//
+//
 //
 //
 //
@@ -1964,10 +1975,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       }).catch(function (error) {
         _this.loading = false;
         _this.btnDisabled = false;
-        var resp = error.response.data.error;
 
-        if (resp === 'email_not_found') {
-          _this.error = true;
+        if (error.response.status === 404) {
+          _this.error = error.response.status;
         } else {
           _this.error = JSON.parse(error.response.data.error);
         }
@@ -2369,7 +2379,11 @@ var render = function() {
           staticClass: "btn btn-rounded",
           attrs: { type: "submit", disabled: _vm.btnDisabled }
         },
-        [_vm._v("Efetuar Login")]
+        [
+          _vm.btnDisabled
+            ? _c("span", [_vm._v("Enviando...")])
+            : _c("span", [_vm._v("Efetuar Login")])
+        ]
       )
     ]
   )
@@ -2422,17 +2436,22 @@ var render = function() {
                     "alert alert-danger alert-fill alert-close alert-dismissible fade show",
                   attrs: { role: "alert" }
                 },
-                _vm._l(_vm.error, function(err) {
-                  return _vm.error !== "true"
-                    ? _c("span", { key: err._id }, [
-                        _vm._v(
-                          "\n        " + _vm._s(_vm.cleanData(err)) + "\n      "
-                        )
-                      ])
-                    : _c("span", [
+                [
+                  _vm.error === 404
+                    ? _c("span", [
                         _vm._v("\n        Email não encontrado!\n      ")
                       ])
-                })
+                    : _vm._l(_vm.error, function(err) {
+                        return _c("span", { key: err._id }, [
+                          _vm._v(
+                            "\n        " +
+                              _vm._s(_vm.cleanData(err)) +
+                              "\n      "
+                          )
+                        ])
+                      })
+                ],
+                2
               )
             ])
           : _vm.success
@@ -2495,7 +2514,11 @@ var render = function() {
           staticClass: "btn btn-rounded",
           attrs: { type: "submit", disabled: _vm.btnDisabled }
         },
-        [_vm._v("Enviar")]
+        [
+          _vm.btnDisabled
+            ? _c("span", [_vm._v("Enviando...")])
+            : _c("span", [_vm._v("Enviar")])
+        ]
       )
     ]
   )
@@ -2657,7 +2680,11 @@ var render = function() {
           staticClass: "btn btn-rounded",
           attrs: { type: "submit", disabled: _vm.btnDisabled }
         },
-        [_vm._v("Redefinir senha agora")]
+        [
+          _vm.btnDisabled
+            ? _c("span", [_vm._v("Enviando...")])
+            : _c("span", [_vm._v("Redefinir senha agora")])
+        ]
       )
     ]
   )
@@ -4032,6 +4059,7 @@ Vue.prototype.$eventHub = new Vue();
 
 //Vue.config.productionTip = false
 Vue.prototype.$urlApi = 'http://api.vocecrianca.site/v1';
+Vue.prototype.$urlSite = 'https://vocecrianca.com.br';
 
 //https://jsoneditoronline.org/
 
@@ -4043,8 +4071,10 @@ Vue.prototype.$urlApi = 'http://api.vocecrianca.site/v1';
 "use strict";
 /* harmony export (immutable) */ __webpack_exports__["b"] = cleanRole;
 /* harmony export (immutable) */ __webpack_exports__["c"] = forcePassword;
-/* harmony export (immutable) */ __webpack_exports__["d"] = swalErrorUnauthorized;
+/* harmony export (immutable) */ __webpack_exports__["f"] = swalErrorUnauthorized;
 /* harmony export (immutable) */ __webpack_exports__["a"] = cleanDataApi;
+/* harmony export (immutable) */ __webpack_exports__["e"] = strSlug;
+/* harmony export (immutable) */ __webpack_exports__["d"] = strRandon;
 function cleanRole(roles) {
   return roles ? roles.filter(function (role) {
     delete role["_id"];
@@ -4121,6 +4151,33 @@ function cleanDataApi(data) {
   if (!data) return '';
   data = data.toString();
   return data.replace(["[", "]"], '');
+}
+
+function strSlug(str) {
+  var separator = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '-';
+
+  str = String(str);
+  str = str.trim();
+  str = str.toLowerCase();
+
+  // remove accents, swap ñ for n, etc
+  var from = "åàáãäâèéëêìíïîòóöôùúüûñç·/_,:;";
+  var to = "aaaaaaeeeeiiiioooouuuunc------";
+
+  for (var i = 0, l = from.length; i < l; i++) {
+    str = str.replace(new RegExp(from.charAt(i), "g"), to.charAt(i));
+  }
+
+  return str.replace(/[^a-z0-9 -]/g, "") // remove invalid chars
+  .replace(/\s+/g, "-") // collapse whitespace and replace by -
+  .replace(/-+/g, "-") // collapse dashes
+  .replace(/^-+/, "") // trim - from start of text
+  .replace(/-+$/, "") // trim - from end of text
+  .replace(/-/g, separator);
+}
+
+function strRandon() {
+  return Math.floor(Math.random() * 1000000 + 1);
 }
 
 /***/ }),
@@ -4313,7 +4370,7 @@ module.exports = Component.exports
 
 /***/ }),
 
-/***/ "./resources/assets/js/stores/authorizations/state.js":
+/***/ "./resources/assets/js/stores/auths/state.js":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -4358,7 +4415,7 @@ var mutations = {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__("./node_modules/vue/dist/vue.common.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vuex__ = __webpack_require__("./node_modules/vuex/dist/vuex.esm.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__authorizations_state__ = __webpack_require__("./resources/assets/js/stores/authorizations/state.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__auths_state__ = __webpack_require__("./resources/assets/js/stores/auths/state.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__itens_state__ = __webpack_require__("./resources/assets/js/stores/itens/state.js");
 
 
@@ -4369,7 +4426,7 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1_vuex
 
 /* harmony default export */ __webpack_exports__["a"] = (new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].Store({
   modules: {
-    authorizations: __WEBPACK_IMPORTED_MODULE_2__authorizations_state__["a" /* default */],
+    auths: __WEBPACK_IMPORTED_MODULE_2__auths_state__["a" /* default */],
     itens: __WEBPACK_IMPORTED_MODULE_3__itens_state__["a" /* default */]
   }
 }));
@@ -4393,15 +4450,6 @@ var getters = {
 var mutations = {
   setItem: function setItem(state, obj) {
     state.item = obj;
-  },
-  setItemRole: function setItemRole(state, roles) {
-    state.item.roles = roles;
-  },
-  setItemPrivilege: function setItemPrivilege(state, privileges) {
-    state.item.privileges = privileges;
-  },
-  setItemActive: function setItemActive(state, active) {
-    state.item.active = active;
   }
 };
 

@@ -5,9 +5,9 @@
 </template>
 <script>
 export default {
-  name: "RemoveAttribute",
+  name: "RemovePage",
   components: {},
-  props: ["dataAttributes", "dataItem"],
+  props: ["dataPages", "dataItem"],
   data() {
     return {
       total: 0,
@@ -15,8 +15,8 @@ export default {
     };
   },
   methods: {
-    send(attribute) {
-      const api = `${this.$urlApi}/admin/attributes/${attribute._id}`;
+    send(page) {
+      const api = `${this.$urlApi}/admin/pages/${page._id}`;
 
       return Vue.axios
         .delete(api, {
@@ -37,12 +37,12 @@ export default {
         });
     },
 
-    remove(attribute) {
-      const parent = this;
+    remove(page) {
+      const vm = this;
       swal(
         {
-          title: "Deseja realmente excluir o atributo?",
-          text: `${attribute.name}`,
+          title: "Deseja realmente excluir a página?",
+          text: `${page.name}`,
           type: "warning",
           showCancelButton: true,
           confirmButtonClass: "btn-danger",
@@ -54,18 +54,18 @@ export default {
 
         function(isConfirm) {
           if (isConfirm) {
-            let result = parent.send(attribute);
+            let result = vm.send(page);
             result.then(function(value) {
               if (value == true) {
-                let index = parent.dataAttributes.data.indexOf(attribute);
-                parent.dataAttributes.data.splice(index, 1);
+                let index = vm.dataPages.data.indexOf(page);
+                vm.dataPages.data.splice(index, 1);
 
-                parent.dataAttributes.total = parent.dataAttributes.total - 1;
-                parent.$eventHub.$emit("totalAttribute", parent.dataAttributes.total);
+                vm.dataPages.total = vm.dataPages.total - 1;
+                vm.$eventHub.$emit("totalPage", vm.dataPages.total);
 
                 swal({
                   title: "Removido",
-                  text: "Dados foram removidos com sucesso",
+                  text: "A página foi removida com sucesso",
                   type: "success",
                   confirmButtonClass: "btn-success"
                 });

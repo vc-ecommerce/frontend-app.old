@@ -21,6 +21,9 @@ const getters = {
 const mutations = {
   setUser(state, obj) {
     state.user = obj
+  },
+  setToken(state, obj) {
+    state.token = obj
   }
 }
 

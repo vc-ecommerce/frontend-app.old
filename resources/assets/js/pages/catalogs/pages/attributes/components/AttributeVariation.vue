@@ -53,7 +53,7 @@
 <script>
 import Table from "./../../../../../components/layouts/Table";
 import RemoveVariation from "./RemoveVariation";
-import EditVariation from './EditVariation'
+import EditVariation from "./EditVariation";
 
 export default {
   name: "AttributeVariation",
@@ -61,7 +61,7 @@ export default {
   components: {
     Table,
     RemoveVariation,
-    EditVariation,
+    EditVariation
   },
   data() {
     return {
@@ -92,7 +92,6 @@ export default {
           this.total = response.data.total;
         })
         .catch(error => {
-          //console.log(error.response);
           this.$eventHub.$emit("eventError", { data: error.response });
         });
     },
@@ -137,6 +136,7 @@ export default {
           }
         })
         .catch(error => {
+          this.$eventHub.$emit("eventError", { data: error.response });
           if (error.response.data === "attribute_variation_is_exists") {
             swal({
               title: "Dados duplicado!",

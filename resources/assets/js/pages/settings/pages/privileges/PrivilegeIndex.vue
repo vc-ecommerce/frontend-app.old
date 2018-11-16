@@ -59,9 +59,9 @@ export default {
   },
   mounted() {
     this.getPrivileges();
-    const parent = this;
+    const vm = this;
     this.$eventHub.$on("totalUser", function(t) {
-      parent.total = t;
+      vm.total = t;
     });
   },
   methods: {
@@ -79,7 +79,6 @@ export default {
           this.total = response.data.total;
         })
         .catch(error => {
-          //console.log(error.response);
           this.$eventHub.$emit("eventError", { data: error.response });
         });
     }

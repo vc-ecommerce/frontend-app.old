@@ -42,7 +42,7 @@ export default {
     },
 
     remove(variation) {
-      const parent = this;
+      const vm = this;
       swal(
         {
           title: "Deseja realmente excluir a variação?",
@@ -58,16 +58,16 @@ export default {
 
         function(isConfirm) {
           if (isConfirm) {
-            let result = parent.send(variation);
+            let result = vm.send(variation);
             result.then(function(value) {
               if (value == true) {
-                let index = parent.dataVariations.data.indexOf(variation);
-                parent.dataVariations.data.splice(index, 1);
+                let index = vm.dataVariations.data.indexOf(variation);
+                vm.dataVariations.data.splice(index, 1);
 
-                parent.dataVariations.total = parent.dataVariations.total - 1;
-                parent.$eventHub.$emit(
+                vm.dataVariations.total = vm.dataVariations.total - 1;
+                vm.$eventHub.$emit(
                   "totalAttribute",
-                  parent.dataVariations.total
+                  vm.dataVariations.total
                 );
 
                 swal({

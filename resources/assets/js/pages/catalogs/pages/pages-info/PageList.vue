@@ -4,12 +4,12 @@
       <header class="box-typical-header">
         <div class="tbl-row">
           <div class="tbl-cell tbl-cell-title">
-            <h3 v-if="total == 1">{{ total }} Atributo</h3>
-            <h3 v-else>{{ total }} Atributos</h3>
+            <h3 v-if="total == 1">{{ total }} Página</h3>
+            <h3 v-else>{{ total }} Páginas</h3>
           </div>
           <div class="tbl-cell tbl-cell-action-bordered">
 
-            <router-link :to="{ name: 'AttributeCreate' }" class="btn btn-inline"><i class="glyphicon glyphicon-plus"></i> Criar Atributo</router-link>
+            <router-link :to="{ name: 'PageCreate' }" class="btn btn-inline"><i class="glyphicon glyphicon-plus"></i> Criar Página</router-link>
 
           </div>
         </div>
@@ -19,34 +19,27 @@
           <Table elementId="table-edit" className="table table-hover">
             <template slot="thead">
               <tr>
-                <th>Atributos</th>
-                <th width="200">Produtos vinculados</th>
+                <th>Páginas</th>
                 <th class="tabledit-toolbar-column">Editar</th>
               </tr>
             </template>
             <template slot="tbody">
-              <tr v-for="attribute in attributes.data">
+              <tr v-for="(page, index) in pages.data" :key="index">
                 <td class="tabledit-view-mode">
-                  <strong>{{ attribute.name }}</strong>
-                  <br>
-                  <small v-for="(variation, index) in attribute.variations">
-                    <span v-if="index>0">, </span>
-                    <span>{{ variation.name }}</span>
-                  </small>
-                </td>
-                <td>
-                  <span class="label label-default">-- produtos vinculados</span>
+                  {{ page.name }}
                 </td>
                 <td style="white-space: nowrap; width: 1%;">
                   <div class="tabledit-toolbar btn-toolbar" style="text-align: left;">
 
                     <div class="btn-group btn-group-sm" style="float: none  !important;">
 
-                      <button v-if="!attribute.default" @click.prevent="clickEdit(attribute._id)" type="button" class="tabledit-edit-button btn btn-sm btn-default" style="float: none;">
+                      <ChangeStatus :dataItem="page"/>
+
+                      <button v-if="!page.default" @click.prevent="clickEdit(page._id)" type="button" class="tabledit-edit-button btn btn-sm btn-default" style="float: none;">
                         <span class="glyphicon glyphicon-pencil"></span>
                       </button>
 
-                      <RemoveAttribute v-if="!attribute.default" :dataAttributes="attributes" :dataItem="attribute"/>
+                      <RemovePage v-if="!page.default" :dataPages="pages" :dataItem="page"/>
                     </div>
                   </div>
                 </td>
@@ -57,22 +50,24 @@
       </div>
     </section>
     <section>
-      <Pagination v-if="total>15" :pagination="attributes"
-        @paginate="getAttributes()"
+      <Pagination v-if="total>15" :pagination="pages"
+        @paginate="getPages()"
         :offset="4" />
     </section>
   </div>
 </template>
 <script>
-import RemoveAttribute from "./components/RemoveAttribute";
+import RemovePage from "./components/RemovePage";
+import ChangeStatus from './components/ChangeStatus'
 import Table from "./../../../../components/layouts/Table";
 import Pagination from "./../../../../components/paginations/Pagination";
 import { cleanRole } from "./../../../../helpers/tools";
 
 export default {
-  name: "AttributeList",
+  name: "PageList",
   components: {
-    RemoveAttribute,
+    RemovePage,
+    ChangeStatus,
     Table,
     Pagination
   },
@@ -80,7 +75,7 @@ export default {
   data() {
     return {
       total: 0,
-      attributes: {
+      pages: {
         total: 0,
         per_page: 2,
         from: 1,
@@ -92,22 +87,22 @@ export default {
     };
   },
   created() {
-    this.$eventHub.$emit("eventBreadcrumbs", 'Listar atributos');
+    this.$eventHub.$emit("eventBreadcrumbs", 'Listar páginas');
   },
   mounted() {
-    this.getAttributes();
-    const parent = this;
-    this.$eventHub.$on("totalAttribute", function(t) {
-      parent.total = t;
+    this.getPages();
+    const vm = this;
+    this.$eventHub.$on("totalPage", function(t) {
+      vm.total = t;
     });
 
   },
   methods: {
     clickEdit(id) {
-      this.$router.push({ name: 'AttributeEdit', params: { id }})
+      this.$router.push({ name: 'PageEdit', params: { id }})
     },
-    getAttributes() {
-      const api = `${this.$urlApi}/admin/attributes?page=${this.attributes.current_page}`;
+    getPages() {
+      const api = `${this.$urlApi}/admin/pages?page=${this.pages.current_page}`;
       Vue.axios
         .get(api, {
           headers: {
@@ -116,11 +111,10 @@ export default {
           }
         })
         .then(response => {
-          this.attributes = response.data;
+          this.pages = response.data;
           this.total = response.data.total;
         })
         .catch(error => {
-          //console.log(error.response);
           this.$eventHub.$emit("eventError", { data: error.response });
         });
     }
