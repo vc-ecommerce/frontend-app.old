@@ -21,8 +21,8 @@ export default {
       return Vue.axios
         .delete(api, {
           headers: {
-            Authorization: "Bearer " + this.$store.getters.getToken,
-            "User-ID": this.$store.getters.getUserId
+            Authorization: "Bearer " + this.$store.getters.getAuthToken,
+            "User-ID": this.$store.getters.getAuthId
           }
         })
         .then(response => {

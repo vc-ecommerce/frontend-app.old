@@ -12,7 +12,7 @@ new Vue({
     RoleIndex
   },
   beforeCreate() {
-    userIsAuthorizedPage(this.$store.getters.getUserRoles, [
+    userIsAuthorizedPage(this.$store.getters.getAuthRoles, [
       "ADMIN"
     ]);
   }

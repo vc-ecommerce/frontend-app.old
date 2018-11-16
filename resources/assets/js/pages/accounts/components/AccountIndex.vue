@@ -110,7 +110,7 @@ export default {
       this.status = "Enviando...";
       this.bntDisabled = true;
 
-      const api = `${this.$urlApi}/admin/users/${this.$store.getters.getUserId}`;
+      const api = `${this.$urlApi}/admin/users/${this.$store.getters.getAuthId}`;
       Vue.axios
         .put(
           api,
@@ -121,8 +121,8 @@ export default {
           },
           {
             headers: {
-              Authorization: "Bearer " + this.$store.getters.getToken,
-              "User-ID": this.$store.getters.getUserId
+              Authorization: "Bearer " + this.$store.getters.getAuthToken,
+              "User-ID": this.$store.getters.getAuthId
             }
           }
         )

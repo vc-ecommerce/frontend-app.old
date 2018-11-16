@@ -4,22 +4,22 @@ const state = {
 }
 
 const getters = {
-  getToken: state => {
+  getAuthToken: state => {
     return state.token;
   },
-  getUser: state => {
+  getAuth: state => {
     return state.user;
   },
-  getUserId: state => {
+  getAuthId: state => {
     return state.user._id;
   },
-  getUserRoles: state => {
+  getAuthRoles: state => {
     return state.user.roles;
   }
 }
 
 const mutations = {
-  setUser(state, obj) {
+  setAuth(state, obj) {
     state.user = obj
   }
 }

@@ -117,7 +117,7 @@ export default {
             JSON.stringify(response.data.HTTP_Data)
           );
 
-          this.$store.commit("setUser", response.data);
+          this.$store.commit("setAuth", response.data);
           this.activeSession(response.data.HTTP_Data);
         })
         .catch(error => {

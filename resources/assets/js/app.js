@@ -8,7 +8,7 @@ import SidebarMenuRight from './components/layouts/sidebar/SidebarMenuRight';
 import { userIsAuthorized, isRoleUser } from "./helpers/validates";
 import { swalErrorUnauthorized } from "./helpers/tools";
 
-const appOne = new Vue({
+new Vue({
   el: '#vue-site-header',
   store,
   data() {
@@ -25,7 +25,7 @@ const appOne = new Vue({
       window.location = "/login";
     }
 
-    userIsAuthorized(this.$store.getters.getUserRoles, [
+    userIsAuthorized(this.$store.getters.getAuthRoles, [
       "ADMIN",
       "STAFF_AUDITOR",
       "STAFF_FINANCE",
@@ -61,7 +61,7 @@ const appOne = new Vue({
   }
 });
 
-const appTwo = new Vue({
+new Vue({
   el: '#vue-sidebar-menu-left',
   store,
   data() {
@@ -78,23 +78,23 @@ const appTwo = new Vue({
   },
   created(){
 
-    this.isRoleAdmin = isRoleUser(this.$store.getters.getUserRoles, [
+    this.isRoleAdmin = isRoleUser(this.$store.getters.getAuthRoles, [
       "ADMIN"
     ]);
 
-    this.isRoleEditor = isRoleUser(this.$store.getters.getUserRoles, [
+    this.isRoleEditor = isRoleUser(this.$store.getters.getAuthRoles, [
       "STAFF_EDITOR"
     ]);
 
-    this.isRoleAuditor = isRoleUser(this.$store.getters.getUserRoles, [
+    this.isRoleAuditor = isRoleUser(this.$store.getters.getAuthRoles, [
       "STAFF_AUDITOR"
     ]);
 
-    this.isRoleFinance = isRoleUser(this.$store.getters.getUserRoles, [
+    this.isRoleFinance = isRoleUser(this.$store.getters.getAuthRoles, [
       "STAFF_FINANCE"
     ]);
 
-    this.isRoleExpedition = isRoleUser(this.$store.getters.getUserRoles, [
+    this.isRoleExpedition = isRoleUser(this.$store.getters.getAuthRoles, [
       "STAFF_EXPEDITION"
     ]);
 
@@ -102,7 +102,7 @@ const appTwo = new Vue({
 
 });
 
-const appThree = new Vue({
+new Vue({
   el: '#vue-sidebar-menu-right',
   store,
   components: {

@@ -107,3 +107,18 @@ export function strSlug(str, separator='-') {
 export function strRandon() {
   return Math.floor(Math.random() * 1000000 + 1);
 }
+
+export function countRoles(roles, keys) {
+
+  let count=0;
+
+  if(roles) {
+    roles.forEach(function (role) {
+      if (keys.indexOf(role.name) > -1) {
+        count++;
+      }
+    });
+  }
+
+  return count;
+}

@@ -14,7 +14,7 @@ export default {
   },
   computed: {
     isUserLogged() {
-      if (this.dataItem._id === this.$store.getters.getUserId) {
+      if (this.dataItem._id === this.$store.getters.getAuthId) {
         return false;
       }
       return true
@@ -36,8 +36,8 @@ export default {
           },
           {
             headers: {
-              Authorization: "Bearer " + this.$store.getters.getToken,
-              "User-ID": this.$store.getters.getUserId
+              Authorization: "Bearer " + this.$store.getters.getAuthToken,
+              "User-ID": this.$store.getters.getAuthId
             }
           }
         )

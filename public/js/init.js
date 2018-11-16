@@ -4649,7 +4649,7 @@ __webpack_require__("./resources/assets/js/bootstrap.js");
 
 
 
-var appOne = new Vue({
+new Vue({
   el: '#vue-site-header',
   store: __WEBPACK_IMPORTED_MODULE_0__stores__["a" /* default */],
   data: function data() {
@@ -4667,7 +4667,7 @@ var appOne = new Vue({
       window.location = "/login";
     }
 
-    Object(__WEBPACK_IMPORTED_MODULE_4__helpers_validates__["b" /* userIsAuthorized */])(this.$store.getters.getUserRoles, ["ADMIN", "STAFF_AUDITOR", "STAFF_FINANCE", "STAFF_COMMERCIAL", "STAFF_SUPPORT", "STAFF_SALE", "STAFF_EDITOR", "STAFF_EXPEDITION"]);
+    Object(__WEBPACK_IMPORTED_MODULE_4__helpers_validates__["b" /* userIsAuthorized */])(this.$store.getters.getAuthRoles, ["ADMIN", "STAFF_AUDITOR", "STAFF_FINANCE", "STAFF_COMMERCIAL", "STAFF_SUPPORT", "STAFF_SALE", "STAFF_EDITOR", "STAFF_EXPEDITION"]);
   },
   created: function created() {
     var vm = this;
@@ -4689,12 +4689,12 @@ var appOne = new Vue({
       }
     },
     showError: function showError(obj) {
-      Object(__WEBPACK_IMPORTED_MODULE_5__helpers_tools__["f" /* swalErrorUnauthorized */])(obj);
+      Object(__WEBPACK_IMPORTED_MODULE_5__helpers_tools__["g" /* swalErrorUnauthorized */])(obj);
     }
   }
 });
 
-var appTwo = new Vue({
+new Vue({
   el: '#vue-sidebar-menu-left',
   store: __WEBPACK_IMPORTED_MODULE_0__stores__["a" /* default */],
   data: function data() {
@@ -4712,19 +4712,19 @@ var appTwo = new Vue({
   },
   created: function created() {
 
-    this.isRoleAdmin = Object(__WEBPACK_IMPORTED_MODULE_4__helpers_validates__["a" /* isRoleUser */])(this.$store.getters.getUserRoles, ["ADMIN"]);
+    this.isRoleAdmin = Object(__WEBPACK_IMPORTED_MODULE_4__helpers_validates__["a" /* isRoleUser */])(this.$store.getters.getAuthRoles, ["ADMIN"]);
 
-    this.isRoleEditor = Object(__WEBPACK_IMPORTED_MODULE_4__helpers_validates__["a" /* isRoleUser */])(this.$store.getters.getUserRoles, ["STAFF_EDITOR"]);
+    this.isRoleEditor = Object(__WEBPACK_IMPORTED_MODULE_4__helpers_validates__["a" /* isRoleUser */])(this.$store.getters.getAuthRoles, ["STAFF_EDITOR"]);
 
-    this.isRoleAuditor = Object(__WEBPACK_IMPORTED_MODULE_4__helpers_validates__["a" /* isRoleUser */])(this.$store.getters.getUserRoles, ["STAFF_AUDITOR"]);
+    this.isRoleAuditor = Object(__WEBPACK_IMPORTED_MODULE_4__helpers_validates__["a" /* isRoleUser */])(this.$store.getters.getAuthRoles, ["STAFF_AUDITOR"]);
 
-    this.isRoleFinance = Object(__WEBPACK_IMPORTED_MODULE_4__helpers_validates__["a" /* isRoleUser */])(this.$store.getters.getUserRoles, ["STAFF_FINANCE"]);
+    this.isRoleFinance = Object(__WEBPACK_IMPORTED_MODULE_4__helpers_validates__["a" /* isRoleUser */])(this.$store.getters.getAuthRoles, ["STAFF_FINANCE"]);
 
-    this.isRoleExpedition = Object(__WEBPACK_IMPORTED_MODULE_4__helpers_validates__["a" /* isRoleUser */])(this.$store.getters.getUserRoles, ["STAFF_EXPEDITION"]);
+    this.isRoleExpedition = Object(__WEBPACK_IMPORTED_MODULE_4__helpers_validates__["a" /* isRoleUser */])(this.$store.getters.getAuthRoles, ["STAFF_EXPEDITION"]);
   }
 });
 
-var appThree = new Vue({
+new Vue({
   el: '#vue-sidebar-menu-right',
   store: __WEBPACK_IMPORTED_MODULE_0__stores__["a" /* default */],
   components: {
@@ -5253,11 +5253,12 @@ module.exports = Component.exports
 
 "use strict";
 /* harmony export (immutable) */ __webpack_exports__["b"] = cleanRole;
-/* harmony export (immutable) */ __webpack_exports__["c"] = forcePassword;
-/* harmony export (immutable) */ __webpack_exports__["f"] = swalErrorUnauthorized;
+/* harmony export (immutable) */ __webpack_exports__["d"] = forcePassword;
+/* harmony export (immutable) */ __webpack_exports__["g"] = swalErrorUnauthorized;
 /* harmony export (immutable) */ __webpack_exports__["a"] = cleanDataApi;
-/* harmony export (immutable) */ __webpack_exports__["e"] = strSlug;
-/* harmony export (immutable) */ __webpack_exports__["d"] = strRandon;
+/* harmony export (immutable) */ __webpack_exports__["f"] = strSlug;
+/* harmony export (immutable) */ __webpack_exports__["e"] = strRandon;
+/* harmony export (immutable) */ __webpack_exports__["c"] = countRoles;
 function cleanRole(roles) {
   return roles ? roles.filter(function (role) {
     delete role["_id"];
@@ -5363,6 +5364,21 @@ function strRandon() {
   return Math.floor(Math.random() * 1000000 + 1);
 }
 
+function countRoles(roles, keys) {
+
+  var count = 0;
+
+  if (roles) {
+    roles.forEach(function (role) {
+      if (keys.indexOf(role.name) > -1) {
+        count++;
+      }
+    });
+  }
+
+  return count;
+}
+
 /***/ }),
 
 /***/ "./resources/assets/js/helpers/validates.js":
@@ -5372,59 +5388,40 @@ function strRandon() {
 /* harmony export (immutable) */ __webpack_exports__["c"] = userIsAuthorizedPage;
 /* harmony export (immutable) */ __webpack_exports__["b"] = userIsAuthorized;
 /* harmony export (immutable) */ __webpack_exports__["a"] = isRoleUser;
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__tools__ = __webpack_require__("./resources/assets/js/helpers/tools.js");
+
+
 function userIsAuthorizedPage(roles, keys) {
 
-  var count = 0;
-  if (roles) {
-    roles.forEach(function (role) {
-      if (keys.indexOf(role.name) > -1) {
-        count++;
-      }
-    });
-  }
-
-  if (count === 0) {
+  if (Object(__WEBPACK_IMPORTED_MODULE_0__tools__["c" /* countRoles */])(roles, keys) <= 0) {
     return window.location.replace("/");
   }
+
+  return true;
 }
 
 function userIsAuthorized(roles, keys) {
 
-  var count = 0;
-  if (roles) {
-    roles.forEach(function (role) {
-      if (keys.indexOf(role.name) > -1) {
-        count++;
-      }
-    });
-  }
-
-  if (count === 0) {
+  if (Object(__WEBPACK_IMPORTED_MODULE_0__tools__["c" /* countRoles */])(roles, keys) <= 0) {
     sessionStorage.clear();
     return window.location.replace("/login");
   }
+
+  return true;
 }
 
 function isRoleUser(roles, keys) {
 
-  var count = 0;
-  if (roles) {
-    roles.forEach(function (role) {
-      if (keys.indexOf(role.name) > -1) {
-        count++;
-      }
-    });
-  }
-
-  if (count > 0) {
+  if (Object(__WEBPACK_IMPORTED_MODULE_0__tools__["c" /* countRoles */])(roles, keys) > 0) {
     return true;
   }
+
   return false;
 }
 
 /***/ }),
 
-/***/ "./resources/assets/js/stores/authorizations/state.js":
+/***/ "./resources/assets/js/stores/auth/state.js":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -5434,22 +5431,22 @@ var state = {
 };
 
 var getters = {
-  getToken: function getToken(state) {
+  getAuthToken: function getAuthToken(state) {
     return state.token;
   },
-  getUser: function getUser(state) {
+  getAuth: function getAuth(state) {
     return state.user;
   },
-  getUserId: function getUserId(state) {
+  getAuthId: function getAuthId(state) {
     return state.user._id;
   },
-  getUserRoles: function getUserRoles(state) {
+  getAuthRoles: function getAuthRoles(state) {
     return state.user.roles;
   }
 };
 
 var mutations = {
-  setUser: function setUser(state, obj) {
+  setAuth: function setAuth(state, obj) {
     state.user = obj;
   }
 };
@@ -5469,8 +5466,10 @@ var mutations = {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__("./node_modules/vue/dist/vue.common.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vuex__ = __webpack_require__("./node_modules/vuex/dist/vuex.esm.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__authorizations_state__ = __webpack_require__("./resources/assets/js/stores/authorizations/state.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__itens_state__ = __webpack_require__("./resources/assets/js/stores/itens/state.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__auth_state__ = __webpack_require__("./resources/assets/js/stores/auth/state.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__user_state__ = __webpack_require__("./resources/assets/js/stores/user/state.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__item_state__ = __webpack_require__("./resources/assets/js/stores/item/state.js");
+
 
 
 
@@ -5480,14 +5479,15 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1_vuex
 
 /* harmony default export */ __webpack_exports__["a"] = (new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].Store({
   modules: {
-    authorizations: __WEBPACK_IMPORTED_MODULE_2__authorizations_state__["a" /* default */],
-    itens: __WEBPACK_IMPORTED_MODULE_3__itens_state__["a" /* default */]
+    auth: __WEBPACK_IMPORTED_MODULE_2__auth_state__["a" /* default */],
+    user: __WEBPACK_IMPORTED_MODULE_3__user_state__["a" /* default */],
+    item: __WEBPACK_IMPORTED_MODULE_4__item_state__["a" /* default */]
   }
 }));
 
 /***/ }),
 
-/***/ "./resources/assets/js/stores/itens/state.js":
+/***/ "./resources/assets/js/stores/item/state.js":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -5504,15 +5504,49 @@ var getters = {
 var mutations = {
   setItem: function setItem(state, obj) {
     state.item = obj;
+  }
+};
+
+/* harmony default export */ __webpack_exports__["a"] = ({
+  state: state,
+  getters: getters,
+  mutations: mutations
+});
+
+/***/ }),
+
+/***/ "./resources/assets/js/stores/user/state.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+var state = {
+  user: {}
+};
+
+var getters = {
+  getUser: function getUser(state) {
+    return state.user;
   },
-  setItemRole: function setItemRole(state, roles) {
-    state.item.roles = roles;
+  getUserRoles: function getUserRoles(state) {
+    return state.user.roles;
   },
-  setItemPrivilege: function setItemPrivilege(state, privileges) {
-    state.item.privileges = privileges;
+  getUserPrivileges: function getUserPrivileges(state) {
+    return state.user.privileges;
   },
-  setItemActive: function setItemActive(state, active) {
-    state.item.active = active;
+  getUserActive: function getUserActive(state) {
+    return state.user.active;
+  }
+};
+
+var mutations = {
+  setUserRoles: function setUserRoles(state, roles) {
+    state.user.roles = roles;
+  },
+  setUserPrivileges: function setUserPrivileges(state, privileges) {
+    state.user.privileges = privileges;
+  },
+  setUserActive: function setUserActive(state, active) {
+    state.user.active = active;
   }
 };
 

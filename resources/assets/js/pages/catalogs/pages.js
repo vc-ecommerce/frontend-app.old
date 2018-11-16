@@ -16,7 +16,7 @@ new Vue({
     PageIndex
   },
   beforeCreate() {
-    userIsAuthorizedPage(this.$store.getters.getUserRoles, [
+    userIsAuthorizedPage(this.$store.getters.getAuthRoles, [
       "ADMIN", "STAFF_EDITOR", "STAFF_AUDITOR"
     ]);
   }

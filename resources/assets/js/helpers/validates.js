@@ -1,51 +1,32 @@
+import { countRoles } from './tools';
+
 export function userIsAuthorizedPage(roles, keys) {
 
-  let count = 0;
-  if(roles) {
-    roles.forEach(function (role) {
-      if (keys.indexOf(role.name) > -1) {
-        count++;
-      }
-    });
-  }
-
-  if (count === 0) {
+  if (countRoles(roles, keys) <= 0) {
     return window.location.replace("/");
   }
+
+  return true;
+
 }
 
 export function userIsAuthorized(roles, keys) {
 
-  let count = 0;
-  if(roles) {
-    roles.forEach(function (role) {
-      if (keys.indexOf(role.name) > -1) {
-        count++;
-      }
-    });
-  }
-
-  if (count === 0) {
+  if (countRoles(roles, keys) <= 0) {
     sessionStorage.clear();
     return window.location.replace("/login");
   }
+
+  return true;
 
 }
 
 export function isRoleUser(roles, keys) {
 
-  let count = 0;
-  if(roles) {
-    roles.forEach(function (role) {
-      if (keys.indexOf(role.name) > -1) {
-        count++;
-      }
-    });
+  if (countRoles(roles, keys) > 0) {
+    return true;
   }
 
-  if (count > 0) {
-    return true
-  }
-  return false
+  return false;
 
 }

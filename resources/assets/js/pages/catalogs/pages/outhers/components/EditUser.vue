@@ -134,23 +134,23 @@ export default {
     roleUser: {
       get() {
         return cleanRole(
-          this.$store.getters.getItem ? this.$store.getters.getItem.roles : []
+          this.$store.getters.getAuthRoles ? this.$store.getters.getAuthRoles : []
         );
       },
       set(value) {
-        this.$store.commit("setItemRole", value);
+        this.$store.commit("setUserRoles", value);
       }
     },
     selectedOption: {
       get() {
         return Boolean(
-          this.$store.getters.getItem
-            ? this.$store.getters.getItem.active
+          this.$store.getters.getUserActive
+            ? this.$store.getters.getUserActive
             : false
         );
       },
       set(value) {
-        this.$store.commit("setItemActive", Boolean(value));
+        this.$store.commit("setUserActive", Boolean(value));
       }
     }
   },
@@ -194,8 +194,8 @@ export default {
           },
           {
             headers: {
-              Authorization: "Bearer " + this.$store.getters.getToken,
-              "User-ID": this.$store.getters.getUserId
+              Authorization: "Bearer " + this.$store.getters.getAuthToken,
+              "User-ID": this.$store.getters.getAuthId
             }
           }
         )

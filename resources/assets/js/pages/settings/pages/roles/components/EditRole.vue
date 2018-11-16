@@ -104,12 +104,12 @@ export default {
 
     privilegeRole: {
       get() {
-        return this.$store.getters.getItem
-          ? this.$store.getters.getItem.privileges
+        return this.$store.getters.getUserPrivileges
+          ? this.$store.getters.getUserPrivileges
           : [];
       },
       set(value) {
-        this.$store.commit("setItemPrivilege", value);
+        this.$store.commit("setUserPrivileges", value);
       }
     }
   },
@@ -139,8 +139,8 @@ export default {
           },
           {
             headers: {
-              Authorization: "Bearer " + this.$store.getters.getToken,
-              "User-ID": this.$store.getters.getUserId
+              Authorization: "Bearer " + this.$store.getters.getAuthToken,
+              "User-ID": this.$store.getters.getAuthId
             }
           }
         )

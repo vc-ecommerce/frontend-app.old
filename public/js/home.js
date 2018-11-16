@@ -5588,7 +5588,7 @@ var app = new Vue({
 
 /***/ }),
 
-/***/ "./resources/assets/js/stores/authorizations/state.js":
+/***/ "./resources/assets/js/stores/auth/state.js":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -5598,22 +5598,22 @@ var state = {
 };
 
 var getters = {
-  getToken: function getToken(state) {
+  getAuthToken: function getAuthToken(state) {
     return state.token;
   },
-  getUser: function getUser(state) {
+  getAuth: function getAuth(state) {
     return state.user;
   },
-  getUserId: function getUserId(state) {
+  getAuthId: function getAuthId(state) {
     return state.user._id;
   },
-  getUserRoles: function getUserRoles(state) {
+  getAuthRoles: function getAuthRoles(state) {
     return state.user.roles;
   }
 };
 
 var mutations = {
-  setUser: function setUser(state, obj) {
+  setAuth: function setAuth(state, obj) {
     state.user = obj;
   }
 };
@@ -5633,8 +5633,10 @@ var mutations = {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__("./node_modules/vue/dist/vue.common.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vuex__ = __webpack_require__("./node_modules/vuex/dist/vuex.esm.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__authorizations_state__ = __webpack_require__("./resources/assets/js/stores/authorizations/state.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__itens_state__ = __webpack_require__("./resources/assets/js/stores/itens/state.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__auth_state__ = __webpack_require__("./resources/assets/js/stores/auth/state.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__user_state__ = __webpack_require__("./resources/assets/js/stores/user/state.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__item_state__ = __webpack_require__("./resources/assets/js/stores/item/state.js");
+
 
 
 
@@ -5644,14 +5646,15 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1_vuex
 
 /* harmony default export */ __webpack_exports__["a"] = (new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].Store({
   modules: {
-    authorizations: __WEBPACK_IMPORTED_MODULE_2__authorizations_state__["a" /* default */],
-    itens: __WEBPACK_IMPORTED_MODULE_3__itens_state__["a" /* default */]
+    auth: __WEBPACK_IMPORTED_MODULE_2__auth_state__["a" /* default */],
+    user: __WEBPACK_IMPORTED_MODULE_3__user_state__["a" /* default */],
+    item: __WEBPACK_IMPORTED_MODULE_4__item_state__["a" /* default */]
   }
 }));
 
 /***/ }),
 
-/***/ "./resources/assets/js/stores/itens/state.js":
+/***/ "./resources/assets/js/stores/item/state.js":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -5668,15 +5671,49 @@ var getters = {
 var mutations = {
   setItem: function setItem(state, obj) {
     state.item = obj;
+  }
+};
+
+/* harmony default export */ __webpack_exports__["a"] = ({
+  state: state,
+  getters: getters,
+  mutations: mutations
+});
+
+/***/ }),
+
+/***/ "./resources/assets/js/stores/user/state.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+var state = {
+  user: {}
+};
+
+var getters = {
+  getUser: function getUser(state) {
+    return state.user;
   },
-  setItemRole: function setItemRole(state, roles) {
-    state.item.roles = roles;
+  getUserRoles: function getUserRoles(state) {
+    return state.user.roles;
   },
-  setItemPrivilege: function setItemPrivilege(state, privileges) {
-    state.item.privileges = privileges;
+  getUserPrivileges: function getUserPrivileges(state) {
+    return state.user.privileges;
   },
-  setItemActive: function setItemActive(state, active) {
-    state.item.active = active;
+  getUserActive: function getUserActive(state) {
+    return state.user.active;
+  }
+};
+
+var mutations = {
+  setUserRoles: function setUserRoles(state, roles) {
+    state.user.roles = roles;
+  },
+  setUserPrivileges: function setUserPrivileges(state, privileges) {
+    state.user.privileges = privileges;
+  },
+  setUserActive: function setUserActive(state, active) {
+    state.user.active = active;
   }
 };
 
