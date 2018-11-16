@@ -88,7 +88,7 @@ export default {
           this.redirectUser();
         })
         .catch(error => {
-          console.log(error);
+          //console.log(error);
         });
     },
     submitForm() {

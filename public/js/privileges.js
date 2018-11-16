@@ -3012,9 +3012,6 @@ function forcePassword(password) {
   var number = false;
   var especial = false;
 
-  //    console.clear();
-  //    console.log('password: '+password);
-
   if (password.length >= 6) size = true;
   if (password.length >= 10) sizeM = true;
   if (regLettersMa.exec(password)) lettersMa = true;
@@ -3030,7 +3027,6 @@ function forcePassword(password) {
   if (number) force += 20;
   if (especial) force += 20;
 
-  //console.log('força: '+force);
   return force;
 }
 
@@ -3255,6 +3251,9 @@ var getters = {
 var mutations = {
   setUser: function setUser(state, obj) {
     state.user = obj;
+  },
+  setToken: function setToken(state, obj) {
+    state.token = obj;
   }
 };
 

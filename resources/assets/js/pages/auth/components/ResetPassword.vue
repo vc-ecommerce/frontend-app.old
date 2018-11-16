@@ -79,7 +79,6 @@ export default {
           this.success = true;
           this.loading = false;
           this.btnDisabled = false;
-          //console.log(response.data);
         })
         .catch(error => {
           this.loading = false;

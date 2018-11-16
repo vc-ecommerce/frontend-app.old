@@ -5615,6 +5615,9 @@ var getters = {
 var mutations = {
   setUser: function setUser(state, obj) {
     state.user = obj;
+  },
+  setToken: function setToken(state, obj) {
+    state.token = obj;
   }
 };
 

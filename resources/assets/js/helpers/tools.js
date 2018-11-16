@@ -25,9 +25,6 @@ export function forcePassword(password) {
   let number = false;
   let especial = false;
 
-  //    console.clear();
-  //    console.log('password: '+password);
-
   if (password.length >= 6) size = true;
   if (password.length >= 10) sizeM = true;
   if (regLettersMa.exec(password)) lettersMa = true;
@@ -43,7 +40,6 @@ export function forcePassword(password) {
   if (number) force += 20;
   if (especial) force += 20;
 
-  //console.log('força: '+force);
   return force;
 
 }

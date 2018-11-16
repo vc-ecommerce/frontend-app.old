@@ -187,8 +187,6 @@ export default {
         .then(response => {
           this.error = false;
           this.status = false;
-          console.log(response)
-
           if (response.status === 201) {
             swal({
               title: "Dados cadastrados!",
