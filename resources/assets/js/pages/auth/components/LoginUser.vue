@@ -118,6 +118,8 @@ export default {
           );
 
           this.$store.commit("setUser", response.data);
+          this.$store.commit("setToken", response.data.HTTP_Authorization);
+
           this.activeSession(response.data.HTTP_Data);
         })
         .catch(error => {

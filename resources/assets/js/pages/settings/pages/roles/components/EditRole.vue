@@ -109,7 +109,9 @@ export default {
           : [];
       },
       set(value) {
-        this.$store.commit("setItemPrivilege", value);
+        let item = this.$store.getters.getItem;
+        item.privileges = value;
+        this.$store.commit("setItem", item);
       }
     }
   },

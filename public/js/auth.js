@@ -1864,6 +1864,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         sessionStorage.setItem("user", JSON.stringify(response.data.HTTP_Data));
 
         _this3.$store.commit("setUser", response.data);
+        _this3.$store.commit("setToken", response.data.HTTP_Authorization);
+
         _this3.activeSession(response.data.HTTP_Data);
       }).catch(function (error) {
         _this3.btnDisabled = false;
@@ -4368,7 +4370,7 @@ module.exports = Component.exports
 
 /***/ }),
 
-/***/ "./resources/assets/js/stores/authorizations/state.js":
+/***/ "./resources/assets/js/stores/auths/state.js":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -4413,7 +4415,7 @@ var mutations = {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__("./node_modules/vue/dist/vue.common.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vuex__ = __webpack_require__("./node_modules/vuex/dist/vuex.esm.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__authorizations_state__ = __webpack_require__("./resources/assets/js/stores/authorizations/state.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__auths_state__ = __webpack_require__("./resources/assets/js/stores/auths/state.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__itens_state__ = __webpack_require__("./resources/assets/js/stores/itens/state.js");
 
 
@@ -4424,7 +4426,7 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1_vuex
 
 /* harmony default export */ __webpack_exports__["a"] = (new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].Store({
   modules: {
-    authorizations: __WEBPACK_IMPORTED_MODULE_2__authorizations_state__["a" /* default */],
+    auths: __WEBPACK_IMPORTED_MODULE_2__auths_state__["a" /* default */],
     itens: __WEBPACK_IMPORTED_MODULE_3__itens_state__["a" /* default */]
   }
 }));
@@ -4448,15 +4450,6 @@ var getters = {
 var mutations = {
   setItem: function setItem(state, obj) {
     state.item = obj;
-  },
-  setItemRole: function setItemRole(state, roles) {
-    state.item.roles = roles;
-  },
-  setItemPrivilege: function setItemPrivilege(state, privileges) {
-    state.item.privileges = privileges;
-  },
-  setItemActive: function setItemActive(state, active) {
-    state.item.active = active;
   }
 };
 

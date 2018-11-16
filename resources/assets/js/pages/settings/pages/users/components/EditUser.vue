@@ -140,7 +140,9 @@ export default {
         );
       },
       set(value) {
-        this.$store.commit("setItemRole", value);
+        let item = this.$store.getters.getItem;
+        item.roles = value;
+        this.$store.commit("setItem", item);
       }
     },
     selectedOption: {
@@ -152,7 +154,9 @@ export default {
         );
       },
       set(value) {
-        this.$store.commit("setItemActive", Boolean(value));
+        let item = this.$store.getters.getItem;
+        item.active = value;
+        this.$store.commit("setItem", item);
       }
     }
   },
