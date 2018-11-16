@@ -103,3 +103,16 @@ export function strSlug(str, separator='-') {
 export function strRandon() {
   return Math.floor(Math.random() * 1000000 + 1);
 }
+
+
+// export function dataParaTexto(data) {
+//     return `${data.getDate()}/${data.getMonth()+1}/${data.getFullYear()}`;
+// }
+
+// export function textoParaData(texto) {
+
+//     if(!/\d{2}\/\d{2}\/\d{4}/.test(texto))
+//         throw new Error('Deve estar no formato dd/mm/aaaa');
+
+//     return new Date(...texto.split('/').reverse().map((item, indice) => item - indice % 2));
+// }
