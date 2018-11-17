@@ -19,12 +19,7 @@
                 <th>Name</th>
               </tr>
             </template>
-            <template v-if="total <=0" slot="tbody">
-              <tr>
-                <td colspan="3"><Loading /></td>
-              </tr>
-            </template>
-            <template v-else slot="tbody">
+            <template slot="tbody">
               <tr v-for="(privilege, index) in privileges.data" :key="index">
                 <td class="tabledit-view-mode">
                   {{ privilege.description }}
@@ -49,13 +44,11 @@
 
 import Table from "./../../../../components/layouts/Table";
 import { cleanRole } from "./../../../../helpers/tools";
-import Loading from "./../../../../components/loadings/Loading";
 
 export default {
   name: "PrivilegeIndex",
   components: {
     Table,
-    Loading
   },
   props: [],
   data() {

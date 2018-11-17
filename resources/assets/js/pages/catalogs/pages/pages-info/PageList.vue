@@ -23,12 +23,7 @@
                 <th class="tabledit-toolbar-column">Editar</th>
               </tr>
             </template>
-            <template v-if="total <=0" slot="tbody">
-              <tr>
-                <td colspan="3"><Loading /></td>
-              </tr>
-            </template>
-            <template v-else slot="tbody">
+            <template slot="tbody">
               <tr v-for="(page, index) in pages.data" :key="index">
                 <td class="tabledit-view-mode">
                   {{ page.name }}
@@ -67,7 +62,6 @@ import ChangeStatus from './components/ChangeStatus'
 import Table from "./../../../../components/layouts/Table";
 import Pagination from "./../../../../components/paginations/Pagination";
 import { cleanRole } from "./../../../../helpers/tools";
-import Loading from "./../../../../components/loadings/Loading";
 
 export default {
   name: "PageList",
@@ -76,7 +70,6 @@ export default {
     ChangeStatus,
     Table,
     Pagination,
-    Loading
   },
   props: [],
   data() {

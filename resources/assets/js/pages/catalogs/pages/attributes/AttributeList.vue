@@ -25,16 +25,7 @@
                 <th class="tabledit-toolbar-column">Editar</th>
               </tr>
             </template>
-
-            <template v-if="total <=0" slot="tbody">
-              <tr>
-                <td colspan="3">
-                  <Loading />
-                </td>
-              </tr>
-            </template>
-
-            <template v-else slot="tbody">
+            <template slot="tbody">
               <tr v-for="attribute in attributes.data">
                 <td class="tabledit-view-mode">
                   <strong>{{ attribute.name }}</strong>
@@ -77,7 +68,6 @@
 import RemoveAttribute from "./components/RemoveAttribute";
 import Table from "./../../../../components/layouts/Table";
 import Pagination from "./../../../../components/paginations/Pagination";
-import Loading from "./../../../../components/loadings/Loading";
 import { cleanRole } from "./../../../../helpers/tools";
 
 export default {
@@ -86,7 +76,6 @@ export default {
     RemoveAttribute,
     Table,
     Pagination,
-    Loading
   },
   props: [],
   data() {

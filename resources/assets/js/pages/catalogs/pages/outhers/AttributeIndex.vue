@@ -22,12 +22,7 @@
                 <th class="tabledit-toolbar-column">Editar</th>
               </tr>
             </template>
-            <template v-if="total <=0" slot="tbody">
-              <tr>
-                <td colspan="3"><Loading /></td>
-              </tr>
-            </template>
-            <template v-else slot="tbody">
+            <template slot="tbody">
               <tr v-for="(user, index) in users.data" :key="index">
                 <td class="tabledit-view-mode">
                   {{ user.name }}
@@ -67,7 +62,6 @@ import ChangeStatusUser from "./components/ChangeStatusUser";
 import RemoveUser from "./components/RemoveUser";
 import Table from "./../../../../components/layouts/Table";
 import Pagination from "./../../../../components/paginations/Pagination";
-import Loading from "./../../../../components/loadings/Loading";
 import { cleanRole } from "./../../../../helpers/tools";
 
 export default {
@@ -79,7 +73,6 @@ export default {
     RemoveUser,
     Table,
     Pagination,
-    Loading
   },
   props: [],
   data() {

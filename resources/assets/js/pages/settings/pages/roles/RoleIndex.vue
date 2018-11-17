@@ -23,12 +23,7 @@
                 <th width="300" class="tabledit-toolbar-column">Editar</th>
               </tr>
             </template>
-            <template v-if="total <=0" slot="tbody">
-              <tr>
-                <td colspan="3"><Loading /></td>
-              </tr>
-            </template>
-            <template v-else slot="tbody">
+            <template slot="tbody">
               <tr v-for="(role, index) in roles.data" :key="index">
                 <td class="tabledit-view-mode">
                   {{ role.description }}
@@ -70,7 +65,6 @@ import CreateRole from "./components/CreateRole";
 import EditRole from "./components/EditRole";
 import RemoveRole from "./components/RemoveRole";
 import Table from "./../../../../components/layouts/Table";
-import Loading from "./../../../../components/loadings/Loading";
 
 export default {
   name: "UserIndex",
@@ -79,7 +73,6 @@ export default {
     EditRole,
     RemoveRole,
     Table,
-    Loading
   },
   props: [],
   data() {

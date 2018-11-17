@@ -30,6 +30,10 @@
         </div>
 	</div>
 
+      <div id="loader">
+        <loader />
+    </div>
+
 	@include('layouts.default.sidebar-right')
 
 	@component('layouts.default.body_scripts')

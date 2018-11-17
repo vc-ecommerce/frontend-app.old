@@ -22,6 +22,7 @@ mix.copyDirectory('resources/themes/startuiadmin/build/css', 'public/css')
   .copyDirectory('resources/themes/startuiadmin/build/js', 'public/js')
   .copyDirectory('resources/themes/startuiadmin/build/fonts', 'public/fonts');
 
+mix.copy('resources/assets/img/preloader.gif', 'public/img/preloader.gif')
 
 mix.copy('node_modules/summernote/dist/summernote.css', 'public/css/summernote.css')
   .copy('node_modules/summernote/dist/summernote.min.js', 'public/js/summernote.js')

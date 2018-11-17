@@ -12,3 +12,12 @@ Vue.prototype.$urlApi = 'http://api.vocecrianca.site/v1';
 Vue.prototype.$urlSite = 'https://vocecrianca.com.br';
 
 //https://jsoneditoronline.org/
+
+
+window.Vue = require('vue');
+
+Vue.component('loader', require('./commons/AxiosLoader.vue'));
+
+const commonApps = new Vue({
+    el: '#loader'
+})
