@@ -9606,13 +9606,7 @@ module.exports = Component.exports
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__("./node_modules/vue/dist/vue.common.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vue_router__ = __webpack_require__("./node_modules/vue-router/dist/vue-router.esm.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__AttributeList__ = __webpack_require__("./resources/assets/js/pages/catalogs/pages/attributes/AttributeList.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__AttributeList___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__AttributeList__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__AttributeCreate__ = __webpack_require__("./resources/assets/js/pages/catalogs/pages/attributes/AttributeCreate.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__AttributeCreate___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__AttributeCreate__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__AttributeEdit__ = __webpack_require__("./resources/assets/js/pages/catalogs/pages/attributes/AttributeEdit.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__AttributeEdit___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__AttributeEdit__);
-
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__routes__ = __webpack_require__("./resources/assets/js/pages/catalogs/pages/attributes/router/routes.js");
 
 
 
@@ -9622,20 +9616,39 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1_vue_
 
 /* harmony default export */ __webpack_exports__["a"] = (new __WEBPACK_IMPORTED_MODULE_1_vue_router__["a" /* default */]({
   mode: 'history',
-  routes: [{
-    path: '/catalogs/attributes',
-    name: 'AttributeList',
-    component: __WEBPACK_IMPORTED_MODULE_2__AttributeList___default.a
-  }, {
-    path: '/catalogs/attributes/create',
-    name: 'AttributeCreate',
-    component: __WEBPACK_IMPORTED_MODULE_3__AttributeCreate___default.a
-  }, {
-    path: '/catalogs/attributes/:id/edit',
-    name: 'AttributeEdit',
-    component: __WEBPACK_IMPORTED_MODULE_4__AttributeEdit___default.a
-  }]
+  routes: __WEBPACK_IMPORTED_MODULE_2__routes__["a" /* routes */]
 }));
+
+/***/ }),
+
+/***/ "./resources/assets/js/pages/catalogs/pages/attributes/router/routes.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return routes; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__AttributeList__ = __webpack_require__("./resources/assets/js/pages/catalogs/pages/attributes/AttributeList.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__AttributeList___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__AttributeList__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__AttributeCreate__ = __webpack_require__("./resources/assets/js/pages/catalogs/pages/attributes/AttributeCreate.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__AttributeCreate___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__AttributeCreate__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__AttributeEdit__ = __webpack_require__("./resources/assets/js/pages/catalogs/pages/attributes/AttributeEdit.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__AttributeEdit___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__AttributeEdit__);
+
+
+
+
+var routes = [{
+  path: '/catalogs/attributes',
+  name: 'AttributeList',
+  component: __WEBPACK_IMPORTED_MODULE_0__AttributeList___default.a
+}, {
+  path: '/catalogs/attributes/create',
+  name: 'AttributeCreate',
+  component: __WEBPACK_IMPORTED_MODULE_1__AttributeCreate___default.a
+}, {
+  path: '/catalogs/attributes/:id/edit',
+  name: 'AttributeEdit',
+  component: __WEBPACK_IMPORTED_MODULE_2__AttributeEdit___default.a
+}];
 
 /***/ }),
 

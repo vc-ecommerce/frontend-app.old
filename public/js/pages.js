@@ -9452,14 +9452,7 @@ module.exports = Component.exports
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__("./node_modules/vue/dist/vue.common.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vue_router__ = __webpack_require__("./node_modules/vue-router/dist/vue-router.esm.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__PageList__ = __webpack_require__("./resources/assets/js/pages/catalogs/pages/pages-info/PageList.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__PageList___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__PageList__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__PageCreate__ = __webpack_require__("./resources/assets/js/pages/catalogs/pages/pages-info/PageCreate.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__PageCreate___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__PageCreate__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__PageEdit__ = __webpack_require__("./resources/assets/js/pages/catalogs/pages/pages-info/PageEdit.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__PageEdit___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__PageEdit__);
-
-
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__routes__ = __webpack_require__("./resources/assets/js/pages/catalogs/pages/pages-info/router/routes.js");
 
 
 
@@ -9468,20 +9461,39 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1_vue_
 
 /* harmony default export */ __webpack_exports__["a"] = (new __WEBPACK_IMPORTED_MODULE_1_vue_router__["a" /* default */]({
   mode: 'history',
-  routes: [{
-    path: '/catalogs/pages',
-    name: 'PageList',
-    component: __WEBPACK_IMPORTED_MODULE_2__PageList___default.a
-  }, {
-    path: '/catalogs/pages/create',
-    name: 'PageCreate',
-    component: __WEBPACK_IMPORTED_MODULE_3__PageCreate___default.a
-  }, {
-    path: '/catalogs/pages/:id/edit',
-    name: 'PageEdit',
-    component: __WEBPACK_IMPORTED_MODULE_4__PageEdit___default.a
-  }]
+  routes: __WEBPACK_IMPORTED_MODULE_2__routes__["a" /* routes */]
 }));
+
+/***/ }),
+
+/***/ "./resources/assets/js/pages/catalogs/pages/pages-info/router/routes.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return routes; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__PageList__ = __webpack_require__("./resources/assets/js/pages/catalogs/pages/pages-info/PageList.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__PageList___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__PageList__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__PageCreate__ = __webpack_require__("./resources/assets/js/pages/catalogs/pages/pages-info/PageCreate.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__PageCreate___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__PageCreate__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__PageEdit__ = __webpack_require__("./resources/assets/js/pages/catalogs/pages/pages-info/PageEdit.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__PageEdit___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__PageEdit__);
+
+
+
+
+var routes = [{
+  path: '/catalogs/pages',
+  name: 'PageList',
+  component: __WEBPACK_IMPORTED_MODULE_0__PageList___default.a
+}, {
+  path: '/catalogs/pages/create',
+  name: 'PageCreate',
+  component: __WEBPACK_IMPORTED_MODULE_1__PageCreate___default.a
+}, {
+  path: '/catalogs/pages/:id/edit',
+  name: 'PageEdit',
+  component: __WEBPACK_IMPORTED_MODULE_2__PageEdit___default.a
+}];
 
 /***/ }),
 

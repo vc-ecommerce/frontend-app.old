@@ -30,6 +30,11 @@
         </div>
     </div><!--.page-center-->
 
+    <div id="loader">
+        <loader />
+    </div>
+
+
 
     @component('layouts.default.body_scripts')
         @yield('scripts')

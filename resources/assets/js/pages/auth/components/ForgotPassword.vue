@@ -18,8 +18,6 @@
       </div>
     </header>
 
-    <header v-else-if="loading" class="sign-title red">Aguarde enviando...</header>
-
     <header v-else-if="passwordInvalid">
       <div class="alert alert-danger alert-fill alert-close alert-dismissible fade show __web-inspector-hide-shortcut__" role="alert">
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -64,7 +62,6 @@ export default {
       passwordNotEquals: false,
       passwordInvalid: false,
       status: false,
-      loading: false,
       userId: "",
       tokenOk: false,
       updateOk: false,
@@ -123,7 +120,6 @@ export default {
         this.checkToken();
       }
       this.btnDisabled = true;
-      this.loading = true;
       const api = `${this.$urlApi}/auth/forgot`;
       Vue.axios
         .post(api, {
@@ -134,7 +130,6 @@ export default {
         .then(response => {
           this.btnDisabled = false;
           if (response.data === "update_password") {
-            this.loading = false;
             this.updateOk = true;
             this.password = "";
             this.confirme = "";
@@ -142,7 +137,6 @@ export default {
         })
         .catch(error => {
           this.btnDisabled = false;
-          this.loading = false;
           this.showError(error.response.status);
         });
     },

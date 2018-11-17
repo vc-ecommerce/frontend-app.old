@@ -1666,8 +1666,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
 
 
 
@@ -1682,7 +1680,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       passwordNotEquals: false,
       passwordInvalid: false,
       status: false,
-      loading: false,
       userId: "",
       tokenOk: false,
       updateOk: false,
@@ -1746,7 +1743,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         this.checkToken();
       }
       this.btnDisabled = true;
-      this.loading = true;
       var api = this.$urlApi + "/auth/forgot";
       Vue.axios.post(api, {
         user_id: this.userId,
@@ -1755,14 +1751,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       }).then(function (response) {
         _this4.btnDisabled = false;
         if (response.data === "update_password") {
-          _this4.loading = false;
           _this4.updateOk = true;
           _this4.password = "";
           _this4.confirme = "";
         }
       }).catch(function (error) {
         _this4.btnDisabled = false;
-        _this4.loading = false;
         _this4.showError(error.response.status);
       });
     },
@@ -1831,7 +1825,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "ResetPassword",
@@ -1843,7 +1836,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       data: "",
       token: "",
       status: false,
-      loading: false,
       ok: false,
       btnDisabled: false
     };
@@ -1879,7 +1871,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
           "X-CSRF-TOKEN": this.getCsrfToken()
         }
       }).then(function (response) {
-        _this2.loading = false;
         _this2.redirectUser();
       }).catch(function (error) {
         //console.log(error);
@@ -1889,7 +1880,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       var _this3 = this;
 
       this.btnDisabled = true;
-      this.loading = true;
       var api = this.$urlApi + "/auth/login";
       Vue.axios.post(api, {
         email: this.email,
@@ -1911,7 +1901,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         _this3.activeSession(response.data.HTTP_Data);
       }).catch(function (error) {
         _this3.btnDisabled = false;
-        _this3.loading = false;
         _this3.status = error.response.data.error;
       });
     }
@@ -1933,10 +1922,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__helpers_tools__ = __webpack_require__("./resources/assets/js/helpers/tools.js");
-//
-//
-//
-//
 //
 //
 //
@@ -2398,15 +2383,11 @@ var render = function() {
           ? _c("header", { staticClass: "sign-title red showError" }, [
               _vm._v("Email e ou senha inválidos")
             ])
-          : _vm.loading
-            ? _c("header", { staticClass: "sign-title gray" }, [
-                _vm._v("Aguarde!!!")
+          : _vm.ok
+            ? _c("header", { staticClass: "sign-title green" }, [
+                _vm._v("Redirecionando...")
               ])
-            : _vm.ok
-              ? _c("header", { staticClass: "sign-title green" }, [
-                  _vm._v("Redirecionando...")
-                ])
-              : _c("header", { staticClass: "sign-title" }, [_vm._v("Login")]),
+            : _c("header", { staticClass: "sign-title" }, [_vm._v("Login")]),
       _vm._v(" "),
       _c("div", { staticClass: "form-group" }, [
         _c("input", {
@@ -2523,62 +2504,56 @@ var render = function() {
         _vm._v("Redefinição de senha")
       ]),
       _vm._v(" "),
-      _vm.loading
-        ? _c("header", { staticClass: "sign-title red" }, [
-            _vm._v("\n    Aguarde enviando...\n  ")
+      _vm.error
+        ? _c("header", [
+            _c(
+              "div",
+              {
+                staticClass:
+                  "alert alert-danger alert-fill alert-close alert-dismissible fade show",
+                attrs: { role: "alert" }
+              },
+              [
+                _vm.error === 404
+                  ? _c("span", [
+                      _vm._v("\n        Email não encontrado!\n      ")
+                    ])
+                  : _vm._l(_vm.error, function(err) {
+                      return _c("span", { key: err._id }, [
+                        _vm._v(
+                          "\n        " + _vm._s(_vm.cleanData(err)) + "\n      "
+                        )
+                      ])
+                    })
+              ],
+              2
+            )
           ])
-        : _vm.error
+        : _vm.success
           ? _c("header", [
               _c(
                 "div",
                 {
                   staticClass:
-                    "alert alert-danger alert-fill alert-close alert-dismissible fade show",
+                    "alert alert-success alert-fill alert-close alert-dismissible fade show",
                   attrs: { role: "alert" }
                 },
                 [
-                  _vm.error === 404
-                    ? _c("span", [
-                        _vm._v("\n        Email não encontrado!\n      ")
-                      ])
-                    : _vm._l(_vm.error, function(err) {
-                        return _c("span", { key: err._id }, [
-                          _vm._v(
-                            "\n        " +
-                              _vm._s(_vm.cleanData(err)) +
-                              "\n      "
-                          )
-                        ])
-                      })
-                ],
-                2
+                  _vm._v(
+                    "\n      O link para redefinição de senha foi enviado para o seu e-mail!\n    "
+                  )
+                ]
               )
             ])
-          : _vm.success
-            ? _c("header", [
-                _c(
-                  "div",
-                  {
-                    staticClass:
-                      "alert alert-success alert-fill alert-close alert-dismissible fade show",
-                    attrs: { role: "alert" }
-                  },
-                  [
-                    _vm._v(
-                      "\n      O link para redefinição de senha foi enviado para o seu e-mail!\n    "
-                    )
-                  ]
-                )
-              ])
-            : _c("div", { staticClass: "form-group" }, [
-                _vm._v(
-                  "\n    Digite seu e-mail de cadastro abaixo e clique em enviar. "
-                ),
-                _c("br"),
-                _vm._v(
-                  "\n    Nós lhe enviaremos um e-mail com link para recadastrar sua senha.\n  "
-                )
-              ]),
+          : _c("div", { staticClass: "form-group" }, [
+              _vm._v(
+                "\n    Digite seu e-mail de cadastro abaixo e clique em enviar. "
+              ),
+              _c("br"),
+              _vm._v(
+                "\n    Nós lhe enviaremos um e-mail com link para recadastrar sua senha.\n  "
+              )
+            ]),
       _vm._v(" "),
       _c("div", { staticClass: "form-group" }, [
         _c("input", {
@@ -2688,31 +2663,27 @@ var render = function() {
       _vm._v(" "),
       _vm.passwordNotEquals
         ? _c("header", { staticClass: "sign-title red showError" }, [_vm._m(0)])
-        : _vm.loading
-          ? _c("header", { staticClass: "sign-title red" }, [
-              _vm._v("Aguarde enviando...")
-            ])
-          : _vm.passwordInvalid
-            ? _c("header", [_vm._m(1)])
-            : _vm.updateOk
-              ? _c("header", [
-                  _c(
-                    "div",
-                    {
-                      staticClass:
-                        "alert alert-success alert-fill alert-close alert-dismissible fade show",
-                      attrs: { role: "alert" }
-                    },
-                    [
-                      _vm._v("\n      Senha alterada com sucesso! "),
-                      _c("br"),
-                      _c("a", { attrs: { href: _vm.urllogin } }, [
-                        _vm._v("Clique aqui para fazer login")
-                      ])
-                    ]
-                  )
-                ])
-              : _vm._e(),
+        : _vm.passwordInvalid
+          ? _c("header", [_vm._m(1)])
+          : _vm.updateOk
+            ? _c("header", [
+                _c(
+                  "div",
+                  {
+                    staticClass:
+                      "alert alert-success alert-fill alert-close alert-dismissible fade show",
+                    attrs: { role: "alert" }
+                  },
+                  [
+                    _vm._v("\n      Senha alterada com sucesso! "),
+                    _c("br"),
+                    _c("a", { attrs: { href: _vm.urllogin } }, [
+                      _vm._v("Clique aqui para fazer login")
+                    ])
+                  ]
+                )
+              ])
+            : _vm._e(),
       _vm._v(" "),
       _c("div", { staticClass: "form-group" }, [
         _c("input", {

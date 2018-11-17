@@ -7,7 +7,6 @@
 
     <header v-if="status && status == 'account_inactive'" class="sign-title red showError">Você ainda não confirmou seu email.</header>
     <header v-else-if="status && status == 'invalid_credentials'" class="sign-title red showError">Email e ou senha inválidos</header>
-    <header v-else-if="loading" class="sign-title gray">Aguarde!!!</header>
     <header v-else-if="ok" class="sign-title green">Redirecionando...</header>
     <header v-else class="sign-title">Login</header>
 
@@ -47,7 +46,6 @@ export default {
       data: "",
       token: "",
       status: false,
-      loading: false,
       ok: false,
       btnDisabled: false
     };
@@ -84,7 +82,6 @@ export default {
           }
         )
         .then(response => {
-          this.loading = false;
           this.redirectUser();
         })
         .catch(error => {
@@ -93,7 +90,6 @@ export default {
     },
     submitForm() {
       this.btnDisabled = true;
-      this.loading = true;
       const api = `${this.$urlApi}/auth/login`;
       Vue.axios
         .post(api, {
@@ -124,7 +120,6 @@ export default {
         })
         .catch(error => {
           this.btnDisabled = false;
-          this.loading = false;
           this.status = error.response.data.error;
         });
     }

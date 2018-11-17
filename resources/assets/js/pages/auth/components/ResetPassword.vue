@@ -3,11 +3,7 @@
 
     <header class="sign-title">Redefinição de senha</header>
 
-    <header v-if="loading" class="sign-title red">
-      Aguarde enviando...
-    </header>
-
-    <header v-else-if="error">
+    <header v-if="error">
       <div class="alert alert-danger alert-fill alert-close alert-dismissible fade show" role="alert">
 
         <span v-if="error === 404">
